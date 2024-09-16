@@ -3,7 +3,7 @@
   "info": {
       "title": "Orders",
       "description": "An order represents a payment between two or more parties. Use the Orders API to create, update, retrieve, authorize, and capture orders.",
-      "version": "2.26",
+      "version": "2.27",
       "contact": {}
   },
   "servers": [
