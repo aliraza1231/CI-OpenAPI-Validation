@@ -1,7 +1,7 @@
 {
   "MergeConfiguration": {
     "MergeApis": true,
-    "MergedApiName": "PayPal REST API",
+    "MergedApiName": "PayPal REST APIs",
     "MergeOrderOfDirectories": [
       "checkout_orders_v2",
       "payments_payment_v2",
