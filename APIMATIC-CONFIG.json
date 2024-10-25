@@ -1,3 +1,4 @@
 {
-  "openapi-directory-paths": ["a/b/c/Specs"]
+  "openapi-directory-paths": ["a/b/c/Specs"],
+  "disable-github-checks": true
 }
