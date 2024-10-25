@@ -1,4 +1,4 @@
 {
-  "openapi-directory-paths": [],
+  "openapi-directory-paths": ["ope],
   "disable-github-checks": true
 }
