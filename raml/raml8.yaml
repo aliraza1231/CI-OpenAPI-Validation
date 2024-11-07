@@ -1,0 +1,408 @@
+#%RAML 0.8
+title: Multiple Responses Test API
+version: 1.0.0
+baseUri: https://sms.little.bz/api/v1
+protocols:
+- HTTPS
+baseUriParameters: {}
+schemas:
+- SingleMessageModel: |
+    {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "id": "SingleMessageModel",
+      "title": "SingleMessageModel",
+      "description": "Any payload to send a single message should be in this format",
+      "type": "object",
+      "properties": {
+        "from": {
+          "description": "The SMS header you would like to use, these should be registered under the account being managed by the API KEY used.",
+          "type": "string"
+        },
+        "to": {
+          "description": "Mobile number of the recipient of the message with the country code included",
+          "type": "string"
+        },
+        "text": {
+          "description": "Your message to the recipient user",
+          "type": "string"
+        }
+      }
+    }
+- MultipleMessageModel: |
+    {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "id": "MultipleMessageModel",
+      "title": "MultipleMessageModel",
+      "description": "Any payload to send a message to multiple numbers should be in this format",
+      "type": "object",
+      "properties": {
+        "from": {
+          "description": "The SMS header you would like to use, these should be registered under the account being managed by the API KEY used.",
+          "type": "string"
+        },
+        "to": {
+          "description": "List of mobile numbers in the international format receiving your message",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "text": {
+          "description": "Your message to the recipient user",
+          "type": "string"
+        }
+      }
+    }
+- SuccessResponseModel: |
+    {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "id": "SuccessResponseModel",
+      "title": "SuccessResponseModel",
+      "description": "Any successful response will have this format",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Status of the response, when unsuccessful this value will be `false`",
+          "type": "boolean"
+        },
+        "message": {
+          "description": "Successful message to your previous request. Messages:\n * `Request sent to queue` => \"Your messages are being processed for delivery to your different recipients\"",
+          "type": "string"
+        }
+      }
+    }
+- FailureResponseModel: |
+    {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "id": "FailureResponseModel",
+      "title": "FailureResponseModel",
+      "description": "Any unsuccessful response with have this format",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "Status of the response, when successful this value will be `true`",
+          "type": "boolean"
+        },
+        "reason": {
+          "id": "Reason",
+          "title": "Reason",
+          "description": "Reason of the failure",
+          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Name of the error generated",
+              "type": "string"
+            },
+            "message": {
+              "description": "Literal description of the error generated",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+- Reason: |
+    {
+      "$schema": "http://json-schema.org/draft-04/schema#",
+      "id": "Reason",
+      "title": "Reason",
+      "description": "Reason of the failure",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Name of the error generated",
+          "type": "string"
+        },
+        "message": {
+          "description": "Literal description of the error generated",
+          "type": "string"
+        }
+      }
+    }
+/message:
+  /inline-model:
+    post:
+      body:
+        text/plain:
+          schema: |
+            {
+              "example": "parameter",
+              "type": "string"
+            }
+          example: parameter
+      description: You are able to send both single messages with this endpoint. `to` parameter should be a simple string with the user's mobile number in international format
+      responses:
+        200:
+          description: Successful Response
+          body:
+            application/json:
+              schema: |
+                {
+                  "example": [{
+                    "videoId": "bN8_-fU3Rvg"
+                  }],
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "channelId": {
+                        "type": "string"
+                      },
+                      "videoId": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                  
+                }
+              example: '[{"videoId":"bN8_-fU3Rvg"}]'
+          headers:
+            Content-Type:
+              default: application/json
+        201:
+          description: Successful Response
+          body:
+            application/json:
+              schema: |
+                {
+                  "example": [{
+                    "kind": "youtube#video",
+                    "videoId": "bN8_-fU3Rvg"
+                  }],
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "type": "string"
+                      },
+                      "channelId": {
+                        "type": "string"
+                      },
+                      "videoId": {
+                        "type": "string"
+                      },
+                      "playlistId": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "kind"
+                    ]                    
+                  }
+                }
+              example: '[{"kind":"youtube#video","videoId":"bN8_-fU3Rvg"}]'
+          headers:
+            Content-Type:
+              default: application/json
+              required: false
+        400:
+          description: Error Response
+          body:
+            application/json:
+              schema: |
+                {
+                  "title": "pageInfoType",
+                  "example": [{
+                    "totalResults": 1000000,
+                    "resultsPerPage": 5
+                  }],
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "totalResults": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "resultsPerPage": {
+                        "type": "integer",
+                        "format": "int32"
+                      }
+                    },
+                    "required": [
+                      "totalResults",
+                      "resultsPerPage"
+                    ]
+                  }
+                }
+              example: '[{"totalResults":1000000,"resultsPerPage":5}]'
+          headers:
+            Content-Type:
+              default: application/json
+              required: false
+        500:
+          description: Error Response
+          body:
+            application/json:
+              schema: |
+                {
+                  "title": "itemsType",
+                  "description": "dummy description",
+                  "example": [{
+                    "name": "Apimatic"
+                  }],
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "minLength": 3,
+                        "maxLength": 100
+                      }
+                    }                    
+                  }
+                }
+              example: '[{"name":"Apimatic"}]'
+          headers:
+            Content-Type:
+              default: application/json
+              required: false
+  post:
+    body:
+      text/plain:
+        schema: |
+          {
+            "example": 3,
+            "type": "integer",
+            "format": "int32"
+          }
+        example: 3
+    description: You are able to send both the single and multiple messages with this endpoint. Notice for the multiple endpoint use an array in the `to` parameter
+    responses:
+      100:
+        description: Continue
+        body:
+          text/plain:
+            schema: |
+              {
+                "example": 5,
+                "type": "number",
+                "minimum": 1.0,
+                "maximum": 100.0
+              }
+            example: 5
+          application/json:
+            schema: SuccessResponseModel
+            example: '{"status":true,"message":"this is just an example"}'
+        headers:
+          Content-Type:
+            default: application/json
+            required: false
+          TestHeader:
+            required: false
+      200:
+        description: OK
+        body:
+          text/plain:
+            schema: |
+              {
+                "example": "this is an example",
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 100
+              }
+            example: this is an example
+          application/json:
+            schema: MultipleMessageModel
+            example: '{"from":"Littlecab","to":["+254700000001","+254700000002","+254700000003"],"text":"Welcome to our Little world."}'
+        headers:
+          Content-Type:
+            default: application/json
+            required: false
+          TestHeader:
+            required: false
+      201:
+        description: Continue
+        body:
+          text/plain:
+            schema: |
+              {
+                "example": 5,
+                "type": "number",
+                "minimum": 1.0,
+                "maximum": 100.0
+              }
+            example: 5
+          application/json:
+            schema: SingleMessageModel
+        headers:
+          Content-Type:
+            default: application/json
+            required: false
+          TestHeader:
+            required: false
+      202:
+        description: Continue
+        body:
+          text/plain:
+            schema: |
+              {
+                "example": 5,
+                "type": "number",
+                "minimum": 1.0,
+                "maximum": 100.0
+              }
+            example: 5
+          application/json:
+            schema: MultipleMessageModel
+        headers:
+          Content-Type:
+            default: application/json
+            required: false
+          TestHeader:
+            required: false
+      300:
+        description: Multiple Choices
+      404:
+        description: Not found
+        body:
+          text/plain:
+            schema: |
+              {
+                "example": 5,
+                "type": "number",
+                "minimum": 1.0,
+                "maximum": 100.0
+              }
+            example: 5
+          application/json:
+            schema: FailureResponseModel
+        headers:
+          Content-Type:
+            default: application/json
+            required: false
+          TestHeader:
+            required: false
+      500:
+        description: Internal server error
+        body:
+          text/plain:
+            schema: |
+              {
+                "example": 5,
+                "type": "number",
+                "minimum": 1.0,
+                "maximum": 100.0
+              }
+            example: 5
+          application/json:
+            schema: FailureResponseModel
+        headers:
+          Content-Type:
+            default: application/json
+            required: false
+          TestHeader:
+            required: false
+    queryParameters:
+      id:
+        type: number
+        example: 3
+        required: true
+        displayName: id
+      list:
+        type: integer
+        example: '["3","4","5"]'
+        required: false
+        displayName: list
