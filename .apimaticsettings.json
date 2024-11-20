@@ -1,3 +1,4 @@
 {
+  "OpenAPIDirectoryPaths": ["openapi"],
   "IgnoreValidationErrors": false
 }
