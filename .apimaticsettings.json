@@ -1,4 +1,4 @@
 {
   "OpenAPIDefinitionPaths": ["openapi.yaml"],
-  "IgnoreValidationErrors": true
+  "IgnoreValidationErrors": false
 }
