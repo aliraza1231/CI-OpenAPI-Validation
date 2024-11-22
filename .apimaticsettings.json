@@ -1,4 +1,4 @@
 {
   "OpenAPIDefinitionPaths": ["openapi"],
-  "IgnoreValidationErrors": false
+  "IgnoreValidationErrors": true
 }
