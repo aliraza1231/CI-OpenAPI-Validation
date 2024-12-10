@@ -1,13 +1,24 @@
-openapi: 3.0.3
-info:
-  title: Swagger Petstore - OpenAPI 3.0
-servers:
-  - url: https://petstore15.swagger.io/api/v3
-paths:
-  /pet:
-    put:
-      tags:
-        - pet
-      summary: Update an existing pet
-      description: Update an existing pet by Id
-      operationId: updatePet
+{
+ 
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Petstore - OpenAPI 3.0"
+  },
+  "servers": [
+    {
+      "url": "https://petstore15.swagger.io/api/v3"
+    }
+  ],
+  "paths": {
+    "/pet": {
+      "put": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Update an existing pet",
+        "description": "Update an existing pet by Id",
+        "operationId": "updatePet"
+      }
+    }
+  }
+}
