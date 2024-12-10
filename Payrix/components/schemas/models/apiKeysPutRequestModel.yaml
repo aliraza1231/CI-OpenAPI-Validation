@@ -1,0 +1,20 @@
+properties:
+  name: { type: string }
+  description: { type: string, description: Description of ApiKeys. }
+  token: {
+    type: integer,
+    description: "Whether or not an AuthToken is required as part of the\
+      \ authentication when this Apikey is used.\n\n<details>\n<summary>Valid\
+      \ Values</summary>\n\n- `0` - **The authToken mechanism is disabled.**\
+      \ \n\n- `1` - **The authToken mechanism is required for 'POST' and\
+      \ 'DELETE' requests.**\n\n</details>\n",
+    enum: [ 0, 1 ],
+    x-enum-descriptions: [ The authToken mechanism is disabled., The authToken
+      mechanism is required for POST|CREATE and DELETE request. ]
+  }
+  inactive:
+    { $ref: ../inactive.yaml }
+  frozen:
+    { $ref: ../frozen.yaml }
+required: [ frozen, inactive, token ]
+x-redacted: [ ]

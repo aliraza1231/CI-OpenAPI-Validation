@@ -1,0 +1,2315 @@
+---
+  openapi: 3.0.0
+  info:
+    title: "Reporting: Deposit Summary API"
+    description: "Retrieve deposit summaries and supports group by operations. \n # Authentication \n<SecurityDefinitions />"
+    contact:
+      name: Developer Support
+      email: APICustomerIntegration@fisglobal.com
+    version: 1.0.12
+  servers:
+  - url: https://apis.stage.worldpay.com/merchant-reporting/depositsummary/v2
+  paths:
+    /deposits/summary:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get total summary of deposits.
+        description: Resource to get total summary of deposits for given hierarchy and date range. Refer to the  schema object for the allowed hierarchies and specifications.
+        operationId: Summary
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Merchant:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Chain:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Store:
+                  value:
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Division:
+                  value:
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "356"
+                      - "453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+          required: true
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DepositSummary'
+                examples:
+                  Summary:
+                    value:
+                      totalCreditsCount: 7346
+                      totalCreditedAmount: 2353785.11
+                      totalDebitsCount: 3574
+                      totalDebitedAmount: 84464.28
+                      totalNetAmount: 2269320.83
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/date:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by dates.
+        description: Resource to get summary of deposits grouped by dates for given hierarchy and date range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary By Date
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositSummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Merchant:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Chain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Store:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Division:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "356"
+                      - "453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+          required: true
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DepositSummaryByDate'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalCreditsCount: 25
+                      totalCreditedAmount: 257.35
+                      totalDebitsCount: 20
+                      totalDebitedAmount: 36.43
+                      totalNetAmount: 220.92
+                      summaries:
+                      - creditsCount: 10
+                        creditedAmount: 120.34
+                        debitsCount: "09"
+                        debitedAmount: 20.56
+                        netAmount: 99.78
+                        date: 2019-07-27
+                      - creditsCount: 15
+                        creditedAmount: 137.01
+                        debitsCount: 11
+                        debitedAmount: 15.87
+                        netAmount: 121.14
+                        date: 2019-07-28
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/settlementtype:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by settlement types.
+        description: Resource to get summary of deposits grouped by settlement types for given hierarchy and date range with settlement type being an optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary By Settlement Type
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositSettlementSummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Merchant:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Merchant filter by settlement type:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    settlementType:
+                    - FEES
+                    - DEPOSIT
+                SearchSummaryByHierarchyLevel-Chain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Store:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Division:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "356"
+                      - "453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+          required: true
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SummarySettlementType'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalCreditsCount: 25
+                      totalCreditedAmount: 257.35
+                      totalDebitsCount: 20
+                      totalDebitedAmount: 36.43
+                      totalNetAmount: 220.92
+                      summaries:
+                      - creditsCount: 10
+                        creditedAmount: 120.34
+                        debitsCount: "09"
+                        debitedAmount: 20.56
+                        netAmount: 99.78
+                        code: F
+                        description: FEES
+                      - creditsCount: 15
+                        creditedAmount: 137.01
+                        debitsCount: 11
+                        debitedAmount: 15.87
+                        netAmount: 121.14
+                        code: D
+                        description: DEPOSIT
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/accountnumber:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by account number.
+        description: Resource to get summary of deposits grouped by account number for given hierarchy and date range with account number being an optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary by Account Number
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositAccountNumberRequest'
+              examples:
+                DateRange + Hierarchy:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                    dateRange:
+                      fromDate: 2021-02-18
+                      toDate: 2021-02-18
+                DateRange + Hierarchy(Chain) + Account Number:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                    accountNumber: "9435751811"
+                    dateRange:
+                      fromDate: 2021-02-18
+                      toDate: 2021-02-18
+                DateRange + Hierarchy(Merchant) + Account Number:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445002345678"
+                    accountNumber: "9435751811"
+                    dateRange:
+                      fromDate: 2021-02-18
+                      toDate: 2021-02-18
+          required: true
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SummaryAccountNumber'
+                examples:
+                  DateRange + Entities:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 1
+                        totalReturnedCount: 1
+                      totalCreditsCount: 22
+                      totalCreditedAmount: 5524735.1
+                      totalDebitsCount: 0
+                      totalDebitedAmount: 0
+                      totalNetAmount: 5524735.1
+                      summaries:
+                      - creditsCount: 12
+                        creditedAmount: 5524734.1
+                        debitsCount: 0
+                        debitedAmount: 0
+                        netAmount: 5524734.1
+                        accountNumber: '******1811'
+                        accountType: ACH
+                      - creditsCount: 10
+                        creditedAmount: 1.0
+                        debitsCount: 0
+                        debitedAmount: 0
+                        netAmount: 1.0
+                        accountNumber: '******2001'
+                        accountType: ACH
+                  DateRange + Entities(Chain) + Account Number:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 1
+                        totalReturnedCount: 1
+                      totalCreditsCount: 22
+                      totalCreditsAmount: 5524735.1
+                      totalDebitsCount: 0
+                      totalDebitsAmount: 0
+                      totalNetAmount: 5524735.1
+                      summaries:
+                      - creditsCount: 12
+                        creditedAmount: 5524734.1
+                        debitsCount: 0
+                        debitedAmount: 0
+                        netAmount: 5524734.1
+                        accountNumber: '******1811'
+                        accountType: FED
+                        chainCode: AB1234
+                      - creditsCount: 10
+                        creditedAmount: 1.0
+                        debitsCount: 0
+                        debitedAmount: 0
+                        netAmount: 1.0
+                        accountNumber: '******2001'
+                        accountType: ACH
+                        chainCode: AB1234
+                  DateRange + Entities(Merchant) + Account Number:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 1
+                        totalReturnedCount: 1
+                      totalCreditsCount: 22
+                      totalCreditedAmount: 5524735.1
+                      totalDebitsCount: 0
+                      totalDebitedAmount: 0
+                      totalNetAmount: 5524735.1
+                      summaries:
+                      - creditsCount: 12
+                        creditedAmount: 5524734.1
+                        debitsCount: 0
+                        debitedAmount: 0
+                        netAmount: 5524734.1
+                        accountNumber: '******1811'
+                        accountType: ACH
+                        merchantId: "4445002345678"
+                      - creditsCount: 10
+                        creditedAmount: 1.0
+                        debitsCount: 0
+                        debitedAmount: 0
+                        netAmount: 1.0
+                        accountNumber: '******2002'
+                        accountType: ACH
+                        merchantId: "4445112345678"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/merchant:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by merchants.
+        description: Resource to get summary of deposits grouped by merchants for given hierarchy and date range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary by Merchant
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositSummaryMerchantRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Merchant:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Chain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Store:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Division:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "356"
+                      - "453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+          required: true
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DepositSummaryMerchantResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalCreditsCount: 25
+                      totalCreditedAmount: 257.35
+                      totalDebitsCount: 20
+                      totalDebitedAmount: 36.43
+                      totalNetAmount: 220.92
+                      summaries:
+                      - creditsCount: 10
+                        creditedAmount: 120.34
+                        debitsCount: "09"
+                        debitedAmount: 20.56
+                        netAmount: 99.78
+                        merchantId: "4445000123456"
+                      - creditsCount: 15
+                        creditedAmount: 137.01
+                        debitsCount: 11
+                        debitedAmount: 15.87
+                        netAmount: 121.14
+                        merchantId: "4345023507756"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/store:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by stores.
+        description: Resource to get summary of deposits grouped by stores for given hierarchy and date range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary by Store
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositSummaryStoreRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Chain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Store:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "000000012"
+                      - "000000023"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Division:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "356"
+                      - "453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+          required: true
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DepositSummaryStoreResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalCreditsCount: 25
+                      totalCreditedAmount: 257.35
+                      totalDebitsCount: 20
+                      totalDebitedAmount: 36.43
+                      totalNetAmount: 220.92
+                      summaries:
+                      - creditsCount: 10
+                        creditedAmount: 120.34
+                        debitsCount: "09"
+                        debitedAmount: 20.56
+                        netAmount: 99.78
+                        chainCode: AB1234
+                        storeNumber: "000000012"
+                      - creditsCount: 15
+                        creditedAmount: 137.01
+                        debitsCount: 11
+                        debitedAmount: 15.87
+                        netAmount: 121.14
+                        chainCode: AB1234
+                        storeNumber: "000000023"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/division:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by divisions.
+        description: Resource to get summary of deposits grouped by divisions for given hierarchy and date range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary by Division
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositSummaryDivisionRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Chain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Division:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "356"
+                      - "453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchy-SuperChain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: SUPERCHAIN
+                      values: SCNPCB6111
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchy-National:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: NATIONAL
+                      values: N009993
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+          required: true
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DepositSummaryDivisionResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalCreditsCount: 25
+                      totalCreditedAmount: 257.35
+                      totalDebitsCount: 20
+                      totalDebitedAmount: 36.43
+                      totalNetAmount: 220.92
+                      summaries:
+                      - creditsCount: 10
+                        creditedAmount: 120.34
+                        debitsCount: "09"
+                        debitedAmount: 20.56
+                        netAmount: 99.78
+                        chainCode: AB1234
+                        divisionNumber: "356"
+                      - creditsCount: 15
+                        creditedAmount: 137.01
+                        debitsCount: 11
+                        debitedAmount: 15.87
+                        netAmount: 121.14
+                        chainCode: AB1234
+                        divisionNumber: "453"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/chain:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by chains.
+        description: Resource to get summary of deposits grouped by chains for given hierarchy and date range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary byChain
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositSummaryChainRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: INDEPENDENT_SALES_ORGANIZATION
+                      values: TTCM
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-Chain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: Chain
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchy-IndependentSalesOrganization:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_ORGANIZATION
+                      values: TTCM
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                SearchSummaryByHierarchy-IndependentSalesChannel:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_CHANNEL
+                      values: TTBMFW
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                SearchSummaryByHierarchy-National:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: NATIONAL
+                      values: N009993
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                SearchSummaryByHierarchy-SuperChain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: SUPERCHAIN
+                      values: SCNPCB6111
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+          required: true
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DepositSummaryChainResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalCreditsCount: 25
+                      totalCreditedAmount: 257.35
+                      totalDebitsCount: 20
+                      totalDebitedAmount: 36.43
+                      totalNetAmount: 220.92
+                      summaries:
+                      - creditsCount: 10
+                        creditedAmount: 120.34
+                        debitsCount: "09"
+                        debitedAmount: 20.56
+                        netAmount: 99.78
+                        chainCode: AB1234
+                      - creditsCount: 15
+                        creditedAmount: 137.01
+                        debitsCount: 11
+                        debitedAmount: 15.87
+                        netAmount: 121.14
+                        chainCode: "111217"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /deposits/summary/superchain:
+      post:
+        tags:
+        - Deposit Summary
+        summary: Resource to get summary of deposits grouped by superchains.
+        description: Resource to get summary of deposits grouped by superchains for given hierarchy and date range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Summary by SuperChain
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositSummarySuperChainRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: INDEPENDENT_SALES_CHANNEL
+                      values: TTBMFW
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchy-SuperChain:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: SUPERCHAIN
+                      values:
+                      - SCNPCB6111
+                      - SCNPCB8811
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchy-IndependentSalesOrganization:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_ORGANIZATION
+                      values: TTCM
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                SearchSummaryByHierarchy-IndependentSalesChannel:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_CHANNEL
+                      values: TTBMFW
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                SearchSummaryByHierarchy-National:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: NATIONAL
+                      values: N009993
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+          required: true
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DepositSummarySuperChainResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalCreditsCount: 25
+                      totalCreditedAmount: 257.35
+                      totalDebitsCount: 20
+                      totalDebitedAmount: 36.43
+                      totalNetAmount: 220.92
+                      summaries:
+                      - creditsCount: 10
+                        creditedAmount: 120.34
+                        debitsCount: "09"
+                        debitedAmount: 20.56
+                        netAmount: 99.78
+                        superChainCode: SCNPCB6111
+                      - creditsCount: 15
+                        creditedAmount: 137.01
+                        debitsCount: 11
+                        debitedAmount: 15.87
+                        netAmount: 121.14
+                        superChainCode: SCNPCB8811
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+  components:
+    schemas:
+      DepositSummaryRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListType'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      DepositSettlementSummaryRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListType'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+          settlementType:
+            type: array
+            description: Type of settlement.
+            items:
+              type: object
+              allOf:
+              - $ref: '#/components/schemas/SettlementType'
+      DepositAccountNumberRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListType'
+          accountNumber:
+            maxLength: 19
+            type: string
+            description: "Account number or Card number involved in the rejected transaction. <br> Passing account number in request, Entity type and Value is mandatory to pass.<br>Supports entity type as Merchant and Chain ."
+            example: "4445123456789012"
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      SummaryRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListType'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      DepositSummaryMerchantRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeMerchant'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      DepositSummaryChainRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeChain'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      DepositSummarySuperChainRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeSuperChain'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      DepositSummaryStoreRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeStore'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      DepositSummaryDivisionRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Refers to merchant hierarchy levels
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeDivision'
+          dateRange:
+            type: object
+            description: A range of dates that includes a particular start and end date and all dates in between the range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeType'
+      DepositSummaryStoreResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/EntityStoreResponse'
+      DepositSummaryDivisionResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/EntityDivisionResponse'
+      DepositSummaryMerchantResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/DepositSummaryDetailEntityMerchant'
+      DepositSummaryChainResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/DepositSummaryDetailEntityChain'
+      DepositSummarySuperChainResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/DepositSummaryDetailEntitySuperChain'
+      DepositSummaryDetailEntityMerchant:
+        type: object
+        properties:
+          merchantId:
+            maxLength: 20
+            type: string
+            description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+            example: "4445091034215"
+      DepositSummaryDetailEntityChain:
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: "172111"
+      DepositSummaryDetailEntitySuperChain:
+        type: object
+        properties:
+          superChainCode:
+            maxLength: 10
+            type: string
+            description: The identifier code that represents the group of related chains of the partner.
+            example: AC026
+      EntityStoreResponse:
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: "172111"
+          storeNumber:
+            maxLength: 9
+            type: string
+            description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain. <br> Supports entities Chain, National."
+            example: "000000001"
+      EntityDivisionResponse:
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: "172111"
+          divisionNumber:
+            maxLength: 3
+            type: string
+            description: "The Division Number is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. The Division Code is an optional hierarchy level but if created, is required for all child entities under the Division Number. <br> Supports entities Chain, National."
+            example: "088"
+      EntityListType:
+        type: object
+        description: "Supports entities such as SalesOrganization/Sales Channel limit 1 Entity<br>National, SuperChain, Partner with maximum limit of 10 entities<br>Chain, Division, Store and Merchant with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/Entity'
+      Entity:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Refers to hierarchy level
+            example: MERCHANT
+            enum:
+            - MERCHANT
+            - STORE
+            - DIVISION
+            - CHAIN
+            - PARTNER
+            - SUPERCHAIN
+            - NATIONAL
+            - INDEPENDENT_SALES_CHANNEL
+            - INDEPENDENT_SALES_ORGANIZATION
+          values:
+            type: array
+            description: Refers to hierarchy id. Accept list of ids.
+            example:
+            - "4445001234567"
+            - "4445002345678"
+            items:
+              maxLength: 2000
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system. <br> Chain code is mandatory to pass when hierarchy level is selected as store/division."
+            example: "172111"
+      DateRangeType:
+        required:
+        - fromDate
+        - toDate
+        type: object
+        properties:
+          fromDate:
+            maxLength: 10
+            minLength: 10
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            type: string
+            description: Field specifies the starting date
+            format: YYYY-MM-DD
+            example: 2016-01-01
+          toDate:
+            maxLength: 10
+            minLength: 10
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            type: string
+            description: Field specifies the ending date
+            format: YYYY-MM-DD
+            example: 2017-08-14
+        description: "Refers to number of dates that includes a particular start and finish date and all dates in between the range. <br> Date range supported at different hierarch level <br><br>07 Days<br>Independent Sales Organizationn(SO)<br>Independent Sales Affiliate(SA)<br>National(NL)<br>Partner(PT)<br>Super Chain(SC)<br><br>45 days<br>Chain(CH), Merchant(MT)."
+      SettlementType:
+        type: object
+        properties:
+          type:
+            type: string
+            description: Type of settlement
+            enum:
+            - ADJUSTMENT
+            - VSNET_DEP
+            - CHARGEBACKS
+            - DEPOSIT
+            - DAILY_DISCOUNT
+            - FEES
+            - GIFT_CARD
+            - GIFT_CENT
+            - INTERCHANGE
+            - JOINT_ROLL_UP
+            - RISK
+            - MTHLY_DISC
+            - OFFSETS
+            - EQUIPMENT
+            - REAUTH
+            - UDSDEP
+            - INTRCHANGE
+            - UDS
+            - UDS_VISANET
+            - WEEK_DISCOUNT
+            - FLEET_TAX
+            - FLEET_DISC
+            - MISC_ADJMT
+            - REJ_RETRY
+            - CONVENIENCE_FEE
+            - DEBIT
+            - EBT
+            - POS
+            - WIC
+        description: This object indicates the type of settlements.
+      PaginationType:
+        type: object
+        properties:
+          pageNumber:
+            maximum: 16777215
+            type: integer
+            description: This is the page number that you would like to retrieve.
+            example: 2
+            default: 1
+          pageSize:
+            maximum: 2000
+            type: integer
+            description: Number of record that you would want to retrieve per page.
+            example: 10
+            default: 25
+        description: Used for pagination.
+      PaginationResponse:
+        type: object
+        properties:
+          pageNumber:
+            maximum: 16777215
+            type: integer
+            description: "Current page number returned, starting with page number 1"
+            example: 2
+          pageSize:
+            maximum: 2000
+            type: integer
+            description: Total number of records returned per page.
+            example: 50
+          totalRowCount:
+            maximum: 9999999999
+            type: integer
+            description: Total number of records meeting the request criteria.
+            example: 65
+          totalReturnedCount:
+            maximum: 9999999999
+            type: integer
+            description: "Total number of records returned in the response, This number will be less than or equal to pageSize. Default Returned Count is 25."
+            example: 15
+        description: Used for pagination.
+      DepositSummary:
+        allOf:
+        - $ref: '#/components/schemas/SummaryResponses'
+      DepositSummaryByDate:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              allOf:
+              - $ref: '#/components/schemas/SummaryDetailDate'
+      EntityListTypeMerchant:
+        type: object
+        description: "Supports entities such as National, Superchain and Partner with maximum limit of 10 entities.<br>Merchant, Division, Store and Chain with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/EntityMerchant'
+      EntityMerchant:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Refers to hierarchy level
+            example: MERCHANT
+            enum:
+            - MERCHANT
+            - NATIONAL
+            - SUPERCHAIN
+            - PARTNER
+            - CHAIN
+            - STORE
+            - DIVISION
+          values:
+            type: array
+            description: Refers to hierarchy id. Accept list of ids.
+            example:
+            - "4445001234567"
+            - "4445002345678"
+            items:
+              maxLength: 2000
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system. <br> Chain code is mandatory to pass when hierarchy level is selected as store/division."
+            example: "172111"
+      EntityListTypeChain:
+        type: object
+        description: Supports entities such as SalesOrganization and SalesAffiliate\Channel limit 1 Entity<br>National and SuperChain with maximum limit of 10 entities<br>Chain with maximum limit of 2000 entities.
+        allOf:
+        - $ref: '#/components/schemas/EntityChain'
+      EntityChain:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Refers to hierarchy level
+            example: CHAIN
+            enum:
+            - CHAIN
+            - INDEPENDENT_SALES_CHANNEL
+            - INDEPENDENT_SALES_ORGANIZATION
+            - NATIONAL
+            - SUPERCHAIN
+          values:
+            type: array
+            description: Refers to hierarchy id. Accept list of ids.
+            example:
+            - 0B2345
+            - AB1234
+            items:
+              maxLength: 2000
+              type: string
+        description: Supports entities such as SalesOrganization and SalesChannel limit 1 Entity<br>National and SuperChain with maximum limit of 10 entities<br>Chain with maximum limit of 2000 entities.
+      EntityListTypeStore:
+        type: object
+        description: "Supports entities such as National and SuperChain with maximum limit of 10 entities.<br>Chain, Division and Store with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/EntityParentTypeStore'
+      EntityParentTypeStore:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Refers to hierarchy level
+            example: STORE
+            enum:
+            - STORE
+            - NATIONAL
+            - SUPERCHAIN
+            - CHAIN
+            - DIVISION
+          values:
+            type: array
+            description: Refers to hierarchy id. Accept list of ids.
+            example:
+            - "000000001"
+            - "000000002"
+            items:
+              maxLength: 2000
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system. <br> Chain code is mandatory to pass when hierarchy level is selected as store/division."
+            example: "172111"
+      EntityListTypeSuperChain:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Refers to hierarchy level
+            example: SUPERCHAIN
+            enum:
+            - SUPERCHAIN
+            - INDEPENDENT_SALES_CHANNEL
+            - INDEPENDENT_SALES_ORGANIZATION
+            - NATIONAL
+          values:
+            type: array
+            description: Refers to hierarchy id. Accept list of ids.
+            example:
+            - "733123456"
+            - "845212345"
+            items:
+              maxLength: 2000
+              type: string
+        description: Supports entities such as SalesOrganization and SalesChannel with maximum limit of 1 entity<br>National and SuperChain with maximum limit of 10 entities.
+      EntityListTypeDivision:
+        type: object
+        description: "Supports entities such as National and SuperChain with maximum limit of 10 entities.<br>Chain, Division with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/EntityParentTypeDivision'
+      EntityParentTypeDivision:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Refers to hierarchy level
+            example: DIVISION
+            enum:
+            - DIVISION
+            - NATIONAL
+            - SUPERCHAIN
+            - CHAIN
+          values:
+            type: array
+            description: Refers to hierarchy id. Accept list of ids.
+            example:
+            - "001"
+            - "002"
+            items:
+              maxLength: 2000
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system. <br> Chain code is mandatory to pass when hierarchy level is selected as store/division."
+            example: "172111"
+      CommonSummaryDetail:
+        type: object
+        properties:
+          creditsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of credits.
+            format: int32
+            example: 2
+          creditedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to an entry that shows that money has been received.Currency is in USD.
+            format: float
+            example: 33.5
+          debitsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of debits.
+            format: int32
+            example: 3
+          debitedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to an entry that shows that money has been deducted.Currency is in USD.
+            format: float
+            example: 32.4
+          netAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to the Amount left over after all deductions are made.<br><br>NetAmount= CreditedAmount - DebitedAmount.
+            format: float
+            example: 1.11
+      CommonSummaryResponses:
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationResponse'
+          totalCreditsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of credit sales over a given period of time.
+            format: int32
+            example: 7346
+          totalCreditedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of credit sales over a given period of time.
+            format: float
+            example: 2353785.11
+          totalDebitsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of debit sales over a given period of time.
+            format: int32
+            example: 3574
+          totalDebitedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of credit sales over a given period of time.
+            format: float
+            example: 84464.28
+          totalNetAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to the Amount left over after all deductions are made.<br><br>totalNetAmount= totalCreditedAmount - totalDebitedAmount.
+            format: float
+            example: 2269320.83
+        description: Refers to totals of credit and debit
+      SummaryResponses:
+        type: object
+        properties:
+          totalCreditsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of credit sales over a given period of time.
+            format: int32
+            example: 7346
+          totalCreditedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of credit sales over a given period of time.
+            format: float
+            example: 2353785.11
+          totalDebitsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of debit sales over a given period of time.
+            format: int32
+            example: 3574
+          totalDebitedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of credit sales over a given period of time.
+            format: float
+            example: 84464.28
+          totalNetAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to the Amount left over after all deductions are made.<br><br>totalNetAmount= totalCreditedAmount - totalDebitedAmount.
+            format: float
+            example: 2269320.83
+        description: This object is used to display totals amount and count information
+      SummaryDetailDate:
+        type: array
+        items:
+          type: object
+          allOf:
+          - $ref: '#/components/schemas/SummaryDate'
+      SummaryDate:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryDetail'
+        - type: object
+          properties:
+            date:
+              maxLength: 10
+              minLength: 10
+              pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+              type: string
+              description: Date when transaction was deposited.
+              format: YYYY-MM-DD
+              example: 2019-08-06
+      SummarySettlementType:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - type: object
+                - $ref: '#/components/schemas/CodeAndDescription'
+      SummaryAccountNumber:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                type: object
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - type: object
+                  properties:
+                    accountNumber:
+                      maxLength: 19
+                      type: string
+                      description: Account number or Card number involved in the rejected transaction
+                      example: "4445123456789012"
+                    accountType:
+                      maxLength: 255
+                      type: string
+                      description: Indicates to type of account
+                      example: FED
+                    chainCode:
+                      maxLength: 6
+                      type: string
+                      description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+                      example: "172111"
+                    merchantId:
+                      maxLength: 20
+                      type: string
+                      description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+                      example: "4445091034215"
+      CodeAndDescription:
+        type: object
+        properties:
+          code:
+            maxLength: 1
+            type: string
+            description: Code of settlement type.
+            example: F
+          description:
+            maxLength: 255
+            type: string
+            description: Description of settlement type.
+            example: Fees
+        description: Task related details
+      Error:
+        type: object
+        properties:
+          errorCode:
+            maxLength: 256
+            type: string
+            description: Code of error
+            example: ERROR_CODE
+          errorMessage:
+            maxLength: 256
+            type: string
+            description: Error Message
+            example: Error message here.
+          target:
+            maxLength: 256
+            type: string
+            description: Error Target
+            example: Target field name.
+        description: Error Message
+      ErrorResponse:
+        type: object
+        properties:
+          errors:
+            maxLength: 255
+            type: array
+            description: Refer to the list of errors
+            items:
+              maxLength: 255
+              type: string
+              allOf:
+              - $ref: '#/components/schemas/Error'
+    responses:
+      default:
+        description: Default errors
+        headers:
+          v-correlation-id:
+            $ref: '#/components/headers/CorrelationId'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+            examples:
+              "400 Bad Request":
+                $ref: '#/components/examples/400BadRequest'
+              "401 Unauthorized":
+                $ref: '#/components/examples/401Unauthorized'
+              "403 Forbidden":
+                $ref: '#/components/examples/403Forbidden'
+              "404 Not Found":
+                $ref: '#/components/examples/404NotFound'
+              "405 Method Not Allowed":
+                $ref: '#/components/examples/405MethodNotAllowed'
+              "415 UnSupported Media Type":
+                $ref: '#/components/examples/415UnSupportedMediaType'
+              "500 Server Error":
+                $ref: '#/components/examples/500ServerError'
+    examples:
+      "400BadRequest":
+        value:
+          errors:
+          - errorMessage: must be numeric
+            target: merchantId
+      "401Unauthorized":
+        value:
+          errors:
+          - errorMessage: "You are not authorized to access the following entities: [1000011111]"
+      "403Forbidden":
+        value:
+          errors:
+          - errorMessage: Access is denied
+      "404NotFound":
+        value:
+          errors:
+          - errorMessage: merchant not found
+      "405MethodNotAllowed":
+        value:
+          errors:
+          - errorMessage: Request method 'GET' is not supported
+      "415UnSupportedMediaType":
+        value:
+          errors:
+          - errorMessage: Content-Type 'text/plain;charset=UTF-8' is not supported
+      "500ServerError":
+        value:
+          errors:
+          - errorMessage: "Internal server error, please contact support referencing correlationId: 871a2a88-064f-4124-a864-e03a47573144"
+    headers:
+      CorrelationId:
+        description: Unique correlation Id.
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+    securitySchemes:
+      api_key:
+        type: apiKey
+        description: "``` License format is WORLDPAY license='xxxx'``` \n"
+        name: Authorization
+        in: header
+  

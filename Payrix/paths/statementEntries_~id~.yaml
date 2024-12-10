@@ -1,0 +1,162 @@
+  get:
+    description: Query a StatementEntry resource. A StatementEntry resource represents
+      a record of funds owed for a billing schedule.
+    parameters:
+    - description: The ID of this statement entry.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/statementEntriesModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/statementEntriesModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the Response for the query on the Statement Entries resource.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve Statement Entry by it's ID.
+    tags: [Entries]
+    operationId: getStatementEntriesId
+  put:
+    description: "Query a StatementEntry resource. \nA StatementEntry resource represents\
+      \ a record of funds owed for a billing schedule. \nFor example, this could be\
+      \ a scheduled weekly or monthly fee, or an event-based activity such as a capture\
+      \ or payout fee."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml}
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/statementEntriesModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/statementEntriesModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for update on statementEntries resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    tags: [Entries]
+    operationId: putStatementEntriesId
+  delete:
+    description: "Query a StatementEntry resource. \nA StatementEntry resource represents\
+      \ a record of funds owed for a billing schedule. \nFor example, this could be\
+      \ a scheduled weekly or monthly fee, or an event-based activity such as a capture\
+      \ or payout fee."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/statementEntriesModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/statementEntriesModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for delete on statementEntries resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    tags: [Entries]
+    operationId: deleteStatementEntriesId

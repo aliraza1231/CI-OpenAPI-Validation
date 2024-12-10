@@ -1,0 +1,50 @@
+properties:
+  chargeback: { type: string, description: "The identifier of the Chargeback
+    resource that this chargebackMessage relates to." }
+  date: { type: string,
+          description: "The date of this chargebackMessage. \nThe\
+                              \ date is specified as an eight digit string in YYYYMMDD\
+                              \ format, for example, '20160120' for January 20, 2016." }
+  type: { type: string,
+          description: "The type of this chargebackMessage.\n\n<details>\n\
+                              <summary>Valid Values</summary>\n\n- `assign` - **''**\n\n\
+                              - `notate` - **''**\n\n- `acceptLiability` - **Accept Liability\
+                              \ for the Chargeback amount.**\n\n- `createPreArbitration`\
+                              \ - **''**\n\n- `represent` - **''**\n\n- `respond` - **''**\n\
+                              \n- `requestArbitration` - **Request Arbitration. The Merchant\
+                              \ wishes to enter arbitration to determine the outcome of\
+                              \ the Chargeback**\n\n- `createArbitration` - **''**\n\n\
+                              - `requestPreArbitration` - **''**\n\n- `requestResolutionToPreArbitration`\
+                              \ - **''**\n\n- `respondToDispute` - **''** \n\n- `respondToPreArbitration`\
+                              \ - **''**\n\n- `unaccept` - **''**\n\n</details>\n",
+          enum: [ assign, notate, acceptLiability, createPreArbitration,
+                  represent, respond, requestArbitration, createArbitration,
+                  requestPreArbitration, requestResolutionToPreArbitration,
+                  respondToDispute, respondToPreArbitration, unaccept ],
+          x-enum-descriptions: [ '', '', '', '', '', '', Request Arbitration.
+            The Merchant wishes to enter arbitration to determine
+            the outcome of the Chargeback, '', '', '', '', '', '' ] }
+  fromQueue: { type: string, description: '' }
+  toQueue: { type: string, description: '' }
+  contact: { type: string, description: "The identifier of the Contact for this
+    chargebackMessage." }
+  amount: { type: integer,
+            description: "The amount that this chargebackMessage corresponds\
+                              \ to. \nFor example, if the 'type' is set to '3' (Accept\
+                              \ Liability), then this amount indicates that the liability\
+                              \ should be for this amount. \nThis field is specified\
+                              \ as an integer in cents." }
+  currency: { $ref: ../properties/terminalTxnsCurrencyProperty.yaml }
+  note: { type: string, description: A free-text note relating to this chargebackMessage. }
+  status: { type: string,
+            description: "The current status of the Chargeback.",
+            enum: [ requested, processing, failed, denied, processed ],
+            x-enum-descriptions: [ '', '', '', '', '' ] }
+  imported: { type: integer,
+              description: "<details>\n<summary>Valid Values</summary>\n\
+      \n- `0` - **Imported** \n\n- `1` - **Not imported**\n</details>\n",
+              enum: [ 0, 1 ] }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }
+required: [ chargeback, frozen, imported, inactive, status, type ]
+x-redacted: [ ]

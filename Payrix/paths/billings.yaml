@@ -1,0 +1,114 @@
+  get:
+    description: Query a Billing is a means to collect and invoice for any funds owed
+      for a particular period of time, such as setting up a billing to collect fees
+      and create a statement on a monthly basis.
+    parameters:
+     - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+     - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+     - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+     - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+     - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve Response for query on billings resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Billings.
+    tags: [Billing]
+    operationId: getBillings
+  post:
+    description: Create a Billing that is a means to collect and invoice for any funds
+      owed for a particular period of time, such as statement of fees collected on a
+      monthly basis.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+      description: Create Billing Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Create Billing Response for creating on billing resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Billing
+    tags: [Billing]
+    operationId: postBillings

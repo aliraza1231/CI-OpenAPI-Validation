@@ -1,0 +1,164 @@
+  get:
+    description: Query an orgEntity.
+    parameters:
+    - description: The ID of this resource and the Org Entity ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve an Org Entity Response for query on orgEntities resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve an Org Entity by it's ID.
+    tags: [Orgs]
+    operationId: getOrgEntitiesId
+  put:
+    description: Update an orgEntity.
+    parameters:
+    - description: The ID of this resource and The Org Entity ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+      description: Update an Org Entity Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: 'Response for update on orgEntities resource: Update an Org Entity
+          Response'
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update an Org Entity by it's ID.
+    tags: [Orgs]
+    operationId: putOrgEntitiesId
+  delete:
+    description: Delete an Org Entity. An orgEntity is a record of an association between
+      a particular Org and a particular Entity. One Org can contain and be associated
+      with many Entities.
+    parameters:
+    - description: The ID of this resource and The Org Entity ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The response for deleting an OrgEntity.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete an Org Entity by it's ID.
+    tags: [Orgs]
+    operationId: deleteOrgEntitiesId

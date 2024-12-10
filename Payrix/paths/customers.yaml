@@ -1,0 +1,114 @@
+  get:
+    description: Querying a Customer, a record used to store data about a particular
+      customer of a Merchant, that is used to associate payment data to the Customer
+      and for other API features.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve Customers Response for query on customers resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Customers.
+    tags: [Customers]
+    operationId: getCustomers
+  post:
+    description: Create a Customer record to store data about a particular customer
+      of a Merchant, that is used to associate payment data to the Customer and for
+      other API features.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+      description: Create Customer Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The response for creating a customer on the customers resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Customer
+    tags: [Customers]
+    x-examples:
+    - request: {first: Robert, last: Johnson, email: robert.johnson@example.com}
+      response: {id: p1_cus_5a1ef5e55656e2484591e84, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        login: p1_log_5a1ef5e55653ed720159d53, first: Robert, last: Johnson, email: robert.johnson@example.com,
+        inactive: 0, frozen: 0}
+    operationId: postCustomers

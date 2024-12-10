@@ -1,0 +1,107 @@
+get:
+  description: Query an alertTrigger resource that represents a set of triggers that
+    cause an Alert to be sent, where for example this could be the levying of a Fee
+    or a Payout occurring, and each alertTrigger is linked to a particular Alert,
+    with the action to take when an Alert is triggered set up in the alertActions
+    resource.
+  parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Retrieve the Response for query on Alert Triggers.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve all Alert Triggers.
+  tags: [ Alert Triggers ]
+  operationId: getAlertTriggers
+post:
+  description: Create an alertTrigger resource that represents a set of triggers causing
+    an Alert to be sent, such as the levying of a Fee or a Payout occurring, and each
+    alertTrigger is linked to a particular Alert with actions set up in the alertActions
+    resource.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+    description: Create Alert Trigger Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: The create operation on the alertTriggers resource successfully
+        creates an Alert Trigger, and the response to this request includes the created
+        Alert Trigger's details.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Create a new Alert Trigger.
+  tags: [ Alert Triggers ]
+  operationId: postAlertTriggers

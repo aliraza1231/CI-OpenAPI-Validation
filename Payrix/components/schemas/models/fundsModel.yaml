@@ -1,0 +1,94 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  entity: { type: string, description: "The identifier of the Entity that owns
+              this Fund." }
+  currency: { type: string,
+              description: "The currency of the Fund.",
+              enum: [ AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                      BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                      BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                      CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                      DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                      GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                      ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                      KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                      LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                      MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                      OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                      RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                      SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                      TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                      VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                      XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                      ZWL ],
+              example: USD,
+              x-enum-descriptions: [ United Arab Emirates dirham, Afghan
+                afghani, Albanian lek, Armenian dram, Netherlands Antillean
+                guilder, Angolan kwanza, Argentine peso, Australian
+                dollar, Aruban florin, Azerbaijani manat, Bosnia and
+                Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+                Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+                Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+                  pula, Belarusian ruble, Belize dollar, Canadian dollar,
+                Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+                  de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+                  peso, Unidad de Valor Real, Costa Rican colon, Cuban
+                  convertible peso, Cuban peso, Cape Verde escudo, Czech
+                  koruna, Djiboutian franc, Danish krone, Dominican peso,
+                Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+                  birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+                  sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+                Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+                  dollar, Hong Kong dollar, Honduran lempira, Croatian
+                  kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+                Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+                  rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+                Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                  riel, Comoro franc, North Korean won, South Korean won,
+                Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+                Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+                Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+                  leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+                Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+                  peso, Mexican Unidad de Inversion, Malaysian ringgit,
+                Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+                  córdoba, Norwegian krone, Nepalese rupee, New Zealand
+                  dollar, Omani rial, Panamanian balboa, Peruvian sol,
+                Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+                  leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+                  riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+                  pound, Swedish krona/kronor, Singapore dollar, Saint
+                  Helena pound, Sierra Leonean leone, Somali shilling,
+                Surinamese dollar, South Sudanese pound, São Tomé and
+                  Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+                  lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+                  manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+                Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+                  shilling, Ukrainian hryvnia, Ugandan shilling, United
+                  States dollar, United States dollar, Uruguay Peso en
+                  Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+                Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+                  tala, CFA franc BEAC, Silver, Gold, European Composite
+                  Unit, European Monetary Unit, European Unit of Account,
+                European Unit of Account, East Caribbean dollar, Special
+                  drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+                Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+                  African rand, Zambian kwacha, Zimbabwean dollar ] }
+  reserved: { type: integer, description: 'The amount held in this Fund that
+                              is marked as reserved, in this field is specified as an
+                              integer in cents.' }
+  pending: { type: integer, description: "The current funds pending for the entity." }
+  available: { type: integer, description: 'The amount held in this Fund that
+                              is currently available for disbursement, specified as
+                              an integer in cents.' }
+  total: { type: integer, description: 'The total amount held in this Fund,
+                              This field is specified as an integer in cents.' }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }

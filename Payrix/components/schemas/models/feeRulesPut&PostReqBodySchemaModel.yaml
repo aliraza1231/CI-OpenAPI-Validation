@@ -1,0 +1,54 @@
+properties:
+  fee: { type: string, description: The identifier of the Fee that this Fee Rule
+    applies. }
+  name: { type: string,
+          description: "The name of this Fee Rule. \nThis field is stored\
+                          \ as a text string and must be between 0 and 100 characters\
+                          \ long." }
+  description: { type: string, description: The description of this Fee Rule. }
+  type: { type: string,
+          description: "The type of Transaction.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `1` - **Credit Card Only: Sale Transaction.**\
+                          \ Processes a sale and charges the customer.\n  \n  - `2`\
+                          \ - **Credit Card Only: Auth Transaction.** Authorizes and\
+                          \ holds the requested total on the credit card.\n\n  - `3`\
+                          \ - **Credit Card Only: Capture Transaction.** Finalizes a\
+                          \ prior Auth Transaction and charges the customer.\n  \n \
+                          \ - `4` - **Credit Card Only: Reverse Authorization.** Reverses\
+                          \ a prior Auth or Sale Transaction and releases the credit\
+                          \ hold.\n\n  - `5` - **Credit Card Only: Refund Transaction.**\
+                          \ Refunds a prior Capture or Sale Transaction (total may be\
+                          \ specified for a partial refund).\n  \n  - `7` - **Echeck\
+                          \ Only: Echeck Sale Transaction.** Sale Transaction for ECheck\
+                          \ payment.\n\n  - `8` - **Echeck Only: ECheck Refund Transaction.**\
+                          \ Refund Transaction for prior ECheck Sale Transaction.\n\
+                          \  \n  - `11` - **Echeck Only: Echeck Redeposit Transaction.**\
+                          \ Attempt to redeposit a prior failed eCheck Sale Transaction.\n\
+                          \n  - `12` - **Echeck Only: Echeck Account Verification Transaction.**\
+                          \ Attempt to verify eCheck payment details.\n\n  \n\n  \n\
+                          </details>\n",
+          enum: [ '1', '2', '3', '4', '5', '7', '8', '11', '12' ] }
+  application: { type: string,
+                 description: "Where the feeRule should apply.\n\n
+      <details><summary>Valid Values</summary>\n\      
+        \n- `both` - **Both.** The rule should apply to the fee and to the calculation of collections.\n\      
+        \n- `fee` - **Fee.** The rule should apply only to the fee itself.\n\
+        \n- `collection` - **Collection.** The fee should be only used when calculating a collection.\n\     
+      </details>\n\n",
+                 enum: [ both, fee, collection ] }
+  value: { type: string,
+           description: "The value to compare against when evaluating this\
+                          \ Fee Rule.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **''**\n  \n  - `1` - **''**\n  \n  - `2` -\
+                          \ **''**\n  \n  - `3` - **''**\n  \n  - `4` - **''**\n\
+                          \  \n  - `5` - **''**\n\n</details>\n",
+           enum: [ '0', '1', '2', '3', '4', '5' ] }
+  grouping: { type: string,
+              description: "A name for a group of rules to be applied in conjunction\
+                          \ when evaluating this Fee Rule. \nWhen grouping is used the\
+                          \ Fee will be allowed to be processed if at least one of the\
+                          \ rules are matched." }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }
+required: [ application, fee, frozen, inactive, type, value ]
+x-redacted: [ ]

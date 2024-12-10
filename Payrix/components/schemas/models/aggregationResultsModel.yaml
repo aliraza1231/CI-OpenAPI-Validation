@@ -1,0 +1,31 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  aggregationResultGroup: { type: string, description: "The identifier of the
+    AggregationResultGroup that this AggregationResult refers
+    to." }
+  grouping: { type: string }
+  field: {
+    type: string,
+    description: "The field of the resource where calculatios\
+                              \ were made based on. \nThis field is stored as a text\
+                              \ string and must be between 1 and 100 characters long." }
+  count: {
+    type: integer,
+    description: "The value calculated by the count aggregation\
+                              \ function. \nThis field is specified as an integer." }
+  sum: {
+    type: integer,
+    description: "The value calculated by the sum aggregation\
+                              \ function. \nThis field is specified as an integer." }
+  min: {
+    type: integer,
+    description: "The value calculated by the min aggregation\
+                              \ function. \nThis field is specified as an integer." }
+  max: {
+    type: integer,
+    description: "The value calculated by the max aggregation\
+                              \ function. \nThis field is specified as an integer." }

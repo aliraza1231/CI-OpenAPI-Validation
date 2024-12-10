@@ -1,0 +1,103 @@
+  get:
+    description: Query an InvoiceLineItem. InvoiceLineItem is a resource that relates
+      an invoice item with an invoice. It holds information such as quantity, and price
+      each item.
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/invoiceLineItemsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/invoiceLineItemsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for query on invoiceLineItems resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve all Invoice Line Items.
+    tags: [Invoices]
+    operationId: getInvoiceLineItems
+  post:
+    description: Create an InvoiceLineItem or Invoice Line Item.InvoiceLineItem is a
+      resource that relates an invoice item with an invoice. It holds information such
+      as quantity, and price each item.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            { $ref: ../components/schemas/models/invoiceLineItemsPut&PostReqBodySchemaModel.yaml }
+        application/x-www-form-urlencoded:
+          schema:
+            { $ref: ../components/schemas/models/invoiceLineItemsPut&PostReqBodySchemaModel.yaml }
+        application/xml:
+          schema:
+            { $ref: ../components/schemas/models/invoiceLineItemsPut&PostReqBodySchemaModel.yaml }
+        multipart/form-data:
+          schema:
+            { $ref: ../components/schemas/models/invoiceLineItemsPut&PostReqBodySchemaModel.yaml }
+        text/json:
+          schema:
+            { $ref: ../components/schemas/models/invoiceLineItemsPut&PostReqBodySchemaModel.yaml }
+        text/xml:
+          schema:
+            { $ref: ../components/schemas/models/invoiceLineItemsPut&PostReqBodySchemaModel.yaml }
+      description: Create Invoice Line Item Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/invoiceLineItemsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/invoiceLineItemsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: The response for creating an invoice line item on the invoiceLineItems
+          resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Create a new Invoice Line Item
+    tags: [Invoices]
+    operationId: postInvoiceLineItems

@@ -1,0 +1,101 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  merchant: { type: string, description: The Merchant associated with the Chargeback. }
+  txn: { type: string, description: The Transaction associated with the Chargeback. }
+  mid: { type: string, description: The Merchant's processing MID. }
+  description: { type: string, description: Description of the chargeback. }
+  total: { type: integer, description: The total amount of the Chargeback. }
+  representedTotal: { type: integer, description: The representedTotal for this
+    Chargeback if it has been represented. }
+  cycle: { type: string,
+           description:
+             "<details><summary>Valid Values</summary>\n\
+             \n - `retrieval` - **Initial request from the issuer for more information on this Transaction.**\n\            
+             \n - `first` - **First Chargeback from issuer for this Transaction.**\n\             
+             \n - `arbitration` - **Arbitration is being sought for this Chargeback.**\n\           
+             \n - `reversal` - **Chargeback was reversed.**\n\            
+             \n - `representment` - **Merchant is being represented to the issuer with the Chargeback response posted.**\n\n
+             \n - `preArbitration` - **Chargeback is no longer representable, Merchant must choose to accept or arbitrate with the card brand.**\n\          
+             \n - `arbitrationLost` - **Arbitration lost.**\n\             
+             \n - `arbitrationSplit` - **Arbitration split.**\n\             
+             \n - `arbitrationWon` - **Arbitration won.**\n\             
+             \n - `issuerAcceptPreArbitration` - **Issuer accepted the pre-arbitration response.**\n\             
+             \n - `issuerDeclinedPreArbitration` - **Issuer declined pre-arbitration.**\n\             
+             \n - `responseToIssuerPreArbitration` - **Response to issuer pre-arbitration.**\n\             
+             \n - `merchantAcceptedPreArbitration` - **Merchant accepted the pre-arbitration response.**\n\             
+             \n - `merchantDeclinedPreArbitration` - **Merchant declined the pre-arbitration response.**\n\             
+             \n - `preCompliance` - **''**\n\             
+             \n - `compliance` - **''**            
+             </details>",
+           enum: [ retrieval, first, arbitration, reversal, representment,
+                   preArbitration, arbitrationLost, arbitrationSplit, arbitrationWon,
+                   issuerAcceptPreArbitration, issuerDeclinedPreArbitration,
+                   responseToIssuerPreArbitration, merchantAcceptedPreArbitration,
+                   merchantDeclinedPreArbitration, preCompliance, compliance ] }
+  currency: { type: string, description: "The currency for this statement.",
+              enum: [ AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM,
+                      BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN,
+                      BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP,
+                      COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK, DOP, DZD, EGP, ERN,
+                      ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP, GMD, GNF, GTQ, GYD,
+                      HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR, ISK, JMD,
+                      JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                      LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP,
+                      MRU, MUR, MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK,
+                      NPR, NZD, OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON,
+                      RSD, RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                      SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP, TRY,
+                      TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS, VEF, VND,
+                      VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                      XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL ],
+              example: USD }
+  platform: { type: string, description: The platform used for the adjustment. This field
+    is required if the adjustment is not between entities.,
+              enum: [ APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH,
+                      WELLSFARGO, WFSINGLE ],
+              example: VCORE }
+  paymentMethod: { type: integer, description: "The type of payment method used for the transaction.\
+                          \ \n\n<details>\n<summary>Valid Values</summary>\n\n  - `0`\
+                          \ - **''**\n\n  - `1` - **American Express**\n\n  - `2` -\
+                          \ **Visa**\n\n  - `3` - **MasterCard**\n\n  - `4` - **Diners\
+                          \ Club**\n\n  - `5` - **Discover**\n\n  - '6' - **PayPal**\n\
+                          \n  - `7` - **Debit card**\n\n  - `8` - **Checking account**\n\
+                          \n  - `9` - **Savings account**\n\n  - `10` - **Corporate\
+                          \ checking account**\n\n  - `11` - **Corporate savings account**\n\
+                          \n  - `12` - **Gift card**\n\n  - `13` - **EBT card**\n\n\
+                          \  - `14` - **WIC card**\n\n</details>\n",
+                   enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                           11, 12, 13, 14 ] }
+  ref: { type: string, description: The processing reference number for this Chargeback. }
+  reason: { type: string, description: The reason description for this Chargeback. }
+  reasonCode: { type: string, description: The reason code for this Chargeback. }
+  issued: { type: integer, description: The date when the Chargeback was issued. }
+  received: { type: integer, description: The date when the Chargeback was received. }
+  reply: { type: integer, description: The deadline to submit a reply for the Chargeback. }
+  bankRef: { type: string, description: The issuing bank's reference number for
+    this Chargeback. }
+  chargebackRef: { type: string, description: "Chargeback reference number." }
+  status: { type: string, description: "The Chargeback's status.
+              <details><summary>Valid Values</summary>\n\
+              \n - `open` - **Chargeback is open, responses may be submitted.**\n\
+              \n - `closed` - **Chargeback is closed, responses may no longer be submitted.**\n\
+              \n - `won` - **Chargeback won.**
+              \n - `lost` - **Chargeback lost.**\n\n
+              </details>",
+            enum: [ open, closed, won, lost ] }
+  lastStatusChange: { type: string, description: The ChargebackStatus representing
+    the latest status change for this Chargeback. }
+  actionable: { type: integer, description: " \n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `0` - **''** \n\n- `1` - **''**\n</details>\n",
+                enum: [ 0, 1 ] }
+  shadow: { type: integer,
+            description: "\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `0` - **''** \n\
+                          \n- `1` - **''**\n</details>\n",
+            enum: [ 0, 1 ] }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }

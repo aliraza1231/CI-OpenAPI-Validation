@@ -1,0 +1,101 @@
+ get:
+   description: Query a TerminalTxn, which holds all of the information to a related
+     final transaction and is used to reconcile with the actual, final transaction.
+   parameters:
+   - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+   - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+   - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+   operationId: getTerminalTxns
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+       description: Response for query on terminalTxns resource
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Retrieve all Terminal Transactions.
+   tags: [Transactions (Txns)]
+ post:
+   description: "Create a TerminalTxn. \nTerminalTxns hold all of the information to\
+     \ a related final transaction. They are used to be reconcilliated with that actual,\
+     \ final transaction."
+   requestBody:
+     content:
+       application/json:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsPostReqBodySchemaModel.yaml}
+       application/x-www-form-urlencoded:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsPostReqBodySchemaModel.yaml}
+       application/xml:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsPostReqBodySchemaModel.yaml}
+       multipart/form-data:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsPostReqBodySchemaModel.yaml}
+       text/json:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsPostReqBodySchemaModel.yaml}
+       text/xml:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsPostReqBodySchemaModel.yaml}
+     description: Create Terminal Transaction Request
+     required: true
+   operationId: postTerminalTxns
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+       description: Response for create on terminalTxns resource
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Create a new Terminal Transaction
+   tags: [Transactions (Txns)]

@@ -1,0 +1,2136 @@
+  get:
+    description: Query a Merchant, which is an organization that processes credit card
+      payments and each is associated with an Entity.
+    parameters:
+    - description: The ID of this resource, also known as the Merchant ID (MID).
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Retrieve Merchants Response:
+                value:
+                  data: {id: t1_mer_6464655992aa5964a576ffc, created: '2023-05-17T01:25:45.636Z',
+                    modified: '2023-05-17T01:25:51.159Z', creator: t1_log_5f875c53ed397f57c0afc90,
+                    modifier: t1_log_64646559667ccc1d512e4b6, lastActivity: null, entity: t1_ent_6464655974751b8d9ac876d,
+                    dba: null, new: 1, established: null, annualCCSales: 0, avgTicket: 0,
+                    amex: null, discover: null, mcc: 1799, status: 2, boarded: 20230517,
+                    inactive: 0, frozen: 0, environment: cardPresent, visaMvv: null,
+                    chargebackNotificationEmail: null, statusReason: null, totalApprovedSales: 0,
+                    autoBoarded: 1, saqType: null, saqDate: null, qsa: null, letterStatus: 0,
+                    letterDate: null, tcAttestation: 0, visaDisclosure: 0, disclosureIP: null,
+                    disclosureDate: null, accountClosureReasonCode: null, accountClosureReasonDate: null,
+                    annualCCSaleVolume: null, annualACHSaleVolume: null, riskLevel: null,
+                    creditRatio: null, creditTimeliness: null, chargebackRatio: null,
+                    ndxDays: null, ndxPercentage: null, advancedBilling: null, locationType: null,
+                    percentKeyed: null, totalVolume: null, percentEcomm: null, seasonal: null,
+                    amexVolume: null, incrementalAuthSupported: null, tmxSessionId: null,
+                    percentBusiness: null, applePayActive: 1, applePayStatus: null,
+                    googlePayActive: 1, omniTokenEnabled: null, passTokenEnabled: null,
+                    naics: null, naicsDescription: null, expressBatchCloseMethod: null,
+                    expressBatchCloseTime: null}
+                  details:
+                    requestId: 1
+                    totals: []
+                    page: {current: 1, last: 2, hasMore: true}
+                  errors: []
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/merchantResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            examples:
+              Retrieve Merchants Response:
+                value:
+                  data: {id: t1_mer_6464655992aa5964a576ffc, created: '2023-05-17T01:25:45.636Z',
+                    modified: '2023-05-17T01:25:51.159Z', creator: t1_log_5f875c53ed397f57c0afc90,
+                    modifier: t1_log_64646559667ccc1d512e4b6, lastActivity: null, entity: t1_ent_6464655974751b8d9ac876d,
+                    dba: null, new: 1, established: null, annualCCSales: 0, avgTicket: 0,
+                    amex: null, discover: null, mcc: 1799, status: 2, boarded: 20230517,
+                    inactive: 0, frozen: 0, environment: cardPresent, visaMvv: null,
+                    chargebackNotificationEmail: null, statusReason: null, totalApprovedSales: 0,
+                    autoBoarded: 1, saqType: null, saqDate: null, qsa: null, letterStatus: 0,
+                    letterDate: null, tcAttestation: 0, visaDisclosure: 0, disclosureIP: null,
+                    disclosureDate: null, accountClosureReasonCode: null, accountClosureReasonDate: null,
+                    annualCCSaleVolume: null, annualACHSaleVolume: null, riskLevel: null,
+                    creditRatio: null, creditTimeliness: null, chargebackRatio: null,
+                    ndxDays: null, ndxPercentage: null, advancedBilling: null, locationType: null,
+                    percentKeyed: null, totalVolume: null, percentEcomm: null, seasonal: null,
+                    amexVolume: null, incrementalAuthSupported: null, tmxSessionId: null,
+                    percentBusiness: null, applePayActive: 1, applePayStatus: null,
+                    googlePayActive: 1, omniTokenEnabled: null, passTokenEnabled: null,
+                    naics: null, naicsDescription: null, expressBatchCloseMethod: null,
+                    expressBatchCloseTime: null}
+                  details:
+                    requestId: 1
+                    totals: []
+                    page: {current: 1, last: 2, hasMore: true}
+                  errors: []
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          lastActivity: {description: The date and time on which this
+                              Merchant last processed a Transaction., format: date-time}
+                          totalApprovedSales: {description: Show the total approved
+                              amount to this merchant.}
+                          entity: {description: The Entity associated with this Merchant.}
+                          dba: {description: 'The name under which the Merchant is doing
+                              business, if applicable. This field is stored as a text
+                              string and must be between 0 and 50 characters long.'}
+                          new:
+                            description: An indicator that specifies whether the Merchant
+                              is new to credit card processing. By default, merchants
+                              are considered to be new.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not new, New]
+                          incrementalAuthSupported:
+                            description: This field allows the ability to submit merchant
+                              registration files with a MasterCard (MC) Auth Integrity
+                              value.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          seasonal:
+                            description: Indicates if the merchant is a seasonal merchant
+                              or operates year-round.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          advancedBilling:
+                            description: Indicates whether the merchant accepts pre-purchase
+                              for products that are shipped at a later date or not currently
+                              available.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [AdvancedBilling is disabled, AdvancedBilling
+                                is enabled]
+                          established:
+                            description: "The date on which the Merchant was established.\
+                              \ \nThe date is specified as an eight digit string in\
+                              \ YYYYMMDD format, for example, '20160120' for January\
+                              \ 20, 2016."
+                          annualCCSales:
+                            description: "The value of the annual credit card sales\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                          annualCCSaleVolume:
+                            description: "The value of the annual credit card sale volume\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                            x-enum-descriptions: ['']
+                          annualACHSaleVolume:
+                            description: "The value of the annual direct deposit sale\
+                              \ volume of this Merchant. \nThis field is specified as\
+                              \ an integer in cents. For example, $25.30 is expressed\
+                              \ as '2530'."
+                            x-enum-descriptions: ['']
+                          amexVolume:
+                            description: Indicates the Annual AMEX Sales Volume for
+                              the outlet.
+                            x-enum-descriptions: ['']
+                          avgTicket:
+                            description: "The value of the average credit card sales\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                          amex:
+                            description: "The American Express merchant identifier for\
+                              \ this Merchant, if applicable. \nThis field is stored\
+                              \ as a text string and must be between 1 and 15 characters\
+                              \ long."
+                          discover:
+                            description: "The Discover merchant identifier for this\
+                              \ Merchant, if applicable. \nThis field is stored as a\
+                              \ text string and must be between 1 and 15 characters\
+                              \ long."
+                          mcc: {description: 'The Merchant Category Code (MCC) for this
+                              Merchant. This code is not required to create a Merchant,
+                              but it is required to successfully board a Merchant.'}
+                          visaMvv: {description: Merchant Verification Value. A value
+                              assigned by Visa to identify participation in select merchant
+                              programs.}
+                          visaDisclosure:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          disclosureIP: {}
+                          disclosureDate: {}
+                          environment:
+                            description: The environment which the Merchant is in, if
+                              applicable.
+                            enum: [supermarket, moto, cardPresent, fuel, serviceStation,
+                              restaurant, ecommerce]
+                            x-enum-descriptions: [Supermarket, Mail Order / Telephone
+                                Order, Card Present, Fuel, Service Station, Restaurant,
+                              eCommerce]
+                          status:
+                            description: The status of the Merchant.
+                            enum: ['0', '1', '2', '3', '4', '5', '6']
+                            x-enum-descriptions: [Not ready, Ready, Boarded, Manual,
+                              Closed, Incomplete, Pending]
+                          autoBoarded:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          statusReason: {description: The reason for manual or closed
+                              status.}
+                          accountClosureReasonCode: {}
+                          accountClosureReasonDate: {}
+                          riskLevel:
+                            description: The risk level which the Merchant is in, if
+                              applicable.
+                            enum: [restricted, prohibited, high, medium, low]
+                            x-enum-descriptions: ['', '', '', '', '']
+                          creditRatio: {description: 'The credit ratio to use while
+                              calculating risk factors for credit, if applicable.'}
+                          creditTimeliness: {description: 'The credit timeliness for
+                              the Merchant, if applicable.'}
+                          chargebackRatio: {}
+                          ndxDays: {description: 'The ndx (Non Delivery Exposure) days
+                              which the Merchant is in, if applicable.'}
+                          ndxPercentage: {description: 'The ndx (Non Delivery Exposure)
+                              percentage to be used for the merchant, if applicable.'}
+                          boarded: {description: The date and time on which this Merchant
+                              was successfully boarded.}
+                          tinStatus: {}
+                          saqType:
+                            enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C,
+                              SAQ-P2PE-HW, SAQ-D]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          saqDate:
+                            x-enum-descriptions: ['']
+                          qsa: {}
+                          letterStatus:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          letterDate: {}
+                          tcDate: {description: Date the tcVersion was last updated.,
+                            format: date-time}
+                          tcAttestation:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          tmxSessionId: {}
+                          chargebackNotificationEmail: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                          locationType:
+                            description: 'Description of the type of address that the
+                              business operates at. '
+                            enum: ['77', '78', '79', '80', '81']
+                            x-enum-descriptions: [Retail Storefront, Warehouse, Private
+                                Residence, Others, P. RES-PROF/Construction]
+                          percentKeyed: {description: The merchant percentage of transactions
+                              that are Card Not Present (Includes MOTO and eCommerce).}
+                          totalVolume: {description: The expected total volume for all
+                              credit card and ACH payments that the merchant will process
+                              for the current year.}
+                          percentEcomm: {description: This field indicates what percentage
+                              are internet originated transactions.}
+                          percentBusiness: {description: This field indicates what percentage
+                              of the transactions are Business to Business}
+                          applePayActive:
+                            description: This field indicates if Apple Pay is active
+                              for this merchant.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          applePayStatus: {}
+                          googlePayActive:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          naics:
+                            description: The NAICS sector code that accurately describes
+                              the industry the business operates in.
+                            enum: ['11', '21', '22', '23', 31-33, '41', 44-45, 48-49,
+                              '51', '52', '53', '54', '55', '56', '61', '62', '71',
+                              '72', '81', 91/92]
+                            x-enum-descriptions: ['Agriculture, Forestry, Fishing and
+                                Hunting', 'Mining, Quarrying, and Oil and Gas Extraction',
+                              Utilities, Construction, Manufacturing, 'Wholesale Trade ',
+                              Retail Trade, Transportation and Warehousing, Information,
+                              Finance and Insurance, Real Estate and Rental and Leasing,
+                              'Professional, Scientific, and Technical Services', Management
+                                of Companies and Enterprises, Administrative and Support
+                                and Waste Management and Remediation Services, Educational
+                                Services, Health Care and Social Assistance, 'Arts,
+                                Entertainment, and Recreation', Accommodation and Food
+                                Services, Other Services (except Public Administration),
+                              Public Administration]
+                          naicsDescription: {description: 'The NAICS sector description
+                              matching the above NAICS sector code. If "Other", industry
+                              description is prefixed with "Other: ".'}
+                          expressBatchCloseMethod:
+                            description: This field indicates the batch close method
+                              for this merchant applicable to Express platform.
+                            enum: [TimeInitiated, MerchantInitiated]
+                            x-enum-descriptions: ['', '']
+                          expressBatchCloseTime: {description: 'This field indicates
+                              the batch close time for this merchant applicable to Express
+                              platform. '}
+                          passTokenEnabled:
+                            description: This field indicates if Pass Token is enabled
+                              for this merchant.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      lastActivity: {description: The date and time on which this Merchant
+                          last processed a Transaction., format: date-time}
+                      totalApprovedSales: {description: Show the total approved amount
+                          to this merchant.}
+                      entity: {description: The Entity associated with this Merchant.}
+                      dba: {description: 'The name under which the Merchant is doing
+                          business, if applicable. This field is stored as a text string
+                          and must be between 0 and 50 characters long.'}
+                      new:
+                        description: |
+                          An indicator that specifies whether the Merchant is new to credit card processing. By default, merchants are considered to be new.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **Not new**
+
+                          - `1` - **New**
+
+                          </details>
+                        enum: ['0', '1']
+                      incrementalAuthSupported:
+                        description: "This field allows the ability to submit merchant\
+                          \ registration files with a MasterCard (MC) Auth Integrity\
+                          \ value.\n\n<details>\n<summary>Valid Values</summary>\n\n\
+                          - `0` - **Incremental Auth Not Supported** \n\n- `1` - **Incremental\
+                          \ Auth Supported**\n</details>\n"
+                        enum: ['0', '1']
+                      seasonal:
+                        description: |
+                          Indicates if the merchant is a seasonal merchant or operates year-round.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **Year-Round Merchant**
+
+                          - `1` - **Seasonal Merchant**
+
+                          </details>
+                        enum: ['0', '1']
+                      advancedBilling:
+                        description: |
+                          Indicates whether the merchant accepts pre-purchase for products that are shipped at a later date or not currently available.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **AdvancedBilling is disabled**
+
+                          - `1` - **AdvancedBilling is enabled**
+                          </details>
+                        enum: ['0', '1']
+                      established:
+                        description: "The date on which the Merchant was established.\
+                          \ \nThe date is specified as an eight digit string in YYYYMMDD\
+                          \ format, for example, '20160120' for January 20, 2016."
+                        format: date-time
+                      annualCCSales:
+                        description: "The value of the annual credit card sales of this\
+                          \ Merchant. \nThis field is specified as an integer in cents.\
+                          \ For example, $25.30 is expressed as '2530'."
+                      annualCCSaleVolume:
+                        description: "The value of the annual credit card sale volume\
+                          \ of this Merchant. \nThis field is specified as an integer\
+                          \ in cents. For example, $25.30 is expressed as '2530'."
+                      annualACHSaleVolume:
+                        description: "The value of the annual direct deposit sale volume\
+                          \ of this Merchant. \nThis field is specified as an integer\
+                          \ in cents. For example, $25.30 is expressed as '2530'."
+                      amexVolume: {description: Indicates the Annual AMEX Sales Volume
+                          for the outlet.}
+                      avgTicket:
+                        description: "The value of the average credit card sales of\
+                          \ this Merchant. \nThis field is specified as an integer in\
+                          \ cents. For example, $25.30 is expressed as '2530'."
+                      amex:
+                        description: "The American Express merchant identifier for this\
+                          \ Merchant, if applicable. \nThis field is stored as a text\
+                          \ string and must be between 1 and 15 characters long."
+                      discover:
+                        description: "The Discover merchant identifier for this Merchant,\
+                          \ if applicable. \nThis field is stored as a text string and\
+                          \ must be between 1 and 15 characters long."
+                      mcc: {description: 'The Merchant Category Code (MCC) for this
+                          Merchant. This code is not required to create a Merchant,
+                          but it is required to successfully board a Merchant.'}
+                      visaMvv: {description: Merchant Verification Value. A value assigned
+                          by Visa to identify participation in select merchant programs.}
+                      visaDisclosure:
+                        description: "Whether or not the merchant has acknowledged and\
+                          \ accepted the Visa Disclosure.  \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n- `0` - **Not Accepted** \n\n- `1` -\
+                          \ **Accepted**\n</details>\n"
+                        enum: ['0', '1']
+                      disclosureIP: {description: TBD}
+                      disclosureDate: {description: TBD, format: date-time}
+                      environment:
+                        description: |
+                          The environment which the Merchant is in, if applicable.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `supermarket` - **Supermarkets / Grocery**
+
+                          - `moto` - **Mail Order / Telephone Order**
+
+                          - `cardPresent` - **Card Present Environment**
+
+                          - `fuel` - **Fuel / Gas Stations**
+
+                          - `serviceStation` - **Service Stations**
+
+                          - `restaurant` - **Restaurants**
+
+                          - `ecommerce` - **eCommerce / Online Sales**
+
+                          </details>
+                        enum: [supermarket, moto, cardPresent, fuel, serviceStation,
+                          restaurant, ecommerce]
+                      status:
+                        description: "The status of the Merchant.\n  \n<details>\n<summary>Valid\
+                          \ Values</summary>\n  - `0` - **Not ready**. Occurs when a\
+                          \ new Merchant is created. Unable to process payments.\n \
+                          \ \n  - `1` - **Ready**. New Merchant submitted for underwriting\
+                          \ approval after submitting a signup form.\n  \n  - `2` -\
+                          \ **Boarded**. Merchant has been approved and boarded to the\
+                          \ platform. Payment processing now available. \n  \n  - `3`\
+                          \ - **Manual**. Set internally by platform underwriting. New\
+                          \ Merchant is pending manual verification. \n  \n  - `4` -\
+                          \ **Closed**. Set internally by platform underwriting. New\
+                          \ Merchant was declined and cannot access the platform. \n\
+                          \  \n  - `5` - **Incomplete**. Set by user boarding the merchant.\
+                          \ Can be manually set to \"save\" an incomplete Merchant boarding\
+                          \ request for a later time. \n  \n  - `6` - **Pending**. New\
+                          \ Merchant was submitted for boarding, platform access pending\
+                          \ review.\n  </details>\n"
+                        enum: ['0', '1', '2', '3', '4', '5', '6']
+                      autoBoarded:
+                        description: "Whether the merchant auto-boarded.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Auto-Boarded**\
+                          \ \n\n- `1` - **Auto-Boarded**\n\n</details>\n"
+                        enum: ['0', '1']
+                      statusReason:
+                        description: "The reason for manual or closure status. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n`rejected` - Merchant\
+                          \ account rejected for servicing.\n\n`fraud` - Merchant or\
+                          \ submission was determined to be fraudulent.\n\n`noResponse`\
+                          \ - No response given in expected time frame for verification/validation\
+                          \ inquiry.\n\n`withdrawn` - Merchant submission withdrawn.\n\
+                          \n\n</details>\n"
+                        enum: [rejected, fraud, noResponse, withdrawn]
+                      accountClosureReasonCode: {description: TBD}
+                      accountClosureReasonDate: {description: TBD, format: date-time}
+                      riskLevel:
+                        description: |
+                          The risk level which the Merchant is in, if applicable.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `restricted` - **Restricted from processing transactions.**
+                          - `prohibited` - **Prohibited business use category.**
+                          - `high` - **High merchant risk score.**
+                          - `medium` - **Medium merchant risk score.**
+                          - `low` - **Low merchant risk score.**
+
+
+                          </details>
+                        enum: [restricted, prohibited, high, medium, low]
+                      creditRatio: {description: 'The credit ratio to use while calculating
+                          risk factors for credit, if applicable.'}
+                      creditTimeliness: {description: 'The credit timeliness for the
+                          Merchant, if applicable.'}
+                      chargebackRatio: {description: TBD}
+                      ndxDays: {description: 'The ndx (Non Delivery Exposure) days which
+                          the Merchant is in, if applicable.'}
+                      ndxPercentage: {description: 'The ndx (Non Delivery Exposure)
+                          percentage to be used for the merchant, if applicable.'}
+                      boarded: {description: The date and time on which this Merchant
+                          was successfully boarded.}
+                      saqType:
+                        description: "Payment Card Industry Data Security Standard (PCI\
+                          \ DSS) Self-assessment questionnaire (SAQ). Details about\
+                          \ a merchant's business and the way the currently accept payments\
+                          \ or plan to in the future. \n\nFor more information, see\
+                          \ [Understanding SAQs PCI DSS provided by The PCI Security\
+                          \ Standards Council](https://listings.pcisecuritystandards.org/documents/Understanding_SAQs_PCI_DSS_v3.pdf).\
+                          \  \n\n<details>\n<summary>Note about SAQ Types</summary>\n\
+                          - `SAQ-A` is not applicable to face-to-face channels.\n- `SAQ-A-EP`\
+                          \ is only applicable to e-commerce channels.\n- `SAQ-B` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-B-IP` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-C-VT` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-C` is not\
+                          \ applicable to e-commerce channels.\n- `SAQ-P2PE-HW` is not\
+                          \ applicable to e-commerce channels.\n</details>\n\n<details>\n\
+                          <summary>Valid Values</summary>\n  - `SAQ-A` - **Card-not-present\
+                          \ merchants (e-commerce or mail/telephone-order) with PCI\
+                          \ DSS-validated third-party payments service provider(s) and\
+                          \ does not store cardholder data.**\n\n  - `SAQ-A-EP` - **E-commerce\
+                          \ merchants with PCI DSS-validated third-party payments service\
+                          \ provider(s) with a website that doesn't directly collect\
+                          \ cardholder data, but may impact it in some way, and does\
+                          \ not store cardholder data.**\n\n  - `SAQ-B` - **Merchants\
+                          \ with imprint machines or standalone, dial-out terminals\
+                          \ that do not store cardholder data.**\n\n  - `SAQ-B-IP` -\
+                          \ **Merchants with standalone, PTS-approved payment terminals\
+                          \ that have an IP connection to the payment processor, but\
+                          \ do not store cardholder data.**\n\n  - `SAQ-C-VT` - **Merchants\
+                          \ that enter single transactions manually into an internet-based\
+                          \ terminal hosted by PCI DSS-validated third-party payments\
+                          \ service provider(s) and does not store cardholder data.**\n\
+                          \n  - `SAQ-C` - **Merchants with payment application systems\
+                          \ connected to the internet that do not store cardholder data.**\n\
+                          \n  - `SAQ-P2PE-HW` - **Merchants with hardware-only payment\
+                          \ terminals managed by a PCI SSC-listed P2PE solution, and\
+                          \ does not store cardholder data. \n\n  - `SAQ-D` - Generic\
+                          \ field for all Merchants that do not fall under the requirements\
+                          \ for any above SAQ types. \n\n</details>\n"
+                        enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C, SAQ-P2PE-HW,
+                          SAQ-D]
+                      saqDate: {description: The date of the PCI SAQ assessment., format: date-time}
+                      qsa: {description: TBD}
+                      letterStatus:
+                        description: |
+                          TBD
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **TBD**
+
+                            - `1` - **TBD**
+
+                          </details>
+                        enum: ['0', '1']
+                      letterDate: {description: The date of....TBD}
+                      tcAttestation:
+                        description: "Whether or not the merchant has acknowledged and\
+                          \ accepted the Terms and Conditions.  \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `0` - **Not Accepted**\n  \n  -\
+                          \ `1` - **Accepted**\n\n  \n</details>\n"
+                        enum: ['0', '1']
+                      tmxSessionId: {description: TBD}
+                      chargebackNotificationEmail: {description: TBD}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n  - `0` - **Active**\n\
+                          \  \n  - `1` - **Inactive**\n  \n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Not\
+                          \ Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                      locationType:
+                        description: "'Description of the type of address that the business\
+                          \ operates at. '\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `77` - **Retail Storefront**\n- `78` - **Warehouse**\n\
+                          - `79` - **Private Residence**\n- `80` - **Others**\n- `81`\
+                          \ - **P. RES-PROF/Construction** \n\n</details>\n"
+                        enum: ['77', '78', '79', '80', '81']
+                      percentKeyed: {description: The merchant percentage of transactions
+                          that are Card Not Present (Includes MOTO and eCommerce).}
+                      totalVolume: {description: The expected total volume for all credit
+                          card and ACH payments that the merchant will process for the
+                          current year.}
+                      percentEcomm: {description: This field indicates what percentage
+                          are internet originated transactions.}
+                      percentBusiness: {description: This field indicates what percentage
+                          of the transactions are Business to Business}
+                      applePayActive:
+                        description: "This field indicates if Apple Pay is active for\
+                          \ this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Inactive**\n  \n  - `1` - **Active**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      applePayStatus: {description: TBD}
+                      googlePayActive:
+                        description: "This field indicates if Google Pay is active for\
+                          \ this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Inactive**\n  \n  - `1` - **Active**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      naics:
+                        description: "The NAICS sector code that accurately describes\
+                          \ the industry the business operates in.\n\nFor more information,\
+                          \ see the [NAICS Manual provided by the US Census Bureau's\
+                          \ North American Industry Classification System.](https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf)\n\
+                          \n<details>\n<summary>Valid Values</summary>\n\n  - `11` -\
+                          \ **Agriculture, Forestry, Fishing and Hunting**\n  \n  -\
+                          \ `21` - **Mining, Quarrying, and Oil and Gas Extraction**\n\
+                          \  \n  - `22` - **Utilities**\n  \n  - `23` - **Construction**\n\
+                          \  \n  - `31` / `33` - **Manufacturing**\n  \n  - `41` - -\
+                          \ **Wholesale Trade**\n  \n  - `44` / `45` - **Retail Trade**\n\
+                          \  \n  - `48` / `49` - **Transportation and Warehousing**\
+                          \ \n  \n  - `51` - **Information**\n  \n  - `52` - **Finance\
+                          \ and Insurance**\n  \n  - `53` - **Real Estate and Property\
+                          \ Rental / Leasing**\n  \n  - `54` - **Professional, Scientific,\
+                          \ and Technical Services**\n  \n  - `55` - **Management of\
+                          \ Companies and Enterprises**\n  \n  - `56` - **Administrative\
+                          \ and Support and Waste Management and Remediation Services**\n\
+                          \  \n  - `61` - **Educational Services**\n  \n  - `62` - **Health\
+                          \ Care and Social Assistance**\n  \n  - `71` - **Arts, Entertainment,\
+                          \ and Recreation**\n  \n  - `72` - **Accommodation and Food\
+                          \ Services**\n  \n  - `81` - **Other Services (except Public\
+                          \ Administration)**\n  \n  - `91` / `92` - **Public Administration**\n\
+                          \  </details>\n"
+                        enum: ['11', '21', '22', '23', 31-33, '41', 44-45, 48-49, '51',
+                          '52', '53', '54', '55', '56', '61', '62', '71', '72', '81',
+                          91/92]
+                      naicsDescription: {description: 'The NAICS sector description
+                          matching the above NAICS sector code. If "Other", industry
+                          description is prefixed with "Other: ".'}
+                      expressBatchCloseMethod:
+                        description: "This field indicates the batch close method for\
+                          \ this merchant applicable to Express platform.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n  - `TimeInitiated` - **Batch\
+                          \ close occurs at specific time intervals. (Automated.)**\n\
+                          \  \n  - `MerchantInitiated` - **Batch close occurs when initiated\
+                          \ by the Merchant. (Manual.)**\n\n  \n</details>\n"
+                        enum: [TimeInitiated, MerchantInitiated]
+                      expressBatchCloseTime: {description: 'This field indicates the
+                          batch close time for this merchant applicable to Express platform. '}
+                      omniTokenEnabled:
+                        description: "This field indicates if Omni Token is enabled\
+                          \ for this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Disabled**\n  \n  - `1` - **Enabled**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      passTokenEnabled:
+                        description: "This field indicates if Pass Token is enabled\
+                          \ for this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Disabled**\n  \n  - `1` - **Enabled**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Retrieve Merchant Response for query on merchants resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve a Merchant by its ID
+    tags: [Merchants]
+    operationId: getMerchantsId
+  put:
+    description: Update a Merchant, A Merchant is an organization that processes credit
+      card payments. Each Merchant is associated with an Entity.
+    parameters:
+    - description: The ID of this resource, also known as the Merchant ID (MID).
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          examples:
+            Update a Merchant:
+              value: {id: p1_mer_5a1ef5e55656a739a85da21, established: 20101021}
+          schema:
+            properties: {$ref: ../components/schemas/models/merchantsModel.yaml}
+            required: [annualCCSales, avgTicket, entity, environment, frozen, inactive,
+              new, saqDate, status]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          examples:
+            Update a Merchant:
+              value: {id: p1_mer_5a1ef5e55656a739a85da21, established: 20101021}
+          schema:
+            properties: {$ref: ../components/schemas/models/merchantsModel.yaml}
+            required: [annualCCSales, avgTicket, entity, environment, frozen, inactive,
+              new, saqDate, status]
+            x-redacted: []
+        application/xml:
+          examples:
+            Update a Merchant:
+              value: {id: p1_mer_5a1ef5e55656a739a85da21, established: 20101021}
+          schema:
+            properties: {$ref: ../components/schemas/models/merchantsModel.yaml}
+            required: [annualCCSales, avgTicket, entity, environment, frozen, inactive,
+              new, saqDate, status]
+            x-redacted: []
+        multipart/form-data:
+          examples:
+            Update a Merchant:
+              value: {id: p1_mer_5a1ef5e55656a739a85da21, established: 20101021}
+          schema:
+            properties: {$ref: ../components/schemas/models/merchantsModel.yaml}
+            required: [annualCCSales, avgTicket, entity, environment, frozen, inactive,
+              new, saqDate, status]
+            x-redacted: []
+        text/json:
+          examples:
+            Update a Merchant:
+              value: {id: p1_mer_5a1ef5e55656a739a85da21, established: 20101021}
+          schema:
+            properties: {$ref: ../components/schemas/models/merchantsModel.yaml}
+            required: [annualCCSales, avgTicket, entity, environment, frozen, inactive,
+              new, saqDate, status]
+            x-redacted: []
+        text/xml:
+          examples:
+            Update a Merchant:
+              value: {id: p1_mer_5a1ef5e55656a739a85da21, established: 20101021}
+          schema:
+            properties: {$ref: ../components/schemas/models/merchantsModel.yaml}
+            required: [annualCCSales, avgTicket, entity, environment, frozen, inactive,
+              new, saqDate, status]
+            x-redacted: []
+      description: Update Merchant Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Update Merchant Response:
+                value: {id: p1_mer_5a1ef5e55656a739a85da21, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+                  lastActivity: null, entity: p1_ent_5a1ef5e5565631155c95344, dba: null,
+                  new: 0, established: 20101021, annualCCSales: 1000000, amex: null,
+                  discover: null, mcc: '8111', status: 1, boarded: null, tcDate: null,
+                  inactive: 0, frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/merchantResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            examples:
+              Update Merchant Response:
+                value: {id: p1_mer_5a1ef5e55656a739a85da21, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+                  lastActivity: null, entity: p1_ent_5a1ef5e5565631155c95344, dba: null,
+                  new: 0, established: 20101021, annualCCSales: 1000000, amex: null,
+                  discover: null, mcc: '8111', status: 1, boarded: null, tcDate: null,
+                  inactive: 0, frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          lastActivity: {description: The date and time on which this
+                              Merchant last processed a Transaction., format: date-time}
+                          totalApprovedSales: {description: Show the total approved
+                              amount to this merchant.}
+                          entity: {description: The Entity associated with this Merchant.}
+                          dba: {description: 'The name under which the Merchant is doing
+                              business, if applicable. This field is stored as a text
+                              string and must be between 0 and 50 characters long.'}
+                          new:
+                            description: An indicator that specifies whether the Merchant
+                              is new to credit card processing. By default, merchants
+                              are considered to be new.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not new, New]
+                          incrementalAuthSupported:
+                            description: This field allows the ability to submit merchant
+                              registration files with a MasterCard (MC) Auth Integrity
+                              value.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          seasonal:
+                            description: Indicates if the merchant is a seasonal merchant
+                              or operates year-round.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          advancedBilling:
+                            description: Indicates whether the merchant accepts pre-purchase
+                              for products that are shipped at a later date or not currently
+                              available.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [AdvancedBilling is disabled, AdvancedBilling
+                                is enabled]
+                          established:
+                            description: "The date on which the Merchant was established.\
+                              \ \nThe date is specified as an eight digit string in\
+                              \ YYYYMMDD format, for example, '20160120' for January\
+                              \ 20, 2016."
+                          annualCCSales:
+                            description: "The value of the annual credit card sales\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                          annualCCSaleVolume:
+                            description: "The value of the annual credit card sale volume\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                            x-enum-descriptions: ['']
+                          annualACHSaleVolume:
+                            description: "The value of the annual direct deposit sale\
+                              \ volume of this Merchant. \nThis field is specified as\
+                              \ an integer in cents. For example, $25.30 is expressed\
+                              \ as '2530'."
+                            x-enum-descriptions: ['']
+                          amexVolume:
+                            description: Indicates the Annual AMEX Sales Volume for
+                              the outlet.
+                            x-enum-descriptions: ['']
+                          avgTicket:
+                            description: "The value of the average credit card sales\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                          amex:
+                            description: "The American Express merchant identifier for\
+                              \ this Merchant, if applicable. \nThis field is stored\
+                              \ as a text string and must be between 1 and 15 characters\
+                              \ long."
+                          discover:
+                            description: "The Discover merchant identifier for this\
+                              \ Merchant, if applicable. \nThis field is stored as a\
+                              \ text string and must be between 1 and 15 characters\
+                              \ long."
+                          mcc: {description: 'The Merchant Category Code (MCC) for this
+                              Merchant. This code is not required to create a Merchant,
+                              but it is required to successfully board a Merchant.'}
+                          visaMvv: {description: Merchant Verification Value. A value
+                              assigned by Visa to identify participation in select merchant
+                              programs.}
+                          visaDisclosure:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          disclosureIP: {}
+                          disclosureDate: {}
+                          environment:
+                            description: The environment which the Merchant is in, if
+                              applicable.
+                            enum: [supermarket, moto, cardPresent, fuel, serviceStation,
+                              restaurant, ecommerce]
+                            x-enum-descriptions: [Supermarket, Mail Order / Telephone
+                                Order, Card Present, Fuel, Service Station, Restaurant,
+                              eCommerce]
+                          status:
+                            description: The status of the Merchant.
+                            enum: ['0', '1', '2', '3', '4', '5', '6']
+                            x-enum-descriptions: [Not ready, Ready, Boarded, Manual,
+                              Closed, Incomplete, Pending]
+                          autoBoarded:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          statusReason: {description: The reason for manual or closed
+                              status.}
+                          accountClosureReasonCode: {}
+                          accountClosureReasonDate: {}
+                          riskLevel:
+                            description: The risk level which the Merchant is in, if
+                              applicable.
+                            enum: [restricted, prohibited, high, medium, low]
+                            x-enum-descriptions: ['', '', '', '', '']
+                          creditRatio: {description: 'The credit ratio to use while
+                              calculating risk factors for credit, if applicable.'}
+                          creditTimeliness: {description: 'The credit timeliness for
+                              the Merchant, if applicable.'}
+                          chargebackRatio: {}
+                          ndxDays: {description: 'The ndx (Non Delivery Exposure) days
+                              which the Merchant is in, if applicable.'}
+                          ndxPercentage: {description: 'The ndx (Non Delivery Exposure)
+                              percentage to be used for the merchant, if applicable.'}
+                          boarded: {description: The date and time on which this Merchant
+                              was successfully boarded.}
+                          tinStatus: {}
+                          saqType:
+                            enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C,
+                              SAQ-P2PE-HW, SAQ-D]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          saqDate:
+                            x-enum-descriptions: ['']
+                          qsa: {}
+                          letterStatus:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          letterDate: {}
+                          tcDate: {description: Date the tcVersion was last updated.,
+                            format: date-time}
+                          tcAttestation:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          tmxSessionId: {}
+                          chargebackNotificationEmail: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                          locationType:
+                            description: 'Description of the type of address that the
+                              business operates at. '
+                            enum: ['77', '78', '79', '80', '81']
+                            x-enum-descriptions: [Retail Storefront, Warehouse, Private
+                                Residence, Others, P. RES-PROF/Construction]
+                          percentKeyed: {description: The merchant percentage of transactions
+                              that are Card Not Present (Includes MOTO and eCommerce).}
+                          totalVolume: {description: The expected total volume for all
+                              credit card and ACH payments that the merchant will process
+                              for the current year.}
+                          percentEcomm: {description: This field indicates what percentage
+                              are internet originated transactions.}
+                          percentBusiness: {description: This field indicates what percentage
+                              of the transactions are Business to Business}
+                          applePayActive:
+                            description: This field indicates if Apple Pay is active
+                              for this merchant.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          applePayStatus: {}
+                          googlePayActive:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          naics:
+                            description: The NAICS sector code that accurately describes
+                              the industry the business operates in.
+                            enum: ['11', '21', '22', '23', 31-33, '41', 44-45, 48-49,
+                              '51', '52', '53', '54', '55', '56', '61', '62', '71',
+                              '72', '81', 91/92]
+                            x-enum-descriptions: ['Agriculture, Forestry, Fishing and
+                                Hunting', 'Mining, Quarrying, and Oil and Gas Extraction',
+                              Utilities, Construction, Manufacturing, 'Wholesale Trade ',
+                              Retail Trade, Transportation and Warehousing, Information,
+                              Finance and Insurance, Real Estate and Rental and Leasing,
+                              'Professional, Scientific, and Technical Services', Management
+                                of Companies and Enterprises, Administrative and Support
+                                and Waste Management and Remediation Services, Educational
+                                Services, Health Care and Social Assistance, 'Arts,
+                                Entertainment, and Recreation', Accommodation and Food
+                                Services, Other Services (except Public Administration),
+                              Public Administration]
+                          naicsDescription: {description: 'The NAICS sector description
+                              matching the above NAICS sector code. If "Other", industry
+                              description is prefixed with "Other: ".'}
+                          expressBatchCloseMethod:
+                            description: This field indicates the batch close method
+                              for this merchant applicable to Express platform.
+                            enum: [TimeInitiated, MerchantInitiated]
+                            x-enum-descriptions: ['', '']
+                          expressBatchCloseTime: {description: 'This field indicates
+                              the batch close time for this merchant applicable to Express
+                              platform. '}
+                          passTokenEnabled:
+                            description: This field indicates if Pass Token is enabled
+                              for this merchant.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      lastActivity: {description: The date and time on which this Merchant
+                          last processed a Transaction., format: date-time}
+                      totalApprovedSales: {description: Show the total approved amount
+                          to this merchant.}
+                      entity: {description: The Entity associated with this Merchant.}
+                      dba: {description: 'The name under which the Merchant is doing
+                          business, if applicable. This field is stored as a text string
+                          and must be between 0 and 50 characters long.'}
+                      new:
+                        description: |
+                          An indicator that specifies whether the Merchant is new to credit card processing. By default, merchants are considered to be new.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **Not new**
+
+                          - `1` - **New**
+
+                          </details>
+                        enum: ['0', '1']
+                      incrementalAuthSupported:
+                        description: "This field allows the ability to submit merchant\
+                          \ registration files with a MasterCard (MC) Auth Integrity\
+                          \ value.\n\n<details>\n<summary>Valid Values</summary>\n\n\
+                          - `0` - **Incremental Auth Not Supported** \n\n- `1` - **Incremental\
+                          \ Auth Supported**\n</details>\n"
+                        enum: ['0', '1']
+                      seasonal:
+                        description: |
+                          Indicates if the merchant is a seasonal merchant or operates year-round.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **Year-Round Merchant**
+
+                          - `1` - **Seasonal Merchant**
+
+                          </details>
+                        enum: ['0', '1']
+                      advancedBilling:
+                        description: |
+                          Indicates whether the merchant accepts pre-purchase for products that are shipped at a later date or not currently available.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **AdvancedBilling is disabled**
+
+                          - `1` - **AdvancedBilling is enabled**
+                          </details>
+                        enum: ['0', '1']
+                      established:
+                        description: "The date on which the Merchant was established.\
+                          \ \nThe date is specified as an eight digit string in YYYYMMDD\
+                          \ format, for example, '20160120' for January 20, 2016."
+                      annualCCSales:
+                        description: "The value of the annual credit card sales of this\
+                          \ Merchant. \nThis field is specified as an integer in cents.\
+                          \ For example, $25.30 is expressed as '2530'."
+                      annualCCSaleVolume:
+                        description: "The value of the annual credit card sale volume\
+                          \ of this Merchant. \nThis field is specified as an integer\
+                          \ in cents. For example, $25.30 is expressed as '2530'."
+                      annualACHSaleVolume:
+                        description: "The value of the annual direct deposit sale volume\
+                          \ of this Merchant. \nThis field is specified as an integer\
+                          \ in cents. For example, $25.30 is expressed as '2530'."
+                      amexVolume: {description: Indicates the Annual AMEX Sales Volume
+                          for the outlet.}
+                      avgTicket:
+                        description: "The value of the average credit card sales of\
+                          \ this Merchant. \nThis field is specified as an integer in\
+                          \ cents. For example, $25.30 is expressed as '2530'."
+                      amex:
+                        description: "The American Express merchant identifier for this\
+                          \ Merchant, if applicable. \nThis field is stored as a text\
+                          \ string and must be between 1 and 15 characters long."
+                      discover:
+                        description: "The Discover merchant identifier for this Merchant,\
+                          \ if applicable. \nThis field is stored as a text string and\
+                          \ must be between 1 and 15 characters long."
+                      mcc: {description: 'The Merchant Category Code (MCC) for this
+                          Merchant. This code is not required to create a Merchant,
+                          but it is required to successfully board a Merchant.'}
+                      visaMvv: {description: Merchant Verification Value. A value assigned
+                          by Visa to identify participation in select merchant programs.}
+                      visaDisclosure:
+                        description: "Whether or not the merchant has acknowledged and\
+                          \ accepted the Visa Disclosure.  \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n- `0` - **Not Accepted** \n\n- `1` -\
+                          \ **Accepted**\n</details>\n"
+                        enum: ['0', '1']
+                      disclosureIP: {description: TBD}
+                      disclosureDate: {description: TBD, format: date-time}
+                      environment:
+                        description: |
+                          The environment which the Merchant is in, if applicable.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `supermarket` - **Supermarkets / Grocery**
+
+                          - `moto` - **Mail Order / Telephone Order**
+
+                          - `cardPresent` - **Card Present Environment**
+
+                          - `fuel` - **Fuel / Gas Stations**
+
+                          - `serviceStation` - **Service Stations**
+
+                          - `restaurant` - **Restaurants**
+
+                          - `ecommerce` - **eCommerce / Online Sales**
+
+                          </details>
+                        enum: [supermarket, moto, cardPresent, fuel, serviceStation,
+                          restaurant, ecommerce]
+                      status:
+                        description: "The status of the Merchant.\n  \n<details>\n<summary>Valid\
+                          \ Values</summary>\n  - `0` - **Not ready**. Occurs when a\
+                          \ new Merchant is created. Unable to process payments.\n \
+                          \ \n  - `1` - **Ready**. New Merchant submitted for underwriting\
+                          \ approval after submitting a signup form.\n  \n  - `2` -\
+                          \ **Boarded**. Merchant has been approved and boarded to the\
+                          \ platform. Payment processing now available. \n  \n  - `3`\
+                          \ - **Manual**. Set internally by platform underwriting. New\
+                          \ Merchant is pending manual verification. \n  \n  - `4` -\
+                          \ **Closed**. Set internally by platform underwriting. New\
+                          \ Merchant was declined and cannot access the platform. \n\
+                          \  \n  - `5` - **Incomplete**. Set by user boarding the merchant.\
+                          \ Can be manually set to \"save\" an incomplete Merchant boarding\
+                          \ request for a later time. \n  \n  - `6` - **Pending**. New\
+                          \ Merchant was submitted for boarding, platform access pending\
+                          \ review.\n  </details>\n"
+                        enum: ['0', '1', '2', '3', '4', '5', '6']
+                      autoBoarded:
+                        description: "Whether the merchant auto-boarded.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Auto-Boarded**\
+                          \ \n\n- `1` - **Auto-Boarded**\n\n</details>\n"
+                        enum: ['0', '1']
+                      statusReason:
+                        description: "The reason for manual or closure status. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n`rejected` - Merchant\
+                          \ account rejected for servicing.\n\n`fraud` - Merchant or\
+                          \ submission was determined to be fraudulent.\n\n`noResponse`\
+                          \ - No response given in expected time frame for verification/validation\
+                          \ inquiry.\n\n`withdrawn` - Merchant submission withdrawn.\n\
+                          \n\n</details>\n"
+                        enum: [rejected, fraud, noResponse, withdrawn]
+                      accountClosureReasonCode: {description: TBD}
+                      accountClosureReasonDate: {description: TBD, format: date-time}
+                      riskLevel:
+                        description: |
+                          The risk level which the Merchant is in, if applicable.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `restricted` - **Restricted from processing transactions.**
+                          - `prohibited` - **Prohibited business use category.**
+                          - `high` - **High merchant risk score.**
+                          - `medium` - **Medium merchant risk score.**
+                          - `low` - **Low merchant risk score.**
+
+
+                          </details>
+                        enum: [restricted, prohibited, high, medium, low]
+                      creditRatio: {description: 'The credit ratio to use while calculating
+                          risk factors for credit, if applicable.'}
+                      creditTimeliness: {description: 'The credit timeliness for the
+                          Merchant, if applicable.'}
+                      chargebackRatio: {description: TBD}
+                      ndxDays: {description: 'The ndx (Non Delivery Exposure) days which
+                          the Merchant is in, if applicable.'}
+                      ndxPercentage: {description: 'The ndx (Non Delivery Exposure)
+                          percentage to be used for the merchant, if applicable.'}
+                      boarded: {description: The date and time on which this Merchant
+                          was successfully boarded.}
+                      saqType:
+                        description: "Payment Card Industry Data Security Standard (PCI\
+                          \ DSS) Self-assessment questionnaire (SAQ). Details about\
+                          \ a merchant's business and the way the currently accept payments\
+                          \ or plan to in the future. \n\nFor more information, see\
+                          \ [Understanding SAQs PCI DSS provided by The PCI Security\
+                          \ Standards Council](https://listings.pcisecuritystandards.org/documents/Understanding_SAQs_PCI_DSS_v3.pdf).\
+                          \  \n\n<details>\n<summary>Note about SAQ Types</summary>\n\
+                          - `SAQ-A` is not applicable to face-to-face channels.\n- `SAQ-A-EP`\
+                          \ is only applicable to e-commerce channels.\n- `SAQ-B` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-B-IP` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-C-VT` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-C` is not\
+                          \ applicable to e-commerce channels.\n- `SAQ-P2PE-HW` is not\
+                          \ applicable to e-commerce channels.\n</details>\n\n<details>\n\
+                          <summary>Valid Values</summary>\n  - `SAQ-A` - **Card-not-present\
+                          \ merchants (e-commerce or mail/telephone-order) with PCI\
+                          \ DSS-validated third-party payments service provider(s) and\
+                          \ does not store cardholder data.**\n\n  - `SAQ-A-EP` - **E-commerce\
+                          \ merchants with PCI DSS-validated third-party payments service\
+                          \ provider(s) with a website that doesn't directly collect\
+                          \ cardholder data, but may impact it in some way, and does\
+                          \ not store cardholder data.**\n\n  - `SAQ-B` - **Merchants\
+                          \ with imprint machines or standalone, dial-out terminals\
+                          \ that do not store cardholder data.**\n\n  - `SAQ-B-IP` -\
+                          \ **Merchants with standalone, PTS-approved payment terminals\
+                          \ that have an IP connection to the payment processor, but\
+                          \ do not store cardholder data.**\n\n  - `SAQ-C-VT` - **Merchants\
+                          \ that enter single transactions manually into an internet-based\
+                          \ terminal hosted by PCI DSS-validated third-party payments\
+                          \ service provider(s) and does not store cardholder data.**\n\
+                          \n  - `SAQ-C` - **Merchants with payment application systems\
+                          \ connected to the internet that do not store cardholder data.**\n\
+                          \n  - `SAQ-P2PE-HW` - **Merchants with hardware-only payment\
+                          \ terminals managed by a PCI SSC-listed P2PE solution, and\
+                          \ does not store cardholder data. \n\n  - `SAQ-D` - Generic\
+                          \ field for all Merchants that do not fall under the requirements\
+                          \ for any above SAQ types. \n\n</details>\n"
+                        enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C, SAQ-P2PE-HW,
+                          SAQ-D]
+                      saqDate: {description: The date of the PCI SAQ assessment., format: date-time}
+                      qsa: {description: TBD}
+                      letterStatus:
+                        description: |
+                          TBD
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **TBD**
+
+                            - `1` - **TBD**
+
+                          </details>
+                        enum: ['0', '1']
+                      letterDate: {description: The date of....TBD, format: date-time}
+                      tcAttestation:
+                        description: "Whether or not the merchant has acknowledged and\
+                          \ accepted the Terms and Conditions.  \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `0` - **Not Accepted**\n  \n  -\
+                          \ `1` - **Accepted**\n\n  \n</details>\n"
+                        enum: ['0', '1']
+                      tmxSessionId: {description: TBD}
+                      chargebackNotificationEmail: {description: TBD}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n  - `0` - **Active**\n\
+                          \  \n  - `1` - **Inactive**\n  \n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Not\
+                          \ Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                      locationType:
+                        description: "'Description of the type of address that the business\
+                          \ operates at. '\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `77` - **Retail Storefront**\n- `78` - **Warehouse**\n\
+                          - `79` - **Private Residence**\n- `80` - **Others**\n- `81`\
+                          \ - **P. RES-PROF/Construction** \n\n</details>\n"
+                        enum: ['77', '78', '79', '80', '81']
+                      percentKeyed: {description: The merchant percentage of transactions
+                          that are Card Not Present (Includes MOTO and eCommerce).}
+                      totalVolume: {description: The expected total volume for all credit
+                          card and ACH payments that the merchant will process for the
+                          current year.}
+                      percentEcomm: {description: This field indicates what percentage
+                          are internet originated transactions.}
+                      percentBusiness: {description: This field indicates what percentage
+                          of the transactions are Business to Business}
+                      applePayActive:
+                        description: "This field indicates if Apple Pay is active for\
+                          \ this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Inactive**\n  \n  - `1` - **Active**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      applePayStatus: {description: TBD}
+                      googlePayActive:
+                        description: "This field indicates if Google Pay is active for\
+                          \ this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Inactive**\n  \n  - `1` - **Active**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      naics:
+                        description: "The NAICS sector code that accurately describes\
+                          \ the industry the business operates in.\n\nFor more information,\
+                          \ see the [NAICS Manual provided by the US Census Bureau's\
+                          \ North American Industry Classification System.](https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf)\n\
+                          \n<details>\n<summary>Valid Values</summary>\n\n  - `11` -\
+                          \ **Agriculture, Forestry, Fishing and Hunting**\n  \n  -\
+                          \ `21` - **Mining, Quarrying, and Oil and Gas Extraction**\n\
+                          \  \n  - `22` - **Utilities**\n  \n  - `23` - **Construction**\n\
+                          \  \n  - `31` / `33` - **Manufacturing**\n  \n  - `41` - -\
+                          \ **Wholesale Trade**\n  \n  - `44` / `45` - **Retail Trade**\n\
+                          \  \n  - `48` / `49` - **Transportation and Warehousing**\
+                          \ \n  \n  - `51` - **Information**\n  \n  - `52` - **Finance\
+                          \ and Insurance**\n  \n  - `53` - **Real Estate and Property\
+                          \ Rental / Leasing**\n  \n  - `54` - **Professional, Scientific,\
+                          \ and Technical Services**\n  \n  - `55` - **Management of\
+                          \ Companies and Enterprises**\n  \n  - `56` - **Administrative\
+                          \ and Support and Waste Management and Remediation Services**\n\
+                          \  \n  - `61` - **Educational Services**\n  \n  - `62` - **Health\
+                          \ Care and Social Assistance**\n  \n  - `71` - **Arts, Entertainment,\
+                          \ and Recreation**\n  \n  - `72` - **Accommodation and Food\
+                          \ Services**\n  \n  - `81` - **Other Services (except Public\
+                          \ Administration)**\n  \n  - `91` / `92` - **Public Administration**\n\
+                          \  </details>\n"
+                        enum: ['11', '21', '22', '23', 31-33, '41', 44-45, 48-49, '51',
+                          '52', '53', '54', '55', '56', '61', '62', '71', '72', '81',
+                          91/92]
+                      naicsDescription: {description: 'The NAICS sector description
+                          matching the above NAICS sector code. If "Other", industry
+                          description is prefixed with "Other: ".'}
+                      expressBatchCloseMethod:
+                        description: "This field indicates the batch close method for\
+                          \ this merchant applicable to Express platform.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n  - `TimeInitiated` - **Batch\
+                          \ close occurs at specific time intervals. (Automated.)**\n\
+                          \  \n  - `MerchantInitiated` - **Batch close occurs when initiated\
+                          \ by the Merchant. (Manual.)**\n\n  \n</details>\n"
+                        enum: [TimeInitiated, MerchantInitiated]
+                      expressBatchCloseTime: {description: 'This field indicates the
+                          batch close time for this merchant applicable to Express platform. '}
+                      omniTokenEnabled:
+                        description: "This field indicates if Omni Token is enabled\
+                          \ for this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Disabled**\n  \n  - `1` - **Enabled**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      passTokenEnabled:
+                        description: "This field indicates if Pass Token is enabled\
+                          \ for this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Disabled**\n  \n  - `1` - **Enabled**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Response for update on merchant's resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update a Merchant by its ID
+    tags: [Merchants]
+    x-examples:
+    - request: {id: p1_mer_5a1ef5e55656a739a85da21, established: 20101021}
+      response: {id: p1_mer_5a1ef5e55656a739a85da21, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        ipCreated: 8.8.8.8, ipModified: 8.8.8.8, entity: p1_ent_5a1ef5e5565631155c95344,
+        new: 0, established: 20101021, annualCCSales: 1000000, mcc: '8111', status: 1,
+        inactive: 0, frozen: 0}
+    operationId: putMerchantsId
+  delete:
+    description: Delete a Merchant. A Merchant is an organization that processes credit
+      card payments. Each Merchant is associated with an Entity.
+    parameters:
+    - description: The ID of this resource, also known as the Merchant ID (MID).
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/merchantResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          lastActivity: {description: The date and time on which this
+                              Merchant last processed a Transaction., format: date-time}
+                          totalApprovedSales: {description: Show the total approved
+                              amount to this merchant.}
+                          entity: {description: The Entity associated with this Merchant.}
+                          dba: {description: 'The name under which the Merchant is doing
+                              business, if applicable. This field is stored as a text
+                              string and must be between 0 and 50 characters long.'}
+                          new:
+                            description: An indicator that specifies whether the Merchant
+                              is new to credit card processing. By default, merchants
+                              are considered to be new.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not new, New]
+                          incrementalAuthSupported:
+                            description: This field allows the ability to submit merchant
+                              registration files with a MasterCard (MC) Auth Integrity
+                              value.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          seasonal:
+                            description: Indicates if the merchant is a seasonal merchant
+                              or operates year-round.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          advancedBilling:
+                            description: Indicates whether the merchant accepts pre-purchase
+                              for products that are shipped at a later date or not currently
+                              available.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [AdvancedBilling is disabled, AdvancedBilling
+                                is enabled]
+                          established:
+                            description: "The date on which the Merchant was established.\
+                              \ \nThe date is specified as an eight digit string in\
+                              \ YYYYMMDD format, for example, '20160120' for January\
+                              \ 20, 2016."
+                          annualCCSales:
+                            description: "The value of the annual credit card sales\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                          annualCCSaleVolume:
+                            description: "The value of the annual credit card sale volume\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                            x-enum-descriptions: ['']
+                          annualACHSaleVolume:
+                            description: "The value of the annual direct deposit sale\
+                              \ volume of this Merchant. \nThis field is specified as\
+                              \ an integer in cents. For example, $25.30 is expressed\
+                              \ as '2530'."
+                            x-enum-descriptions: ['']
+                          amexVolume:
+                            description: Indicates the Annual AMEX Sales Volume for
+                              the outlet.
+                            x-enum-descriptions: ['']
+                          avgTicket:
+                            description: "The value of the average credit card sales\
+                              \ of this Merchant. \nThis field is specified as an integer\
+                              \ in cents. For example, $25.30 is expressed as '2530'."
+                          amex:
+                            description: "The American Express merchant identifier for\
+                              \ this Merchant, if applicable. \nThis field is stored\
+                              \ as a text string and must be between 1 and 15 characters\
+                              \ long."
+                          discover:
+                            description: "The Discover merchant identifier for this\
+                              \ Merchant, if applicable. \nThis field is stored as a\
+                              \ text string and must be between 1 and 15 characters\
+                              \ long."
+                          mcc: {description: 'The Merchant Category Code (MCC) for this
+                              Merchant. This code is not required to create a Merchant,
+                              but it is required to successfully board a Merchant.'}
+                          visaMvv: {description: Merchant Verification Value. A value
+                              assigned by Visa to identify participation in select merchant
+                              programs.}
+                          visaDisclosure:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          disclosureIP: {}
+                          disclosureDate: {}
+                          environment:
+                            description: The environment which the Merchant is in, if
+                              applicable.
+                            enum: [supermarket, moto, cardPresent, fuel, serviceStation,
+                              restaurant, ecommerce]
+                            x-enum-descriptions: [Supermarket, Mail Order / Telephone
+                                Order, Card Present, Fuel, Service Station, Restaurant,
+                              eCommerce]
+                          status:
+                            description: The status of the Merchant.
+                            enum: ['0', '1', '2', '3', '4', '5', '6']
+                            x-enum-descriptions: [Not ready, Ready, Boarded, Manual,
+                              Closed, Incomplete, Pending]
+                          autoBoarded:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          statusReason: {description: The reason for manual or closed
+                              status.}
+                          accountClosureReasonCode: {}
+                          accountClosureReasonDate: {}
+                          riskLevel:
+                            description: The risk level which the Merchant is in, if
+                              applicable.
+                            enum: [restricted, prohibited, high, medium, low]
+                            x-enum-descriptions: ['', '', '', '', '']
+                          creditRatio: {description: 'The credit ratio to use while
+                              calculating risk factors for credit, if applicable.'}
+                          creditTimeliness: {description: 'The credit timeliness for
+                              the Merchant, if applicable.'}
+                          chargebackRatio: {}
+                          ndxDays: {description: 'The ndx (Non Delivery Exposure) days
+                              which the Merchant is in, if applicable.'}
+                          ndxPercentage: {description: 'The ndx (Non Delivery Exposure)
+                              percentage to be used for the merchant, if applicable.'}
+                          boarded: {description: The date and time on which this Merchant
+                              was successfully boarded.}
+                          tinStatus: {}
+                          saqType:
+                            enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C,
+                              SAQ-P2PE-HW, SAQ-D]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          saqDate:
+                            x-enum-descriptions: ['']
+                          qsa: {}
+                          letterStatus:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          letterDate: {}
+                          tcDate: {description: Date the tcVersion was last updated.,
+                            format: date-time}
+                          tcAttestation:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          tmxSessionId: {}
+                          chargebackNotificationEmail: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                          locationType:
+                            description: 'Description of the type of address that the
+                              business operates at. '
+                            enum: ['77', '78', '79', '80', '81']
+                            x-enum-descriptions: [Retail Storefront, Warehouse, Private
+                                Residence, Others, P. RES-PROF/Construction]
+                          percentKeyed: {description: The merchant percentage of transactions
+                              that are Card Not Present (Includes MOTO and eCommerce).}
+                          totalVolume: {description: The expected total volume for all
+                              credit card and ACH payments that the merchant will process
+                              for the current year.}
+                          percentEcomm: {description: This field indicates what percentage
+                              are internet originated transactions.}
+                          percentBusiness: {description: This field indicates what percentage
+                              of the transactions are Business to Business}
+                          applePayActive:
+                            description: This field indicates if Apple Pay is active
+                              for this merchant.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          applePayStatus: {}
+                          googlePayActive:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          naics:
+                            description: The NAICS sector code that accurately describes
+                              the industry the business operates in.
+                            enum: ['11', '21', '22', '23', 31-33, '41', 44-45, 48-49,
+                              '51', '52', '53', '54', '55', '56', '61', '62', '71',
+                              '72', '81', 91/92]
+                            x-enum-descriptions: ['Agriculture, Forestry, Fishing and
+                                Hunting', 'Mining, Quarrying, and Oil and Gas Extraction',
+                              Utilities, Construction, Manufacturing, 'Wholesale Trade ',
+                              Retail Trade, Transportation and Warehousing, Information,
+                              Finance and Insurance, Real Estate and Rental and Leasing,
+                              'Professional, Scientific, and Technical Services', Management
+                                of Companies and Enterprises, Administrative and Support
+                                and Waste Management and Remediation Services, Educational
+                                Services, Health Care and Social Assistance, 'Arts,
+                                Entertainment, and Recreation', Accommodation and Food
+                                Services, Other Services (except Public Administration),
+                              Public Administration]
+                          naicsDescription: {description: 'The NAICS sector description
+                              matching the above NAICS sector code. If "Other", industry
+                              description is prefixed with "Other: ".'}
+                          expressBatchCloseMethod:
+                            description: This field indicates the batch close method
+                              for this merchant applicable to Express platform.
+                            enum: [TimeInitiated, MerchantInitiated]
+                            x-enum-descriptions: ['', '']
+                          expressBatchCloseTime: {description: 'This field indicates
+                              the batch close time for this merchant applicable to Express
+                              platform. '}
+                          passTokenEnabled:
+                            description: This field indicates if Pass Token is enabled
+                              for this merchant.
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      lastActivity: {description: The date and time on which this Merchant
+                          last processed a Transaction., format: date-time}
+                      totalApprovedSales: {description: Show the total approved amount
+                          to this merchant.}
+                      entity: {description: The Entity associated with this Merchant.}
+                      dba: {description: 'The name under which the Merchant is doing
+                          business, if applicable. This field is stored as a text string
+                          and must be between 0 and 50 characters long.'}
+                      new:
+                        description: |
+                          An indicator that specifies whether the Merchant is new to credit card processing. By default, merchants are considered to be new.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **Not new**
+
+                          - `1` - **New**
+
+                          </details>
+                        enum: ['0', '1']
+                      incrementalAuthSupported:
+                        description: "This field allows the ability to submit merchant\
+                          \ registration files with a MasterCard (MC) Auth Integrity\
+                          \ value.\n\n<details>\n<summary>Valid Values</summary>\n\n\
+                          - `0` - **Incremental Auth Not Supported** \n\n- `1` - **Incremental\
+                          \ Auth Supported**\n</details>\n"
+                        enum: ['0', '1']
+                      seasonal:
+                        description: |
+                          Indicates if the merchant is a seasonal merchant or operates year-round.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **Year-Round Merchant**
+
+                          - `1` - **Seasonal Merchant**
+
+                          </details>
+                        enum: ['0', '1']
+                      advancedBilling:
+                        description: |
+                          Indicates whether the merchant accepts pre-purchase for products that are shipped at a later date or not currently available.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `0` - **AdvancedBilling is disabled**
+
+                          - `1` - **AdvancedBilling is enabled**
+                          </details>
+                        enum: ['0', '1']
+                      established:
+                        description: "The date on which the Merchant was established.\
+                          \ \nThe date is specified as an eight digit string in YYYYMMDD\
+                          \ format, for example, '20160120' for January 20, 2016."
+                      annualCCSales:
+                        description: "The value of the annual credit card sales of this\
+                          \ Merchant. \nThis field is specified as an integer in cents.\
+                          \ For example, $25.30 is expressed as '2530'."
+                      annualCCSaleVolume:
+                        description: "The value of the annual credit card sale volume\
+                          \ of this Merchant. \nThis field is specified as an integer\
+                          \ in cents. For example, $25.30 is expressed as '2530'."
+                      annualACHSaleVolume:
+                        description: "The value of the annual direct deposit sale volume\
+                          \ of this Merchant. \nThis field is specified as an integer\
+                          \ in cents. For example, $25.30 is expressed as '2530'."
+                      amexVolume: {description: Indicates the Annual AMEX Sales Volume
+                          for the outlet.}
+                      avgTicket:
+                        description: "The value of the average credit card sales of\
+                          \ this Merchant. \nThis field is specified as an integer in\
+                          \ cents. For example, $25.30 is expressed as '2530'."
+                      amex:
+                        description: "The American Express merchant identifier for this\
+                          \ Merchant, if applicable. \nThis field is stored as a text\
+                          \ string and must be between 1 and 15 characters long."
+                      discover:
+                        description: "The Discover merchant identifier for this Merchant,\
+                          \ if applicable. \nThis field is stored as a text string and\
+                          \ must be between 1 and 15 characters long."
+                      mcc: {description: 'The Merchant Category Code (MCC) for this
+                          Merchant. This code is not required to create a Merchant,
+                          but it is required to successfully board a Merchant.'}
+                      visaMvv: {description: Merchant Verification Value. A value assigned
+                          by Visa to identify participation in select merchant programs.}
+                      visaDisclosure:
+                        description: "Whether or not the merchant has acknowledged and\
+                          \ accepted the Visa Disclosure.  \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n- `0` - **Not Accepted** \n\n- `1` -\
+                          \ **Accepted**\n</details>\n"
+                        enum: ['0', '1']
+                      disclosureIP: {description: TBD}
+                      disclosureDate: {format: date-time}
+                      environment:
+                        description: |
+                          The environment which the Merchant is in, if applicable.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `supermarket` - **Supermarkets / Grocery**
+
+                          - `moto` - **Mail Order / Telephone Order**
+
+                          - `cardPresent` - **Card Present Environment**
+
+                          - `fuel` - **Fuel / Gas Stations**
+
+                          - `serviceStation` - **Service Stations**
+
+                          - `restaurant` - **Restaurants**
+
+                          - `ecommerce` - **eCommerce / Online Sales**
+
+                          </details>
+                        enum: [supermarket, moto, cardPresent, fuel, serviceStation,
+                          restaurant, ecommerce]
+                      status:
+                        description: "The status of the Merchant.\n  \n<details>\n<summary>Valid\
+                          \ Values</summary>\n  - `0` - **Not ready**. Occurs when a\
+                          \ new Merchant is created. Unable to process payments.\n \
+                          \ \n  - `1` - **Ready**. New Merchant submitted for underwriting\
+                          \ approval after submitting a signup form.\n  \n  - `2` -\
+                          \ **Boarded**. Merchant has been approved and boarded to the\
+                          \ platform. Payment processing now available. \n  \n  - `3`\
+                          \ - **Manual**. Set internally by platform underwriting. New\
+                          \ Merchant is pending manual verification. \n  \n  - `4` -\
+                          \ **Closed**. Set internally by platform underwriting. New\
+                          \ Merchant was declined and cannot access the platform. \n\
+                          \  \n  - `5` - **Incomplete**. Set by user boarding the merchant.\
+                          \ Can be manually set to \"save\" an incomplete Merchant boarding\
+                          \ request for a later time. \n  \n  - `6` - **Pending**. New\
+                          \ Merchant was submitted for boarding, platform access pending\
+                          \ review.\n  </details>\n"
+                        enum: ['0', '1', '2', '3', '4', '5', '6']
+                      autoBoarded:
+                        description: "Whether the merchant auto-boarded.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Auto-Boarded**\
+                          \ \n\n- `1` - **Auto-Boarded**\n\n</details>\n"
+                        enum: ['0', '1']
+                      statusReason:
+                        description: "The reason for manual or closure status. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n`rejected` - Merchant\
+                          \ account rejected for servicing.\n\n`fraud` - Merchant or\
+                          \ submission was determined to be fraudulent.\n\n`noResponse`\
+                          \ - No response given in expected time frame for verification/validation\
+                          \ inquiry.\n\n`withdrawn` - Merchant submission withdrawn.\n\
+                          \n\n</details>\n"
+                        enum: [rejected, fraud, noResponse, withdrawn]
+                      accountClosureReasonCode: {description: TBD}
+                      accountClosureReasonDate: {format: date-time}
+                      riskLevel:
+                        description: |
+                          The risk level which the Merchant is in, if applicable.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          - `restricted` - **Restricted from processing transactions.**
+                          - `prohibited` - **Prohibited business use category.**
+                          - `high` - **High merchant risk score.**
+                          - `medium` - **Medium merchant risk score.**
+                          - `low` - **Low merchant risk score.**
+
+
+                          </details>
+                        enum: [restricted, prohibited, high, medium, low]
+                      creditRatio: {description: 'The credit ratio to use while calculating
+                          risk factors for credit, if applicable.'}
+                      creditTimeliness: {description: 'The credit timeliness for the
+                          Merchant, if applicable.'}
+                      chargebackRatio: {description: TBD}
+                      ndxDays: {description: 'The ndx (Non Delivery Exposure) days which
+                          the Merchant is in, if applicable.'}
+                      ndxPercentage: {description: 'The ndx (Non Delivery Exposure)
+                          percentage to be used for the merchant, if applicable.'}
+                      boarded: {description: The date and time on which this Merchant
+                          was successfully boarded.}
+                      saqType:
+                        description: "Payment Card Industry Data Security Standard (PCI\
+                          \ DSS) Self-assessment questionnaire (SAQ). Details about\
+                          \ a merchant's business and the way the currently accept payments\
+                          \ or plan to in the future. \n\nFor more information, see\
+                          \ [Understanding SAQs PCI DSS provided by The PCI Security\
+                          \ Standards Council](https://listings.pcisecuritystandards.org/documents/Understanding_SAQs_PCI_DSS_v3.pdf).\
+                          \  \n\n<details>\n<summary>Note about SAQ Types</summary>\n\
+                          - `SAQ-A` is not applicable to face-to-face channels.\n- `SAQ-A-EP`\
+                          \ is only applicable to e-commerce channels.\n- `SAQ-B` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-B-IP` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-C-VT` is\
+                          \ not applicable to e-commerce channels.\n- `SAQ-C` is not\
+                          \ applicable to e-commerce channels.\n- `SAQ-P2PE-HW` is not\
+                          \ applicable to e-commerce channels.\n</details>\n\n<details>\n\
+                          <summary>Valid Values</summary>\n  - `SAQ-A` - **Card-not-present\
+                          \ merchants (e-commerce or mail/telephone-order) with PCI\
+                          \ DSS-validated third-party payments service provider(s) and\
+                          \ does not store cardholder data.**\n\n  - `SAQ-A-EP` - **E-commerce\
+                          \ merchants with PCI DSS-validated third-party payments service\
+                          \ provider(s) with a website that doesn't directly collect\
+                          \ cardholder data, but may impact it in some way, and does\
+                          \ not store cardholder data.**\n\n  - `SAQ-B` - **Merchants\
+                          \ with imprint machines or standalone, dial-out terminals\
+                          \ that do not store cardholder data.**\n\n  - `SAQ-B-IP` -\
+                          \ **Merchants with standalone, PTS-approved payment terminals\
+                          \ that have an IP connection to the payment processor, but\
+                          \ do not store cardholder data.**\n\n  - `SAQ-C-VT` - **Merchants\
+                          \ that enter single transactions manually into an internet-based\
+                          \ terminal hosted by PCI DSS-validated third-party payments\
+                          \ service provider(s) and does not store cardholder data.**\n\
+                          \n  - `SAQ-C` - **Merchants with payment application systems\
+                          \ connected to the internet that do not store cardholder data.**\n\
+                          \n  - `SAQ-P2PE-HW` - **Merchants with hardware-only payment\
+                          \ terminals managed by a PCI SSC-listed P2PE solution, and\
+                          \ does not store cardholder data. \n\n  - `SAQ-D` - Generic\
+                          \ field for all Merchants that do not fall under the requirements\
+                          \ for any above SAQ types. \n\n</details>\n"
+                        enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C, SAQ-P2PE-HW,
+                          SAQ-D]
+                      saqDate: {description: The date of the PCI SAQ assessment.}
+                      qsa: {description: TBD}
+                      letterStatus:
+                        description: |
+                          TBD
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **TBD**
+
+                            - `1` - **TBD**
+
+                          </details>
+                        enum: ['0', '1']
+                      letterDate: {description: The date of....TBD, format: date-time}
+                      tcAttestation:
+                        description: "Whether or not the merchant has acknowledged and\
+                          \ accepted the Terms and Conditions.  \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `0` - **Not Accepted**\n  \n  -\
+                          \ `1` - **Accepted**\n\n  \n</details>\n"
+                        enum: ['0', '1']
+                      tmxSessionId: {description: TBD}
+                      chargebackNotificationEmail: {description: TBD}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n  - `0` - **Active**\n\
+                          \  \n  - `1` - **Inactive**\n  \n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Not\
+                          \ Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                      locationType:
+                        description: "'Description of the type of address that the business\
+                          \ operates at. '\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `77` - **Retail Storefront**\n- `78` - **Warehouse**\n\
+                          - `79` - **Private Residence**\n- `80` - **Others**\n- `81`\
+                          \ - **P. RES-PROF/Construction** \n\n</details>\n"
+                        enum: ['77', '78', '79', '80', '81']
+                      percentKeyed: {description: The merchant percentage of transactions
+                          that are Card Not Present (Includes MOTO and eCommerce).}
+                      totalVolume: {description: The expected total volume for all credit
+                          card and ACH payments that the merchant will process for the
+                          current year.}
+                      percentEcomm: {description: This field indicates what percentage
+                          are internet originated transactions.}
+                      percentBusiness: {description: This field indicates what percentage
+                          of the transactions are Business to Business}
+                      applePayActive:
+                        description: "This field indicates if Apple Pay is active for\
+                          \ this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Inactive**\n  \n  - `1` - **Active**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      applePayStatus: {description: TBD}
+                      googlePayActive:
+                        description: "This field indicates if Google Pay is active for\
+                          \ this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Inactive**\n  \n  - `1` - **Active**\n\n  \n\
+                          </details>\n"
+                        enum: ['0', '1']
+                      naics:
+                        description: "The NAICS sector code that accurately describes\
+                          \ the industry the business operates in.\n\nFor more information,\
+                          \ see the [NAICS Manual provided by the US Census Bureau's\
+                          \ North American Industry Classification System.](https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf)\n\
+                          \n<details>\n<summary>Valid Values</summary>\n\n  - `11` -\
+                          \ **Agriculture, Forestry, Fishing and Hunting**\n  \n  -\
+                          \ `21` - **Mining, Quarrying, and Oil and Gas Extraction**\n\
+                          \  \n  - `22` - **Utilities**\n  \n  - `23` - **Construction**\n\
+                          \  \n  - `31` / `33` - **Manufacturing**\n  \n  - `41` - -\
+                          \ **Wholesale Trade**\n  \n  - `44` / `45` - **Retail Trade**\n\
+                          \  \n  - `48` / `49` - **Transportation and Warehousing**\
+                          \ \n  \n  - `51` - **Information**\n  \n  - `52` - **Finance\
+                          \ and Insurance**\n  \n  - `53` - **Real Estate and Property\
+                          \ Rental / Leasing**\n  \n  - `54` - **Professional, Scientific,\
+                          \ and Technical Services**\n  \n  - `55` - **Management of\
+                          \ Companies and Enterprises**\n  \n  - `56` - **Administrative\
+                          \ and Support and Waste Management and Remediation Services**\n\
+                          \  \n  - `61` - **Educational Services**\n  \n  - `62` - **Health\
+                          \ Care and Social Assistance**\n  \n  - `71` - **Arts, Entertainment,\
+                          \ and Recreation**\n  \n  - `72` - **Accommodation and Food\
+                          \ Services**\n  \n  - `81` - **Other Services (except Public\
+                          \ Administration)**\n  \n  - `91` / `92` - **Public Administration**\n\
+                          \  </details>\n"
+                        enum: ['11', '21', '22', '23', 31-33, '41', 44-45, 48-49, '51',
+                          '52', '53', '54', '55', '56', '61', '62', '71', '72', '81',
+                          91/92]
+                      naicsDescription: {description: 'The NAICS sector description
+                          matching the above NAICS sector code. If "Other", industry
+                          description is prefixed with "Other: ".'}
+                      expressBatchCloseMethod:
+                        description: "This field indicates the batch close method for\
+                          \ this merchant applicable to Express platform.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n  - `TimeInitiated` - **Batch\
+                          \ close occurs at specific time intervals. (Automated.)**\n\
+                          \  \n  - `MerchantInitiated` - **Batch close occurs when initiated\
+                          \ by the Merchant. (Manual.)**\n\n  \n</details>         \
+                          \ \n"
+                        enum: [TimeInitiated, MerchantInitiated]
+                      expressBatchCloseTime: {description: 'This field indicates the
+                          batch close time for this merchant applicable to Express platform. '}
+                      omniTokenEnabled:
+                        description: "This field indicates if Omni Token is enabled\
+                          \ for this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Disabled**\n  \n  - `1` - **Enabled**\n\n  \n\
+                          </details>         \n"
+                        enum: ['0', '1']
+                      passTokenEnabled:
+                        description: "This field indicates if Pass Token is enabled\
+                          \ for this merchant.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n  - `0` - **Disabled**\n  \n  - `1` - **Enabled**\n\n  \n\
+                          </details>         \n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: The response for deleting a merchant's resource is a Delete Merchant
+          Response.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete a Merchant by its ID
+    tags: [Merchants]
+    operationId: deleteMerchantsId

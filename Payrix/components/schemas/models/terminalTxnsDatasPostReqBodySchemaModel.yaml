@@ -1,0 +1,6 @@
+properties:
+  terminalTxn: {type: string, description: The identifier of the TerminalTxn associated
+                  with this TerminalTxnDatas resource.}
+  signature: {type: integer, description: The Base64 encoded image of the signature captured
+                at the time of entering the TerminalTxn.}
+required: [signature, terminalTxn]

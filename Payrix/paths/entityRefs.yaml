@@ -1,0 +1,119 @@
+  get:
+    description: Query an EntityRefs resource that represents a reference code issued
+      by the Processor that represents a particular Entity.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/entityRefModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/entityRefModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for retrieve an Entity References response.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Entity References.
+    tags: [EntityRefs]
+    operationId: getEntityRefs
+  post:
+    description: Create an EntityRefs resource representing a reference code issued
+      by the Processor that represents a particular Entity.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/entityRefsPutReqBodySchemaModel.yaml}
+            required: [default, entity, frozen, inactive, member, platform, ref, stage,
+              staging]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/entityRefsPutReqBodySchemaModel.yaml}
+            required: [default, entity, frozen, inactive, member, platform, ref, stage,
+              staging]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/entityRefsPutReqBodySchemaModel.yaml}
+            required: [default, entity, frozen, inactive, member, platform, ref, stage,
+              staging]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/entityRefsPutReqBodySchemaModel.yaml}
+            required: [default, entity, frozen, inactive, member, platform, ref, stage,
+              staging]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/entityRefsPutReqBodySchemaModel.yaml}
+            required: [default, entity, frozen, inactive, member, platform, ref, stage,
+              staging]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/entityRefsPutReqBodySchemaModel.yaml}
+            required: [default, entity, frozen, inactive, member, platform, ref, stage,
+              staging]
+            x-redacted: []
+      description: Create Entity Reference Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/entityRefModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/entityRefModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The response for creating an entity reference on the "entityRefs"
+          resource.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Entity Reference
+    tags: [EntityRefs]
+    operationId: postEntityRefs

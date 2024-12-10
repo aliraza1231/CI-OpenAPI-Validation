@@ -1,0 +1,111 @@
+  get:
+    description: "Query an orgEntity. \nAn orgEntity is a record of an association between\
+      \ a particular Org and a particular Entity. \nYou can associate Entities with\
+      \ an Org by creating orgEntity resources. One Org can contain and be associated\
+      \ with many Entities."
+    parameters:
+       - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+       - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+       - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+       - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+       - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve an Org Entities Response for the query on orgEntities
+          resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Org Entities.
+    tags: [Orgs]
+    operationId: getOrgEntities
+  post:
+    description: "Create an orgEntity. \nAn orgEntity is a record of an association\
+      \ between a particular Org and a particular Entity. \nYou can associate Entities\
+      \ with an Org by creating orgEntity resources. One Org can contain and be associated\
+      \ with many Entities."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/orgEntitiesRequestModel.yaml}
+            required: [entity, org]
+            x-redacted: []
+      description: Create Org Entity Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/orgEntitiesResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on orgEntities resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Org Entity
+    tags: [Orgs]
+    operationId: postOrgEntities

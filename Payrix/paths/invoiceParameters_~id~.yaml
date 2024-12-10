@@ -1,0 +1,151 @@
+get:
+  description: Query an invoice parameter that holds a certain configuration used
+    for creating an invoice such as dba, address, and apikey.
+  parameters:
+    - description: The ID of this invoice parameter.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoiceParametersResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoiceParametersResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for retrieve invoice parameter response.
+    '400':
+      content: { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve an Invoice Parameter by it's ID.
+  tags: [ Invoices ]
+  operationId: getInvoiceParametersId
+put:
+  description: Update an invoice parameter.
+  parameters:
+    - description: The ID of this invoice parameter.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/invoiceParametersRequestModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/invoiceParametersRequestModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/invoiceParametersRequestModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/invoiceParametersRequestModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/invoiceParametersRequestModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/invoiceParametersRequestModel.yaml }
+    description: Update Invoice Parameter Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoiceParametersResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoiceParametersResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: 'Response for update on invoiceParameters resource: Update Invoice
+          Parameter Response'
+    '400':
+      content: { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Update an Invoice Parameter by it's ID.
+  tags: [ Invoices ]
+  operationId: putInvoiceParametersId
+delete:
+  description: Delete an Invoice Parameter.
+  parameters:
+    - description: The ID of this invoice parameter.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoiceParametersResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoiceParametersResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for deleting an invoice parameter.
+    '400':
+      content: { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Delete an Invoice Parameter by it's ID.
+  tags: [ Invoices ]
+  operationId: deleteInvoiceParametersId

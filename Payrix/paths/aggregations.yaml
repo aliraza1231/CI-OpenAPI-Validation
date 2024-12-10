@@ -1,0 +1,103 @@
+  get:
+    description: Query an Aggregation resource using the search to query for records
+      on the given resource and apply desired calculations (count, sum, min, and/or
+      max) to the specified field.
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Retrieve aggregations response for query on aggregations resource.
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve all Aggregations.
+    tags: [Aggregations]
+    operationId: getAggregations
+  post:
+    description: Create an Aggregation resource that uses the search to query for records
+      on a given resource and applies the desired calculations (count, sum, min, and/or
+      max) to the field in question.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        application/x-www-form-urlencoded:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        application/xml:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        multipart/form-data:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        text/json:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        text/xml:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+      description: Create Aggregation Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for creating an aggregation resource. Create Aggregation
+          Response.
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Create a new Aggregation
+    tags: [Aggregations]
+    operationId: postAggregations

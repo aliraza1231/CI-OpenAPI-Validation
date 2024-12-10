@@ -1,0 +1,10 @@
+ {
+   type: integer,
+  description: "Whether this resource is marked as frozen.
+    \n\n<details>\n<summary>Valid Values</summary> \n\n 
+    - `0` - **Not Frozen**\n\n 
+    - `1` - **Frozen**\n\n
+     </details>\n",
+  enum: [0, 1],
+  x-enum-descriptions: [Not frozen, Frozen]
+ }

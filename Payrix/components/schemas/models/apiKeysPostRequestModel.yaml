@@ -1,0 +1,36 @@
+properties:
+  login: { type: string, description: 'The login under which to perform this action. If
+      you do not supply a login in this field, then the API defaults to
+      the login that is currently authenticated.', example: '<p1_lgn_fgbsdfsdf>' }
+  name: { type: string }
+  description: { type: string, description: Description of ApiKeys. }
+  public: {
+    type: integer,
+    description: "Whether this Session should have access to\
+      \ only public resources. \nAll other resources are private.
+      <details>
+      <summary>Valid Values</summary>\n
+      - `0` - **Session can also access private resources.**\n
+      - `1` - **Session can only access public resources.**\n
+      </details>",
+    enum: [ 0, 1 ],
+    x-enum-descriptions: [ The key can also access private resources., The
+      key can only access public resources. ]
+  }
+  token: {
+    type: integer,
+    description: "Whether or not an AuthToken is required as part of the\
+      \ authentication when this Apikey is used.\n\n<details>\n<summary>Valid\
+      \ Values</summary>\n\n- `0` - **The authToken mechanism is disabled.**\
+      \ \n\n- `1` - **The authToken mechanism is required for 'POST' and\
+      \ 'DELETE' requests.**\n\n</details>\n",
+    enum: [ 0, 1 ],
+    x-enum-descriptions: [ The authToken mechanism is desabled., The authToken
+      mechanism is required for POST|CREATE and DELETE request. ]
+  }
+  inactive:
+    { $ref: ../inactive.yaml }
+  frozen:
+    { $ref: ../frozen.yaml }
+required: [ frozen, inactive, login, public, token ]
+x-redacted: [ ]

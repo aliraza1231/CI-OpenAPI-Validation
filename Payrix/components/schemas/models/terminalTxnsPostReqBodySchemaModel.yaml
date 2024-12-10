@@ -1,0 +1,251 @@
+properties:
+  binType:
+    type: string
+    description: "The type of bank issuer number (BIN) that allows for resulting\
+                 \ transactions. \n\n<details>\n<summary>Valid Values</summary>\n\n\
+                 - `CREDIT` - **Credit BIN Type.**\n\n- `DEBIT` - **Debit BIN Type.**\
+                 \ \n\n</details> \n"
+    enum: [CREDIT, DEBIT]
+    x-enum-descriptions: ['', '']
+  expiration: {type: string, description: 'The expiration date of this Transaction. This
+                 field is stored as a text string in ''MMYY'' format, where ''MM''
+                 is the number of a month and ''YY'' is the last two digits of a year.
+                 For example, ''0623'' for June 2023. The value must reflect a future
+                 date.'}
+  forterminalTxn: {type: string}
+  origin:
+    type: integer
+    description: "The origination point of this Transaction. This field\
+                 \ is set to `1` (Credit Card Terminal) by default.\n\n<details>\n\
+                 <summary>Valid Values</summary>\n\n- `1` - **Credit Card Terminal.**\n\
+                 \n- `2` - **eCommerce System.** \n\n- `3` - **Mail or Telephone Order\
+                 \ Transaction.**\n\n- `4` - **Apple Pay.** \n\n- `5` - **Successful\
+                 \ 3D Secure Transaction.**\n\n- `6` - **Attempted 3D Secure Transaction.**\
+                 \ \n\n- `7` - **Recurring Card Transaction.** \n\n- `8` - **Payframe.**\
+                 \ \n\n</details>            \n"
+    enum: [1, 2, 3, 4, 5, 6, 7, 8]
+    x-enum-descriptions: [Originated at a credit card terminal., Originated
+      through an eCommerce system., Originated as a mail order or telephone
+      order transaction., '', Originated as a Successful 3D Secure transaction.,
+      Originated as an Attempted 3D Secure transaction., Originated as a
+        recurring transaction on the card., Originated in a Payframe., '']
+  payment: {$ref: ../properties/terminalTxnsPaymentProperty.yaml}
+  platform:
+    type: string
+    description: The platform used to process this Transaction.
+    enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+           WFSINGLE, WORLDPAY, TDBANKCA]
+    example: VCORE
+    x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '']
+  pos:
+    type: integer
+    description: "Whether the terminalTxn is coming from a POS system that\
+                 \ needs terminal activation.\n\n<details>\n<summary>Valid Values</summary>\n\
+                 \n- `0` - **POS Terminal Activation.** (Internal)\n\n- `1` - **External\
+                 \ Terminal Activation.** \n\n</details>\n"
+    enum: [0, 1]
+    x-enum-descriptions: [POS will activate the terminal., Terminal needs
+      external activation.]
+  receipt:
+    type: string
+    description: "Whether the terminal should print a receipt or not.\n\n\
+                 <details>\n<summary>Valid Values</summary>\n\n- `noReceipt` - **No\
+                 \ Receipt.** \n\n- `merchant` - **Merchant copy only.**\n\n- `customer`\
+                 \ - **Customer copy only.** \n\n- `both` - **Merchant and Customer\
+                 \ copy.**\n\n</details>\n"
+    enum: [noReceipt, merchant, customer, both]
+    x-enum-descriptions: [No receipt, Merchant only, Customer only, Merchant's
+      and Customer's copy]
+  tid: {type: string, description: The Terminal ID as set by the platform activating the
+          terminal. This field is stored as a text string and must be between
+          0 and 50 characters long.}
+  traceNumber: {type: integer, description: Sequencial number that uniquely identifies
+                  the terminalTxn.}
+  txn: {type: string, description: The related txn this terminalTxn belongs to.}
+  token: {type: string, description: The ID of the token record from which to retrieve the payment and customer details.}
+  paymentNumber: {type: integer, description: The last four numbers of the credit card
+                    associated with this Transaction.}
+  paymentMethod:
+    type: string
+    description: The payment method for this Transaction.
+    enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+           '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+           '24', '25', '26']
+    x-enum-descriptions: [American Express, Visa, MasterCard, Diners Club,
+      Discover, PayPal, Debit card, Checking account, Savings account, Corporate
+        checking account, Corporate savings account, Gift card, EBT card,
+      WIC card, '', '', '', '', '', '', '', '', '', '', '', '']
+  type: {$ref: ../properties/terminalTxnsTypeProperty.yaml}
+  tip: {type: integer}
+  originatingApp: {type: string}
+  OEMTTxnRefNumber: {type: string}
+  posApplicationId: {type: string, description: Express assigned identifier i.e. Software
+                       Id being used in express terminal.}
+  posApplicationName: {type: string, description: Software Name being used in express
+                         terminal.}
+  posApplicationVersion: {type: string, description: Software version being used in express
+                            terminal.}
+  customerReferenceNumber: {type: string, description: Express Reference Number.}
+  gatewayTransactionId: {type: string, description: The gateway transaction ID relates
+                           to Express Transaction ID.}
+  customerTicketNumber: {type: string, description: Express ticket Number.}
+  authCode: {type: string, description: The authorization code for this Transaction. This
+               field is stored as a text string and must be between 0 and 20 characters
+               long.}
+  authDate: {type: integer, description: 'The date on which the Transaction was authorized.
+                 The date is specified as an eight digit string in YYYYMMDD format,
+                 for example, ''20160120'' for January 20, 2016. The value of this
+                 field must represent a date in the past.'}
+  cashback: {type: integer, description: The amount of the total sum of this Transaction
+               that is given as cash back. This field is specified as an integer
+               in cents.}
+  clientIp: {type: string, description: The client IP address from which the Transaction
+               was created. Valid values are any Ipv4 or Ipv6 address.}
+  company: {type: string, description: The name of the company associated with this Transaction.
+              nSetting this field is especially important when processing an eCheck
+              from a company.}
+  currency: {$ref: ../properties/terminalTxnsCurrencyProperty.yaml}
+  fundingCurrency: {$ref: ../properties/terminalTxnsCurrencyProperty.yaml}
+  cvvStatus:
+    type: string
+    description: "The status of the CVV on the card.\n<details>\n<summary>Valid\
+                 \ Values</summary>\n\n- `notPresent` - **CVV is not present.**\n\n\
+                 - `illegible` - **CVV is illegible.**\n\n- `notProvided` - **CVV was\
+                 \ not provided.**\n\n</details> \n"
+    enum: [notPresent, illegible, notProvided]
+    x-enum-descriptions: [CVV is not present., CVV is illegible., CVV was
+      not provided.]
+  description: {type: string, description: A description of this Transaction. This field
+                  is stored as a text string and must be between 0 and 1000 characters
+                  long.}
+  discount: {type: integer, description: The discount applied to the transaction.}
+  duty: {type: integer, description: The duty fee applicable to this transaction.}
+  email: {type: string, description: The email associated with this Transaction.}
+  swiped:
+    type: integer
+    description: "Whether the card was swiped during this Transaction. This\
+                 \ field is set to '1' automatically if 'track' data was received.\n\
+                 \n<details>\n<summary>Valid Values</summary>\n\n  - `0` - **Not swiped.**\
+                 \ \n\n  - `1` - **Swiped.**\n</details>\n"
+    enum: [0, 1]
+    x-enum-descriptions: [Not swiped., Swiped.]
+  entryMode: {$ref: ../properties/terminalTxnsEntryModeProperty.yaml}
+  fee: {type: integer, description: Optional calculated fee amount indicator. This should
+          be used in conjunction with txnFee setting on Fees resource. This
+          field is specified as an integer in cents.}
+  feeConsumed: {type: integer, description: "the total amount of fees, in 'cents', 'assessed' on the merchant already from the fee amount indicated."}
+  first: {type: string, description: 'The first name associated with this Transaction.
+                 For eCheck transactions, either first or last is required.'}
+  last: {type: string, description: 'The last name associated with this Transaction. For
+                 eCheck transactions, either first or last is required.'}
+  merchant: {type: string, description: The identifier of the Merchant associated with
+               this Transaction.}
+  mid: {type: string, description: The Merchant ID as set by the processor. This field
+          is stored as a text string and must be between 0 and 50 characters
+          long.}
+  middle: {type: string, description: The middle name associated with this Transaction.}
+  order: {type: string, description: The identifier of the Order associated with this
+            Transaction. This field is stored as a text string and must be between
+            0 and 1000 characters long.}
+  pin:
+    type: integer
+    description: "Whether this Transaction was verified with a PIN.\n\n\
+                 <details>\n<summary>Valid Values</summary>\n\n  - `0` - **PIN not\
+                 \ entered.** \n\n  - `1` - **PIN entered.**\n</details>\n"
+    enum: [0, 1]
+    x-enum-descriptions: [Pin not entered., Pin entered.]
+  reserved:
+    type: integer
+    description: "Indicates whether the Transaction is reserved and the\
+                 \ action that will be taken as a result.\n\n<details>\n<summary>Valid\
+                 \ Values</summary>\n\n- `0` - **No reserve.** \n\n- `1` - **Transaction\
+                 \ processing withheld.**\n\n- `3` - **Transaction capture withheld\
+                 \ pending manual review.** \n\n- `4` - **Move all funds from this\
+                 \ Transaction into a reserve.**\n\n- `5` - **Block current activity,\
+                 \ no change for merchant.** \n\n</details>    \n"
+    enum: [0, 1, 3, 4, 5, 6, 7, 8]
+    x-enum-descriptions: [No reserve, Transaction processing withheld.,
+      Transaction capture withheld pending manual review., Move all funds
+        from this Transaction into a reserve., 'Block current activity,
+                   no change for merchant.', '', '', '']
+  shipping: {type: integer, description: The shipping fee pertaining to this transaction.}
+  signature:
+    type: integer
+    description: "Whether a signature should be captured during this Transaction.\n\
+                 \n* You can set this field if want the terminal to take a signature\
+                 \ for the Transaction. \n* The API also sets this field automatically\
+                 \ if you associate a signature to the Transaction by creating a 'terminalTxnDatas'\
+                 \ resource.\n\n<details>\n<summary>Valid Values</summary>\n\n  - `0`\
+                 \ - **Not captured.** \n\n  - `1` - **Captured.**\n</details>\n"
+    enum: [0, 1]
+    x-enum-descriptions: [Not captured., Captured.]
+  tax: {type: integer, description: The amount of the total sum of this Transaction that
+          is made up of tax. This field is specified as an integer in cents.}
+  terminal: {type: string, description: The identifier of the terminal that processed
+               this Transaction. The identifier is taken from the terminal system
+               and varies in format according to the type of terminal. This field
+               is stored as a text string and must be between 0 and 50 characters
+               long.}
+  terminalCapability:
+    type: integer
+    description: "Capabilities of the terminal device.\n\n<details>\n<summary>Valid\
+                 \ Values</summary>\n\n- `1` - **Key entry only terminal.** \n\n- `2`\
+                 \ - **Can read magnetic stripe.**\n\n- `3` - **Integrated circuit\
+                 \ reader.** \n\n- `4` - **TBD**\n\n</details>\n"
+    enum: [1, 2, 3, 4]
+    x-enum-descriptions: [Key entry only terminal., Can read magnetic stripe.,
+                          Integrated circuit reader., '']
+  total: {type: integer, description: The total amount of this Transaction. This field
+            is specified as an integer in cents.}
+  unattended:
+    type: integer
+    description: "Whether the card was swiped at an unattended terminal\
+                 \ during this Transaction. This field is set to '0' by default.\n\n\
+                 <details>\n<summary>Valid Values</summary>\n\n- `0` - **Attended terminal.**\
+                 \ \n\n- `1` - **Unattended terminal.**\n\n</details>\n"
+    enum: [0, 1]
+    x-enum-descriptions: [Attended terminal., Unattended terminal.]
+  status:
+    type: integer
+    description: "The status of the Transaction.\n\n<details>\n<summary>Valid\
+                 \ Values</summary>\n\n- `0` - **Pending** \n\n- `1` - **Approved**\n\
+                 \n- `2` - **Failed** \n\n- `3` - **Captured**\n\n- `4` - **Settled**\
+                 \ \n\n- `5` - **Returned**\n\n</details>\n"
+    enum: [0, 1, 2, 3, 4, 5]
+    x-enum-descriptions: [Pending, Approved, Failed, Captured, Settled,
+                          Returned]
+  address1: {type: string, description: The first line of the address associated with
+               this Transaction. This field is stored as a text string and must be
+               between 1 and 500 characters long.}
+  address2: {type: string, description: The second line of the address associated with
+               this Transaction. This field is stored as a text string and must be
+               between 1 and 500 characters long.}
+  city: {type: string, description: The name of the city in the address associated with
+           this Transaction. This field is stored as a text string and must be
+           between 1 and 500 characters long.}
+  state:
+    type: string
+    description: The state associated with this Transaction. nIf in the
+      U.S. this is specified as the 2 character postal abbreviation for
+      the state, if outside of the U.S. the full state name. This field
+      is stored as a text string and must be between 2 and 100 characters
+      long.
+    enum: ['AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'true', 'PE', 'QC', 'SK', 'YT', 'IA', 'ID',
+           'IL', 'IN', 'KN', 'KS', 'LA', 'MA', 'MB', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NB', 'NC', 'ND',
+           'NE', 'NH', 'NJ', 'NL', 'NM', 'NS', 'NT', 'NU', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'PE',
+           'QC', 'RI', 'SC', 'SD', 'SK', 'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY', 'YT']
+    example: CO
+    x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                          '']
+  zip: {type: string, description: The ZIP code in the address associated with this Transaction.
+          This field is stored as a text string and must be between 1 and 20
+          characters long.}
+  country: {$ref: ../properties/terminalTxnsCountryProperty.yaml}
+  phone: {type: string, description: The phone number associated with this Transaction.
+            This field is stored as a text string and must be between 10 and 15
+            characters long.}
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }
+required: [binType, currency, frozen, fundingCurrency, inactive, merchant,
+           mid, origin, pin, pos, reserved, signature, status, swiped, total, type]
+x-redacted: []

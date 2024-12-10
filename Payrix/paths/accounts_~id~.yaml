@@ -1,0 +1,203 @@
+  get:
+    description: Query an Account. An Account represents a bank account associated with
+      an Entity.
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string, description: The Account ID.}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on accounts resource
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Retrieve a Bank Account by its ID.
+    tags: [Accounts]
+    operationId: getAccountsId
+  put:
+    description: Update an existing Account representing a bank account associated with
+      an Entity.
+    parameters:
+    - description: The ID of this entity, associated with the bank account.
+      example: p1_ent_1a2b3cd45ef6g789h10i11j,
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {type: string}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          examples:
+            Update an Account:
+              value: {id: 'p1_act_5a1ef5e55656698eefaf8b6,', name: TD Bank}
+          schema: {$ref: ../components/schemas/accountsUpdateReqBodySchema.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/accountsUpdateReqBodySchema.yaml}
+        application/xml:
+          examples:
+            Update an Account:
+              value: {id: 'p1_act_5a1ef5e55656698eefaf8b6,', name: TD Bank}
+          schema: {$ref: ../components/schemas/accountsUpdateReqBodySchema.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/accountsUpdateReqBodySchema.yaml}
+        string/json:
+          schema: {$ref: ../components/schemas/accountsUpdateReqBodySchema.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/accountsUpdateReqBodySchema.yaml}
+      description: A request body for updating existing bank account information for
+        one or more entities.
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Update Account Response:
+                value: {id: p1_act_5a1ef5e55656698eefaf8b6, created: '2023-11-28T01:02:57Z',
+                  modified: '2023-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, entity: p1_ent_5a1ef5e5565631155c95344,
+                  account: p1_act_5a1ef5e55656698eefaf8b6, token: ae1abb3aaa18e4c374ca83fa75a7fff6,
+                  name: TD Bank, description: '', primary: 1, status: 0, currency: USD,
+                  inactive: '0,', frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            examples:
+              Update Account Response:
+                value: {id: p1_act_5a1ef5e55656698eefaf8b6, created: '2023-11-28T01:02:57Z',
+                  modified: '2023-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, entity: p1_ent_5a1ef5e5565631155c95344,
+                  account: p1_act_5a1ef5e55656698eefaf8b6, token: ae1abb3aaa18e4c374ca83fa75a7fff6,
+                  name: TD Bank, description: '', primary: 1, status: 0, currency: USD,
+                  inactive: '0,', frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for update on accounts resource
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Update a Bank Account by its ID.
+    tags: [Accounts]
+    x-examples:
+    - request: {id: p1_act_5a1ef5e55656698eefaf8b6, name: TD Bank}
+      response: {id: p1_act_5a1ef5e55656698eefaf8b6, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        entity: p1_ent_5a1ef5e5565631155c95344, account: p1_act_5a1ef5e55656698eefaf8b6,
+        token: ae1abb3aaa18e4c374ca83fa75a7fff6, name: TD Bank, description: '', primary: 1,
+        status: 0, currency: USD, inactive: 0, frozen: 0}
+    operationId: putAccountsId
+  delete:
+    description: Delete an Account. An Account represents a bank account associated
+      with an Entity.
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for delete on accounts resource.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Delete a Bank Account by its ID.
+    tags: [Accounts]
+    operationId: deleteAccountsId

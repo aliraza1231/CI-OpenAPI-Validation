@@ -1,0 +1,1521 @@
+  get:
+    description: Query a Note Document that represents a file that is related to a specific
+      note record.
+    parameters:
+    - description: The ID of this note document.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          note: {description: The identifier of the Note that owns this
+                              note documents resource.}
+                          custom: {description: The identifier of the Custom that relates
+                              to this notes resource.}
+                          type:
+                            enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc,
+                              rtf, csv, xls, doc, odt, ods, json, soap]
+                            x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF,
+                              TXT, XML, ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+                          documentType:
+                            enum: [general, personalId, companyId, voidCheck, bankStatement,
+                              bankLetter, contract, taxDocument]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          name: {description: The name of the document on the referenced
+                              NoteDocument.}
+                          description: {description: A brief description of the document.}
+                          status:
+                            enum: [created, processed, failed]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      note: {description: The identifier of the Note that owns this
+                          note documents resource.}
+                      custom: {description: The identifier of the Custom that relates
+                          to this notes resource.}
+                      type:
+                        description: "The desired type to take on the referenced Note.\n\
+                          \n  <details>\n  <summary>Valid Values</summary>\n\n  - `jpg`\
+                          \ - JPG Image File Type \n\n  - `jpeg` - JPEG Image File Type\
+                          \ \n\n  - `gif` - GIF Image File Type \n\n  - `png` - PNG\
+                          \ Image File Type \n\n  - `pdf` - PDF Document File Type \n\
+                          \n  - `tif` - TIF Tag Image File Type \n\n  - `tiff` - TIFF\
+                          \ Tag Image File Type \n\n  - `txt` - TXT Document File Type\
+                          \ \n\n  - `xml` - XML Document File Type \n\n  - `asc` - American\
+                          \ Standard Code II File Type \n\n  - `rtf` - Rich Text Document\
+                          \ File Type \n\n  - `csv` - Comma Separated Values Table File\
+                          \ Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                          \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument\
+                          \ Text File Type \n\n  - `ods` - OpenDocument Spreadsheet\
+                          \ File Type \n\n  - `json` - JSON Document File Type \n\n\
+                          \  - `soap` - SOAP Document File Type \n\n  </details>\n"
+                        enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf,
+                          csv, xls, doc, odt, ods, json, soap]
+                      documentType:
+                        description: "The purpose of the document upload. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `general` - General use\
+                          \ for unspecified type.\n\n- `personalId` - An identification\
+                          \ document for a person.\n\n- `companyId` - An identification\
+                          \ document for a company.\n\n- `voidCheck` - A voided check\
+                          \ for bank account verification.\n\n- `bankStatement` - A\
+                          \ bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                          \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                          \  - A tax document for verification.\n\n</details>\n"
+                        enum: [general, personalId, companyId, voidCheck, bankStatement,
+                          bankLetter, contract, taxDocument]
+                      name: {description: The name of the document on the referenced
+                          NoteDocument.}
+                      description: {description: A brief description of the document.}
+                      status:
+                        description: "The current status of the document upload. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `created`\
+                          \ - The database record has been created.\n\n- `processed`\
+                          \ - The document upload for this record was processed successfully.\n\
+                          \n- `failed` - The document upload for this record could not\
+                          \ be processed\n\n</details>\n"
+                        enum: [created, processed, failed]
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          note: {description: The identifier of the Note that owns this
+                              note documents resource.}
+                          custom: {description: The identifier of the Custom that relates
+                              to this notes resource.}
+                          type:
+                            enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc,
+                              rtf, csv, xls, doc, odt, ods, json, soap]
+                            x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF,
+                              TXT, XML, ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+                          documentType:
+                            enum: [general, personalId, companyId, voidCheck, bankStatement,
+                              bankLetter, contract, taxDocument]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          name: {description: The name of the document on the referenced
+                              NoteDocument.}
+                          description: {description: A brief description of the document.}
+                          status:
+                            enum: [created, processed, failed]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      note: {description: The identifier of the Note that owns this
+                          note documents resource.}
+                      custom: {description: The identifier of the Custom that relates
+                          to this notes resource.}
+                      type:
+                        description: "The desired type to take on the referenced Note.\n\
+                          \n  <details>\n  <summary>Valid Values</summary>\n\n  - `jpg`\
+                          \ - JPG Image File Type \n\n  - `jpeg` - JPEG Image File Type\
+                          \ \n\n  - `gif` - GIF Image File Type \n\n  - `png` - PNG\
+                          \ Image File Type \n\n  - `pdf` - PDF Document File Type \n\
+                          \n  - `tif` - TIF Tag Image File Type \n\n  - `tiff` - TIFF\
+                          \ Tag Image File Type \n\n  - `txt` - TXT Document File Type\
+                          \ \n\n  - `xml` - XML Document File Type \n\n  - `asc` - American\
+                          \ Standard Code II File Type \n\n  - `rtf` - Rich Text Document\
+                          \ File Type \n\n  - `csv` - Comma Separated Values Table File\
+                          \ Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                          \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument\
+                          \ Text File Type \n\n  - `ods` - OpenDocument Spreadsheet\
+                          \ File Type \n\n  - `json` - JSON Document File Type \n\n\
+                          \  - `soap` - SOAP Document File Type \n\n  </details>\n"
+                        enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf,
+                          csv, xls, doc, odt, ods, json, soap]
+                      documentType:
+                        description: "The purpose of the document upload. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `general` - General use\
+                          \ for unspecified type.\n\n- `personalId` - An identification\
+                          \ document for a person.\n\n- `companyId` - An identification\
+                          \ document for a company.\n\n- `voidCheck` - A voided check\
+                          \ for bank account verification.\n\n- `bankStatement` - A\
+                          \ bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                          \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                          \  - A tax document for verification.\n\n</details>\n"
+                        enum: [general, personalId, companyId, voidCheck, bankStatement,
+                          bankLetter, contract, taxDocument]
+                      name: {description: The name of the document on the referenced
+                          NoteDocument.}
+                      description: {description: A brief description of the document.}
+                      status:
+                        description: "The current status of the document upload. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `created`\
+                          \ - The database record has been created.\n\n- `processed`\
+                          \ - The document upload for this record was processed successfully.\n\
+                          \n- `failed` - The document upload for this record could not\
+                          \ be processed\n\n</details>\n"
+                        enum: [created, processed, failed]
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Response for retrieve note document response.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve Note Document by it's ID.
+    tags: [Notes]
+    operationId: getNoteDocumentsId
+  put:
+    description: Update a note document, which represents a file related to a specific
+      note record.
+    parameters:
+    - description: The ID of this note document.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              type:
+                description: "The desired type to take on the referenced Note.\n\n \
+                  \ <details>\n  <summary>Valid Values</summary>\n\n  - `jpg` - JPG\
+                  \ Image File Type \n\n  - `jpeg` - JPEG Image File Type \n\n  - `gif`\
+                  \ - GIF Image File Type \n\n  - `png` - PNG Image File Type \n\n \
+                  \ - `pdf` - PDF Document File Type \n\n  - `tif` - TIF Tag Image File\
+                  \ Type \n\n  - `tiff` - TIFF Tag Image File Type \n\n  - `txt` - TXT\
+                  \ Document File Type \n\n  - `xml` - XML Document File Type \n\n \
+                  \ - `asc` - American Standard Code II File Type \n\n  - `rtf` - Rich\
+                  \ Text Document File Type \n\n  - `csv` - Comma Separated Values Table\
+                  \ File Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                  \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument Text File\
+                  \ Type \n\n  - `ods` - OpenDocument Spreadsheet File Type \n\n  -\
+                  \ `json` - JSON Document File Type \n\n  - `soap` - SOAP Document\
+                  \ File Type \n\n  </details>\n"
+                enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf, csv,
+                  xls, doc, odt, ods, json, soap]
+                x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF, TXT, XML,
+                  ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+              name: {description: The name of the document on the referenced NoteDocument.}
+              custom: {description: The identifier of the Custom that relates to this
+                  notes resource.}
+              description: {description: A brief description of the document.}
+              status:
+                description: "The current status of the document upload. \n\n<details>\n\
+                  <summary>Valid Values</summary>\n\n- `created` - The database record\
+                  \ has been created.\n\n- `processed` - The document upload for this\
+                  \ record was processed successfully.\n\n- `failed` - The document\
+                  \ upload for this record could not be processed\n\n</details>\n"
+                enum: [created, processed, failed]
+                x-enum-descriptions: ['', '', '']
+              documentType:
+                description: "The purpose of the document upload. \n\n<details>\n<summary>Valid\
+                  \ Values</summary>\n\n- `general` - General use for unspecified type.\n\
+                  \n- `personalId` - An identification document for a person.\n\n- `companyId`\
+                  \ - An identification document for a company.\n\n- `voidCheck` - A\
+                  \ voided check for bank account verification.\n\n- `bankStatement`\
+                  \ - A bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                  \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                  \  - A tax document for verification.\n\n</details>\n"
+                enum: [general, personalId, companyId, voidCheck, bankStatement, bankLetter,
+                  contract, taxDocument]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive or not.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen or not frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, status]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              type:
+                enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf, csv,
+                  xls, doc, odt, ods, json, soap]
+                x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF, TXT, XML,
+                  ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+              name: {description: The name of the document on the referenced NoteDocument.}
+              custom: {description: The identifier of the Custom that relates to this
+                  notes resource.}
+              description: {description: A brief description of the document.}
+              status:
+                enum: [created, processed, failed]
+                x-enum-descriptions: ['', '', '']
+              documentType:
+                enum: [general, personalId, companyId, voidCheck, bankStatement, bankLetter,
+                  contract, taxDocument]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, status]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              type:
+                description: "The desired type to take on the referenced Note.\n\n \
+                  \ <details>\n  <summary>Valid Values</summary>\n\n  - `jpg` - JPG\
+                  \ Image File Type \n\n  - `jpeg` - JPEG Image File Type \n\n  - `gif`\
+                  \ - GIF Image File Type \n\n  - `png` - PNG Image File Type \n\n \
+                  \ - `pdf` - PDF Document File Type \n\n  - `tif` - TIF Tag Image File\
+                  \ Type \n\n  - `tiff` - TIFF Tag Image File Type \n\n  - `txt` - TXT\
+                  \ Document File Type \n\n  - `xml` - XML Document File Type \n\n \
+                  \ - `asc` - American Standard Code II File Type \n\n  - `rtf` - Rich\
+                  \ Text Document File Type \n\n  - `csv` - Comma Separated Values Table\
+                  \ File Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                  \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument Text File\
+                  \ Type \n\n  - `ods` - OpenDocument Spreadsheet File Type \n\n  -\
+                  \ `json` - JSON Document File Type \n\n  - `soap` - SOAP Document\
+                  \ File Type \n\n  </details>\n"
+                enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf, csv,
+                  xls, doc, odt, ods, json, soap]
+                x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF, TXT, XML,
+                  ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+              name: {description: The name of the document on the referenced NoteDocument.}
+              custom: {description: The identifier of the Custom that relates to this
+                  notes resource.}
+              description: {description: A brief description of the document.}
+              status:
+                description: "The current status of the document upload. \n\n<details>\n\
+                  <summary>Valid Values</summary>\n\n- `created` - The database record\
+                  \ has been created.\n\n- `processed` - The document upload for this\
+                  \ record was processed successfully.\n\n- `failed` - The document\
+                  \ upload for this record could not be processed\n\n</details>\n"
+                enum: [created, processed, failed]
+                x-enum-descriptions: ['', '', '']
+              documentType:
+                description: "The purpose of the document upload. \n\n<details>\n<summary>Valid\
+                  \ Values</summary>\n\n- `general` - General use for unspecified type.\n\
+                  \n- `personalId` - An identification document for a person.\n\n- `companyId`\
+                  \ - An identification document for a company.\n\n- `voidCheck` - A\
+                  \ voided check for bank account verification.\n\n- `bankStatement`\
+                  \ - A bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                  \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                  \  - A tax document for verification.\n\n</details>\n"
+                enum: [general, personalId, companyId, voidCheck, bankStatement, bankLetter,
+                  contract, taxDocument]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive or not, whether
+                  it's active or inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen or not frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, status]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              type:
+                enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf, csv,
+                  xls, doc, odt, ods, json, soap]
+                x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF, TXT, XML,
+                  ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+              name: {description: The name of the document on the referenced NoteDocument.}
+              custom: {description: The identifier of the Custom that relates to this
+                  notes resource.}
+              description: {description: A brief description of the document.}
+              status:
+                enum: [created, processed, failed]
+                x-enum-descriptions: ['', '', '']
+              documentType:
+                enum: [general, personalId, companyId, voidCheck, bankStatement, bankLetter,
+                  contract, taxDocument]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, status]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              type:
+                enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf, csv,
+                  xls, doc, odt, ods, json, soap]
+                x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF, TXT, XML,
+                  ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+              name: {description: The name of the document on the referenced NoteDocument.}
+              custom: {description: The identifier of the Custom that relates to this
+                  notes resource.}
+              description: {description: A brief description of the document.}
+              status:
+                enum: [created, processed, failed]
+                x-enum-descriptions: ['', '', '']
+              documentType:
+                enum: [general, personalId, companyId, voidCheck, bankStatement, bankLetter,
+                  contract, taxDocument]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, status]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              type:
+                enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf, csv,
+                  xls, doc, odt, ods, json, soap]
+                x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF, TXT, XML,
+                  ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+              name: {description: The name of the document on the referenced NoteDocument.}
+              custom: {description: The identifier of the Custom that relates to this
+                  notes resource.}
+              description: {description: A brief description of the document.}
+              status:
+                enum: [created, processed, failed]
+                x-enum-descriptions: ['', '', '']
+              documentType:
+                enum: [general, personalId, companyId, voidCheck, bankStatement, bankLetter,
+                  contract, taxDocument]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, status]
+            x-redacted: []
+      description: Update Note Document Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          note: {description: The identifier of the Note that owns this
+                              note documents resource.}
+                          custom: {description: The identifier of the Custom that relates
+                              to this notes resource.}
+                          type:
+                            enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc,
+                              rtf, csv, xls, doc, odt, ods, json, soap]
+                            x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF,
+                              TXT, XML, ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+                          documentType:
+                            enum: [general, personalId, companyId, voidCheck, bankStatement,
+                              bankLetter, contract, taxDocument]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          name: {description: The name of the document on the referenced
+                              NoteDocument.}
+                          description: {description: A brief description of the document.}
+                          status:
+                            enum: [created, processed, failed]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      note: {description: The identifier of the Note that owns this
+                          note documents resource.}
+                      custom: {description: The identifier of the Custom that relates
+                          to this notes resource.}
+                      type:
+                        description: "The desired type to take on the referenced Note.\n\
+                          \n  <details>\n  <summary>Valid Values</summary>\n\n  - `jpg`\
+                          \ - JPG Image File Type \n\n  - `jpeg` - JPEG Image File Type\
+                          \ \n\n  - `gif` - GIF Image File Type \n\n  - `png` - PNG\
+                          \ Image File Type \n\n  - `pdf` - PDF Document File Type \n\
+                          \n  - `tif` - TIF Tag Image File Type \n\n  - `tiff` - TIFF\
+                          \ Tag Image File Type \n\n  - `txt` - TXT Document File Type\
+                          \ \n\n  - `xml` - XML Document File Type \n\n  - `asc` - American\
+                          \ Standard Code II File Type \n\n  - `rtf` - Rich Text Document\
+                          \ File Type \n\n  - `csv` - Comma Separated Values Table File\
+                          \ Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                          \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument\
+                          \ Text File Type \n\n  - `ods` - OpenDocument Spreadsheet\
+                          \ File Type \n\n  - `json` - JSON Document File Type \n\n\
+                          \  - `soap` - SOAP Document File Type \n\n  </details>\n"
+                        enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf,
+                          csv, xls, doc, odt, ods, json, soap]
+                      documentType:
+                        description: "The purpose of the document upload. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `general` - General use\
+                          \ for unspecified type.\n\n- `personalId` - An identification\
+                          \ document for a person.\n\n- `companyId` - An identification\
+                          \ document for a company.\n\n- `voidCheck` - A voided check\
+                          \ for bank account verification.\n\n- `bankStatement` - A\
+                          \ bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                          \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                          \  - A tax document for verification.\n\n</details>\n"
+                        enum: [general, personalId, companyId, voidCheck, bankStatement,
+                          bankLetter, contract, taxDocument]
+                      name: {description: The name of the document on the referenced
+                          NoteDocument.}
+                      description: {description: A brief description of the document.}
+                      status:
+                        description: "The current status of the document upload. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `created`\
+                          \ - The database record has been created.\n\n- `processed`\
+                          \ - The document upload for this record was processed successfully.\n\
+                          \n- `failed` - The document upload for this record could not\
+                          \ be processed\n\n</details>\n"
+                        enum: [created, processed, failed]
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          note: {description: The identifier of the Note that owns this
+                              note documents resource.}
+                          custom: {description: The identifier of the Custom that relates
+                              to this notes resource.}
+                          type:
+                            enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc,
+                              rtf, csv, xls, doc, odt, ods, json, soap]
+                            x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF,
+                              TXT, XML, ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+                          documentType:
+                            enum: [general, personalId, companyId, voidCheck, bankStatement,
+                              bankLetter, contract, taxDocument]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          name: {description: The name of the document on the referenced
+                              NoteDocument.}
+                          description: {description: A brief description of the document.}
+                          status:
+                            enum: [created, processed, failed]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      note: {description: The identifier of the Note that owns this
+                          note documents resource.}
+                      custom: {description: The identifier of the Custom that relates
+                          to this notes resource.}
+                      type:
+                        description: "The desired type to take on the referenced Note.\n\
+                          \n  <details>\n  <summary>Valid Values</summary>\n\n  - `jpg`\
+                          \ - JPG Image File Type \n\n  - `jpeg` - JPEG Image File Type\
+                          \ \n\n  - `gif` - GIF Image File Type \n\n  - `png` - PNG\
+                          \ Image File Type \n\n  - `pdf` - PDF Document File Type \n\
+                          \n  - `tif` - TIF Tag Image File Type \n\n  - `tiff` - TIFF\
+                          \ Tag Image File Type \n\n  - `txt` - TXT Document File Type\
+                          \ \n\n  - `xml` - XML Document File Type \n\n  - `asc` - American\
+                          \ Standard Code II File Type \n\n  - `rtf` - Rich Text Document\
+                          \ File Type \n\n  - `csv` - Comma Separated Values Table File\
+                          \ Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                          \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument\
+                          \ Text File Type \n\n  - `ods` - OpenDocument Spreadsheet\
+                          \ File Type \n\n  - `json` - JSON Document File Type \n\n\
+                          \  - `soap` - SOAP Document File Type \n\n  </details>\n"
+                        enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf,
+                          csv, xls, doc, odt, ods, json, soap]
+                      documentType:
+                        description: "The purpose of the document upload. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `general` - General use\
+                          \ for unspecified type.\n\n- `personalId` - An identification\
+                          \ document for a person.\n\n- `companyId` - An identification\
+                          \ document for a company.\n\n- `voidCheck` - A voided check\
+                          \ for bank account verification.\n\n- `bankStatement` - A\
+                          \ bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                          \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                          \  - A tax document for verification.\n\n</details>\n"
+                        enum: [general, personalId, companyId, voidCheck, bankStatement,
+                          bankLetter, contract, taxDocument]
+                      name: {description: The name of the document on the referenced
+                          NoteDocument.}
+                      description: {description: A brief description of the document.}
+                      status:
+                        description: "The current status of the document upload. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `created`\
+                          \ - The database record has been created.\n\n- `processed`\
+                          \ - The document upload for this record was processed successfully.\n\
+                          \n- `failed` - The document upload for this record could not\
+                          \ be processed\n\n</details>\n"
+                        enum: [created, processed, failed]
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: 'Response for update on noteDocuments resource: Update Note Document
+          Response'
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Update Note Document by it's ID.
+    tags: [Notes]
+    operationId: putNoteDocumentsId
+  delete:
+    description: Delete a Note Document, which represents a file related to a specific
+      note record.
+    parameters:
+    - description: The ID of this note document.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          note: {description: The identifier of the Note that owns this
+                              note documents resource.}
+                          custom: {description: The identifier of the Custom that relates
+                              to this notes resource.}
+                          type:
+                            enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc,
+                              rtf, csv, xls, doc, odt, ods, json, soap]
+                            x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF,
+                              TXT, XML, ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+                          documentType:
+                            enum: [general, personalId, companyId, voidCheck, bankStatement,
+                              bankLetter, contract, taxDocument]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          name: {description: The name of the document on the referenced
+                              NoteDocument.}
+                          description: {description: A brief description of the document.}
+                          status:
+                            enum: [created, processed, failed]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      note: {description: The identifier of the Note that owns this
+                          note documents resource.}
+                      custom: {description: The identifier of the Custom that relates
+                          to this notes resource.}
+                      type:
+                        description: "The desired type to take on the referenced Note.\n\
+                          \n  <details>\n  <summary>Valid Values</summary>\n\n  - `jpg`\
+                          \ - JPG Image File Type \n\n  - `jpeg` - JPEG Image File Type\
+                          \ \n\n  - `gif` - GIF Image File Type \n\n  - `png` - PNG\
+                          \ Image File Type \n\n  - `pdf` - PDF Document File Type \n\
+                          \n  - `tif` - TIF Tag Image File Type \n\n  - `tiff` - TIFF\
+                          \ Tag Image File Type \n\n  - `txt` - TXT Document File Type\
+                          \ \n\n  - `xml` - XML Document File Type \n\n  - `asc` - American\
+                          \ Standard Code II File Type \n\n  - `rtf` - Rich Text Document\
+                          \ File Type \n\n  - `csv` - Comma Separated Values Table File\
+                          \ Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                          \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument\
+                          \ Text File Type \n\n  - `ods` - OpenDocument Spreadsheet\
+                          \ File Type \n\n  - `json` - JSON Document File Type \n\n\
+                          \  - `soap` - SOAP Document File Type \n\n  </details>\n"
+                        enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf,
+                          csv, xls, doc, odt, ods, json, soap]
+                      documentType:
+                        description: "The purpose of the document upload. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `general` - General use\
+                          \ for unspecified type.\n\n- `personalId` - An identification\
+                          \ document for a person.\n\n- `companyId` - An identification\
+                          \ document for a company.\n\n- `voidCheck` - A voided check\
+                          \ for bank account verification.\n\n- `bankStatement` - A\
+                          \ bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                          \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                          \  - A tax document for verification.\n\n</details>\n"
+                        enum: [general, personalId, companyId, voidCheck, bankStatement,
+                          bankLetter, contract, taxDocument]
+                      name: {description: The name of the document on the referenced
+                          NoteDocument.}
+                      description: {description: A brief description of the document.}
+                      status:
+                        description: "The current status of the document upload. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `created`\
+                          \ - The database record has been created.\n\n- `processed`\
+                          \ - The document upload for this record was processed successfully.\n\
+                          \n- `failed` - The document upload for this record could not\
+                          \ be processed\n\n</details>\n"
+                        enum: [created, processed, failed]
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          note: {description: The identifier of the Note that owns this
+                              note documents resource.}
+                          custom: {description: The identifier of the Custom that relates
+                              to this notes resource.}
+                          type:
+                            enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc,
+                              rtf, csv, xls, doc, odt, ods, json, soap]
+                            x-enum-descriptions: [JPG, JPEG, GIF, PNG, PDF, TIF, TIFF,
+                              TXT, XML, ASC, RTF, CSV, XLS, DOC, ODT, ODS, '', '']
+                          documentType:
+                            enum: [general, personalId, companyId, voidCheck, bankStatement,
+                              bankLetter, contract, taxDocument]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '']
+                          name: {description: The name of the document on the referenced
+                              NoteDocument.}
+                          description: {description: A brief description of the document.}
+                          status:
+                            enum: [created, processed, failed]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      note: {description: The identifier of the Note that owns this
+                          note documents resource.}
+                      custom: {description: The identifier of the Custom that relates
+                          to this notes resource.}
+                      type:
+                        description: "The desired type to take on the referenced Note.\n\
+                          \n  <details>\n  <summary>Valid Values</summary>\n\n  - `jpg`\
+                          \ - JPG Image File Type \n\n  - `jpeg` - JPEG Image File Type\
+                          \ \n\n  - `gif` - GIF Image File Type \n\n  - `png` - PNG\
+                          \ Image File Type \n\n  - `pdf` - PDF Document File Type \n\
+                          \n  - `tif` - TIF Tag Image File Type \n\n  - `tiff` - TIFF\
+                          \ Tag Image File Type \n\n  - `txt` - TXT Document File Type\
+                          \ \n\n  - `xml` - XML Document File Type \n\n  - `asc` - American\
+                          \ Standard Code II File Type \n\n  - `rtf` - Rich Text Document\
+                          \ File Type \n\n  - `csv` - Comma Separated Values Table File\
+                          \ Type \n\n  - `xls` - Microsoft Excel File Type \n\n  - `doc`\
+                          \ - Microsoft Word File Type \n\n  - `odt` - OpenDocument\
+                          \ Text File Type \n\n  - `ods` - OpenDocument Spreadsheet\
+                          \ File Type \n\n  - `json` - JSON Document File Type \n\n\
+                          \  - `soap` - SOAP Document File Type \n\n  </details>\n"
+                        enum: [jpg, jpeg, gif, png, pdf, tif, tiff, txt, xml, asc, rtf,
+                          csv, xls, doc, odt, ods, json, soap]
+                      documentType:
+                        description: "The purpose of the document upload. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `general` - General use\
+                          \ for unspecified type.\n\n- `personalId` - An identification\
+                          \ document for a person.\n\n- `companyId` - An identification\
+                          \ document for a company.\n\n- `voidCheck` - A voided check\
+                          \ for bank account verification.\n\n- `bankStatement` - A\
+                          \ bank statement.\n\n- `bankLetter` - A bank letter for verification.\n\
+                          \n- `contract` - A contract for goods or services.\n\n- `taxDocument`\
+                          \  - A tax document for verification.\n\n</details>\n"
+                        enum: [general, personalId, companyId, voidCheck, bankStatement,
+                          bankLetter, contract, taxDocument]
+                      name: {description: The name of the document on the referenced
+                          NoteDocument.}
+                      description: {description: A brief description of the document.}
+                      status:
+                        description: "The current status of the document upload. \n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `created`\
+                          \ - The database record has been created.\n\n- `processed`\
+                          \ - The document upload for this record was processed successfully.\n\
+                          \n- `failed` - The document upload for this record could not\
+                          \ be processed\n\n</details>\n"
+                        enum: [created, processed, failed]
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: The response for deleting a note document on the noteDocuments
+          resource is the Delete Note Document Response.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Delete Note Document by it's ID.
+    tags: [Notes]
+    operationId: deleteNoteDocumentsId

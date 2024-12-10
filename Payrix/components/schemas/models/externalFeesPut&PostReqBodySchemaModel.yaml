@@ -1,0 +1,24 @@
+properties:
+  entity: { type: string, description: "The Entity’s ID." }
+  filename: { type: string, description: "The original filename which contains that fee." }
+  date: { type: string, description: "Date when this fee was processed." }
+  type: { type: string,  description: "The type of third-party assessed fees. \n\n<details>\n\
+      <summary>Valid Values</summary>\n\n- `FANF` - **Visa Fixed Acquirer Network\
+      \ Fee (FanF)**\n\n- `MCLOCATION` - **Mastercard Merchant Location Fee**\n\n\
+      - `VISAINTEGRITY` - **Visa Transaction Integrity Fee (TIF)**\n\n</details>\n",
+          enum: [ FANF, MCLOCATION, VISAINTEGRITY, VALUTEC_DIGITAL_GIFT_PLUS_PACKAGE,
+                  VALUTEC_DIGITAL_GIFT_PLUS_PACKAGE_TXN, VALUTEC_DIGITAL_GIFT_PLUS_PACKAGE_ME,
+                  VALUTEC_LOYALTY_PLUS_PACKAGE, VALUTEC_LOYALTY_PLUS_PACKAGE_TXN, VALUTEC_ESSENTIAL_GIFT,
+                  VALUTEC_ESSENTIAL_MONTHLY_TXN, VALUTEC_TRANSACTION_FEE, VALUTEC_GIFT_ACH_POOLING,
+                  VALUTEC_MAINTENANCE_FEE, VALUTEC_SETUP_FEE, VALUTEC_JUMP_START_KIT,
+                  VALUTEC_LAUNCH_BOX_KIT, VALUTEC_500_CUSTOM_CARDS, SAFERPAYMENTS_BASIC,
+                  SAFERPAYMENTS_MANAGED, SAFERPAYMENTS_PCI_NONVALIDATION, OMNITOKEN,
+                  NPT_REVBOOST_EMBEDDED_TMS_MONTHLY, NPT_REVBOOST_EMBEDDED_TMS_PPT,
+                  INTERCHANGE ],
+          x-enum-descriptions: [ '', '', '', '', '', '', '', '', '', '', '', '',
+                                 '', '', '', '', '', '', '', '', '', '', '', '' ] }
+  lineNumber: { type: integer,  description: "The line number into the file for this fee." }
+  amount: { type: integer,  description: "The value to charge this fee." }
+  metadata: { type: string,  description: "The full payload received for this fee." }
+required: [ amount, date, entity, filename, lineNumber, metadata, type ]
+x-redacted: [ ]

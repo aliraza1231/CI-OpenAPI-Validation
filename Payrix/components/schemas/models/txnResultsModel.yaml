@@ -1,0 +1,32 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  txn: {type: string, description: The identifier of the Transaction associated
+          with this txnResults resource.}
+  type:
+    type: string
+    description: "The type of this txnResult is the type of\
+                              \ this txnResult.\n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n   - `1`  -  **A general type of result.**\n   \n  \
+                              \ - `2`  -  **Fraud prevention alert.**\n   \n   - `3`\
+                              \  -  **Processor error.**\n   \n   - `4`  -  **CVV matching\
+                              \ alert.**\n   \n   - `5`  -  **AVS check alert.**\n \
+                              \  \n   - `6`  -  **AAVS check alert.**\n   \n   - `7`\
+                              \  -  **Network error.**\n   \n   - `8`  -  **3DS check\
+                              \ alert.**\n\n  \n</details>"
+    enum: ['1', '2', '3', '4', '5', '6', '7', '8']
+    x-enum-descriptions: [A general type of result., Fraud prevention
+      alert., Processor error., CVV matching alert., AVS check
+      alert., AAVS check alert., Network error., 3DS check
+      alert.]
+  message: {type: string, description: A message that accompanies and describes
+              this Transaction result.}
+  code: {$ref: ../properties/txnResultsCodeProperty.yaml}
+  originalCode: {
+    type: string,
+    description: Exact message code as received from the activation integration or from the processor for the resulting transaction.
+  }
+  bankCode: {$ref: ../properties/txnResultBankCodeProperty.yaml}

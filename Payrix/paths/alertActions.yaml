@@ -1,0 +1,99 @@
+  get:
+    description: Query an alertAction representing a particular instance of an Alert
+      that is sent out through one particular channel. For example, SMS, mobile application
+      notification, or email, each being associated with an Alert resource.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/alertActionsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/alertActionsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve Alert Actions Response for query on alertActions resource.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Retrieve all Alert Actions.
+    tags: [Alert Actions]
+    operationId: getAlertActions
+  post:
+    description: Create an alertAction, which represents a particular instance of an
+      Alert sent out through one particular channel, such as SMS, mobile application
+      notification, or email, and each alertAction is associated with an Alert resource.
+    requestBody:
+      content:
+        application/json:
+          schema: {$ref: ../components/schemas/createNewAlertActionSchema.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/createNewAlertActionSchema.yaml}
+        application/xml:
+          schema: {$ref: ../components/schemas/createNewAlertActionSchema.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/createNewAlertActionSchema.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/createNewAlertActionSchema.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/createNewAlertActionSchema.yaml}
+      description: Create Alert Action Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/alertActionsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/alertActionsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for creating an alert action on the alertActions resource.
+          Create Alert Action Response.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Create a new Alert Action
+    tags: [Alert Actions]
+    operationId: postAlertActions

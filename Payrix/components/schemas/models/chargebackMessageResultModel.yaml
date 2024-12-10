@@ -1,0 +1,18 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  chargebackMessage: { type: string, description: The identifier of the chargebackMessage
+    resource that this chargebackMessageResult relates to. }
+  type: { type: string,
+          description: "The type of this chargebackMessageResult.
+          \n\n<details>\n<summary>Valid Values</summary> \n\n 
+    - `general` - **A general type of result.**\n\n 
+    - `platform` - **Platform message.**\n\n
+     </details>\n",
+          enum: [ general, platform ],
+          x-enum-descriptions: [ A general type of result., Platform
+            message ] }
+  message: { type: string, description: The Chargeback message itself. }

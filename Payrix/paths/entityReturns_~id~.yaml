@@ -1,0 +1,1679 @@
+  get:
+    description: Query an EntityReturn represents an ACH transaction or disbursement
+      that has been rejected, which will block ACH creations or send out related to
+      its entity and payment.
+    parameters:
+    - description: The ID of this entity return.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          entity: {description: The identifier of the Entity that this
+                              EntityReturns refers to.}
+                          payment:
+                            description: The identifier of the Payment that this EntityReturns
+                              refers to.
+                            properties:
+                              method:
+                                enum: ['8', '9', '10', '11']
+                                x-enum-descriptions: [Checking account, Savings account,
+                                  Corporate checking account, Corporate savings account]
+                              number: {}
+                              routing: {}
+                          txn:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Transaction. \nThis field stores\
+                              \ the identifier of the Transaction."
+                          disbursement:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Disbursement. \nThis field stores\
+                              \ the identifier of the Disbursement."
+                          actionCode:
+                            enum: [unknown, nsf, badAccount, unauthorized]
+                            x-enum-descriptions: ['', '', '', '']
+                          code:
+                            description: The code that is received from the platform.
+                            enum: [R01, R02, R03, R04, R05, R06, R07, R08, R09, R10,
+                              R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21,
+                              R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32,
+                              R33, R34, R35, R36, R37, R38, R39, R40, R41, R42, R43,
+                              R44, R45, R46, R47, R50, R51, R52, R53, R61, R62, R63,
+                              R64, R65, R66, R67, R68, R69, R70, R71, R72, R73, R74,
+                              R75, R76, R80, R81, R82, R83, R84, R94, R95, R97, R98,
+                              R99, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10,
+                              C11, C12, C13, C61, C62, C63, C64, C65, C66, C67, C68,
+                              C69, R900-07, R900-08, R900-16, R900-17, R900-D2, R900-E1,
+                              R900-L2, R900-L3, R900-M1, R901, R902, R903, R904, R905,
+                              R907, R908, R909, R910, R911, R912, R914, R915, R916,
+                              R917, R918, R919, R920, R921, R922, R990]
+                            x-enum-descriptions: [R01. Insufficient funds in account.,
+                              R02. Account is closed., R03. No account on file., R04.
+                                Invalid account number., R05. Unauthorized debit to
+                                consumer account, R06. Returned at request of ODFI.,
+                              R07. Authorization revoked by customer., R08. Payment
+                                stopped., R09. Insufficient collected funds in account
+                                being charged, 'R10. Customer advises not Authorized,
+                                notice not provided, improper source document, or amount
+                                of entry not accurately obtained from source document.',
+                              R11. Check truncation return., R12. Account sold to another
+                                financial institution., R13. Invalid ACH routing number.,
+                              R14. Representative payee is deceased or cannot continue
+                                in that capacity., R15. Beneficiary or account holder
+                                other than representative payee deceased., R16. Account
+                                funds have been frozen., R17. Item returned because
+                                of invalid data; refer to addenda for information.,
+                              R18. Improper effective date., R19. Amount error., R20.
+                                Account does not allow ACH transactions or limit for
+                                transactions has been exceeded., R21. Invalid company
+                                identification., R22. Invalid individual ID., R23. Credit
+                                entry refused by receiver., R24. Duplicate entry., R25.
+                                Addenda record error., R26. Mandatory field error.,
+                              R27. Trace number error., R28. Routing/transit number
+                                check digit error., R29. Corporate customer advised
+                                not authorized., R30. RDFI not participant in check
+                                truncation program., R31. Permissible return entry.,
+                              R32. RDFI non-settlement., R33. Return of item., R34.
+                                Limited participation ODFI., R35. Return of improper
+                                debit entry., R36. Return of improper credit entry.,
+                              R37. Source document presented for payment., R38. Stop
+                                payment on source document., R39. Improper source document.,
+                              R40. Return of item by government agency., R41. Invalid
+                                Transaction Code., R42. Routing/transit number check
+                                digit error., R43. Invalid account number., R44. Invalid
+                                individual ID., R45. Invalid individual name or company
+                                name., R46. Invalid representative payee indicator code.,
+                              R47. Duplicate enrollment., R50. State law affecting RCK
+                                acceptance., 'R51. Item is ineligible, notice not provided,
+                                signature not genuine, or original item altered for
+                                adjustment entry.', R52. Stop payment on item., R53.
+                                Item and ACH entry presented for payment., R61. Misrouted
+                                return - RDFI for original entry has placed incorrect
+                                routing/transit number in RDFI identification field.,
+                              R62. Incorrect trace number., R63. Incorrect dollar amount.,
+                              R64. Incorrect individual identification., R65. Incorrect
+                                transaction code., R66. Incorrect company identification.,
+                              R67. Duplicate return., R68. Untimely return - return
+                                was not sent within the established timeframe., R69.
+                                Field errors., R70. Permissible return entry not accepted.,
+                              R71. Misrouted dishonored return -incorrect routing/transit
+                                number in RDFI identification field., R72. Untimely
+                                return - dishonored return was not sent within the established
+                                timeframe., R73. Timely original return - RDFI certifies
+                                the original return entry was sent within established
+                                timeframe for original returns., R74. Corrected return
+                                - RDFI is correcting a previous return entry that was
+                                dishonored because it contained incomplete or incorrect
+                                information., R75. Original return not a duplicate.,
+                              R76. No errors found., R80. Cross-border payment coding
+                                error., R81. Non-participant in cross-border program.,
+                              R82. Invalid foreign RDFI identification., R83. Foreign
+                                RDFI unable to settle., R84. Cross-border entry not
+                                processed by originating gateway operator., R94. Administrative
+                                return item was processed and resubmitted as a photocopy.,
+                              R95. Administrative return item was processed and resubmitted
+                                as a MICR-Split., R97. Administrative return item was
+                                processed and resubmitted with corrected dollar amount.,
+                              R98. Indicates a return PAC (pre-authorized check); RDFI
+                                provides a text reason and indicated a new account number
+                                on the PAC itself., R99. Indicates a return PAC (pre-authorized
+                                check); RDFI provides a text reason on the PAC itself
+                                for which there is no equivalent return reason code.,
+                              C01. Incorrect DFI Account Number., C02. Incorrect Transit/Routing
+                                Number., C03. C03 Incorrect Transit/Routing Number and
+                                Incorrect DFI Account Number., C04. Incorrect Individual
+                                Name., C05. Incorrect Transaction Code., C06. Incorrect
+                                DFI Account Number and Incorrect Transaction Code.,
+                              'C07. Incorrect Transit/Routing Number, Incorrect DFI
+                                Account Number, and Incorrect Transaction Code.', C08.
+                                Reserved., C09. Incorrect Individual Identification
+                                Number., C10. Incorrect Company Name., C11. Incorrect
+                                Company Identification., C12. Incorrect Company Name
+                                and Company Identification., C13. Addenda Format Error.,
+                              C61. Misrouted Notification of Change., C62. Incorrect
+                                Trace Number., C63. Incorrect Company Identification
+                                Number., C64. Incorrect Individual Identification Number.,
+                              C65. Incorrectly Formatted Corrected Data., C66. Incorrect
+                                Discretionary Data., C67. Routing Number Not From Original
+                                Entry Detail Record., C68. DFI Account Number Not From
+                                Original Entry Detail Record., C69. Incorrect Transaction
+                                Code., '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          message: {description: The message that is received from the
+                              platform}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      login: {description: The Login that owns this resource.}
+                      entity: {description: The identifier of the Entity that this EntityReturns
+                          refers to.}
+                      payment:
+                        description: The identifier of the Payment that this EntityReturns
+                          refers to.
+                        properties:
+                          method:
+                            description: "The account method used to issue the return.\
+                              \ \n\n<details>\n<summary>Valid Values</summary>\n\n \
+                              \ - `8` - **Checking account**\n\n  - `9` - **Savings\
+                              \ account**\n\n  - `10` - **Corporate checking account**\n\
+                              \n  - `11` - **Corporate savings account**\n\n</details>\n"
+                            enum: ['8', '9', '10', '11']
+                          number: {}
+                          routing: {}
+                      txn:
+                        description: "This field indicates that this EntityReturn was\
+                          \ triggered from a Transaction. \nThis field stores the identifier\
+                          \ of the Transaction."
+                      disbursement:
+                        description: "This field indicates that this EntityReturn was\
+                          \ triggered from a Disbursement. \nThis field stores the identifier\
+                          \ of the Disbursement."
+                      actionCode:
+                        description: "Describes the action code related to the return.\
+                          \ \n\n<details>\n<summary>Valid Values</summary>\n\n  - `unknown`\
+                          \ - **Unknown reason**\n\n  - `nsf` - **Non-sufficient funds**\n\
+                          \n  - `badAccount` - **Bad Account Info**\n\n  - `unauthorized`\
+                          \ - **Unauthorized Transaction**\n\n</details>\n"
+                        enum: [unknown, nsf, badAccount, unauthorized]
+                      code:
+                        description: "The code that is received from the platform.\n\
+                          \n<details>\n<summary>Valid Values</summary>\n\n- `R01` -\
+                          \ **R01.** Insufficient funds in account.\n- `R02` - **R02.**\
+                          \ Account is closed.\n- `R03` - **R03.** No account on file.\n\
+                          - `R04` - **R04.** Invalid account number.\n- `R05` - **R05.**\
+                          \ Unauthorized debit to consumer account.\n- `R06` - **R06.**\
+                          \ Returned at request of ODFI.\n- `R07` - **R07.** Authorization\
+                          \ revoked by customer.\n- `R08` - **R08.** Payment stopped.\n\
+                          - `R09` - **R09.** Insufficient collected funds in account\
+                          \ being charged\n- `R10` - **R10.** Customer advises not Authorized,\
+                          \ notice not provided, improper source document, or amount\
+                          \ of entry not accurately obtained from source document.\n\
+                          - `R11` - **R11.** Check truncation return.\n- `R12` - **R12.**\
+                          \ Account sold to another financial institution.\n- `R13`\
+                          \ - **R13.** Invalid ACH routing number.\n- `R14` - **R14.**\
+                          \ Representative payee is deceased or cannot continue in that\
+                          \ capacity.\n- `R15` - **R15.** Beneficiary or account holder\
+                          \ other than representative payee deceased.\n- `R16` - **R16.**\
+                          \ Account funds have been frozen.\n- `R17` - **R17.** Item\
+                          \ returned because of invalid data; refer to addenda for information.\n\
+                          - `R18` - **R18.** Improper effective date.\n- `R19` - **R19.**\
+                          \ Amount error.\n- `R20` - **R20.** Account does not allow\
+                          \ ACH transactions or limit for transactions has been exceeded.\n\
+                          - `R21` - **R21.** Invalid company identification.\n- `R22`\
+                          \ - **R22.** Invalid individual ID.\n- `R23` - **R23.** Credit\
+                          \ entry refused by receiver.\n- `R24` - **R24.** Duplicate\
+                          \ entry.\n- `R25` - **R25.** Addenda record error.\n- `R26`\
+                          \ - **R26.** Mandatory field error.\n- `R27` - **R27.** Trace\
+                          \ number error.\n- `R28` - **R28.** Routing/transit number\
+                          \ check digit error.\n- `R29` - **R29.** Corporate customer\
+                          \ advised not authorized.\n- `R30` - **R30.** RDFI not participant\
+                          \ in check truncation program.\n- `R31` - **R31.** Permissible\
+                          \ return entry.\n- `R32` - **R32.** RDFI non-settlement.\n\
+                          - `R33` - **R33.** Return of item.\n- `R34` - **R34.** Limited\
+                          \ participation ODFI.\n- `R35` - **R35.** Return of improper\
+                          \ debit entry.\n- `R36` - **R36.** Return of improper credit\
+                          \ entry.\n- `R37` - **R37.** Source document presented for\
+                          \ payment.\n- `R38` - **R38.** Stop payment on source document.\n\
+                          - `R39` - **R39.** Improper source document.\n- `R40` - **R40.**\
+                          \ Return of item by government agency.\n- `R41` - **R41.**\
+                          \ Invalid Transaction Code.\n- `R42` - **R42.** Routing/transit\
+                          \ number check digit error.\n- `R43` - **R43.** Invalid account\
+                          \ number.\n- `R44` - **R44.** Invalid individual ID.\n- `R45`\
+                          \ - **R45.** Invalid individual name or company name.\n- `R46`\
+                          \ - **R46.** Invalid representative payee indicator code.\n\
+                          - `R47` - **R47.** Duplicate enrollment.\n- `R50` - **R50.**\
+                          \ State law affecting RCK acceptance.\n- `R51` - **R51.**\
+                          \ Item is ineligible, notice not provided, signature not genuine,\
+                          \ or original item altered for adjustment entry.\n- `R52`\
+                          \ - **R52.** Stop payment on item.\n- `R53` - **R53.** Item\
+                          \ and ACH entry presented for payment.\n- `R61` - **R61.**\
+                          \ Misrouted return - RDFI for original entry has placed incorrect\
+                          \ routing/transit number in RDFI identification field.\n-\
+                          \ `R62` - **R62.** Incorrect trace number.\n- `R63` - **R63.**\
+                          \ Incorrect dollar amount.\n- `R64` - **R64.** Incorrect individual\
+                          \ identification.\n- `R65` - **R65.** Incorrect transaction\
+                          \ code.\n- `R66` - **R66.** Incorrect company identification.\n\
+                          - `R67` - **R67.** Duplicate return.\n- `R68` - **R68.** Untimely\
+                          \ return - return was not sent within the established timeframe.\n\
+                          - `R69` - **R69.** Field errors.\n- `R70` - **R70.** Permissible\
+                          \ return entry not accepted.\n- `R71` - **R71.** Misrouted\
+                          \ dishonored return -incorrect routing/transit number in RDFI\
+                          \ identification field.\n- `R72` - **R72.** Untimely return\
+                          \ - dishonored return was not sent within the established\
+                          \ timeframe.\n- `R73` - **R73.** Timely original return -\
+                          \ RDFI certifies the original return entry was sent within\
+                          \ established timeframe for original returns.\n- `R74` - **R74.**\
+                          \ Corrected return - RDFI is correcting a previous return\
+                          \ entry that was dishonored because it contained incomplete\
+                          \ or incorrect information.\n- `R75` - **R75.** Original return\
+                          \ not a duplicate.\n- `R76` - **R76.** No errors found.\n\
+                          - `R80` - **R80.** Cross-border payment coding error\n- `R81`\
+                          \ - **R81.** Non-participant in cross-border program.\n- `R82`\
+                          \ - **R82.** Invalid foreign RDFI identification.\n- `R83`\
+                          \ - **R83.** Foreign RDFI unable to settle.\n- `R84` - **R84.**\
+                          \ Cross-border entry not processed by originating gateway\
+                          \ operator.\n- `R94` - **R94.** Administrative return item\
+                          \ was processed and resubmitted as a photocopy.\n- `R95` -\
+                          \ **R95.** Administrative return item was processed and resubmitted\
+                          \ as a MICR-Split.\n- `R97` - **R97.** Administrative return\
+                          \ item was processed and resubmitted with corrected dollar\
+                          \ amount.\n- `R98` - **R98.** Indicates a return PAC (pre-authorized\
+                          \ check); RDFI provides a text reason and indicated a new\
+                          \ account number on the PAC itself.\n- `R99` - **R99.** Indicates\
+                          \ a return PAC (pre-authorized check); RDFI provides a text\
+                          \ reason on the PAC itself for which there is no equivalent\
+                          \ return reason code.\n- `C01` - **C01.** Incorrect DFI Account\
+                          \ Number.\n- `C02` - **C02.** Incorrect Transit/Routing Number.\n\
+                          - `C03` - **C03.** Incorrect Transit/Routing Number and Incorrect\
+                          \ DFI Account Number.\n- `C04` - **C04.** Incorrect Individual\
+                          \ Name.\n- `C05` - **C05.** Incorrect Transaction Code.\n\
+                          - `C06` - **C06.** Incorrect DFI Account Number and Incorrect\
+                          \ Transaction Code.\n- `C07` - **C07.** Incorrect Transit/Routing\
+                          \ Number, Incorrect DFI Account Number, and Incorrect Transaction\
+                          \ Code.\n- `C08` - **C08.** Reserved.\n- `C09` - **C09.**\
+                          \ Incorrect Individual Identification Number.\n- `C10` - **C10.**\
+                          \ Incorrect Company Name.\n- `C11` - **C11.** Incorrect Company\
+                          \ Identification.\n- `C12` - **C12.** Incorrect Company Name\
+                          \ and Company Identification.\n- `C13` - **C13.** Addenda\
+                          \ Format Error.\n- `C61` - **C61.** Misrouted Notification\
+                          \ of Change.\n- `C62` - **C62.** Incorrect Trace Number.\n\
+                          - `C63` - **C63.** Incorrect Company Identification Number.\n\
+                          - `C64` - **C64.** Incorrect Individual Identification Number.\n\
+                          - `C65` - **C65.** Incorrectly Formatted Corrected Data.\n\
+                          - `C66` - **C66.** Incorrect Discretionary Data.\n- `C67`\
+                          \ - **C67.** Routing Number Not From Original Entry Detail\
+                          \ Record.\n- `C68` - **C68.** DFI Account Number Not From\
+                          \ Original Entry Detail Record.\n- `C69` - **C69.** Incorrect\
+                          \ Transaction Code.\n- `R900-07` - **R900-07.** TBD\n- `R900-08`\
+                          \ - **R900-08.** TBD\n- `R900-16` - **R900-16.** TBD\n- `R900-17`\
+                          \ - **R900-17.** TBD\n- `R900-D2` - **R900-D2.** TBD\n- `R900-E1`\
+                          \ - **R900-E1.** TBD\n- `R900-L2` - **R900-L2.** TBD\n- `R900-L3`\
+                          \ - **R900-L3.** TBD\n- `R900-M1` - **R900-M1.** TBD\n- `R901`\
+                          \ - **R901.** TBD\n- `R902` - **R902.** TBD\n- `R903` - **R903.**\
+                          \ TBD\n- `R904` - **R904.** TBD\n- `R905` - **R905.** TBD\n\
+                          - `R907` - **R907.** TBD\n- `R908` - **R908.** TBD\n- `R909`\
+                          \ - **R909.** TBD\n- `R910` - **R910.** TBD\n- `R911` - **R911.**\
+                          \ TBD\n- `R912` - **R912.** TBD\n- `R914` - **R914.** TBD\n\
+                          - `R915` - **R915.** TBD\n- `R916` - **R916.** TBD\n- `R917`\
+                          \ - **R917.** TBD\n- `R918` - **R918.** TBD\n- `R919` - **R919.**\
+                          \ TBD\n- `R920` - **R920.** TBD\n- `R921` - **R921.** TBD\n\
+                          - `R922` - **R922.** TBD\n- `R990` - **R990.** TBD\n</details>\
+                          \    \nenum:\n- R01\n- R02\n- R03\n- R04\n- R05\n- R06\n-\
+                          \ R07\n- R08\n- R09\n- R10\n- R11\n- R12\n- R13\n- R14\n-\
+                          \ R15\n- R16\n- R17\n- R18\n- R19\n- R20\n- R21\n- R22\n-\
+                          \ R23\n- R24\n- R25\n- R26\n- R27\n- R28\n- R29\n- R30\n-\
+                          \ R31\n- R32\n- R33\n- R34\n- R35\n- R36\n- R37\n- R38\n-\
+                          \ R39\n- R40\n- R41\n- R42\n- R43\n- R44\n- R45\n- R46\n-\
+                          \ R47\n- R50\n- R51\n- R52\n- R53\n- R61\n- R62\n- R63\n-\
+                          \ R64\n- R65\n- R66\n- R67\n- R68\n- R69\n- R70\n- R71\n-\
+                          \ R72\n- R73\n- R74\n- R75\n- R76\n- R80\n- R81\n- R82\n-\
+                          \ R83\n- R84\n- R94\n- R95\n- R97\n- R98\n- R99\n- C01\n-\
+                          \ C02\n- C03\n- C04\n- C05\n- C06\n- C07\n- C08\n- C09\n-\
+                          \ C10\n- C11\n- C12\n- C13\n- C61\n- C62\n- C63\n- C64\n-\
+                          \ C65\n- C66\n- C67\n- C68\n- C69\n- R900-07\n- R900-08\n\
+                          - R900-16\n- R900-17\n- R900-D2\n- R900-E1\n- R900-L2\n- R900-L3\n\
+                          - R900-M1\n- R901\n- R902\n- R903\n- R904\n- R905\n- R907\n\
+                          - R908\n- R909\n- R910\n- R911\n- R912\n- R914\n- R915\n-\
+                          \ R916\n- R917\n- R918\n- R919\n- R920\n- R921\n- R922\n-\
+                          \ R990\n"
+                      message: {description: The message that is received from the platform}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          entity: {description: The identifier of the Entity that this
+                              EntityReturns refers to.}
+                          payment:
+                            description: The identifier of the Payment that this EntityReturns
+                              refers to.
+                            properties:
+                              method:
+                                enum: ['8', '9', '10', '11']
+                                x-enum-descriptions: [Checking account, Savings account,
+                                  Corporate checking account, Corporate savings account]
+                              number: {}
+                              routing: {}
+                          txn:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Transaction. \nThis field stores\
+                              \ the identifier of the Transaction."
+                          disbursement:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Disbursement. \nThis field stores\
+                              \ the identifier of the Disbursement."
+                          actionCode:
+                            enum: [unknown, nsf, badAccount, unauthorized]
+                            x-enum-descriptions: ['', '', '', '']
+                          code:
+                            description: The code that is received from the platform.
+                            enum: [R01, R02, R03, R04, R05, R06, R07, R08, R09, R10,
+                              R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21,
+                              R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32,
+                              R33, R34, R35, R36, R37, R38, R39, R40, R41, R42, R43,
+                              R44, R45, R46, R47, R50, R51, R52, R53, R61, R62, R63,
+                              R64, R65, R66, R67, R68, R69, R70, R71, R72, R73, R74,
+                              R75, R76, R80, R81, R82, R83, R84, R94, R95, R97, R98,
+                              R99, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10,
+                              C11, C12, C13, C61, C62, C63, C64, C65, C66, C67, C68,
+                              C69, R900-07, R900-08, R900-16, R900-17, R900-D2, R900-E1,
+                              R900-L2, R900-L3, R900-M1, R901, R902, R903, R904, R905,
+                              R907, R908, R909, R910, R911, R912, R914, R915, R916,
+                              R917, R918, R919, R920, R921, R922, R990]
+                            x-enum-descriptions: [R01. Insufficient funds in account.,
+                              R02. Account is closed., R03. No account on file., R04.
+                                Invalid account number., R05. Unauthorized debit to
+                                consumer account, R06. Returned at request of ODFI.,
+                              R07. Authorization revoked by customer., R08. Payment
+                                stopped., R09. Insufficient collected funds in account
+                                being charged, 'R10. Customer advises not Authorized,
+                                notice not provided, improper source document, or amount
+                                of entry not accurately obtained from source document.',
+                              R11. Check truncation return., R12. Account sold to another
+                                financial institution., R13. Invalid ACH routing number.,
+                              R14. Representative payee is deceased or cannot continue
+                                in that capacity., R15. Beneficiary or account holder
+                                other than representative payee deceased., R16. Account
+                                funds have been frozen., R17. Item returned because
+                                of invalid data; refer to addenda for information.,
+                              R18. Improper effective date., R19. Amount error., R20.
+                                Account does not allow ACH transactions or limit for
+                                transactions has been exceeded., R21. Invalid company
+                                identification., R22. Invalid individual ID., R23. Credit
+                                entry refused by receiver., R24. Duplicate entry., R25.
+                                Addenda record error., R26. Mandatory field error.,
+                              R27. Trace number error., R28. Routing/transit number
+                                check digit error., R29. Corporate customer advised
+                                not authorized., R30. RDFI not participant in check
+                                truncation program., R31. Permissible return entry.,
+                              R32. RDFI non-settlement., R33. Return of item., R34.
+                                Limited participation ODFI., R35. Return of improper
+                                debit entry., R36. Return of improper credit entry.,
+                              R37. Source document presented for payment., R38. Stop
+                                payment on source document., R39. Improper source document.,
+                              R40. Return of item by government agency., R41. Invalid
+                                Transaction Code., R42. Routing/transit number check
+                                digit error., R43. Invalid account number., R44. Invalid
+                                individual ID., R45. Invalid individual name or company
+                                name., R46. Invalid representative payee indicator code.,
+                              R47. Duplicate enrollment., R50. State law affecting RCK
+                                acceptance., 'R51. Item is ineligible, notice not provided,
+                                signature not genuine, or original item altered for
+                                adjustment entry.', R52. Stop payment on item., R53.
+                                Item and ACH entry presented for payment., R61. Misrouted
+                                return - RDFI for original entry has placed incorrect
+                                routing/transit number in RDFI identification field.,
+                              R62. Incorrect trace number., R63. Incorrect dollar amount.,
+                              R64. Incorrect individual identification., R65. Incorrect
+                                transaction code., R66. Incorrect company identification.,
+                              R67. Duplicate return., R68. Untimely return - return
+                                was not sent within the established timeframe., R69.
+                                Field errors., R70. Permissible return entry not accepted.,
+                              R71. Misrouted dishonored return -incorrect routing/transit
+                                number in RDFI identification field., R72. Untimely
+                                return - dishonored return was not sent within the established
+                                timeframe., R73. Timely original return - RDFI certifies
+                                the original return entry was sent within established
+                                timeframe for original returns., R74. Corrected return
+                                - RDFI is correcting a previous return entry that was
+                                dishonored because it contained incomplete or incorrect
+                                information., R75. Original return not a duplicate.,
+                              R76. No errors found., R80. Cross-border payment coding
+                                error., R81. Non-participant in cross-border program.,
+                              R82. Invalid foreign RDFI identification., R83. Foreign
+                                RDFI unable to settle., R84. Cross-border entry not
+                                processed by originating gateway operator., R94. Administrative
+                                return item was processed and resubmitted as a photocopy.,
+                              R95. Administrative return item was processed and resubmitted
+                                as a MICR-Split., R97. Administrative return item was
+                                processed and resubmitted with corrected dollar amount.,
+                              R98. Indicates a return PAC (pre-authorized check); RDFI
+                                provides a text reason and indicated a new account number
+                                on the PAC itself., R99. Indicates a return PAC (pre-authorized
+                                check); RDFI provides a text reason on the PAC itself
+                                for which there is no equivalent return reason code.,
+                              C01. Incorrect DFI Account Number., C02. Incorrect Transit/Routing
+                                Number., C03. C03 Incorrect Transit/Routing Number and
+                                Incorrect DFI Account Number., C04. Incorrect Individual
+                                Name., C05. Incorrect Transaction Code., C06. Incorrect
+                                DFI Account Number and Incorrect Transaction Code.,
+                              'C07. Incorrect Transit/Routing Number, Incorrect DFI
+                                Account Number, and Incorrect Transaction Code.', C08.
+                                Reserved., C09. Incorrect Individual Identification
+                                Number., C10. Incorrect Company Name., C11. Incorrect
+                                Company Identification., C12. Incorrect Company Name
+                                and Company Identification., C13. Addenda Format Error.,
+                              C61. Misrouted Notification of Change., C62. Incorrect
+                                Trace Number., C63. Incorrect Company Identification
+                                Number., C64. Incorrect Individual Identification Number.,
+                              C65. Incorrectly Formatted Corrected Data., C66. Incorrect
+                                Discretionary Data., C67. Routing Number Not From Original
+                                Entry Detail Record., C68. DFI Account Number Not From
+                                Original Entry Detail Record., C69. Incorrect Transaction
+                                Code., '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          message: {description: The message that is received from the
+                              platform}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Retrieve an Entity Returns Response for query on entity.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve an Entity Return by it's ID.
+    tags: [Entity Liabilities]
+    operationId: getEntityReturnsId
+  put:
+    description: "Update an EntityReturn. \nAn EntityReturn represents an ACH transaction\
+      \ or disbursement that has been rejected. \nThe EntityReturn will block ACH creations\
+      \ or send out related to its entity and payment."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+              payment:
+                description: The identifier of the Payment that this EntityReturns refers
+                  to.
+                properties:
+                  method:
+                    enum: ['8', '9', '10', '11']
+                    x-enum-descriptions: [Checking account, Savings account, Corporate
+                        checking account, Corporate savings account]
+                  number: {}
+                  routing: {}
+                  expiration: {}
+                required: [method, number]
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+              payment:
+                description: The identifier of the Payment that this EntityReturns refers
+                  to.
+                properties:
+                  method:
+                    enum: ['8', '9', '10', '11']
+                    x-enum-descriptions: [Checking account, Savings account, Corporate
+                        checking account, Corporate savings account]
+                  number: {}
+                  routing: {}
+                  expiration: {}
+                required: [method, number]
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+              payment:
+                description: The identifier of the Payment that this EntityReturns refers
+                  to.
+                properties:
+                  method:
+                    enum: ['8', '9', '10', '11']
+                    x-enum-descriptions: [Checking account, Savings account, Corporate
+                        checking account, Corporate savings account]
+                  number: {}
+                  routing: {}
+                  expiration: {}
+                required: [method, number]
+            required: [frozen, inactive, login]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+              payment:
+                description: The identifier of the Payment that this EntityReturns refers
+                  to.
+                properties:
+                  method:
+                    enum: ['8', '9', '10', '11']
+                    x-enum-descriptions: [Checking account, Savings account, Corporate
+                        checking account, Corporate savings account]
+                  number: {}
+                  routing: {}
+                  expiration: {}
+                required: [method, number]
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+              payment:
+                description: The identifier of the Payment that this EntityReturns refers
+                  to.
+                properties:
+                  method:
+                    enum: ['8', '9', '10', '11']
+                    x-enum-descriptions: [Checking account, Savings account, Corporate
+                        checking account, Corporate savings account]
+                  number: {}
+                  routing: {}
+                  expiration: {}
+                required: [method, number]
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+              payment:
+                description: The identifier of the Payment that this EntityReturns refers
+                  to.
+                properties:
+                  method:
+                    enum: ['8', '9', '10', '11']
+                    x-enum-descriptions: [Checking account, Savings account, Corporate
+                        checking account, Corporate savings account]
+                  number: {}
+                  routing: {}
+                  expiration: {}
+                required: [method, number]
+            required: [frozen, inactive, login]
+            x-redacted: []
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          entity: {description: The identifier of the Entity that this
+                              EntityReturns refers to.}
+                          payment: {description: The identifier of the Payment that
+                              this EntityReturns refers to.}
+                          txn:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Transaction. \nThis field stores\
+                              \ the identifier of the Transaction."
+                          disbursement:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Disbursement. \nThis field stores\
+                              \ the identifier of the Disbursement."
+                          actionCode:
+                            enum: [unknown, nsf, badAccount, unauthorized]
+                            x-enum-descriptions: ['', '', '', '']
+                          code:
+                            description: The code that is received from the platform.
+                            enum: [R01, R02, R03, R04, R05, R06, R07, R08, R09, R10,
+                              R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21,
+                              R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32,
+                              R33, R34, R35, R36, R37, R38, R39, R40, R41, R42, R43,
+                              R44, R45, R46, R47, R50, R51, R52, R53, R61, R62, R63,
+                              R64, R65, R66, R67, R68, R69, R70, R71, R72, R73, R74,
+                              R75, R76, R80, R81, R82, R83, R84, R94, R95, R97, R98,
+                              R99, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10,
+                              C11, C12, C13, C61, C62, C63, C64, C65, C66, C67, C68,
+                              C69, R900-07, R900-08, R900-16, R900-17, R900-D2, R900-E1,
+                              R900-L2, R900-L3, R900-M1, R901, R902, R903, R904, R905,
+                              R907, R908, R909, R910, R911, R912, R914, R915, R916,
+                              R917, R918, R919, R920, R921, R922, R990]
+                            x-enum-descriptions: [R01. Insufficient funds in account.,
+                              R02. Account is closed., R03. No account on file., R04.
+                                Invalid account number., R05. Unauthorized debit to
+                                consumer account, R06. Returned at request of ODFI.,
+                              R07. Authorization revoked by customer., R08. Payment
+                                stopped., R09. Insufficient collected funds in account
+                                being charged, 'R10. Customer advises not Authorized,
+                                notice not provided, improper source document, or amount
+                                of entry not accurately obtained from source document.',
+                              R11. Check truncation return., R12. Account sold to another
+                                financial institution., R13. Invalid ACH routing number.,
+                              R14. Representative payee is deceased or cannot continue
+                                in that capacity., R15. Beneficiary or account holder
+                                other than representative payee deceased., R16. Account
+                                funds have been frozen., R17. Item returned because
+                                of invalid data; refer to addenda for information.,
+                              R18. Improper effective date., R19. Amount error., R20.
+                                Account does not allow ACH transactions or limit for
+                                transactions has been exceeded., R21. Invalid company
+                                identification., R22. Invalid individual ID., R23. Credit
+                                entry refused by receiver., R24. Duplicate entry., R25.
+                                Addenda record error., R26. Mandatory field error.,
+                              R27. Trace number error., R28. Routing/transit number
+                                check digit error., R29. Corporate customer advised
+                                not authorized., R30. RDFI not participant in check
+                                truncation program., R31. Permissible return entry.,
+                              R32. RDFI non-settlement., R33. Return of item., R34.
+                                Limited participation ODFI., R35. Return of improper
+                                debit entry., R36. Return of improper credit entry.,
+                              R37. Source document presented for payment., R38. Stop
+                                payment on source document., R39. Improper source document.,
+                              R40. Return of item by government agency., R41. Invalid
+                                Transaction Code., R42. Routing/transit number check
+                                digit error., R43. Invalid account number., R44. Invalid
+                                individual ID., R45. Invalid individual name or company
+                                name., R46. Invalid representative payee indicator code.,
+                              R47. Duplicate enrollment., R50. State law affecting RCK
+                                acceptance., 'R51. Item is ineligible, notice not provided,
+                                signature not genuine, or original item altered for
+                                adjustment entry.', R52. Stop payment on item., R53.
+                                Item and ACH entry presented for payment., R61. Misrouted
+                                return - RDFI for original entry has placed incorrect
+                                routing/transit number in RDFI identification field.,
+                              R62. Incorrect trace number., R63. Incorrect dollar amount.,
+                              R64. Incorrect individual identification., R65. Incorrect
+                                transaction code., R66. Incorrect company identification.,
+                              R67. Duplicate return., R68. Untimely return - return
+                                was not sent within the established timeframe., R69.
+                                Field errors., R70. Permissible return entry not accepted.,
+                              R71. Misrouted dishonored return -incorrect routing/transit
+                                number in RDFI identification field., R72. Untimely
+                                return - dishonored return was not sent within the established
+                                timeframe., R73. Timely original return - RDFI certifies
+                                the original return entry was sent within established
+                                timeframe for original returns., R74. Corrected return
+                                - RDFI is correcting a previous return entry that was
+                                dishonored because it contained incomplete or incorrect
+                                information., R75. Original return not a duplicate.,
+                              R76. No errors found., R80. Cross-border payment coding
+                                error., R81. Non-participant in cross-border program.,
+                              R82. Invalid foreign RDFI identification., R83. Foreign
+                                RDFI unable to settle., R84. Cross-border entry not
+                                processed by originating gateway operator., R94. Administrative
+                                return item was processed and resubmitted as a photocopy.,
+                              R95. Administrative return item was processed and resubmitted
+                                as a MICR-Split., R97. Administrative return item was
+                                processed and resubmitted with corrected dollar amount.,
+                              R98. Indicates a return PAC (pre-authorized check); RDFI
+                                provides a text reason and indicated a new account number
+                                on the PAC itself., R99. Indicates a return PAC (pre-authorized
+                                check); RDFI provides a text reason on the PAC itself
+                                for which there is no equivalent return reason code.,
+                              C01. Incorrect DFI Account Number., C02. Incorrect Transit/Routing
+                                Number., C03. C03 Incorrect Transit/Routing Number and
+                                Incorrect DFI Account Number., C04. Incorrect Individual
+                                Name., C05. Incorrect Transaction Code., C06. Incorrect
+                                DFI Account Number and Incorrect Transaction Code.,
+                              'C07. Incorrect Transit/Routing Number, Incorrect DFI
+                                Account Number, and Incorrect Transaction Code.', C08.
+                                Reserved., C09. Incorrect Individual Identification
+                                Number., C10. Incorrect Company Name., C11. Incorrect
+                                Company Identification., C12. Incorrect Company Name
+                                and Company Identification., C13. Addenda Format Error.,
+                              C61. Misrouted Notification of Change., C62. Incorrect
+                                Trace Number., C63. Incorrect Company Identification
+                                Number., C64. Incorrect Individual Identification Number.,
+                              C65. Incorrectly Formatted Corrected Data., C66. Incorrect
+                                Discretionary Data., C67. Routing Number Not From Original
+                                Entry Detail Record., C68. DFI Account Number Not From
+                                Original Entry Detail Record., C69. Incorrect Transaction
+                                Code., '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          message: {description: The message that is received from the
+                              platform}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          entity: {description: The identifier of the Entity that this
+                              EntityReturns refers to.}
+                          payment: {description: The identifier of the Payment that
+                              this EntityReturns refers to.}
+                          txn:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Transaction. \nThis field stores\
+                              \ the identifier of the Transaction."
+                          disbursement:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Disbursement. \nThis field stores\
+                              \ the identifier of the Disbursement."
+                          actionCode:
+                            enum: [unknown, nsf, badAccount, unauthorized]
+                            x-enum-descriptions: ['', '', '', '']
+                          code:
+                            description: The code that is received from the platform.
+                            enum: [R01, R02, R03, R04, R05, R06, R07, R08, R09, R10,
+                              R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21,
+                              R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32,
+                              R33, R34, R35, R36, R37, R38, R39, R40, R41, R42, R43,
+                              R44, R45, R46, R47, R50, R51, R52, R53, R61, R62, R63,
+                              R64, R65, R66, R67, R68, R69, R70, R71, R72, R73, R74,
+                              R75, R76, R80, R81, R82, R83, R84, R94, R95, R97, R98,
+                              R99, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10,
+                              C11, C12, C13, C61, C62, C63, C64, C65, C66, C67, C68,
+                              C69, R900-07, R900-08, R900-16, R900-17, R900-D2, R900-E1,
+                              R900-L2, R900-L3, R900-M1, R901, R902, R903, R904, R905,
+                              R907, R908, R909, R910, R911, R912, R914, R915, R916,
+                              R917, R918, R919, R920, R921, R922, R990]
+                            x-enum-descriptions: [R01. Insufficient funds in account.,
+                              R02. Account is closed., R03. No account on file., R04.
+                                Invalid account number., R05. Unauthorized debit to
+                                consumer account, R06. Returned at request of ODFI.,
+                              R07. Authorization revoked by customer., R08. Payment
+                                stopped., R09. Insufficient collected funds in account
+                                being charged, 'R10. Customer advises not Authorized,
+                                notice not provided, improper source document, or amount
+                                of entry not accurately obtained from source document.',
+                              R11. Check truncation return., R12. Account sold to another
+                                financial institution., R13. Invalid ACH routing number.,
+                              R14. Representative payee is deceased or cannot continue
+                                in that capacity., R15. Beneficiary or account holder
+                                other than representative payee deceased., R16. Account
+                                funds have been frozen., R17. Item returned because
+                                of invalid data; refer to addenda for information.,
+                              R18. Improper effective date., R19. Amount error., R20.
+                                Account does not allow ACH transactions or limit for
+                                transactions has been exceeded., R21. Invalid company
+                                identification., R22. Invalid individual ID., R23. Credit
+                                entry refused by receiver., R24. Duplicate entry., R25.
+                                Addenda record error., R26. Mandatory field error.,
+                              R27. Trace number error., R28. Routing/transit number
+                                check digit error., R29. Corporate customer advised
+                                not authorized., R30. RDFI not participant in check
+                                truncation program., R31. Permissible return entry.,
+                              R32. RDFI non-settlement., R33. Return of item., R34.
+                                Limited participation ODFI., R35. Return of improper
+                                debit entry., R36. Return of improper credit entry.,
+                              R37. Source document presented for payment., R38. Stop
+                                payment on source document., R39. Improper source document.,
+                              R40. Return of item by government agency., R41. Invalid
+                                Transaction Code., R42. Routing/transit number check
+                                digit error., R43. Invalid account number., R44. Invalid
+                                individual ID., R45. Invalid individual name or company
+                                name., R46. Invalid representative payee indicator code.,
+                              R47. Duplicate enrollment., R50. State law affecting RCK
+                                acceptance., 'R51. Item is ineligible, notice not provided,
+                                signature not genuine, or original item altered for
+                                adjustment entry.', R52. Stop payment on item., R53.
+                                Item and ACH entry presented for payment., R61. Misrouted
+                                return - RDFI for original entry has placed incorrect
+                                routing/transit number in RDFI identification field.,
+                              R62. Incorrect trace number., R63. Incorrect dollar amount.,
+                              R64. Incorrect individual identification., R65. Incorrect
+                                transaction code., R66. Incorrect company identification.,
+                              R67. Duplicate return., R68. Untimely return - return
+                                was not sent within the established timeframe., R69.
+                                Field errors., R70. Permissible return entry not accepted.,
+                              R71. Misrouted dishonored return -incorrect routing/transit
+                                number in RDFI identification field., R72. Untimely
+                                return - dishonored return was not sent within the established
+                                timeframe., R73. Timely original return - RDFI certifies
+                                the original return entry was sent within established
+                                timeframe for original returns., R74. Corrected return
+                                - RDFI is correcting a previous return entry that was
+                                dishonored because it contained incomplete or incorrect
+                                information., R75. Original return not a duplicate.,
+                              R76. No errors found., R80. Cross-border payment coding
+                                error., R81. Non-participant in cross-border program.,
+                              R82. Invalid foreign RDFI identification., R83. Foreign
+                                RDFI unable to settle., R84. Cross-border entry not
+                                processed by originating gateway operator., R94. Administrative
+                                return item was processed and resubmitted as a photocopy.,
+                              R95. Administrative return item was processed and resubmitted
+                                as a MICR-Split., R97. Administrative return item was
+                                processed and resubmitted with corrected dollar amount.,
+                              R98. Indicates a return PAC (pre-authorized check); RDFI
+                                provides a text reason and indicated a new account number
+                                on the PAC itself., R99. Indicates a return PAC (pre-authorized
+                                check); RDFI provides a text reason on the PAC itself
+                                for which there is no equivalent return reason code.,
+                              C01. Incorrect DFI Account Number., C02. Incorrect Transit/Routing
+                                Number., C03. C03 Incorrect Transit/Routing Number and
+                                Incorrect DFI Account Number., C04. Incorrect Individual
+                                Name., C05. Incorrect Transaction Code., C06. Incorrect
+                                DFI Account Number and Incorrect Transaction Code.,
+                              'C07. Incorrect Transit/Routing Number, Incorrect DFI
+                                Account Number, and Incorrect Transaction Code.', C08.
+                                Reserved., C09. Incorrect Individual Identification
+                                Number., C10. Incorrect Company Name., C11. Incorrect
+                                Company Identification., C12. Incorrect Company Name
+                                and Company Identification., C13. Addenda Format Error.,
+                              C61. Misrouted Notification of Change., C62. Incorrect
+                                Trace Number., C63. Incorrect Company Identification
+                                Number., C64. Incorrect Individual Identification Number.,
+                              C65. Incorrectly Formatted Corrected Data., C66. Incorrect
+                                Discretionary Data., C67. Routing Number Not From Original
+                                Entry Detail Record., C68. DFI Account Number Not From
+                                Original Entry Detail Record., C69. Incorrect Transaction
+                                Code., '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          message: {description: The message that is received from the
+                              platform}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for update on entityReturns resource
+    tags: [Entity Liabilities]
+    operationId: putEntityReturnsId
+  delete:
+    description: "Delete an EntityReturn. \nAn EntityReturn represents an ACH transaction\
+      \ or disbursement that has been rejected. \nThe EntityReturn will block ACH creations\
+      \ or send out related to its entity and payment."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          entity: {description: The identifier of the Entity that this
+                              EntityReturns refers to.}
+                          payment: {description: The identifier of the Payment that
+                              this EntityReturns refers to.}
+                          txn:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Transaction. \nThis field stores\
+                              \ the identifier of the Transaction."
+                          disbursement:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Disbursement. \nThis field stores\
+                              \ the identifier of the Disbursement."
+                          actionCode:
+                            enum: [unknown, nsf, badAccount, unauthorized]
+                            x-enum-descriptions: ['', '', '', '']
+                          code:
+                            description: The code that is received from the platform.
+                            enum: [R01, R02, R03, R04, R05, R06, R07, R08, R09, R10,
+                              R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21,
+                              R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32,
+                              R33, R34, R35, R36, R37, R38, R39, R40, R41, R42, R43,
+                              R44, R45, R46, R47, R50, R51, R52, R53, R61, R62, R63,
+                              R64, R65, R66, R67, R68, R69, R70, R71, R72, R73, R74,
+                              R75, R76, R80, R81, R82, R83, R84, R94, R95, R97, R98,
+                              R99, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10,
+                              C11, C12, C13, C61, C62, C63, C64, C65, C66, C67, C68,
+                              C69, R900-07, R900-08, R900-16, R900-17, R900-D2, R900-E1,
+                              R900-L2, R900-L3, R900-M1, R901, R902, R903, R904, R905,
+                              R907, R908, R909, R910, R911, R912, R914, R915, R916,
+                              R917, R918, R919, R920, R921, R922, R990]
+                            x-enum-descriptions: [R01. Insufficient funds in account.,
+                              R02. Account is closed., R03. No account on file., R04.
+                                Invalid account number., R05. Unauthorized debit to
+                                consumer account, R06. Returned at request of ODFI.,
+                              R07. Authorization revoked by customer., R08. Payment
+                                stopped., R09. Insufficient collected funds in account
+                                being charged, 'R10. Customer advises not Authorized,
+                                notice not provided, improper source document, or amount
+                                of entry not accurately obtained from source document.',
+                              R11. Check truncation return., R12. Account sold to another
+                                financial institution., R13. Invalid ACH routing number.,
+                              R14. Representative payee is deceased or cannot continue
+                                in that capacity., R15. Beneficiary or account holder
+                                other than representative payee deceased., R16. Account
+                                funds have been frozen., R17. Item returned because
+                                of invalid data; refer to addenda for information.,
+                              R18. Improper effective date., R19. Amount error., R20.
+                                Account does not allow ACH transactions or limit for
+                                transactions has been exceeded., R21. Invalid company
+                                identification., R22. Invalid individual ID., R23. Credit
+                                entry refused by receiver., R24. Duplicate entry., R25.
+                                Addenda record error., R26. Mandatory field error.,
+                              R27. Trace number error., R28. Routing/transit number
+                                check digit error., R29. Corporate customer advised
+                                not authorized., R30. RDFI not participant in check
+                                truncation program., R31. Permissible return entry.,
+                              R32. RDFI non-settlement., R33. Return of item., R34.
+                                Limited participation ODFI., R35. Return of improper
+                                debit entry., R36. Return of improper credit entry.,
+                              R37. Source document presented for payment., R38. Stop
+                                payment on source document., R39. Improper source document.,
+                              R40. Return of item by government agency., R41. Invalid
+                                Transaction Code., R42. Routing/transit number check
+                                digit error., R43. Invalid account number., R44. Invalid
+                                individual ID., R45. Invalid individual name or company
+                                name., R46. Invalid representative payee indicator code.,
+                              R47. Duplicate enrollment., R50. State law affecting RCK
+                                acceptance., 'R51. Item is ineligible, notice not provided,
+                                signature not genuine, or original item altered for
+                                adjustment entry.', R52. Stop payment on item., R53.
+                                Item and ACH entry presented for payment., R61. Misrouted
+                                return - RDFI for original entry has placed incorrect
+                                routing/transit number in RDFI identification field.,
+                              R62. Incorrect trace number., R63. Incorrect dollar amount.,
+                              R64. Incorrect individual identification., R65. Incorrect
+                                transaction code., R66. Incorrect company identification.,
+                              R67. Duplicate return., R68. Untimely return - return
+                                was not sent within the established timeframe., R69.
+                                Field errors., R70. Permissible return entry not accepted.,
+                              R71. Misrouted dishonored return -incorrect routing/transit
+                                number in RDFI identification field., R72. Untimely
+                                return - dishonored return was not sent within the established
+                                timeframe., R73. Timely original return - RDFI certifies
+                                the original return entry was sent within established
+                                timeframe for original returns., R74. Corrected return
+                                - RDFI is correcting a previous return entry that was
+                                dishonored because it contained incomplete or incorrect
+                                information., R75. Original return not a duplicate.,
+                              R76. No errors found., R80. Cross-border payment coding
+                                error., R81. Non-participant in cross-border program.,
+                              R82. Invalid foreign RDFI identification., R83. Foreign
+                                RDFI unable to settle., R84. Cross-border entry not
+                                processed by originating gateway operator., R94. Administrative
+                                return item was processed and resubmitted as a photocopy.,
+                              R95. Administrative return item was processed and resubmitted
+                                as a MICR-Split., R97. Administrative return item was
+                                processed and resubmitted with corrected dollar amount.,
+                              R98. Indicates a return PAC (pre-authorized check); RDFI
+                                provides a text reason and indicated a new account number
+                                on the PAC itself., R99. Indicates a return PAC (pre-authorized
+                                check); RDFI provides a text reason on the PAC itself
+                                for which there is no equivalent return reason code.,
+                              C01. Incorrect DFI Account Number., C02. Incorrect Transit/Routing
+                                Number., C03. C03 Incorrect Transit/Routing Number and
+                                Incorrect DFI Account Number., C04. Incorrect Individual
+                                Name., C05. Incorrect Transaction Code., C06. Incorrect
+                                DFI Account Number and Incorrect Transaction Code.,
+                              'C07. Incorrect Transit/Routing Number, Incorrect DFI
+                                Account Number, and Incorrect Transaction Code.', C08.
+                                Reserved., C09. Incorrect Individual Identification
+                                Number., C10. Incorrect Company Name., C11. Incorrect
+                                Company Identification., C12. Incorrect Company Name
+                                and Company Identification., C13. Addenda Format Error.,
+                              C61. Misrouted Notification of Change., C62. Incorrect
+                                Trace Number., C63. Incorrect Company Identification
+                                Number., C64. Incorrect Individual Identification Number.,
+                              C65. Incorrectly Formatted Corrected Data., C66. Incorrect
+                                Discretionary Data., C67. Routing Number Not From Original
+                                Entry Detail Record., C68. DFI Account Number Not From
+                                Original Entry Detail Record., C69. Incorrect Transaction
+                                Code., '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          message: {description: The message that is received from the
+                              platform}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          entity: {description: The identifier of the Entity that this
+                              EntityReturns refers to.}
+                          payment: {description: The identifier of the Payment that
+                              this EntityReturns refers to.}
+                          txn:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Transaction. \nThis field stores\
+                              \ the identifier of the Transaction."
+                          disbursement:
+                            description: "This field indicates that this EntityReturn\
+                              \ was triggered from a Disbursement. \nThis field stores\
+                              \ the identifier of the Disbursement."
+                          actionCode:
+                            enum: [unknown, nsf, badAccount, unauthorized]
+                            x-enum-descriptions: ['', '', '', '']
+                          code:
+                            description: The code that is received from the platform.
+                            enum: [R01, R02, R03, R04, R05, R06, R07, R08, R09, R10,
+                              R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21,
+                              R22, R23, R24, R25, R26, R27, R28, R29, R30, R31, R32,
+                              R33, R34, R35, R36, R37, R38, R39, R40, R41, R42, R43,
+                              R44, R45, R46, R47, R50, R51, R52, R53, R61, R62, R63,
+                              R64, R65, R66, R67, R68, R69, R70, R71, R72, R73, R74,
+                              R75, R76, R80, R81, R82, R83, R84, R94, R95, R97, R98,
+                              R99, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10,
+                              C11, C12, C13, C61, C62, C63, C64, C65, C66, C67, C68,
+                              C69, R900-07, R900-08, R900-16, R900-17, R900-D2, R900-E1,
+                              R900-L2, R900-L3, R900-M1, R901, R902, R903, R904, R905,
+                              R907, R908, R909, R910, R911, R912, R914, R915, R916,
+                              R917, R918, R919, R920, R921, R922, R990]
+                            x-enum-descriptions: [R01. Insufficient funds in account.,
+                              R02. Account is closed., R03. No account on file., R04.
+                                Invalid account number., R05. Unauthorized debit to
+                                consumer account, R06. Returned at request of ODFI.,
+                              R07. Authorization revoked by customer., R08. Payment
+                                stopped., R09. Insufficient collected funds in account
+                                being charged, 'R10. Customer advises not Authorized,
+                                notice not provided, improper source document, or amount
+                                of entry not accurately obtained from source document.',
+                              R11. Check truncation return., R12. Account sold to another
+                                financial institution., R13. Invalid ACH routing number.,
+                              R14. Representative payee is deceased or cannot continue
+                                in that capacity., R15. Beneficiary or account holder
+                                other than representative payee deceased., R16. Account
+                                funds have been frozen., R17. Item returned because
+                                of invalid data; refer to addenda for information.,
+                              R18. Improper effective date., R19. Amount error., R20.
+                                Account does not allow ACH transactions or limit for
+                                transactions has been exceeded., R21. Invalid company
+                                identification., R22. Invalid individual ID., R23. Credit
+                                entry refused by receiver., R24. Duplicate entry., R25.
+                                Addenda record error., R26. Mandatory field error.,
+                              R27. Trace number error., R28. Routing/transit number
+                                check digit error., R29. Corporate customer advised
+                                not authorized., R30. RDFI not participant in check
+                                truncation program., R31. Permissible return entry.,
+                              R32. RDFI non-settlement., R33. Return of item., R34.
+                                Limited participation ODFI., R35. Return of improper
+                                debit entry., R36. Return of improper credit entry.,
+                              R37. Source document presented for payment., R38. Stop
+                                payment on source document., R39. Improper source document.,
+                              R40. Return of item by government agency., R41. Invalid
+                                Transaction Code., R42. Routing/transit number check
+                                digit error., R43. Invalid account number., R44. Invalid
+                                individual ID., R45. Invalid individual name or company
+                                name., R46. Invalid representative payee indicator code.,
+                              R47. Duplicate enrollment., R50. State law affecting RCK
+                                acceptance., 'R51. Item is ineligible, notice not provided,
+                                signature not genuine, or original item altered for
+                                adjustment entry.', R52. Stop payment on item., R53.
+                                Item and ACH entry presented for payment., R61. Misrouted
+                                return - RDFI for original entry has placed incorrect
+                                routing/transit number in RDFI identification field.,
+                              R62. Incorrect trace number., R63. Incorrect dollar amount.,
+                              R64. Incorrect individual identification., R65. Incorrect
+                                transaction code., R66. Incorrect company identification.,
+                              R67. Duplicate return., R68. Untimely return - return
+                                was not sent within the established timeframe., R69.
+                                Field errors., R70. Permissible return entry not accepted.,
+                              R71. Misrouted dishonored return -incorrect routing/transit
+                                number in RDFI identification field., R72. Untimely
+                                return - dishonored return was not sent within the established
+                                timeframe., R73. Timely original return - RDFI certifies
+                                the original return entry was sent within established
+                                timeframe for original returns., R74. Corrected return
+                                - RDFI is correcting a previous return entry that was
+                                dishonored because it contained incomplete or incorrect
+                                information., R75. Original return not a duplicate.,
+                              R76. No errors found., R80. Cross-border payment coding
+                                error., R81. Non-participant in cross-border program.,
+                              R82. Invalid foreign RDFI identification., R83. Foreign
+                                RDFI unable to settle., R84. Cross-border entry not
+                                processed by originating gateway operator., R94. Administrative
+                                return item was processed and resubmitted as a photocopy.,
+                              R95. Administrative return item was processed and resubmitted
+                                as a MICR-Split., R97. Administrative return item was
+                                processed and resubmitted with corrected dollar amount.,
+                              R98. Indicates a return PAC (pre-authorized check); RDFI
+                                provides a text reason and indicated a new account number
+                                on the PAC itself., R99. Indicates a return PAC (pre-authorized
+                                check); RDFI provides a text reason on the PAC itself
+                                for which there is no equivalent return reason code.,
+                              C01. Incorrect DFI Account Number., C02. Incorrect Transit/Routing
+                                Number., C03. C03 Incorrect Transit/Routing Number and
+                                Incorrect DFI Account Number., C04. Incorrect Individual
+                                Name., C05. Incorrect Transaction Code., C06. Incorrect
+                                DFI Account Number and Incorrect Transaction Code.,
+                              'C07. Incorrect Transit/Routing Number, Incorrect DFI
+                                Account Number, and Incorrect Transaction Code.', C08.
+                                Reserved., C09. Incorrect Individual Identification
+                                Number., C10. Incorrect Company Name., C11. Incorrect
+                                Company Identification., C12. Incorrect Company Name
+                                and Company Identification., C13. Addenda Format Error.,
+                              C61. Misrouted Notification of Change., C62. Incorrect
+                                Trace Number., C63. Incorrect Company Identification
+                                Number., C64. Incorrect Individual Identification Number.,
+                              C65. Incorrectly Formatted Corrected Data., C66. Incorrect
+                                Discretionary Data., C67. Routing Number Not From Original
+                                Entry Detail Record., C68. DFI Account Number Not From
+                                Original Entry Detail Record., C69. Incorrect Transaction
+                                Code., '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          message: {description: The message that is received from the
+                              platform}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for delete on entityReturns resource
+    tags: [Entity Liabilities]
+    operationId: deleteEntityReturnsId

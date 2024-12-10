@@ -1,0 +1,18 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  fund: { type: string, description: "The fund for which the amount is available from this source." }
+  txn: { type: string, description: "ID of the transaction related to this fund." }
+  disbursement: { type: string, description: "ID of the disbursement related to this fund." }
+  adjustment: { type: string, description: "ID of the adjustment which triggered this fund." }
+  amount: { type: integer, description: "The amount of funds available from this source." }
+  funding: { type: string, description: "The processor’s funding ID (related to a merchant, for field is required if the adjustment is not between entities.",
+             enum: [ APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                     WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA ],
+             example: VCORE,
+             x-enum-descriptions: [ '', '', '', '', '', '', '', '', '',
+                                    '', '' ] }
+  fbo: { type: string, description: "FBO which this fund is drawn from." }

@@ -1,0 +1,99 @@
+get:
+  description: Query a Chargeback. A Chargeback is the reversal of a Transaction,
+    meaning that the funds have been returned to their source, with the resource for
+    each Chargeback giving details of the Chargeback, including the reason why it
+    occurred and the date when it occurred.
+  parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebacksModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebacksModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Retrieve Chargebacks Response for query on chargebacks resource.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve all Chargebacks.
+  tags: [ Chargebacks ]
+  operationId: getChargebacks
+post:
+  description: Details for create on chargebacks coming soon
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/chargebacksPut&PostReqBodySchemaModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/chargebacksPut&PostReqBodySchemaModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/chargebacksPut&PostReqBodySchemaModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/chargebacksPut&PostReqBodySchemaModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/chargebacksPut&PostReqBodySchemaModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/chargebacksPut&PostReqBodySchemaModel.yaml }
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebacksModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebacksModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for create on chargebacks resource
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  tags: [ Chargebacks ]
+  operationId: postChargebacks

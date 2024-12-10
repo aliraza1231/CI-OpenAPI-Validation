@@ -1,0 +1,42 @@
+method:
+  type: integer
+  description: "The method used to make this payment. \n\n<details>\n<summary>Valid Values</summary>\n\
+  \n- `1` - **AMEX** - American Express credit network\
+  \n- `2` - **VISA** - Visa credit network\
+  \n- `3` - **MASTERCARD** - MasterCard credit network\
+  \n- `4` - **DINERS** - Diners Club credit network\
+  \n- `5` - **DISCOVER** - Discover credit network\
+  \n- `6` - **PAYPAL** - PayPal network\
+  \n- `7` - **DEBIT** - Debit network\
+  \n- `8` - **CHECKING** - ACH personal checking account\
+  \n- `9` - **SAVINGS** - ACH personal savings account\
+  \n- `10` - **CORPCHECKING** - ACH personal savings account\
+  \n- `11` - **CORPSAVINGS** - ACH corporate savings account\
+  \n- `12` - **GIFT** - Gift card\
+  \n- `13` - **EBT** - EBT (Electronic Benefits Transfer) network\
+  \n- `14` - **WIC** - WIC (Women, Infants and Children) network\
+  \n- `15` - **US Debit ACCEL** - Accel debit payments network from Fiserv delivers convenient, real-time payments and funds access to consumers\
+  \n- `16` - **US Debit ATH** - ATH serves as a debit card network for ATH-linked ATM cards. ATH currently has an agreement with the NYCE network to accept NYCE cards in Puerto Rico’s ATH network and for Puerto Rico-based ATH cards to be accepted anywhere NYCE is accepted.\
+  \n- `17` - **US Debit AFFN** - The Armed Forces Financial Network® (AFFN®) is an electronic transfer network (EFT) providing network access to the U.S. military, veteran, and civilian communities with ready access to their funds through ATM and POS terminals located at or near U.S. military bases worldwide.\
+  \n- `18` - **US Debit CULIANCE** - CULIANCE is full-service debit network serving credit unions across the country and overseas. Network participant members have POS access at many of the nation’s most popular retailers, as well as an ATM network that has a presence wherever participant members are.\
+  \n- `19` - **US Debit INTERLINK** - Interlink works as the network to handle/process debit for VISA network\
+  \n- `20` - **US Debit JEANIE** - Jeanie is a debit network under FIS\
+  \n- `21` - **US Debit MAESTRO** - Maestro, one of the world’s most widely recognized global deposit access brands, represents instant buying power and cash access convenience worldwide. It is the only online, PIN-based debit brand that can be used to make purchases and get cash at ATMs worldwide\
+  \n- `22` - **US Debit NYCE** - The NYCE On-Demand product offers cardholders a convenient way to pay bills online, receive loan proceeds, and transfer funds, all in real-time; NYCE also offers innovative Internet purchase, mobile banking and mobile payments services\
+  \n- `23` - **US Debit PULSE** - Pulse works as the rails for debit associated with discover network, handling atm and debit payments\
+  \n- `24` - **US Debit SHAZAM** - SHAZAM is a member-owned financial services provider and debit processor providing debit and credit payment processing to financial institutions nationwide\
+  \n- `25` - **US Debit STAR** - STAR from Fiserv is a full-service debit payments network that gives cardholders access to cash, purchases and payments options through any channel\
+  \n- `26` - **CAN Debit INTERAC** - Interac serves as the Canadian debit card system and the predominant funds transfer network via its e-Transfer service\
+  \n\n</details>\n"
+  enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  x-enum-descriptions: [American Express, Visa, MasterCard, Diners
+      Club, Discover, Checking account, Savings account, Corporate
+      checking account, Corporate savings account]
+number:
+  type: string
+  description: |-
+    For credit payment method, the card number of the credit card associated with this Token.
+    For eCheck payment method, the bank account number associated with this Token.
+routing: {type: string, description: 'If the payment method associated with this
+    Token is a bank account, then this field contains the routing
+    code for the bank account.'}

@@ -1,0 +1,173 @@
+get:
+  description: |-
+    Query an API key that represents a permanent method of authentication to the API, remaining active until marked as inactive or deleted.
+    
+    Details:
+  parameters:
+    - description: The ID of this resource and The API Key ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/apiKeysResponseModel.yaml }
+                  details:
+                    { $ref: ../components/schemas/details.yaml }
+                  errors:
+                    { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/apiKeysResponseModel.yaml }
+                  details:
+                    { $ref: ../components/schemas/details.yaml }
+                  errors:
+                    { $ref: ../components/schemas/error.yaml }
+      description: Response for retrieve API key response.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve an API Key by it's ID.
+  tags: [ API Keys ]
+  operationId: getApikeysId
+put:
+  description: Update an API key, which represents a permanent method of authentication
+    to the API, and each API key remains active until you mark it as inactive, or
+    delete it.
+  parameters:
+    - description: The ID of this resource and The API Key ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/apiKeysPutRequestModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/apiKeysPutRequestModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/apiKeysPutRequestModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/apiKeysPutRequestModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/apiKeysPutRequestModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/apiKeysPutRequestModel.yaml }
+    description: Update API Key Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/apiKeysResponseModel.yaml }
+                  details:
+                    { $ref: ../components/schemas/details.yaml }
+                  errors:
+                    { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/apiKeysResponseModel.yaml }
+                  details:
+                    { $ref: ../components/schemas/details.yaml }
+                  errors:
+                    { $ref: ../components/schemas/error.yaml }
+      description: Response for update on API Keys resource.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Update an API Key by it's ID.
+  tags: [ API Keys ]
+  operationId: putApikeysId
+delete:
+  description: Delete an API key that represents a permanent method of authentication
+    to the API and remains active until marked as inactive or deleted.
+  parameters:
+    - description: The ID of this resource and The API Key ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/apiKeysResponseModel.yaml }
+                  details:
+                    { $ref: ../components/schemas/details.yaml }
+                  errors:
+                    { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/apiKeysResponseModel.yaml }
+                  details:
+                    { $ref: ../components/schemas/details.yaml }
+                  errors:
+                    { $ref: ../components/schemas/error.yaml }
+      description: Response for deleting an API key.
+    '400':
+      content:
+
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Delete an API Key by it's ID.
+  tags: [ API Keys ]
+  operationId: deleteApikeysId

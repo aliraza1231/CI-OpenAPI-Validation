@@ -1,0 +1,108 @@
+  get:
+    description: Query a Notes resource that represents risk management notes, reviews,
+      and releases for a Hold, Txn, and Entity specific data.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+        description: Response for query on notes resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Notes.
+    tags: [Notes]
+    operationId: getNotes
+  post:
+    description: Create a Notes resource that represents risk management notes, reviews,
+      and releases for a Hold, Txn, and Entity-specific data.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/notesPostRequestModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/notesPostRequestModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/notesPostRequestModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/notesPostRequestModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/notesPostRequestModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/notesPostRequestModel.yaml}
+      description: Create Note Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+        description: Response for create on notes resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Note
+    tags: [Notes]
+    operationId: postNotes

@@ -1,0 +1,302 @@
+  get:
+    description: Query a Billing Modifier that can change the total amount of the billing
+      or whoever will pay it, such as applying a 10% markup on the fee total for a specific
+      org.
+    parameters:
+    - description: The ID of this billing modifer.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the response for the query on the billingModifiers resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve Billing Modifer by it's ID.
+    tags: [Billing]
+    operationId: getBillingModifiersId
+  put:
+    description: Update a Billing Modifier that can change the total amount of the billing
+      or whoever will pay it, such as applying a 10% markup on the fee total for a specific
+      org.
+    parameters:
+    - description: The ID of this billing modifer.
+      explode: false
+      in: path
+      name: id
+      required: true      
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              billing: {description: The identifier of the Billing that this Billing
+                  Modifier applies to.}
+              entity: {description: The identifier of the Entity that this Billing Modifier
+                  applies to.}
+              org: {description: The identifier of the Org that this Billing Modifier
+                  applies to.}
+              division: {description: The identifier of the Division that this Billing
+                  Modifier applies to.}
+              partition: {description: The identifier of the Partition that this Billing
+                  Modifier applies to.}
+              fromentity: {description: The identifier of the Entity that is responsible
+                  for paying this Bill on behalf of the Entity specified in the 'entity'
+                  field.}
+              inactive:
+                description: "Whether this resource is marked as inactive.\n<details>\n\
+                  <summary>Valid Values</summary>\n\n- `0` - **Active** \n\n- `1` -\
+                  \ **Inactive**\n</details>\n"
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: "Whether this resource is marked as frozen.\n<details>\n\
+                  <summary>Valid Values</summary>\n\n- `0` - **Not Frozen** \n\n- `1`\
+                  \ - **Frozen**\n</details>\n"
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              billing: {description: The identifier of the Billing that this Billing
+                  Modifier applies to.}
+              entity: {description: The identifier of the Entity that this Billing Modifier
+                  applies to.}
+              org: {description: The identifier of the Org that this Billing Modifier
+                  applies to.}
+              division: {description: The identifier of the Division that this Billing
+                  Modifier applies to.}
+              partition: {description: The identifier of the Partition that this Billing
+                  Modifier applies to.}
+              fromentity: {description: The identifier of the Entity that is responsible
+                  for paying this Bill on behalf of the Entity specified in the 'entity'
+                  field.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              billing: {description: The identifier of the Billing that this Billing
+                  Modifier applies to.}
+              entity: {description: The identifier of the Entity that this Billing Modifier
+                  applies to.}
+              org: {description: The identifier of the Org that this Billing Modifier
+                  applies to.}
+              division: {description: The identifier of the Division that this Billing
+                  Modifier applies to.}
+              partition: {description: The identifier of the Partition that this Billing
+                  Modifier applies to.}
+              fromentity: {description: The identifier of the Entity that is responsible
+                  for paying this Bill on behalf of the Entity specified in the 'entity'
+                  field.}
+              inactive:
+                description: "Whether this resource is marked as inactive.\n<details>\n\
+                  <summary>Valid Values</summary>\n\n- `0` - **Active** \n\n- `1` -\
+                  \ **Inactive**\n</details>\n"
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: "Whether this resource is marked as frozen.\n<details>\n\
+                  <summary>Valid Values</summary>\n\n- `0` - **Not Frozen** \n\n- `1`\
+                  \ - **Frozen**\n</details>\n"
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              billing: {description: The identifier of the Billing that this Billing
+                  Modifier applies to.}
+              entity: {description: The identifier of the Entity that this Billing Modifier
+                  applies to.}
+              org: {description: The identifier of the Org that this Billing Modifier
+                  applies to.}
+              division: {description: The identifier of the Division that this Billing
+                  Modifier applies to.}
+              partition: {description: The identifier of the Partition that this Billing
+                  Modifier applies to.}
+              fromentity: {description: The identifier of the Entity that is responsible
+                  for paying this Bill on behalf of the Entity specified in the 'entity'
+                  field.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              billing: {description: The identifier of the Billing that this Billing
+                  Modifier applies to.}
+              entity: {description: The identifier of the Entity that this Billing Modifier
+                  applies to.}
+              org: {description: The identifier of the Org that this Billing Modifier
+                  applies to.}
+              division: {description: The identifier of the Division that this Billing
+                  Modifier applies to.}
+              partition: {description: The identifier of the Partition that this Billing
+                  Modifier applies to.}
+              fromentity: {description: The identifier of the Entity that is responsible
+                  for paying this Bill on behalf of the Entity specified in the 'entity'
+                  field.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              billing: {description: The identifier of the Billing that this Billing
+                  Modifier applies to.}
+              entity: {description: The identifier of the Entity that this Billing Modifier
+                  applies to.}
+              org: {description: The identifier of the Org that this Billing Modifier
+                  applies to.}
+              division: {description: The identifier of the Division that this Billing
+                  Modifier applies to.}
+              partition: {description: The identifier of the Partition that this Billing
+                  Modifier applies to.}
+              fromentity: {description: The identifier of the Entity that is responsible
+                  for paying this Bill on behalf of the Entity specified in the 'entity'
+                  field.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+      description: Update Billing Modifer Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: 'Response for update on billingModifiers resource: Update Billing
+          Modifier Response'
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update Billing Modifer by it's ID.
+    tags: [Billing]
+    operationId: putBillingModifiersId
+  delete:
+    description: Delete a Billing Modifier that can change the total amount of the billing
+      or whoever will pay it.
+    parameters:
+    - description: The ID of this billing modifer.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: 'Response for delete on BillingModifiers resource: Delete Billing
+          Modifier Response'
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete Billing Modifer by it's ID.
+    tags: [Billing]
+    operationId: deleteBillingModifiersId

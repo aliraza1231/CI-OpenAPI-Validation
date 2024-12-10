@@ -1,0 +1,1906 @@
+---
+openapi: 3.0.0
+info:
+  title: "Reporting: Bank Partner API"
+  description: "This API would be used to fetch settled summaries at independent sales channel . \n # Authentication \n<SecurityDefinitions />"
+  contact:
+    name: Developer Support
+    email: APICustomerIntegration@fisglobal.com
+  version: 1.0.5
+servers:
+- url: https://apis.cert.worldpay.com/merchant-reporting/bankpartnerreporting/v1
+paths:
+  /independentsaleschannels:
+    get:
+      tags:
+      - ISC Details
+      summary: This endpoint is used to retrieve the list of independent sales channel.
+      description: Retrieves list of independent sales channel based on the license in use.
+      operationId: getListOfIndependentSalesChannel
+      responses:
+        "200":
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  allOf:
+                  - $ref: '#/components/schemas/ISCDetailsResponse'
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+  /revenues/summary/parties:
+    post:
+      tags:
+      - Revenue
+      summary: This endpoint is used to retrieve revenue summary by parties.
+      description: "Amount (USD) to be receive per transaction. Revenue Endpoints provides drill down details contributing to gross revenue and settled volume. It  provides trend of revenue by considering effective rate, revenue earned per transaction and VAS (Value Added Services) for chains that falls under ISCs aligned with the partners."
+      operationId: searchSummaryByParties.
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevenueByPartyRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Summaries'
+              examples:
+                summaries:
+                  value:
+                    summaries:
+                    - party: AcquireCore
+                      processMonth: 2017-06
+                      totalProcessingRate: 5.54
+                      totalEffectiveRate: 1.57
+                    - party: AcquireNonCore
+                      processMonth: 2017-06
+                      totalProcessingRate: 8.12
+                      totalEffectiveRate: 4.98
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /revenues/summary/verticals:
+    post:
+      tags:
+      - Revenue
+      summary: This endpoint is used to retrieve revenue summary by verticals
+      description: "Resource is used to get total effective rate and total processing rate by verticals. Revenue Endpoints provides drill down details contributing to gross revenue and settled volume. It  provides trend of revenue by considering effective rate, revenue earned per transaction and VAS (Value Added Services) for chains that falls under ISCs aligned with the partners."
+      operationId: searchSummaryByVerticals
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevenueByVerticalsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryVerticals'
+              examples:
+                summary:
+                  value:
+                    summaries:
+                    - vertical: B2B
+                      processMonth: 2017-06
+                      totalProcessingRate: 5.54
+                      totalEffectiveRate: 1.57
+                    - vertical: DRUG_STORES
+                      processMonth: 2017-06
+                      totalProcessingRate: 6.23
+                      totalEffectiveRate: 2.03
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /revenues/summary/valueaddedservices:
+    post:
+      tags:
+      - Revenue
+      summary: This endpoint is used to retrieve summary for revenue and group by value added services.
+      description: "Resource is used to get revenue summary by value added services. Revenue Endpoints provides drill down details contributing to gross revenue and settled volume. It  provides trend of revenue by considering effective rate, revenue earned per transaction and VAS (Value Added Services) for chains that falls under ISCs aligned with the partners."
+      operationId: searchSummaryByValueAddedServices
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevenueVASRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Inlineresponse200'
+              examples:
+                Summary:
+                  value:
+                    totalChains: 650
+                    details:
+                    - valueAddedService: pciNonValidation
+                      numberOfChains: 350
+                      grossRevenue: 21844.32
+                    - valueAddedService: iq
+                      numberOfChains: 230
+                      grossRevenue: 796.87
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /settlements/summary:
+    post:
+      tags:
+      - Settlements
+      summary: This endpoint is used to retrieve revenue summary for card network by process month.
+      description: Resource is used to get settled gross and net amount for card network by process month.
+      operationId: searchSettlementsSummary
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetSettledAmountCardTypeRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetSettledAmountCardTypeResponse'
+              examples:
+                summary:
+                  value:
+                    totalSettledGrossAmount: 775.65
+                    totalSettledGrossCount: 25
+                    totalSettledNetAmount: 1083.69
+                    totalSettledNetCount: 57
+                    summaries:
+                    - processMonth: 2017-06
+                      settledGrossAmount: 433.09
+                      settledGrossCount: 17
+                      settledNetAmount: 719.02
+                      settledNetCount: 34
+                      messagingType: PIN
+                      cardNetwork: VISA
+                      cardPresent: "True"
+                    - processMonth: 2017-07
+                      settledGrossAmount: 342.56
+                      settledGrossCount: 13
+                      settledNetAmount: 364.67
+                      settledNetCount: 23
+                      messagingType: PIN
+                      cardNetwork: MASTERCARD
+                      cardPresent: "TRUE"
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /verticals/summary:
+    post:
+      tags:
+      - Verticals
+      summary: This endpoint is used to verticals summary.
+      description: Resource is used to get settled transactions summary for respective independent sales channel and months and group by verticals.
+      operationId: retrieveSummaryByVerticals
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerticalsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryByVerticals'
+              examples:
+                Summary:
+                  value:
+                    summaries:
+                    - vertical: B2B
+                      processMonth: 2017-06
+                      numberOfChains: 6500
+                      numberOfMerchants: 5500
+                      grossRevenue: 500.87
+                      processRevenue: 200.09
+                      settledTransactionAmount: 6579.98
+                      settledTransactionCount: 500
+                      settledAverageTicket: 23.87
+                      totalEffectiveRate: 4.67
+                    - vertical: DRUG_STORES
+                      processMonth: 2017-06
+                      numberOfChains: 6503
+                      numberOfMerchants: 5510
+                      grossRevenue: 607.12
+                      processRevenue: 223.19
+                      settledTransactionAmount: 5679.88
+                      settledTransactionCount: 390
+                      settledAverageTicket: 33.27
+                      totalEffectiveRate: 2.89
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /partners/summary:
+    post:
+      tags:
+      - Partners
+      summary: This endpoint is used to retrieve partner summary by month
+      description: Resource is used to get settled transactions summary for respective independent sales channel and months and group by partners.
+      operationId: searchPartnersSummary
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnersRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnersSummaryResponse'
+              examples:
+                summary:
+                  value:
+                    totalGrossRevenue: 775.65
+                    totalProcessRevenue: 587.93
+                    totalSettledAmount: 1083.69
+                    totalSettledCount: 57
+                    summaries:
+                    - processMonth: 2017-06
+                      grossRevenue: 433.09
+                      processRevenue: 333.15
+                      settledAmount: 719.02
+                      settledCount: 34
+                      settledAverageTicket: 23.87
+                      totalEffectiveRate: 4.67
+                    - processMonth: 2017-07
+                      grossRevenue: 342.56
+                      processRevenue: 254.78
+                      settledAmount: 364.67
+                      settledCount: 23
+                      settledAverageTicket: 33.87
+                      totalEffectiveRate: 5.67
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /partners/summary/cardnetworks:
+    post:
+      tags:
+      - Partners
+      summary: This endpoint is used to retrieve revenue summary for different partner and group by card networks.
+      description: Resource is used to get settled transactions summary for respective independent sales channel and months and group by partners and card networks.
+      operationId: searchPartnersSummaryByCardnetworks
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnersCardNetworkRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardNetworkResponse'
+              examples:
+                summary:
+                  value:
+                    totalGrossRevenue: 745.96
+                    totalProcessRevenue: 533.24
+                    totalSettledAmount: 1299
+                    totalSettledCount: 840
+                    summaries:
+                    - cardNetwork: VISA
+                      grossRevenue: 433.09
+                      processRevenue: 333.15
+                      settledAmount: 719.02
+                      settledCount: 340
+                    - cardNetwork: MASTERCARD
+                      grossRevenue: 312.87
+                      processRevenue: 200.09
+                      settledAmount: 579.98
+                      settledCount: 500
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /partners/summary/verticals:
+    post:
+      tags:
+      - Partners
+      summary: This endpoint is used to retrieve revenue summary for different partner and group by verticals.
+      description: Resource is used to get settled transactions summary for respective independent sales channel and months and group by partners and verticals.
+      operationId: searchPartnersSummaryByVerticals
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: A unique identifier value attached to a request
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PartnersVerticalsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerticalsResponse'
+              examples:
+                summary:
+                  value:
+                    totalGrossRevenue: 745.96
+                    totalProcessRevenue: 533.24
+                    totalSettledAmount: 1299
+                    totalSettledCount: 840
+                    summaries:
+                    - vertical: B2B
+                      grossRevenue: 433.09
+                      processRevenue: 333.15
+                      settledAmount: 719.02
+                      settledCount: 340
+                    - vertical: Drugs
+                      grossRevenue: 312.87
+                      processRevenue: 200.09
+                      settledAmount: 579.98
+                      settledCount: 500
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+components:
+  schemas:
+    RevenueByPartyRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 256
+            type: string
+        parties:
+          type: array
+          description: Individual or entity that is involved in a transaction.
+          items:
+            maxLength: 256
+            type: string
+            example: "[\"ACQUIRE\",\"ACQUIRE_NON_CORE\"]"
+            enum:
+            - ACQUIRE_CORE
+            - ACQUIRE_NON_CORE
+            - GATEWAY
+            - INTERCHANGE
+            - NETWORK
+            - THIRD_PARTY
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortRevenueParty'
+    RevenueByVerticalsRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 256
+            type: string
+        verticals:
+          type: array
+          description: Indicates a specific industry or market carried out by the Organization
+          items:
+            maxLength: 15
+            type: string
+            example: "[\"B2B\",\"DRUG_STORES\"]"
+            enum:
+            - B2B
+            - DRUG_STORES
+            - GOVERNMENT
+            - HEALTH_SERVICES
+            - NONE
+            - PETROLEUM
+            - RESTAURANT
+            - RESTAURANTQSR
+            - RETAIL
+            - SUPERMARKETS
+            - TRAVEL
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortRevenueVertical'
+    RevenueVASRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 256
+            type: string
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortRevenue'
+    SortRevenue:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: List of fields for ordering the result set. <br> By default sorting will be done by GROSS_REVENUE.
+          example: GROSS_REVENUE
+          enum:
+          - GROSS_REVENUE
+          - VALUES_ADDED_SERVICE
+          - NUMBER_OF_CHAINS
+        orderBy:
+          type: string
+          description: Type of Ordering. Default - ASC
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SortPartner:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order. <br> By default sorting will be done by PROCESS_MONTH .
+          example: PROCESS_MONTH
+          enum:
+          - GROSS_REVENUE
+          - PROCESS_REVENUE
+          - SETTLED_AMOUNT
+          - SETTLED_COUNT
+          - SETTLED_AVERAGE_TICKET
+          - TOTAL_EFFECTIVE_RATE
+          - PROCESS_MONTH
+        orderBy:
+          type: string
+          description: Type of Ordering. Default - ASC
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SortPartnerCardNetwork:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order. <br> By default sorting will be done by CARD_NETWORK.
+          example: CARD_NETWORK
+          enum:
+          - GROSS_REVENUE
+          - PROCESS_REVENUE
+          - SETTLED_AMOUNT
+          - SETTLED_COUNT
+          - CARD_NETWORK
+        orderBy:
+          type: string
+          description: Type of Ordering. Default - ASC
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SortPartnerVertical:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order. <br> By default sorting will be done by VERTICAL.
+          example: VERTICAL
+          enum:
+          - GROSS_REVENUE
+          - PROCESS_REVENUE
+          - SETTLED_AMOUNT
+          - SETTLED_COUNT
+          - VERTICAL
+        orderBy:
+          type: string
+          description: Way of ordering the result. Default - ASC.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SortRevenueVertical:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order. <br> By default sorting will be done by PROCESS_MONTH.
+          example: PROCESS_MONTH
+          enum:
+          - PROCESS_MONTH
+          - TOTAL_PROCESSING_RATE
+          - TOTAL_EFFECTIVE_RATE
+          - VERTICAL
+        orderBy:
+          type: string
+          description: Way of ordering the result. Default - ASC.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SortRevenueParty:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting is based on PROCESS_MONTH .
+          example: PROCESS_MONTH
+          enum:
+          - PROCESS_MONTH
+          - TOTAL_PROCESSING_RATE
+          - TOTAL_EFFECTIVE_RATE
+          - PARTY
+        orderBy:
+          type: string
+          description: Type of Ordering. Default - ASC
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SortSettlement:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 18
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by PROCESS_MONTH.
+          example: PROCESS_MONTH
+          enum:
+          - SETTLED_NET_AMOUNT
+          - SETTLED_NET_COUNT
+          - SETTLED_GROSS_AMOUNT
+          - SETTLED_GROSS_COUNT
+          - PROCESS_MONTH
+          - MESSAGING_TYPE
+          - CARD_NETWORK
+          - CARD_PRESENT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of Ordering. Default - ASC
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SortVerticals:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 39
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by PROCESS_MONTH.
+          example: PROCESS_MONTH
+          enum:
+          - VERTICAL
+          - PROCESS_MONTH
+          - NUMBER_OF_CHAINS
+          - NUMBER_OF_MERCHANTS
+          - GROSS_REVENUE
+          - PROCESS_REVENUE
+          - SETTLED_TRANSACTION_AMOUNT
+          - SETTLED_TRANSACTION_COUNT
+          - SETTLED_AVERAGE_TICKET
+          - TOTAL_EFFECTIVE_RATE
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of Ordering. Default - ASC
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    PartnersRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxItems: 5
+          minItems: 1
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 256
+            type: string
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortPartner'
+    VerticalsRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 256
+            type: string
+        verticals:
+          type: array
+          description: Indicates a specific industry or market carried out by the Organization
+          items:
+            maxLength: 15
+            type: string
+            example: "[\"B2B\",\"DRUG_STORES\"]"
+            enum:
+            - B2B
+            - DRUG_STORES
+            - GOVERNMENT
+            - HEALTH_SERVICES
+            - NONE
+            - PETROLEUM
+            - RESTAURANT
+            - RESTAURANT_QSR
+            - RETAIL
+            - SUPERMARKETS
+            - TRAVEL
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortVerticals'
+    PartnersCardNetworkRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxItems: 5
+          minItems: 1
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 256
+            type: string
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        cardNetworks:
+          type: array
+          description: Brand or Network to which the card is associated.
+          items:
+            maxLength: 19
+            type: string
+            example: "[\"VISA\",\"MASTERCARD\"]"
+            enum:
+            - AMEX
+            - COBRAND
+            - DINERS_CLUB
+            - DISCOVER
+            - EBT
+            - ELECTRONIC_CHEQUE
+            - FUNDING_INSTRUCTION
+            - GIFT_CARD
+            - JCB
+            - MASTERCARD
+            - NOT_APPLICABLE
+            - NOT_ASSIGNED
+            - OTHERS
+            - PAYPAL
+            - PIN
+            - PRIVATE_LABEL
+            - VISA
+            - VOYAGER
+            - WIC
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortPartnerCardNetwork'
+    PartnersVerticalsRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxItems: 5
+          minItems: 1
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 256
+            type: string
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        verticals:
+          type: array
+          description: Indicates a specific industry or market carried out by the Organization.
+          items:
+            maxLength: 11
+            type: string
+            example: "[\"B2B\",\"RETAIL\"]"
+            enum:
+            - B2B
+            - DRUG_STORES
+            - GOVERNMENT
+            - HEALTH_SERVICES
+            - NONE
+            - PETROLEUM
+            - RESTAURANT
+            - RESTAURANTQSR
+            - RETAIL
+            - SUPERMARKETS
+            - TRAVEL
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortPartnerVertical'
+    MonthRange:
+      type: object
+      properties:
+        startMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Start month
+          format: YYYY-MM
+          example: 2022-01
+        endMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: End month. Maximum month range support 13 Months.
+          format: YYYY-MM
+          example: 2022-06
+      description: Month Range for which the transaction is processed.
+    ISCDetailsResponse:
+      type: object
+      description: ISC details.
+      allOf:
+      - $ref: '#/components/schemas/ISCDetails'
+    ISCDetails:
+      type: object
+      properties:
+        salesChannelCode:
+          maxLength: 256
+          type: string
+          description: The identifier for the Independent or Partner Sales Channel
+          example: "81"
+        salesChannelName:
+          maxLength: 256
+          type: string
+          description: The name of the Independent/Partner Sales Channel
+          example: VANTIV
+      description: ISC details.
+    Summaries:
+      type: array
+      description: Summary details
+      items:
+        $ref: '#/components/schemas/SummariesInner'
+    SummaryVerticals:
+      type: object
+      properties:
+        summaries:
+          type: object
+          description: Summary details
+          allOf:
+          - $ref: '#/components/schemas/summaryverticals'
+      description: Summary for verticals.
+    summaryverticals:
+      type: array
+      items:
+        $ref: '#/components/schemas/SummaryVerticalsInner'
+    SummaryByVerticals:
+      type: object
+      properties:
+        summaries:
+          type: object
+          description: Summary details
+          allOf:
+          - $ref: '#/components/schemas/summary'
+      description: Summary by verticals.
+    PartnersSummaryResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Summary details
+          items:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/PartnerSummaryDetails'
+      description: Retrieve summaries for partners
+      allOf:
+      - $ref: '#/components/schemas/PartnerCommonSummaryResponse'
+      - type: object
+    PartnerSummaryDetails:
+      type: object
+      properties:
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Month for which the transactions are processed.
+          format: YYYY-MM
+          example: 2022-01
+        grossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: "Gross Revenue is the total amount of sales recognized for a reporting period, prior to any deductions."
+          format: float
+          example: 500.87
+        processRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Revenue earned in processing the transactions.
+          format: float
+          example: 200.09
+        settledAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total settled amount per the  selection criteria
+          format: float
+          example: 6579.98
+        settledCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of settled transactions as per the  selection criteria
+          format: int32
+          example: 500
+        settledAverageTicket:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Average amount generated per transaction for a selected ISC and for selected month range.
+          format: float
+          example: 23.87
+        totalEffectiveRate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: The effective rate is that rate of interest actually earned on over the months.
+          format: float
+          example: 4.67
+      description: Partner summary details.
+    PartnerCommonSummaryResponse:
+      type: object
+      properties:
+        totalGrossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: "Refers to sum of gross revenue. Gross Revenue is the total amount of sales recognized for a reporting period, prior to any deductions."
+          format: float
+          example: 260.88
+        totalProcessRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Refers to Sum of Process Revenue. Process Revenue is the revenue earned from processing the transactions.
+          format: float
+          example: 11.69
+        totalSettledAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Sum of settled amount per the  selection criteria.
+          format: float
+          example: 541.05
+        totalSettledCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of settled transactions as per the  selection criteria
+          format: int32
+          example: 1243
+      description: Common summary details for partner summary.
+    CardNetworkResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Summary details
+          items:
+            type: object
+            allOf:
+            - type: object
+              properties:
+                cardNetwork:
+                  maxLength: 19
+                  type: string
+                  description: Brand or Network to which the card is associated.
+                  example: VISA
+            - $ref: '#/components/schemas/PartnerCardNetworkDetails'
+      description: Retrieve card network details
+      allOf:
+      - $ref: '#/components/schemas/PartnerCardNetworkResponse'
+      - type: object
+    PartnerCardNetworkResponse:
+      type: object
+      properties:
+        totalGrossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: "Refers sum of gross revenue. Gross Revenue is the total amount of sales recognized for a reporting period, prior to any deductions."
+          format: float
+          example: 260.88
+        totalProcessRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Sum of Revenue earned in processing the transactions.
+          format: float
+          example: 11.69
+        totalSettledAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Represents the sum of settled amount per the selection criteria.
+          format: float
+          example: 541.05
+        totalSettledCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of settled transactions as per the  selection criteria
+          format: int32
+          example: 1243
+      description: Card network response for partners.
+    PartnerCardNetworkDetails:
+      type: object
+      properties:
+        grossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: "Gross Revenue is the total amount of sales recognized for a reporting period, prior to any deductions."
+          format: float
+          example: 500.87
+        processRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Revenue earned from processing the transactions.
+          format: float
+          example: 200.09
+        settledAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total amount settled per the  selection criteria.
+          format: float
+          example: 6579.98
+        settledCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of settled transactions as per the  selection criteria
+          format: int32
+          example: 500
+      description: Partner card network details.
+    VerticalsResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Summary details
+          items:
+            type: object
+            description: Retrieve vertical details
+            allOf:
+            - type: object
+              properties:
+                vertical:
+                  maxLength: 256
+                  type: string
+                  description: Indicates a specific industry or market carried out by the Organization
+                  example: B2B
+            - $ref: '#/components/schemas/PartnerVerticalDetails'
+      description: Verticals response.
+      allOf:
+      - $ref: '#/components/schemas/PartnerVerticalResponse'
+      - type: object
+    PartnerVerticalResponse:
+      type: object
+      properties:
+        totalGrossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total overall cost incurred by the merchant across verticals for the selected month range.
+          format: float
+          example: 260.88
+        totalProcessRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total Revenue earned from processing the transactions across verticals for the selected month range.
+          format: float
+          example: 11.69
+        totalSettledAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total sum of settled amount across verticals for the selected month range.
+          format: float
+          example: 541.05
+        totalSettledCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of settled transactions as per the  selection criteria
+          format: int32
+          example: 1354
+      description: Partner verticals response.
+    PartnerVerticalDetails:
+      type: object
+      properties:
+        grossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: "Gross Revenue is the total amount of sales recognized for a reporting period, prior to any deductions."
+          format: float
+          example: 500.87
+        processRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Revenue earned from processing the transactions for a specific vertical for the selected month range.
+          format: float
+          example: 200.09
+        settledAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total settled amount for a specific vertical for the selected month range.
+          format: float
+          example: 279.98
+        settledCount:
+          maximum: 9999999999
+          type: integer
+          description: Total settled transaction count for a specific vertical for the selected month range.
+          format: int32
+          example: 500
+      description: Partner verticals details.
+    VASSubscriptionsByGrossRevenue:
+      type: object
+      properties:
+        totalChains:
+          maximum: 9999999999
+          minimum: 1000000000
+          type: integer
+          description: Total number of chains associated with top hierarchy level
+          format: int32
+          example: 650
+        details:
+          type: array
+          description: Refers to the object details
+          items:
+            type: object
+            description: Retrieve details
+            allOf:
+            - $ref: '#/components/schemas/Details'
+      description: Gross revenue by Value added service subscriptions.
+    Details:
+      type: object
+      properties:
+        valueAddedService:
+          maxLength: 256
+          type: string
+          description: Additional services provided to customer. VAS are performed to meet customer demands.
+          example: pciNonValidation
+        numberOfChains:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of chains associated with top hierarchy level.
+          format: int32
+          example: 6500
+        grossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Overall cost incurred for merchant for a specific value added service.
+          format: float
+          example: 21844.32
+      description: Details.
+    NetSettledAmountCardTypeRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 265
+            type: string
+        cardNetworks:
+          type: array
+          description: Brand or Network to which the card is associated.
+          items:
+            maxLength: 19
+            type: array
+            example:
+            - VISA
+            - AMEX
+            items:
+              maxLength: 256
+              type: string
+            enum:
+            - AMEX
+            - COBRAND
+            - DINERS_CLUB
+            - DISCOVER
+            - EBT
+            - ELECTRONIC_CHEQUE
+            - FUNDING_INSTRUCTION
+            - GIFT_CARD
+            - JCB
+            - MASTERCARD
+            - NOT_APPLICABLE
+            - NOT_ASSIGNED
+            - OTHERS
+            - PAYPAL
+            - PIN
+            - PRIVATE_LABEL
+            - VISA
+            - VOYAGER
+            - WIC
+        messagingTypes:
+          maxItems: 2
+          minItems: 1
+          type: array
+          description: Card holder authentication method. Possible Values SIG (Signature); PIN (Pin) base transaction.
+          example:
+          - PIN
+          - SIG
+          items:
+            maxLength: 256
+            type: string
+        cardPresent:
+          type: boolean
+          description: Indicates if card was present at the POS. Possible values True or False
+          example: true
+        monthRange:
+          type: object
+          description: Month Range for which the transaction is processed.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Used to sort the results.
+          allOf:
+          - $ref: '#/components/schemas/SortSettlement'
+      description: Request message to get net settlement amount for card types.
+    NetSettledAmountCardTypeResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Summary details
+          items:
+            type: object
+            description: Retrieve common summary details
+            allOf:
+            - $ref: '#/components/schemas/CommonSummaryDetail'
+            - type: object
+              properties:
+                processMonth:
+                  maxLength: 7
+                  minLength: 7
+                  pattern: "^[0-9]{4}-[0-9]{2}$"
+                  type: string
+                  description: Month for which the transactions are processed.
+                  format: YYYY-MM
+                  example: 2022-01
+                messagingType:
+                  maxLength: 3
+                  type: string
+                  description: Refers to card holder authentication method. Possible Values SIG (Signature); PIN (Pin) base transaction.
+                  example: PIN
+                cardNetwork:
+                  maxLength: 19
+                  type: string
+                  description: Brand or Network to which the card is associated.
+                  example: VISA
+                cardPresent:
+                  maxLength: 5
+                  type: boolean
+                  description: Indicates if card was present at the POS. Possible values True or False
+                  example: true
+      description: Results for net settlement amount by card type.
+      allOf:
+      - $ref: '#/components/schemas/CommonSummaryResponses'
+      - type: object
+    CommonSummaryResponses:
+      type: object
+      properties:
+        totalSettledGrossAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Sum of Settled Gross Amount.
+          format: float
+          example: 120.01
+        totalSettledGrossCount:
+          maximum: 9999999999999
+          minimum: 0
+          type: integer
+          description: Total number of transactions with gross settled amount.
+          format: int32
+          example: 10
+        totalSettledNetAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Sum of Settled Net Amount.
+          format: float
+          example: 20.02
+        totalSettledNetCount:
+          maximum: 9999999999999
+          minimum: 0
+          type: integer
+          description: Total number of transactions with net settled amount.
+          format: int32
+          example: 156475
+      description: Common summary response.
+    CommonSummaryDetail:
+      type: object
+      properties:
+        settledGrossAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Gross amount settled as per the selection criteria.
+          format: float
+          example: 646.5
+        settledGrossCount:
+          maximum: 9999999999999
+          minimum: 0
+          type: integer
+          description: Number of transactions settled as Gross amount as per the selection criteria.
+          format: int32
+          example: 11700
+        settledNetAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Amount settled after deduction of fees as per the selection criteria.
+          format: float
+          example: 5496.876
+        settledNetCount:
+          maximum: 9999999999999
+          minimum: 0
+          type: integer
+          description: Number of transactions with settled as Net Amount as per the selection criteria.
+          format: int32
+          example: 13500
+      description: Common summary details.
+    summary:
+      type: array
+      items:
+        $ref: '#/components/schemas/SummaryInner'
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          description: Errors
+          items:
+            $ref: '#/components/schemas/Error'
+      description: Returned if any error.
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          maxLength: 256
+          type: string
+          description: A short description of the error occurs.
+          example: Error message here.
+        target:
+          maxLength: 256
+          type: string
+          description: Parameter that caused error.
+          example: Target
+      description: Error details
+    Inlineresponse200:
+      type: object
+      description: inline response
+      allOf:
+      - $ref: '#/components/schemas/VASSubscriptionsByGrossRevenue'
+    SummariesInner:
+      type: object
+      properties:
+        party:
+          maxLength: 256
+          type: string
+          description: Party is an individual or entity that is involved in a transaction.
+          example: Acquire
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Month for which the transactions are processed.
+          format: YYYY-MM
+          example: 2022-01
+        totalProcessingRate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: The fees that a business must pay each time when it accepts a payment from card.
+          format: float
+          example: 5.54
+        totalEffectiveRate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: The effective rate is that rate of interest actually earned on over the months.
+          format: float
+          example: 1.57
+      description: Summary details.
+    SummaryVerticalsInner:
+      type: object
+      properties:
+        vertical:
+          maxLength: 15
+          type: string
+          description: Indicates a specific industry or market carried out by the Organization
+          example: B2B
+          enum:
+          - B2B
+          - DRUG_STORES
+          - GOVERNMENT
+          - HEALTH_SERVICES
+          - NONE
+          - PETROLEUM
+          - RESTAURANT
+          - RESTAURANTQSR
+          - RETAIL
+          - SUPERMARKETS
+          - TRAVEL
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Month for which the transactions are processed.
+          example: 2022-01
+        totalEffectiveRate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: The effective rate is that rate of interest actually earned on over the months.
+          format: float
+          example: 10.81
+        totalProcessingRate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: The fees that a business must pay each time when it accepts a payment from card.
+          format: float
+          example: 42.64
+      description: Summary for verticals.
+    SummaryInner:
+      type: object
+      properties:
+        vertical:
+          maxLength: 15
+          type: string
+          description: Indicates a specific industry or market carried out by the Organization
+          example: B2B
+          enum:
+          - B2B
+          - DRUG_STORES
+          - GOVERNMENT
+          - HEALTH_SERVICES
+          - NONE
+          - PETROLEUM
+          - RESTAURANT
+          - RESTAURANTQSR
+          - RETAIL
+          - SUPERMARKETS
+          - TRAVEL
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Month for which the transactions are processed.
+          example: 2022-01
+        numberOfChains:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of chains associated with top hierarchy level.
+          format: int32
+          example: 6500
+        numberOfMerchants:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of merchants associated with top hierarchy level.
+          format: int32
+          example: 5500
+        grossRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total Sum of Transaction Amount split by Vertical and Month.
+          format: float
+          example: 500.87
+        processRevenue:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total Sum of Revenue earned from processing the transactions split by Vertical and Month.
+          format: float
+          example: 200.09
+        settledTransactionAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total Sum of Settlement Amount split by Vertical and Month.
+          format: float
+          example: 6579.98
+        settledTransactionCount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Number of Settled Transactions split by vertical and Month.
+          format: float
+          example: 500
+        settledAverageTicket:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Average Settled Amount by Transaction split by Vertical and Month
+          format: float
+          example: 23.87
+        totalEffectiveRate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: The effective rate is that rate of interest actually earned on over the months.
+          format: float
+          example: 4.67
+      description: Summary.
+  responses:
+    default:
+      description: Default errors
+      headers:
+        v-correlation-id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            "400 Bad Request":
+              $ref: '#/components/examples/400BadRequest'
+            "401 Unauthorized":
+              $ref: '#/components/examples/401Unauthorized'
+            "403 Forbidden":
+              $ref: '#/components/examples/403Forbidden'
+            "404 Not Found":
+              $ref: '#/components/examples/404NotFound'
+            "500 Server Error":
+              $ref: '#/components/examples/500ServerError'
+  parameters:
+    CorrelationId:
+      name: v-correlation-id
+      in: header
+      description: Correlation Id
+      required: false
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        minLength: 36
+        pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+        type: string
+        format: uuid
+      example: 24578e35-9bd2-238f-b4c2-0bc9ad9aed2b
+  examples:
+    "400BadRequest":
+      description: Bad Request
+      value:
+        errors:
+        - errorMessage: must be numeric
+          target: MerchantId
+    "401Unauthorized":
+      value:
+        errors:
+        - errorMessage: You are not authorized to access this resource
+    "403Forbidden":
+      value:
+        errors:
+        - errorMessage: Access is denied.
+    "404NotFound":
+      value:
+        errors:
+        - errorMessage: Status or Id not found for the given merchant id
+    "500ServerError":
+      value:
+        errors:
+        - errorMessage: "Internal server error, please contact support referencing correlationId: 871a2a88-064f-4124-a864-e03a47573144"
+  headers:
+    CorrelationId:
+      description: Unique correlation Id.
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        minLength: 36
+        pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+        type: string
+        format: uuid
+      example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: '``` License format is WORLDPAY license=''xxxx''```'
+      name: Authorization
+      in: header

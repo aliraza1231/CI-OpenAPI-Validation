@@ -1,0 +1,9 @@
+description: "Set this path parameter to retrieve unmasked details in the response.\
+       \ \nThe fields specified will be returned in full. Only works for single-record\
+       \ requests."
+explode: true
+in: query
+name: unmask
+required: false
+schema: { type: string }
+style: form

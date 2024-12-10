@@ -1,0 +1,13 @@
+properties:
+  invoice: { type: string, description: 'The identifier of the Invoice that
+               owns this InvoiceLineItem.' }
+  invoiceItem: { type: string, description: 'The identifier of the InvoiceItem
+                   associated with this InvoiceLineItem.' }
+  quantity: { type: integer, description: 'The quantity purchased for this line
+                              item, specified as an integer.' }
+  price: { type: integer, description: 'The price for each item, this field
+                              is specified as an integer in cents.' }
+  discount: { type: integer, description: 'The discount for the line item, this
+                              field is specified as an integer in cents.' }
+required: [ invoice, invoiceItem, quantity ]
+x-redacted: [ ]

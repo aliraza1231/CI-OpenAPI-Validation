@@ -1,0 +1,873 @@
+  get:
+    description: Query a batchRef or Batch Reference resource that represents a reference
+      code issued to a batch when a batch file is sent.
+    parameters:
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to request a specific page of records. \n\
+        For example, set '?page[number]=2' to retrieve the second page of records for\
+        \ this request."
+      explode: true
+      in: query
+      name: page[number]
+      required: false
+      schema: {}
+      style: form
+    - description: |-
+        Set this path parameter to request up to a specific amount of records. By default 30 records are retrieved per page. The maximum limit that can be set is 100.
+        For example, set '?page[limit]=50' to retrieve up to 50 records for this request.
+      explode: true
+      in: query
+      name: page[limit]
+      required: false
+      schema: {}
+      style: form
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          batch: {}
+                          stage:
+                            description: "The stage of the Batch file that this reference\
+                              \ code relates to. \nValid values are: \n'all': Applies\
+                              \ to batch files that contains all types of txns. \n'credit':\
+                              \ Applies to batch files that contains only credit txns.\
+                              \ \n'debit': Applies to batch files that contains only\
+                              \ debit txns."
+                            enum: [all, debit, credit]
+                            x-enum-descriptions: [Applies to batch files that contains
+                                all types of txns., Applies to batch files that contains
+                                only debit txns., Applies to batch files that contains
+                                only credit txns.]
+                          ref:
+                            description: "The Batch reference code itself. \nThis field\
+                              \ is stored as a text string and must be between 1 and\
+                              \ 100 characters long."
+                          file: {}
+                          status:
+                            description: "The status of the batchRef. \nValid values\
+                              \ are: \n'created': A status that is issued when the BatchRef\
+                              \ is created. \n'failed': A status applied to a batch\
+                              \ ref that failed processing. \n'processed': A status\
+                              \ applied to a batch ref that processed successfully."
+                            enum: [created, failed, processed]
+                            x-enum-descriptions: [A status that is issued when the BatchRef
+                                is created., A status applied to a batch ref that failed
+                                processing., A status applied to a batch ref that processed
+                                successfully.]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      batch: {}
+                      stage:
+                        description: "The stage of the Batch file that this reference\
+                          \ code relates to. \n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `all` - Applies to batch files that contains all types\
+                          \ of txns. \n\n- `debit` - Applies to batch files that contains\
+                          \ only debit txns. \n\n- `credit` - Applies to batch files\
+                          \ that contains only credit txns.\n\n</details>\n"
+                        enum: [all, debit, credit]
+                      ref: {description: The Batch reference code itself. This field
+                          is stored as a text string and must be between 1 and 100 characters
+                          long.}
+                      status:
+                        description: "The status of the batchRef. \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n- `created` - A status that is issued\
+                          \ when the BatchRef is created. \n\n- `failed` - A status\
+                          \ applied to a batch ref that failed processing. \n\n- `processed`\
+                          \ - A status applied to a batch ref that processed successfully.\n\
+                          \n</details>\n"
+                        enum: [created, failed, processed]
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          batch: {}
+                          stage:
+                            description: "The stage of the Batch file that this reference\
+                              \ code relates to. \nValid values are: \n'all': Applies\
+                              \ to batch files that contains all types of txns. \n'credit':\
+                              \ Applies to batch files that contains only credit txns.\
+                              \ \n'debit': Applies to batch files that contains only\
+                              \ debit txns."
+                            enum: [all, debit, credit]
+                            x-enum-descriptions: [Applies to batch files that contains
+                                all types of txns., Applies to batch files that contains
+                                only debit txns., Applies to batch files that contains
+                                only credit txns.]
+                          ref:
+                            description: "The Batch reference code itself. \nThis field\
+                              \ is stored as a text string and must be between 1 and\
+                              \ 100 characters long."
+                          file: {}
+                          status:
+                            description: "The status of the batchRef. \nValid values\
+                              \ are: \n'created': A status that is issued when the BatchRef\
+                              \ is created. \n'failed': A status applied to a batch\
+                              \ ref that failed processing. \n'processed': A status\
+                              \ applied to a batch ref that processed successfully."
+                            enum: [created, failed, processed]
+                            x-enum-descriptions: [A status that is issued when the BatchRef
+                                is created., A status applied to a batch ref that failed
+                                processing., A status applied to a batch ref that processed
+                                successfully.]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      batch: {}
+                      stage:
+                        description: "The stage of the Batch file that this reference\
+                          \ code relates to. \n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `all` - Applies to batch files that contains all types\
+                          \ of txns. \n\n- `debit` - Applies to batch files that contains\
+                          \ only debit txns. \n\n- `credit` - Applies to batch files\
+                          \ that contains only credit txns.\n\n</details>\n"
+                        enum: [all, debit, credit]
+                      ref: {description: The Batch reference code itself. This field
+                          is stored as a text string and must be between 1 and 100 characters
+                          long.}
+                      status:
+                        description: "The status of the batchRef. \n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n- `created` - A status that is issued\
+                          \ when the BatchRef is created. \n\n- `failed` - A status\
+                          \ applied to a batch ref that failed processing. \n\n- `processed`\
+                          \ - A status applied to a batch ref that processed successfully.\n\
+                          \n</details>\n"
+                        enum: [created, failed, processed]
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Retrieve Batch References Response for query on batchRefs resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve all Batch References.
+    tags: [Batches (Settlements)]
+    operationId: getBatchRefs
+  post:
+    description: Create a Batch Reference that represents a reference code issued to
+      a batch when a batch file is sent.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              batch: {}
+              stage:
+                description: 'The stage of the Batch file that this reference code relates
+                  to. Valid Values: `all` - Applies to batch files that contain all
+                  types of transactions, `debit` - Applies to batch files that contain
+                  only debit transactions, `credit` - Applies to batch files that contain
+                  only credit transactions.'
+                enum: [all, debit, credit]
+                x-enum-descriptions: [Applies to batch files that contains all types
+                    of txns., Applies to batch files that contains only debit txns.,
+                  Applies to batch files that contains only credit txns.]
+              ref: {description: The Batch reference code. This field is stored as a
+                  text string and must be between 1 and 100 characters long.}
+              file: {}
+              status:
+                description: The status of the batchRef can be one of 'created' - when
+                  the BatchRef is created, 'failed' - a batch ref that failed processing,
+                  or 'processed'- a batch ref that processed successfully.
+                enum: [created, failed, processed]
+                x-enum-descriptions: [A status that is issued when the BatchRef is created.,
+                  A status applied to a batch ref that failed processing., A status
+                    applied to a batch ref that processed successfully.]
+            required: [batch, ref, stage, status]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              batch: {}
+              stage:
+                description: "The stage of the Batch file that this reference code relates\
+                  \ to. \nValid values are: \n'all': Applies to batch files that contains\
+                  \ all types of txns. \n'credit': Applies to batch files that contains\
+                  \ only credit txns. \n'debit': Applies to batch files that contains\
+                  \ only debit txns."
+                enum: [all, debit, credit]
+                x-enum-descriptions: [Applies to batch files that contains all types
+                    of txns., Applies to batch files that contains only debit txns.,
+                  Applies to batch files that contains only credit txns.]
+              ref:
+                description: "The Batch reference code itself. \nThis field is stored\
+                  \ as a text string and must be between 1 and 100 characters long."
+              file: {}
+              status:
+                description: "The status of the batchRef. \nValid values are: \n'created':\
+                  \ A status that is issued when the BatchRef is created. \n'failed':\
+                  \ A status applied to a batch ref that failed processing. \n'processed':\
+                  \ A status applied to a batch ref that processed successfully."
+                enum: [created, failed, processed]
+                x-enum-descriptions: [A status that is issued when the BatchRef is created.,
+                  A status applied to a batch ref that failed processing., A status
+                    applied to a batch ref that processed successfully.]
+            required: [batch, ref, stage, status]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              batch: {}
+              stage:
+                description: 'The stage of the Batch file that this reference code relates
+                  to. Valid Values: `all` - Applies to batch files that contain all
+                  types of transactions, `debit` - Applies to batch files that contain
+                  only debit transactions, `credit` - Applies to batch files that contain
+                  only credit transactions.'
+                enum: [all, debit, credit]
+                x-enum-descriptions: [Applies to batch files that contains all types
+                    of txns., Applies to batch files that contains only debit txns.,
+                  Applies to batch files that contains only credit txns.]
+              ref: {description: ' The Batch reference code itself. This field is stored
+                  as a text string and must be between 1 and 100 characters long.'}
+              file: {}
+              status:
+                description: 'The status of the batchRef can be one of: ''created'':
+                  A status that is issued when the BatchRef is created., ''failed'':
+                  A status applied to a batch ref that failed processing., or ''processed'':
+                  A status applied to a batch ref that processed successfully.'
+                enum: [created, failed, processed]
+                x-enum-descriptions: [A status that is issued when the BatchRef is created.,
+                  A status applied to a batch ref that failed processing., A status
+                    applied to a batch ref that processed successfully.]
+            required: [batch, ref, stage, status]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              batch: {}
+              stage:
+                description: "The stage of the Batch file that this reference code relates\
+                  \ to. \nValid values are: \n'all': Applies to batch files that contains\
+                  \ all types of txns. \n'credit': Applies to batch files that contains\
+                  \ only credit txns. \n'debit': Applies to batch files that contains\
+                  \ only debit txns."
+                enum: [all, debit, credit]
+                x-enum-descriptions: [Applies to batch files that contains all types
+                    of txns., Applies to batch files that contains only debit txns.,
+                  Applies to batch files that contains only credit txns.]
+              ref:
+                description: "The Batch reference code itself. \nThis field is stored\
+                  \ as a text string and must be between 1 and 100 characters long."
+              file: {}
+              status:
+                description: "The status of the batchRef. \nValid values are: \n'created':\
+                  \ A status that is issued when the BatchRef is created. \n'failed':\
+                  \ A status applied to a batch ref that failed processing. \n'processed':\
+                  \ A status applied to a batch ref that processed successfully."
+                enum: [created, failed, processed]
+                x-enum-descriptions: [A status that is issued when the BatchRef is created.,
+                  A status applied to a batch ref that failed processing., A status
+                    applied to a batch ref that processed successfully.]
+            required: [batch, ref, stage, status]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              batch: {}
+              stage:
+                description: "The stage of the Batch file that this reference code relates\
+                  \ to. \nValid values are: \n'all': Applies to batch files that contains\
+                  \ all types of txns. \n'credit': Applies to batch files that contains\
+                  \ only credit txns. \n'debit': Applies to batch files that contains\
+                  \ only debit txns."
+                enum: [all, debit, credit]
+                x-enum-descriptions: [Applies to batch files that contains all types
+                    of txns., Applies to batch files that contains only debit txns.,
+                  Applies to batch files that contains only credit txns.]
+              ref:
+                description: "The Batch reference code itself. \nThis field is stored\
+                  \ as a text string and must be between 1 and 100 characters long."
+              file: {}
+              status:
+                description: "The status of the batchRef. \nValid values are: \n'created':\
+                  \ A status that is issued when the BatchRef is created. \n'failed':\
+                  \ A status applied to a batch ref that failed processing. \n'processed':\
+                  \ A status applied to a batch ref that processed successfully."
+                enum: [created, failed, processed]
+                x-enum-descriptions: [A status that is issued when the BatchRef is created.,
+                  A status applied to a batch ref that failed processing., A status
+                    applied to a batch ref that processed successfully.]
+            required: [batch, ref, stage, status]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              batch: {}
+              stage:
+                description: "The stage of the Batch file that this reference code relates\
+                  \ to. \nValid values are: \n'all': Applies to batch files that contains\
+                  \ all types of txns. \n'credit': Applies to batch files that contains\
+                  \ only credit txns. \n'debit': Applies to batch files that contains\
+                  \ only debit txns."
+                enum: [all, debit, credit]
+                x-enum-descriptions: [Applies to batch files that contains all types
+                    of txns., Applies to batch files that contains only debit txns.,
+                  Applies to batch files that contains only credit txns.]
+              ref:
+                description: "The Batch reference code itself. \nThis field is stored\
+                  \ as a text string and must be between 1 and 100 characters long."
+              file: {}
+              status:
+                description: "The status of the batchRef. \nValid values are: \n'created':\
+                  \ A status that is issued when the BatchRef is created. \n'failed':\
+                  \ A status applied to a batch ref that failed processing. \n'processed':\
+                  \ A status applied to a batch ref that processed successfully."
+                enum: [created, failed, processed]
+                x-enum-descriptions: [A status that is issued when the BatchRef is created.,
+                  A status applied to a batch ref that failed processing., A status
+                    applied to a batch ref that processed successfully.]
+            required: [batch, ref, stage, status]
+            x-redacted: []
+      description: Create Batch Reference Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          batch: {}
+                          stage:
+                            description: "The stage of the Batch file that this reference\
+                              \ code relates to. \nValid values are: \n'all': Applies\
+                              \ to batch files that contains all types of txns. \n'credit':\
+                              \ Applies to batch files that contains only credit txns.\
+                              \ \n'debit': Applies to batch files that contains only\
+                              \ debit txns."
+                            enum: [all, debit, credit]
+                            x-enum-descriptions: [Applies to batch files that contains
+                                all types of txns., Applies to batch files that contains
+                                only debit txns., Applies to batch files that contains
+                                only credit txns.]
+                          ref:
+                            description: "The Batch reference code itself. \nThis field\
+                              \ is stored as a text string and must be between 1 and\
+                              \ 100 characters long."
+                          file: {}
+                          status:
+                            description: "The status of the batchRef. \nValid values\
+                              \ are: \n'created': A status that is issued when the BatchRef\
+                              \ is created. \n'failed': A status applied to a batch\
+                              \ ref that failed processing. \n'processed': A status\
+                              \ applied to a batch ref that processed successfully."
+                            enum: [created, failed, processed]
+                            x-enum-descriptions: [A status that is issued when the BatchRef
+                                is created., A status applied to a batch ref that failed
+                                processing., A status applied to a batch ref that processed
+                                successfully.]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      batch: {}
+                      stage:
+                        description: "The stage of the Batch file that this reference\
+                          \ code relates to. \n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `all` - Applies to batch files that contains all types\
+                          \ of txns. \n\n- `debit` - Applies to batch files that contains\
+                          \ only debit txns. \n\n- `credit` - Applies to batch files\
+                          \ that contains only credit txns.\n\n</details>\n"
+                        enum: [all, debit, credit]
+                      ref: {description: The Batch reference code itself. This field
+                          is stored as a text string and must be between 1 and 100 characters
+                          long.}
+                      status:
+                        description: TBD
+                        enum: [created, failed, processe]
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          batch: {}
+                          stage:
+                            description: "The stage of the Batch file that this reference\
+                              \ code relates to. \nValid values are: \n'all': Applies\
+                              \ to batch files that contains all types of txns. \n'credit':\
+                              \ Applies to batch files that contains only credit txns.\
+                              \ \n'debit': Applies to batch files that contains only\
+                              \ debit txns."
+                            enum: [all, debit, credit]
+                            x-enum-descriptions: [Applies to batch files that contains
+                                all types of txns., Applies to batch files that contains
+                                only debit txns., Applies to batch files that contains
+                                only credit txns.]
+                          ref:
+                            description: "The Batch reference code itself. \nThis field\
+                              \ is stored as a text string and must be between 1 and\
+                              \ 100 characters long."
+                          file: {}
+                          status:
+                            description: "The status of the batchRef. \nValid values\
+                              \ are: \n'created': A status that is issued when the BatchRef\
+                              \ is created. \n'failed': A status applied to a batch\
+                              \ ref that failed processing. \n'processed': A status\
+                              \ applied to a batch ref that processed successfully."
+                            enum: [created, failed, processed]
+                            x-enum-descriptions: [A status that is issued when the BatchRef
+                                is created., A status applied to a batch ref that failed
+                                processing., A status applied to a batch ref that processed
+                                successfully.]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      batch: {}
+                      stage:
+                        description: "The stage of the Batch file that this reference\
+                          \ code relates to. \n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `all` - Applies to batch files that contains all types\
+                          \ of txns. \n\n- `debit` - Applies to batch files that contains\
+                          \ only debit txns. \n\n- `credit` - Applies to batch files\
+                          \ that contains only credit txns.\n\n</details>\n"
+                        enum: [all, debit, credit]
+                      ref: {description: The Batch reference code itself. This field
+                          is stored as a text string and must be between 1 and 100 characters
+                          long.}
+                      status:
+                        description: TBD
+                        enum: [created, failed, processe]
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Create response for creating batch references on the batch refs
+          resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Create a new Batch Reference
+    tags: [Batches (Settlements)]
+    operationId: postBatchRefs

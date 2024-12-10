@@ -1,0 +1,230 @@
+  get:
+    description: A Login is a user of the API and has a unique username and password.
+    parameters:
+    - description: The ID of this resource and The Login ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                  items: {$ref: ../components/schemas/models/loginsResponseModel.yaml}
+                details: {$ref: ../components/schemas/details.yaml}
+                errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/loginsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the Response for the query on Logins resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve a Login by it's ID.
+    tags: [Logins]
+    operationId: getLoginsId
+  put:
+    description: Update a Login, which is a user of the API having a unique username
+      and password, TBD.
+    parameters:
+    - description: The ID of this resource and The Login ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          examples:
+            Update Login Request:
+              value: {id: p1_log_5a1ef5e556553c6f6c44652, roles: 64}
+          schema:
+            properties: {$ref: ../components/schemas/models/loginsRequestModel.yaml}
+            required: [allowedResources, confirmed, email, first, frozen, inactive,
+              last, lastLogin, mfaEnabled, partition, password, portalAccess, restrictedResources,
+              roles, username]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/loginsRequestModel.yaml}
+            required: [allowedResources, confirmed, email, first, frozen, inactive,
+              last, lastLogin, mfaEnabled, partition, password, portalAccess, restrictedResources,
+              roles, username]
+            x-redacted: []
+        application/xml:
+          examples:
+            Update Login Request:
+              value: {id: p1_log_5a1ef5e556553c6f6c44652, roles: 64}
+          schema:
+            properties: {$ref: ../components/schemas/models/loginsRequestModel.yaml}
+            required: [allowedResources, confirmed, email, first, frozen, inactive,
+              last, lastLogin, mfaEnabled, partition, password, portalAccess, restrictedResources,
+              roles, username]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/loginsRequestModel.yaml}
+            required: [allowedResources, confirmed, email, first, frozen, inactive,
+              last, lastLogin, mfaEnabled, partition, password, portalAccess, restrictedResources,
+              roles, username]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/loginsRequestModel.yaml}
+            required: [allowedResources, confirmed, email, first, frozen, inactive,
+              last, lastLogin, mfaEnabled, partition, password, portalAccess, restrictedResources,
+              roles, username]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/loginsRequestModel.yaml}
+            required: [allowedResources, confirmed, email, first, frozen, inactive,
+              last, lastLogin, mfaEnabled, partition, password, portalAccess, restrictedResources,
+              roles, username]
+            x-redacted: []
+      description: Update Login Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Update Login Response:
+                value: {id: p1_log_5a1ef5e556553c6f6c4465211, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, login: p1_log_5a1ef5e55653ed720159d53,
+                  lastLogin: null, username: jsmith, password: '****', first: John,
+                  middle: null, last: Smith, email: jsmith@example.com, fax: null, phone: null,
+                  country: null, zip: null, state: null, city: null, address2: null,
+                  address1: null, confirmed: 0, roles: 2, partition: p1_ptn_5a1ef5e55655bf48337c35e,
+                  inactive: 0, frozen: 0, effectiveRoles: 273154512}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:                      
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/loginsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            examples:
+              Update Login Response:
+                value: "<?xml version='1.0' encoding= 'UTF-8' ?> \n
+                         <root>\n
+                          \t<id>p1_log_5a1ef5e556553c6f6c4465211</id>\n
+                          \t<created>2017-11-28T01:02:57Z</created>\n
+                          \t<modified>'2017-11-29T01:02:57Z'</modified>\n
+                          \t<creator>p1_log_5a1ef5e55653ed720159d53</creator>\n
+                          \t<modifier>p1_log_5a1ef5e55653ed720159d53</modifier>\n
+                          \t<login>p1_log_5a1ef5e55653ed720159d53</login>\n
+                          \t<lastLogin />\n
+                          \t<username>jsmith</username>\n
+                          \t<password></password>\n
+                          \t<first>John</first>\n
+                          \t<middle />\n
+                          \t<last>Smith</last>\n
+                          \t<email>jsmith@example.com</email>\n
+                          \t<fax />\n
+                          \t<phone />\n
+                          \t<country />\n
+                          \t<zip />\n
+                          \t<state />\n
+                          \t<city />\n
+                          \t<address2 />\n
+                          \t<address1 />\n
+                          \t<confirmed>0</confirmed>\n
+                          \t<roles>2</roles>\n
+                          \t<partition>p1_ptn_5a1ef5e55655bf 48337c35e</partition>\n
+                          \t<inactive>0</inactive>\n
+                          \t<frozen>0</frozen>\n
+                          \t<effectiveRoles>273154512</effectiveRoles>\n
+                        </root>"
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/loginsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for Update Login Response
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update a Login by it's ID.
+    tags: [Logins]
+    x-examples:
+    - request: {id: p1_log_5a1ef5e556553c6f6c44652, roles: 64}
+      response: {id: p1_log_5a1ef5e556553c6f6c44652, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        login: p1_log_5a1ef5e55653ed720159d53, username: jsmith, password: '****', first: John,
+        last: Smith, email: jsmith@example.com, confirmed: 0, roles: 2, partition: p1_ptn_5a1ef5e55655bf48337c35e,
+        inactive: 0, frozen: 0, effectiveRoles: 273154512}
+    operationId: putLoginsId
+  delete:
+    description: Delete a Login. A Login is a user of the API and has a unique username
+      and password.
+    parameters:
+    - description: The ID of this resource and The Login ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/loginsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/loginsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for Delete Login Response
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete a Login by it's ID.
+    tags: [Logins]
+    operationId: deleteLoginsId

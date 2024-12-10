@@ -1,0 +1,34 @@
+properties:
+  login: { type: string, description: The Login that owns this resource. }
+  fund: { type: string, description: The identifier of the Fund that this reserveEntries
+    resource relates to. }
+  entry: { type: string, description: 'The entry ID associated with this pendingEntry.' }
+  hold: { type: string, description: 'The ID of the hold that generated this reserveEntry.' }
+  txn: { type: string, description: 'This field indicates that this reserveEntry
+                                was triggered from a Transaction, and it stores the identifier
+                                of the Transaction.' }
+  reserve: { type: string, description: 'This field indicates that this reserveEntry was
+                  triggered from an automatic reserve, storing the identifier of the
+                  Reserve resource.' }
+  entityReserve: { type: string, description: "This field indicates that this reserveEntry was triggered from a manual change to an entityReserve, and stores the identifier of the entityReserve resource.\n\
+                        \n Details:" }
+  reserveEntry: { type: string, description: This field indicates that this reserveEntry
+    shows funds moving out of or into reserve. This field stores the identifier
+    of the reserveEntry resource that moved the funds into or out of the
+    reserve. }
+  onentity: { type: string, description: The identifier of the Entity that
+    this reserveEntry refers to. This is the owner of the
+    record that triggered the charge. }
+  event: { $ref: ../properties/reserveEntryEventProperty.yaml }
+  eventId: { type: string, description: The identifier of the record that is
+    associated with this PendingEntry. }
+  description: { type: string, description: A description of this reserveEntries resource.
+    This field is stored as a text string and must be between 0 and 100
+    characters long. }
+  amount: { type: integer, description: 'The amount held in reserve in this reserveEntries
+                  resource, which is specified as an integer in cents.' }
+  release: { type: string, description: 'The date on which the funds in reserve should
+                  be released, specified as an eight-digit string in YYYYMMDD format,
+                  such as ''20160120'' for January 20, 2016.' }
+required: [ amount, event, fund, login ]
+x-redacted: [ ]

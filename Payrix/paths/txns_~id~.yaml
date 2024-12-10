@@ -1,0 +1,156 @@
+  get:
+    description: "Query a Transaction. \nTransactions hold all of the information relating\
+      \ to a particular credit card transaction, including the merchant, token, subscription,\
+      \ customer and card information."
+    parameters:
+    - description: The ID of this transaction.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on txns resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve a Transaction by its ID.
+    tags: [Transactions (Txns)]
+    operationId: getTxnsId
+  put:
+    description: "Update a Transaction. \nTransactions hold all of the information relating\
+      \ to a particular credit card transaction, including the merchant, token, subscription,\
+      \ customer and card information."
+    parameters:
+    - description: The ID of this transaction.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          example: {id: p1_txn_5a1ef5e55658af7cf012866, inactive: 1}
+          schema:
+            {$ref: ../components/schemas/models/txnsUpdateReqBodySchemaModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/txnsUpdateReqBodySchemaModel.yaml}
+        application/xml:
+          example: {id: p1_txn_5a1ef5e55658af7cf012866, inactive: 1}
+          schema:
+            {$ref: ../components/schemas/models/txnsUpdateReqBodySchemaModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/txnsUpdateReqBodySchemaModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/txnsUpdateReqBodySchemaModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/txnsUpdateReqBodySchemaModel.yaml}
+      description: ''
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            example: {id: p1_txn_5a1ef5e55658af7cf012866, created: '2017-11-28T01:02:57Z',
+              modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+              modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+              merchant: p1_mer_5a1ef5e55656a739a85da21, token: e41272ec5464d9ec81cc85c854837472,
+              fortxn: null, batch: p1_bth_5a1ef5e55655f49b141d313, subscription: null,
+              type: 1, expiration: '0120', platform: VANTIV, authDate: null, authCode: null,
+              captured: null, allowPartial: 0, order: '', description: null, terminal: null,
+              origin: 2, tax: null, total: null, cashback: null, authorization: '52703',
+              approved: null, cvv: 0, swiped: 0, emv: 0, signature: 0, pin: 1, unattended: null,
+              first: Robert, middle: '', last: Johnson, company: null, email: robert.johnson@example.com,
+              address1: 123 Example St., address2: Suite 403, city: New York, state: NY,
+              zip: '10001', country: USA, phone: '1111111111', mid: '01170981', reserved: 0,
+              inactive: 1, frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            example: {id: p1_txn_5a1ef5e55658af7cf012866, created: '2017-11-28T01:02:57Z',
+              modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+              modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+              merchant: p1_mer_5a1ef5e55656a739a85da21, token: e41272ec5464d9ec81cc85c854837472,
+              fortxn: null, batch: p1_bth_5a1ef5e55655f49b141d313, subscription: null,
+              type: 1, expiration: '0120', platform: VANTIV, authDate: null, authCode: null,
+              captured: null, allowPartial: 0, order: '', description: null, terminal: null,
+              origin: 2, tax: null, total: null, cashback: null, authorization: '52703',
+              approved: null, cvv: 0, swiped: 0, emv: 0, signature: 0, pin: 1, unattended: null,
+              first: Robert, middle: '', last: Johnson, company: null, email: robert.johnson@example.com,
+              address1: 123 Example St., address2: Suite 403, city: New York, state: NY,
+              zip: '10001', country: USA, phone: '1111111111', mid: '01170981', reserved: 0,
+              inactive: 1, frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for update on txns resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update a Transaction by its ID.
+    tags: [Transactions (Txns)]
+    x-examples:
+    - request: {id: p1_txn_5a1ef5e55658af7cf012866, inactive: 1}
+      response: {id: p1_txn_5a1ef5e55658af7cf012866, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        ipCreated: 8.8.8.8, ipModified: 8.8.8.8, merchant: p1_mer_5a1ef5e55656a739a85da21,
+        token: e41272ec5464d9ec81cc85c854837472, batch: p1_bth_5a1ef5e55655f49b141d313,
+        type: 1, expiration: '0120', platform: VANTIV, allowPartial: 0, order: '', origin: 2,
+        authorization: '52703', cvv: 0, swiped: 0, emv: 0, signature: 0, pin: 1, first: Robert,
+        middle: '', last: Johnson, email: robert.johnson@example.com, address1: 123
+          Example St., address2: Suite 403, city: New York, state: NY, zip: '10001',
+        country: USA, phone: '1111111111', mid: '01170981', reserved: 0, inactive: 1,
+        frozen: 0}
+    operationId: putTxnsId

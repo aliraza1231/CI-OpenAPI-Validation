@@ -1,0 +1,15 @@
+     description: "Set this header to filter or sort the list of resources that the\
+       \ method returns. \nFor example, to find all resources that have a property\
+       \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+       \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+       \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+       \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+       \ arrays of or and arrays of and parameters. For example, to find all resources\
+       \ that have a property of 'public' set to '1' or a property of 'active' set\
+       \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+     explode: false
+     in: header
+     name: search
+     required: false
+     schema: {type: string}
+     style: simple

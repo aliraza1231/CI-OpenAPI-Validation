@@ -1,0 +1,30 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  terminalTxn: {type: string, description: The identifier of the Terminal
+                  Transaction associated with this TerminalTxnMetadatas
+                  resource.}
+  type:
+    type: string
+    description: "The type of metadata associated with the Terminal\
+                              \ transcation. \n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n- `amounts` - **Transaction Amounts**\n\n- `emv` - **EuroPay,\
+                              \ Mastercard, Visa Transactions**\n\n- `network` - **Network\
+                              \ Transactions**\n\n- `timeout` - **Transaction Timeouts**\n\
+                              \n- `firstTxn` - **First Transaction**\n\n- `discretionary`\
+                              \ - **Custom Transaction Field Value**   \n\n</details>\n"
+    enum: [amounts, emv, network, timeout, firstTxn, discretionary]
+  field:
+    type: string
+    description: "The discretionary field being stored.\n\n\
+                              <details>\n<summary>Valid Values</summary>\n  \n  - `discretionary1`\
+                              \ - **Custom Field 1**\n  \n  - `discretionary2` - **Custom\
+                              \ Field 2**\n  \n  - `discretionary3` - **Custom Field\
+                              \ 3**\n\n</details>\n"
+    enum: ['discretionary1', 'discretionary2', 'discretionary3']
+  value: {type: string, description: The value of the field. This field is
+            stored as a text string and must be between 1 and 500
+            characters long.}

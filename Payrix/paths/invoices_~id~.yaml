@@ -1,0 +1,156 @@
+get:
+  description: Query an Invoice or use it for invoicing customers, email the invoice
+    to them, allow them to pay the invoice and track payments with invoices.
+  parameters:
+    - description: The ID of this entity.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for retrieve invoice response.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve an Invoice by it's ID.
+  tags: [ Invoices ]
+  operationId: getInvoicesId
+put:
+  description: Update an Invoice. An Invoice resource is used for invoicing customers,
+    email the invoice to them, allow them to pay the invoice and track payments with
+    invoices.
+  parameters:
+    - description: The ID of this invoice.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPutReqBodySchemaModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPutReqBodySchemaModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPutReqBodySchemaModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPutReqBodySchemaModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPutReqBodySchemaModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPutReqBodySchemaModel.yaml }
+    description: Update Invoice Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for update on invoices resource Update Invoice Response
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Update an Invoice by it's ID.
+  tags: [ Invoices ]
+  operationId: putInvoicesId
+delete:
+  description: Delete an Invoice or use it for invoicing customers, email the invoice
+    to them, allow them to pay the invoice and track payments with invoices.
+  parameters:
+    - description: The ID of this invoice.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for deleting an invoice.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Delete an Invoice by it's ID.
+  tags: [ Invoices ]
+  operationId: deleteInvoicesId

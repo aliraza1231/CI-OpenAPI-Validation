@@ -1,0 +1,97 @@
+  get:
+    description: Query an invoice parameter resource that holds a certain configuration
+      used for creating an invoice, including dba, address, and api key.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceParametersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceParametersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve Invoice Parameters Response for query on invoiceParameters
+          resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Invoice Parameters.
+    tags: [Invoices]
+    operationId: getInvoiceParameters
+  post:
+    description: Create an Invoice Parameter that holds a certain configuration used
+      for creating an invoice such as dba, address, and apikey.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/invoiceParametersRequestModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/invoiceParametersRequestModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/invoiceParametersRequestModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/invoiceParametersRequestModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/invoiceParametersRequestModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/invoiceParametersRequestModel.yaml}
+      description: Create Invoice Parameter Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/invoiceParametersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/invoiceParametersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on invoiceParameters resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Invoice Parameter
+    tags: [Invoices]
+    operationId: postInvoiceParameters

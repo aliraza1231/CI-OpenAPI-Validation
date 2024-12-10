@@ -1,0 +1,49 @@
+get:
+  description: |-
+    Query an invoiceResults resource that represents the result of an invoice processing, which is generated when a customer pays for an invoice.
+    
+    Details:
+  parameters:
+    - description: The ID of this invoice result.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/invoicesResultsModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/invoicesResultsModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for retrieve invoice result response.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve an Invoice Result by it's ID.
+  tags: [ Invoices ]
+  operationId: getInvoiceResultsId

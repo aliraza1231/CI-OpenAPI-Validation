@@ -1,0 +1,162 @@
+  get:
+    description: Query an Aggregation resource that uses a search to query for records
+      on the given resource and applies the desired calculations (count, sum, min, and/or
+      max) to the field in question.
+    parameters:
+    - description: The ID of this resource or The Aggregation ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Retrieve aggregation response for query on aggregations resource.
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve Aggregation by it's ID.
+    tags: [Aggregations]
+    operationId: getAggregationsId
+  put:
+    description: Update an Aggregation resource or Update an Aggregation.
+    parameters:
+    - description: The ID of this resource or The Aggregation ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    requestBody:
+      content:
+        application/json:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        application/x-www-form-urlencoded:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        application/xml:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        multipart/form-data:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        text/json:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+        text/xml:
+          schema:
+            { $ref: ../components/schemas/models/aggregationsPut&PostReqBodySchemaModel.yaml }
+      description: Update Aggregation Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for update on aggregations resource Update Aggregation
+          Response
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Update Aggregation by it's ID.
+    tags: [Aggregations]
+    operationId: putAggregationsId
+  delete:
+    description: Delete an Aggregation resource or an Aggregation.
+    parameters:
+    - description: The ID of this resource or The Aggregation ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: 'Response for delete on aggregations resource: Delete Aggregation
+          Response'
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Delete Aggregation by it's ID.
+    tags: [Aggregations]
+    operationId: deleteAggregationsId

@@ -1,0 +1,62 @@
+properties:
+  login: { type: string, description: The identifier of the Login of this invoice resource. }
+  merchant: { type: string, description: The identifier of the Merchant of this invoice
+    resource. }
+  customer: { type: string, description: The identifier of the Customer of this invoice
+    resource. }
+  subscription: { type: string, description: The identifier of the Subscription of this
+    invoice resource. }
+  number: { type: string, description: The invoice number. }
+  allowedPaymentMethods:
+    { type: string, enum: [ amex, visa, masterCard, diners, discover, paypal, debit, checking,
+                            savings, corpChecking, corpSavings, gift, ebt, wic, Accel, ATH, AFFN,
+                            Culiance, Interlink, Jeanie, Maestro, NYCE, Pulse, Shazam, Star, Interac ],
+      x-enum-descriptions: [ '', '', '', '', '', '', '', '', '', '', '', '',
+                             '', '', '', '', '', '', '', '', '', '', '', '', '', '' ] }
+  title: { type: string, description: The title of the invoice. }
+  message: { type: string, description: The message that will be sent with the invoice. }
+  total: { type: string, description: The total amount for this invoice. }
+  tax: { type: string, description: The tax amount for this invoice. }
+  discount: { type: string, description: The discount amount applied to this invoice. }
+  dueDate: { type: string, description: The date the invoice is due. }
+  expirationDate: { type: string, description: The date the invoice is due. }
+  sendOn: { type: string, description: The date to send this invoice. }
+  status:
+    { description: "The status of the Transaction.\n\n<details>\n<summary>Valid\
+      \ Values</summary>\n\n  - `0` - **Pending**\n  \n  - `1` - **Approved**\n\
+      \  \n  - `2` - **Failed**\n\n  - `3` - **Captured**\n  \n  - `4` -\
+      \ **Settled**\n\n  - `5` - **Returned**\n\n  </details>\n",
+      enum: [ pending, cancelled, expired, viewed, paid, confirmed, refunded,
+              rejected ],
+      x-enum-descriptions: [ Initial status of invoice before any action is
+        taken., Updated status to indicate the invoice has expired., '',
+        Updated status once the invoice is viewed by the customer., Updated
+          status once the invoice has been paid by the customer, Updated status
+          once the invoice has been confirmed by the customer., '', Updated
+          status once the invoice has been rejected by the customer. ],
+      type: string }
+  emailStatus:
+    { type: string,
+      description: "The current status of the invoice.\n\n<details>\n\
+        <summary>Valid Values</summary>\n\n
+        - `send` - **Updated email status to indicate the invoice is ready to be sent to the customer.**\n\n
+        - `sent` - **Updated email status once the invoice is sent to the customer.**\n\n
+        </details>\n\n",
+      enum: [ send, sent ],
+      x-enum-descriptions: [ Updated email status to indicate the
+        invoice is ready to be sent to the customer., Updated
+        email status once the invoice is sent to the customer. ] }
+  emails: { type: string, description: The email addresses to send the invoice to. }
+  type:
+    { type: string, description: "The type of invoice.\n\n<details>\n<summary>Valid Values</summary>\n\
+      \n- `single` - **A single-use invoice** \n\n- `multiUse` - **A static,\
+      \ reusable invoice. (Payment Page.)**\n\n- `recurring` - **A subscription-based\
+      \ invoice.**\n\n</details>          \n",
+      enum: [ single, multiUse, recurring ],
+      x-enum-descriptions: [ '', '', '' ] }
+  frozen: { $ref: ../frozen.yaml }
+  inactive: { $ref: ../inactive.yaml }
+
+required: [ emailStatus, frozen, inactive, login, merchant, number, status,
+            subscription, type ]
+x-redacted: [ ]

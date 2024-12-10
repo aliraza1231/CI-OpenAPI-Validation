@@ -1,0 +1,349 @@
+  get:
+    description: Query a terminalTxnRefs resource, which represents a reference code
+      issued by the Processor in relation to a particular Transaction.
+    parameters:
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {type: string}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to request a specific page of records. \n\
+        For example, set '?page[number]=2' to retrieve the second page of records for\
+        \ this request."
+      explode: true
+      in: query
+      name: page[number]
+      required: false
+      schema: {}
+      style: form
+    - description: |-
+        Set this path parameter to request up to a specific amount of records. By default 30 records are retrieved per page. The maximum limit that can be set is 100.
+        For example, set '?page[limit]=50' to retrieve up to 50 records for this request.
+      explode: true
+      in: query
+      name: page[limit]
+      required: false
+      schema: {}
+      style: form
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/terminalTxnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/terminalTxnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on terminalTxnRefs resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Terminal Transaction References.
+    tags: [Transactions (Txns)]
+    operationId: getTerminalTxnRefs
+  post:
+    description: Create a terminalTxnRefs resource, which represents a reference code
+      issued by the Processor in relation to a particular Transaction.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              terminalTxn: {type: string, description: The parent terminalTxn that owns
+                  this terminalTxnRef and to which this reference applies A single terminalTxn
+                  may have many terminalTxnRef records.}
+              ref: {type: string, description: The reference value retrieved from the
+                  third party.}
+              stage:
+                type: string
+                description: "An indicator showing what this terminalTxnRef refers to.\\\
+                  \ \n\n<details>\n<summary>Valid Values</summary> \n\n - `activation`\
+                  \ - **Terminal Activation**\n\n - `auth` - **Transaction Authorization*\n\
+                  \n - `draft` - **Transaction Draft Number**\n\n - `file` - **Import\
+                  \ File Ref**\n\n - `retrieval` - **Transaction Retrieval Number**\n\
+                  \n </details>\n"
+                enum: [activation, auth, draft, file, retrieval]
+                x-enum-descriptions: ['', The terminalTxnRef relates to transaction
+                    authorization., The terminalTxnRef relates to transaction draft
+                    number., FILE. Import file ref, The terminalTxnRef relates to a
+                    transaction retrieval number.]
+              platform:
+                type: string
+                description: "The processor that issued this terminalTxnRef.\\ \n\n\
+                  <details>\n<summary>Valid Values</summary> \n\n - `APPLE` - **APPLE**\n\
+                  \n - `ELAVON` - **ELAVON**\n\n - `FIRSTDATA` - **FIRSTDATA**\n\n -\
+                  \ `GOOGLE` - **GOOGLE**\n\n - `VANTIV` - **VANTIV**\n\n - `VCORE`\
+                  \ - **VCORE**\n\n - `WELLSACH` - **WELLSACH**\n\n - `WELLSFARGO` -\
+                  \ **WELLSFARGO**\n\n - `WFSINGLE` - **WFSINGLE**\n\n - `WORLDPAY`\
+                  \ - **WORLDPAY**\n\n - `TDBANKCA` - **TDBANKCA**\n\n </details>\n"
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', Wells Fargo., '', '', '']
+            required: [platform, ref, stage, terminalTxn]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              terminalTxn: {type: string, description: The parent terminalTxn that owns
+                  this terminalTxnRef and to which this reference applies A single terminalTxn
+                  may have many terminalTxnRef records.}
+              ref: {type: string, description: The reference value retrieved from the
+                  third party.}
+              stage:
+                type: string
+                description: "An indicator showing what this terminalTxnRef refers to.\\\
+                  \ \n\n<details>\n<summary>Valid Values</summary> \n\n - `activation`\
+                  \ - **Terminal Activation**\n\n - `auth` - **Transaction Authorization*\n\
+                  \n - `draft` - **Transaction Draft Number**\n\n - `file` - **Import\
+                  \ File Ref**\n\n - `retrieval` - **Transaction Retrieval Number**\n\
+                  \n </details>\n"
+                enum: [activation, auth, draft, file, retrieval]
+                x-enum-descriptions: ['', The terminalTxnRef relates to transaction
+                    authorization., The terminalTxnRef relates to transaction draft
+                    number., FILE. Import file ref, The terminalTxnRef relates to a
+                    transaction retrieval number.]
+              platform:
+                type: string
+                description: "The processor that issued this terminalTxnRef.\\ \n\n\
+                  <details>\n<summary>Valid Values</summary> \n\n - `APPLE` - **APPLE**\n\
+                  \n - `ELAVON` - **ELAVON**\n\n - `FIRSTDATA` - **FIRSTDATA**\n\n -\
+                  \ `GOOGLE` - **GOOGLE**\n\n - `VANTIV` - **VANTIV**\n\n - `VCORE`\
+                  \ - **VCORE**\n\n - `WELLSACH` - **WELLSACH**\n\n - `WELLSFARGO` -\
+                  \ **WELLSFARGO**\n\n - `WFSINGLE` - **WFSINGLE**\n\n - `WORLDPAY`\
+                  \ - **WORLDPAY**\n\n - `TDBANKCA` - **TDBANKCA**\n\n </details>\n"
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', Wells Fargo., '', '', '']
+            required: [platform, ref, stage, terminalTxn]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              terminalTxn: {type: string, description: The parent terminalTxn that owns
+                  this terminalTxnRef and to which this reference applies A single terminalTxn
+                  may have many terminalTxnRef records.}
+              ref: {type: string, description: The reference value retrieved from the
+                  third party.}
+              stage:
+                type: string
+                description: "An indicator showing what this terminalTxnRef refers to.\\\
+                  \ \n\n<details>\n<summary>Valid Values</summary> \n\n - `activation`\
+                  \ - **Terminal Activation**\n\n - `auth` - **Transaction Authorization*\n\
+                  \n - `draft` - **Transaction Draft Number**\n\n - `file` - **Import\
+                  \ File Ref**\n\n - `retrieval` - **Transaction Retrieval Number**\n\
+                  \n </details>\n"
+                enum: [activation, auth, draft, file, retrieval]
+                x-enum-descriptions: ['', The terminalTxnRef relates to transaction
+                    authorization., The terminalTxnRef relates to transaction draft
+                    number., FILE. Import file ref, The terminalTxnRef relates to a
+                    transaction retrieval number.]
+              platform:
+                type: string
+                description: "The processor that issued this terminalTxnRef.\\ \n\n\
+                  <details>\n<summary>Valid Values</summary> \n\n - `APPLE` - **APPLE**\n\
+                  \n - `ELAVON` - **ELAVON**\n\n - `FIRSTDATA` - **FIRSTDATA**\n\n -\
+                  \ `GOOGLE` - **GOOGLE**\n\n - `VANTIV` - **VANTIV**\n\n - `VCORE`\
+                  \ - **VCORE**\n\n - `WELLSACH` - **WELLSACH**\n\n - `WELLSFARGO` -\
+                  \ **WELLSFARGO**\n\n - `WFSINGLE` - **WFSINGLE**\n\n - `WORLDPAY`\
+                  \ - **WORLDPAY**\n\n - `TDBANKCA` - **TDBANKCA**\n\n </details>\n"
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', Wells Fargo., '', '', '']
+            required: [platform, ref, stage, terminalTxn]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              terminalTxn: {type: string, description: The parent terminalTxn that owns
+                  this terminalTxnRef and to which this reference applies A single terminalTxn
+                  may have many terminalTxnRef records.}
+              ref: {type: string, description: The reference value retrieved from the
+                  third party.}
+              stage:
+                type: string
+                description: "An indicator showing what this terminalTxnRef refers to.\\\
+                  \ \n\n<details>\n<summary>Valid Values</summary> \n\n - `activation`\
+                  \ - **Terminal Activation**\n\n - `auth` - **Transaction Authorization*\n\
+                  \n - `draft` - **Transaction Draft Number**\n\n - `file` - **Import\
+                  \ File Ref**\n\n - `retrieval` - **Transaction Retrieval Number**\n\
+                  \n </details>\n"
+                enum: [activation, auth, draft, file, retrieval]
+                x-enum-descriptions: ['', The terminalTxnRef relates to transaction
+                    authorization., The terminalTxnRef relates to transaction draft
+                    number., FILE. Import file ref, The terminalTxnRef relates to a
+                    transaction retrieval number.]
+              platform:
+                type: string
+                description: "The processor that issued this terminalTxnRef.\\ \n\n\
+                  <details>\n<summary>Valid Values</summary> \n\n - `APPLE` - **APPLE**\n\
+                  \n - `ELAVON` - **ELAVON**\n\n - `FIRSTDATA` - **FIRSTDATA**\n\n -\
+                  \ `GOOGLE` - **GOOGLE**\n\n - `VANTIV` - **VANTIV**\n\n - `VCORE`\
+                  \ - **VCORE**\n\n - `WELLSACH` - **WELLSACH**\n\n - `WELLSFARGO` -\
+                  \ **WELLSFARGO**\n\n - `WFSINGLE` - **WFSINGLE**\n\n - `WORLDPAY`\
+                  \ - **WORLDPAY**\n\n - `TDBANKCA` - **TDBANKCA**\n\n </details>\n"
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', Wells Fargo., '', '', '']
+            required: [platform, ref, stage, terminalTxn]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              terminalTxn: {type: string, description: The parent terminalTxn that owns
+                  this terminalTxnRef and to which this reference applies A single terminalTxn
+                  may have many terminalTxnRef records.}
+              ref: {type: string, description: The reference value retrieved from the
+                  third party.}
+              stage:
+                type: string
+                description: "An indicator showing what this terminalTxnRef refers to.\\\
+                  \ \n\n<details>\n<summary>Valid Values</summary> \n\n - `activation`\
+                  \ - **Terminal Activation**\n\n - `auth` - **Transaction Authorization*\n\
+                  \n - `draft` - **Transaction Draft Number**\n\n - `file` - **Import\
+                  \ File Ref**\n\n - `retrieval` - **Transaction Retrieval Number**\n\
+                  \n </details>\n"
+                enum: [activation, auth, draft, file, retrieval]
+                x-enum-descriptions: ['', The terminalTxnRef relates to transaction
+                    authorization., The terminalTxnRef relates to transaction draft
+                    number., FILE. Import file ref, The terminalTxnRef relates to a
+                    transaction retrieval number.]
+              platform:
+                type: string
+                description: "The processor that issued this terminalTxnRef.\\ \n\n\
+                  <details>\n<summary>Valid Values</summary> \n\n - `APPLE` - **APPLE**\n\
+                  \n - `ELAVON` - **ELAVON**\n\n - `FIRSTDATA` - **FIRSTDATA**\n\n -\
+                  \ `GOOGLE` - **GOOGLE**\n\n - `VANTIV` - **VANTIV**\n\n - `VCORE`\
+                  \ - **VCORE**\n\n - `WELLSACH` - **WELLSACH**\n\n - `WELLSFARGO` -\
+                  \ **WELLSFARGO**\n\n - `WFSINGLE` - **WFSINGLE**\n\n - `WORLDPAY`\
+                  \ - **WORLDPAY**\n\n - `TDBANKCA` - **TDBANKCA**\n\n </details>\n"
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', Wells Fargo., '', '', '']
+            required: [platform, ref, stage, terminalTxn]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              terminalTxn: {type: string, description: The parent terminalTxn that owns
+                  this terminalTxnRef and to which this reference applies A single terminalTxn
+                  may have many terminalTxnRef records.}
+              ref: {type: string, description: The reference value retrieved from the
+                  third party.}
+              stage:
+                type: string
+                description: "An indicator showing what this terminalTxnRef refers to.\\\
+                  \ \n\n<details>\n<summary>Valid Values</summary> \n\n - `activation`\
+                  \ - **Terminal Activation**\n\n - `auth` - **Transaction Authorization*\n\
+                  \n - `draft` - **Transaction Draft Number**\n\n - `file` - **Import\
+                  \ File Ref**\n\n - `retrieval` - **Transaction Retrieval Number**\n\
+                  \n </details>\n"
+                enum: [activation, auth, draft, file, retrieval]
+                x-enum-descriptions: ['', The terminalTxnRef relates to transaction
+                    authorization., The terminalTxnRef relates to transaction draft
+                    number., FILE. Import file ref, The terminalTxnRef relates to a
+                    transaction retrieval number.]
+              platform:
+                type: string
+                description: "The processor that issued this terminalTxnRef.\\ \n\n\
+                  <details>\n<summary>Valid Values</summary> \n\n - `APPLE` - **APPLE**\n\
+                  \n - `ELAVON` - **ELAVON**\n\n - `FIRSTDATA` - **FIRSTDATA**\n\n -\
+                  \ `GOOGLE` - **GOOGLE**\n\n - `VANTIV` - **VANTIV**\n\n - `VCORE`\
+                  \ - **VCORE**\n\n - `WELLSACH` - **WELLSACH**\n\n - `WELLSFARGO` -\
+                  \ **WELLSFARGO**\n\n - `WFSINGLE` - **WFSINGLE**\n\n - `WORLDPAY`\
+                  \ - **WORLDPAY**\n\n - `TDBANKCA` - **TDBANKCA**\n\n </details>\n"
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', Wells Fargo., '', '', '']
+            required: [platform, ref, stage, terminalTxn]
+            x-redacted: []
+      description: Create Terminal Transaction Reference Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/terminalTxnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/terminalTxnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on terminalTxnRefs resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Terminal Transaction Reference
+    tags: [Transactions (Txns)]
+    operationId: postTerminalTxnRefs

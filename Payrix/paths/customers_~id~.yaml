@@ -1,0 +1,175 @@
+  get:
+    description: Query a Customer, which is a record that stores data about a particular
+      customer of a Merchant and can be used to associate payment data or with other
+      API features.
+    parameters:
+    - description: The ID of this customer.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for retrieve customer response.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve Customer by it's ID.
+    tags: [Customers]
+    operationId: getCustomersId
+  put:
+    description: Update a Customer. A Customer is a record that is used to store data
+      about a particular customer of a Merchant, which you can use to associate payment
+      data or for use with other API features.
+    parameters:
+    - description: The ID of this customer.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/customersRequestModel.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+      description: Update Customer Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: 'Response for update on customer''s resource: Update Customer Response'
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update Customer by it's ID.
+    tags: [Customers]
+    x-examples:
+    - request: {id: p1_cus_5a1ef5e55656e2484591e84, merchant: p1_mer_5a1ef5e55656a739a85da21}
+      response: {id: p1_cus_5a1ef5e55656e2484591e84, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        login: p1_log_5a1ef5e55653ed720159d53, merchant: p1_mer_5a1ef5e55656a739a85da21,
+        first: Robert, last: Johnson, email: robert.johnson@example.com, inactive: 0,
+        frozen: 0}
+    operationId: putCustomersId
+  delete:
+    description: Delete a Customer. A Customer is a record that is used to store data
+      about a particular customer of a Merchant. You can use it to associate payment
+      data to the Customer, or for use with other API features.
+    parameters:
+    - description: The ID of this customer.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/customersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: |-
+          The response for deleting a customer.
+
+          Details:
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete Customer by it's ID.
+    tags: [Customers]
+    operationId: deleteCustomersId

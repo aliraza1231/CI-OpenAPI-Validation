@@ -1,0 +1,1457 @@
+  get:
+    description: "Query a Currency Rate. \nA Currency Rate is a record that is used\
+      \ to store data about a particular currency rate of an entity, division, org,\
+      \ or partition. You can use it to associate rate to be used base on entity's default\
+      \ currency, or for use with other API features."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this resource.}
+                          entity: {description: 'If this currency rate relates to an
+                              entity, then this field stores the identifier of the Entity.'}
+                          org: {description: 'If this currency rate relates to an org,
+                              then this field stores the identifier of the Org.'}
+                          division: {description: 'If this currency rate relates to
+                              a division, then this field stores the identifier of the
+                              Division.'}
+                          partition: {description: 'If this currency rate relates to
+                              a partition, then this field stores the identifier of
+                              the Partition.'}
+                          fromCurrency:
+                            description: The currency that will serve as base for this
+                              rate.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          toCurrency:
+                            description: The currency that the fromCurrency will be
+                              converting to.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          rate: {description: The rate of this currency.}
+                          start: {description: The start date that this rate will start
+                              to be effective.}
+                          finish: {description: The finish date that this rate wil stop
+                              being effective.}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this resource.}
+                          entity: {description: 'If this currency rate relates to an
+                              entity, then this field stores the identifier of the Entity.'}
+                          org: {description: 'If this currency rate relates to an org,
+                              then this field stores the identifier of the Org.'}
+                          division: {description: 'If this currency rate relates to
+                              a division, then this field stores the identifier of the
+                              Division.'}
+                          partition: {description: 'If this currency rate relates to
+                              a partition, then this field stores the identifier of
+                              the Partition.'}
+                          fromCurrency:
+                            description: The currency that will serve as base for this
+                              rate.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          toCurrency:
+                            description: The currency that the fromCurrency will be
+                              converting to.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          rate: {description: The rate of this currency.}
+                          start: {description: The start date that this rate will start
+                              to be effective.}
+                          finish: {description: The finish date that this rate wil stop
+                              being effective.}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for query on currencyRates resource
+    tags: [Currency Rates]
+    operationId: getCurrencyRatesId
+  put:
+    description: "Update a Currency Rate. \nA Currency Rate is a record that is used\
+      \ to store data about a particular currency rate of an entity, division, org,\
+      \ or partition. You can use it to associate rate to be used base on entity's default\
+      \ currency, or for use with other API features."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this resource.}
+              division: {description: 'If this currency rate relates to a division,
+                  then this field stores the identifier of the Division.'}
+              entity: {description: 'If this currency rate relates to an entity, then
+                  this field stores the identifier of the Entity.'}
+              org: {description: 'If this currency rate relates to an org, then this
+                  field stores the identifier of the Org.'}
+              partition: {description: 'If this currency rate relates to a partition,
+                  then this field stores the identifier of the Partition.'}
+              fromCurrency:
+                description: The currency that will serve as base for this rate.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              toCurrency:
+                description: The currency that the fromCurrency will be converting to.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              rate: {description: The rate of this currency.}
+              start: {description: The start date that this rate will start to be effective.}
+              finish: {description: The finish date that this rate wil stop being effective.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [fromCurrency, frozen, inactive, login, rate, toCurrency]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this resource.}
+              division: {description: 'If this currency rate relates to a division,
+                  then this field stores the identifier of the Division.'}
+              entity: {description: 'If this currency rate relates to an entity, then
+                  this field stores the identifier of the Entity.'}
+              org: {description: 'If this currency rate relates to an org, then this
+                  field stores the identifier of the Org.'}
+              partition: {description: 'If this currency rate relates to a partition,
+                  then this field stores the identifier of the Partition.'}
+              fromCurrency:
+                description: The currency that will serve as base for this rate.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              toCurrency:
+                description: The currency that the fromCurrency will be converting to.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              rate: {description: The rate of this currency.}
+              start: {description: The start date that this rate will start to be effective.}
+              finish: {description: The finish date that this rate wil stop being effective.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [fromCurrency, frozen, inactive, login, rate, toCurrency]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this resource.}
+              division: {description: 'If this currency rate relates to a division,
+                  then this field stores the identifier of the Division.'}
+              entity: {description: 'If this currency rate relates to an entity, then
+                  this field stores the identifier of the Entity.'}
+              org: {description: 'If this currency rate relates to an org, then this
+                  field stores the identifier of the Org.'}
+              partition: {description: 'If this currency rate relates to a partition,
+                  then this field stores the identifier of the Partition.'}
+              fromCurrency:
+                description: The currency that will serve as base for this rate.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              toCurrency:
+                description: The currency that the fromCurrency will be converting to.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              rate: {description: The rate of this currency.}
+              start: {description: The start date that this rate will start to be effective.}
+              finish: {description: The finish date that this rate wil stop being effective.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [fromCurrency, frozen, inactive, login, rate, toCurrency]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this resource.}
+              division: {description: 'If this currency rate relates to a division,
+                  then this field stores the identifier of the Division.'}
+              entity: {description: 'If this currency rate relates to an entity, then
+                  this field stores the identifier of the Entity.'}
+              org: {description: 'If this currency rate relates to an org, then this
+                  field stores the identifier of the Org.'}
+              partition: {description: 'If this currency rate relates to a partition,
+                  then this field stores the identifier of the Partition.'}
+              fromCurrency:
+                description: The currency that will serve as base for this rate.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              toCurrency:
+                description: The currency that the fromCurrency will be converting to.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              rate: {description: The rate of this currency.}
+              start: {description: The start date that this rate will start to be effective.}
+              finish: {description: The finish date that this rate wil stop being effective.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [fromCurrency, frozen, inactive, login, rate, toCurrency]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this resource.}
+              division: {description: 'If this currency rate relates to a division,
+                  then this field stores the identifier of the Division.'}
+              entity: {description: 'If this currency rate relates to an entity, then
+                  this field stores the identifier of the Entity.'}
+              org: {description: 'If this currency rate relates to an org, then this
+                  field stores the identifier of the Org.'}
+              partition: {description: 'If this currency rate relates to a partition,
+                  then this field stores the identifier of the Partition.'}
+              fromCurrency:
+                description: The currency that will serve as base for this rate.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              toCurrency:
+                description: The currency that the fromCurrency will be converting to.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              rate: {description: The rate of this currency.}
+              start: {description: The start date that this rate will start to be effective.}
+              finish: {description: The finish date that this rate wil stop being effective.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [fromCurrency, frozen, inactive, login, rate, toCurrency]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this resource.}
+              division: {description: 'If this currency rate relates to a division,
+                  then this field stores the identifier of the Division.'}
+              entity: {description: 'If this currency rate relates to an entity, then
+                  this field stores the identifier of the Entity.'}
+              org: {description: 'If this currency rate relates to an org, then this
+                  field stores the identifier of the Org.'}
+              partition: {description: 'If this currency rate relates to a partition,
+                  then this field stores the identifier of the Partition.'}
+              fromCurrency:
+                description: The currency that will serve as base for this rate.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              toCurrency:
+                description: The currency that the fromCurrency will be converting to.
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                  '', '', '', '', '', '', '', '', '', '', '']
+              rate: {description: The rate of this currency.}
+              start: {description: The start date that this rate will start to be effective.}
+              finish: {description: The finish date that this rate wil stop being effective.}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [fromCurrency, frozen, inactive, login, rate, toCurrency]
+            x-redacted: []
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this resource.}
+                          entity: {description: 'If this currency rate relates to an
+                              entity, then this field stores the identifier of the Entity.'}
+                          org: {description: 'If this currency rate relates to an org,
+                              then this field stores the identifier of the Org.'}
+                          division: {description: 'If this currency rate relates to
+                              a division, then this field stores the identifier of the
+                              Division.'}
+                          partition: {description: 'If this currency rate relates to
+                              a partition, then this field stores the identifier of
+                              the Partition.'}
+                          fromCurrency:
+                            description: The currency that will serve as base for this
+                              rate.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          toCurrency:
+                            description: The currency that the fromCurrency will be
+                              converting to.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          rate: {description: The rate of this currency.}
+                          start: {description: The start date that this rate will start
+                              to be effective.}
+                          finish: {description: The finish date that this rate wil stop
+                              being effective.}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this resource.}
+                          entity: {description: 'If this currency rate relates to an
+                              entity, then this field stores the identifier of the Entity.'}
+                          org: {description: 'If this currency rate relates to an org,
+                              then this field stores the identifier of the Org.'}
+                          division: {description: 'If this currency rate relates to
+                              a division, then this field stores the identifier of the
+                              Division.'}
+                          partition: {description: 'If this currency rate relates to
+                              a partition, then this field stores the identifier of
+                              the Partition.'}
+                          fromCurrency:
+                            description: The currency that will serve as base for this
+                              rate.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          toCurrency:
+                            description: The currency that the fromCurrency will be
+                              converting to.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          rate: {description: The rate of this currency.}
+                          start: {description: The start date that this rate will start
+                              to be effective.}
+                          finish: {description: The finish date that this rate wil stop
+                              being effective.}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for update on currencyRates resource
+    tags: [Currency Rates]
+    operationId: putCurrencyRatesId
+  delete:
+    description: "Delete a Currency Rate. \nA Currency Rate is a record that is used\
+      \ to store data about a particular currency rate of an entity, division, org,\
+      \ or partition. You can use it to associate rate to be used base on entity's default\
+      \ currency, or for use with other API features."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this resource.}
+                          entity: {description: 'If this currency rate relates to an
+                              entity, then this field stores the identifier of the Entity.'}
+                          org: {description: 'If this currency rate relates to an org,
+                              then this field stores the identifier of the Org.'}
+                          division: {description: 'If this currency rate relates to
+                              a division, then this field stores the identifier of the
+                              Division.'}
+                          partition: {description: 'If this currency rate relates to
+                              a partition, then this field stores the identifier of
+                              the Partition.'}
+                          fromCurrency:
+                            description: The currency that will serve as base for this
+                              rate.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          toCurrency:
+                            description: The currency that the fromCurrency will be
+                              converting to.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          rate: {description: The rate of this currency.}
+                          start: {description: The start date that this rate will start
+                              to be effective.}
+                          finish: {description: The finish date that this rate wil stop
+                              being effective.}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this resource.}
+                          entity: {description: 'If this currency rate relates to an
+                              entity, then this field stores the identifier of the Entity.'}
+                          org: {description: 'If this currency rate relates to an org,
+                              then this field stores the identifier of the Org.'}
+                          division: {description: 'If this currency rate relates to
+                              a division, then this field stores the identifier of the
+                              Division.'}
+                          partition: {description: 'If this currency rate relates to
+                              a partition, then this field stores the identifier of
+                              the Partition.'}
+                          fromCurrency:
+                            description: The currency that will serve as base for this
+                              rate.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          toCurrency:
+                            description: The currency that the fromCurrency will be
+                              converting to.
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                              '', '', '', '', '', '', '', '', '', '', '', '', '']
+                          rate: {description: The rate of this currency.}
+                          start: {description: The start date that this rate will start
+                              to be effective.}
+                          finish: {description: The finish date that this rate wil stop
+                              being effective.}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for delete on currencyRates resource
+    tags: [Currency Rates]
+    operationId: deleteCurrencyRatesId

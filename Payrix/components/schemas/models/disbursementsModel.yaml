@@ -1,0 +1,221 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  entity: { type: string, description: The identifier of the Entity that owns
+    this Disbursement. }
+  account: { type: string, description: The token of the accounts resource
+    used for this Disbursement. }
+  payment:
+    type: string
+    description: A reference to the actual account/card data
+      used for this disbursement. If someone changes the details
+      in their bank account within Payrix, the account token
+      will point to a new account but the payment will always
+      point to the data used for this disbursement.
+    properties:
+      method:
+        description: "The payment method used for the disbursement.\
+                                 \ \n\n<details>\n<summary>Valid Values</summary>\n\
+                                 \n- `1` - Checking account.\n\n- `2` - Savings account.\n\
+                                 \n- `3` - Corporate checking account.\n\n- `4` - Corporate\
+                                 \ savings account.\n\n</details>\n"
+        enum: [ 1, 2, 3, 4 ]
+        x-enum-descriptions: [ Checking account, Savings account,
+                               Corporate checking account, Corporate savings account ]
+      number: { }
+      routing: { }
+  payout: { type: string, description: The identifier of the Payout that represents
+    the schedule for this Disbursement. }
+  settlement: { type: string, description: The settlement record for this disbursement. }
+  statement: { type: string, description: The identifier of the Statement being
+    paid by this Disbursement. }
+  funding: { type: string, description: The funding reference associated with
+    this Disbursement. }
+  originalDisbursement: { type: string, description: The original disbursement that generated this disbursement. }
+  description: { type: string, description: A description of this Disbursement. }
+  secondaryDescriptor: { type: string, description: A secondary descriptor for the ACH transaction sent to the receiving bank. }
+  amount: { type: integer, description: The total amount of this Disbursement. }
+  approvedAmount: { type: integer, description: Confirmation of the approved
+    amount based on the response from the processor }
+  returnedAmount: { type: integer, description: The amount that has been returned
+    within the disbursement. }
+  status:
+    type: integer
+    description: |
+      The current status of this Disbursement
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `1` - **Requested.** The request for this Disbursement has been received.
+      
+      - `2` - **Processing.** This Disbursement is being processed to be paid out.
+      
+      - `3` - **Processed.** This Disbursement has been paid by ACH to the bank account referenced in the Disbursement data.
+      
+      - `4` - **Failed.** A problem occurred and the payment processor has failed to process this Disbursement.
+      
+      - `5` - **Denied.** This Disbursement has been refused.
+      
+      - `6` - **Returned.** This Disbursement has been returned.
+      
+      </details>
+    enum: [ 1, 2, 3, 4, 5, 6 ]
+    x-enum-descriptions: [ Requested. The request for this Disbursement
+      has been received., Processing. This Disbursement is
+      being processed to be paid out., Processed. This Disbursement
+      has been paid by ACH to the bank account referenced
+      in the Disbursement data., Failed. A problem occurred
+      and the payment processor has failed to process this
+      Disbursement., Denied. This Disbursement has been refused.,
+      Returned. This Disbursement has been returned. ]
+  fundingStatus:
+    type: string
+    description: |
+      Indicates if entries were processed for this Disbursement
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `pending` - Pending entry creation and processing.
+      
+      - `processed` - Entry created and processed.
+      
+      </details>
+    enum: [ pending, processed ]
+    x-enum-descriptions: [ '', '' ]
+  processed: {      type: string, description: A timestamp indicating when the Disbursement
+    was processed., format: date-time }
+  deletedDisbursementEntries:
+    type: integer
+    description: "Whether one or more disbursementEntries have been deleted due to adjustment. \n\n<details>\n\
+                            <summary>Valid Values</summary>\n\n- `0`  - Disbursement Entries not Deleted.\n\n\
+                            - `1` - Disbursement Entries Deleted.\n\n</details>\n"
+    enum: [ 0, 1 ]
+    x-enum-descriptions: [ '', '' ]
+  disbursementEntriesStatus:
+    type: string
+    description: "The current status of disbursementEntries\
+                             \ creation.\n\n<details>\n<summary>Valid Values</summary>\n\
+                             \n- `pending` - Pending entry creation and processing.\n\
+                             \n- `processing` - Entry is still processing. \n\n- `processed`\
+                             \ - Entry created and processed.\n\n</details>\n"
+    enum: [ pending, processing, processed ]
+    x-enum-descriptions: [ '', '', '' ]
+  lastNegativeEntry: { type: string, description: The last negative Entry processed
+    included in the disbursement. }
+  lastNegativePendingEntry: { type: string, description: The last negative
+    PendingEntry processed included in the disbursement. }
+  lastPositiveReserveEntry: { type: string, description: The last positive
+    ReserveEntry processed included in the disbursement. }
+  lastPositiveEntry: { type: string, description: The last positive Entry processed
+    included in the disbursement. }
+  lastPositivePendingEntry: { type: string, description: The last positive
+    PendingEntry processed included in the disbursement. }
+  lastNegativeReserveEntry: { type: string, description: The last negative
+    ReserveEntry processed included in the disbursement. }
+  currency:
+    type: string
+    description: The currency of this Disbursement.
+    enum: [ AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+            BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+            BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+            CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+            DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+            GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+            ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+            KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+            LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+            MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+            OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+            RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+            SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+            TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+            VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+            XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+            ZWL ]
+    example: USD
+    x-enum-descriptions: [ United Arab Emirates dirham, Afghan
+      afghani, Albanian lek, Armenian dram, Netherlands Antillean
+      guilder, Angolan kwanza, Argentine peso, Australian
+      dollar, Aruban florin, Azerbaijani manat, Bosnia and
+      Herzegovina convertible mark, Barbados dollar, Bangladeshi
+      taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+      Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+      Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+        pula, Belarusian ruble, Belize dollar, Canadian dollar,
+      Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+        de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+        peso, Unidad de Valor Real, Costa Rican colon, Cuban
+        convertible peso, Cuban peso, Cape Verde escudo, Czech
+        koruna, Djiboutian franc, Danish krone, Dominican peso,
+      Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+        birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+        sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+      Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+        dollar, Hong Kong dollar, Honduran lempira, Croatian
+        kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+      Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+        rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+      Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+        riel, Comoro franc, North Korean won, South Korean won,
+      Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+      Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+      Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+        leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+      Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+      Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+        peso, Mexican Unidad de Inversion, Malaysian ringgit,
+      Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+        córdoba, Norwegian krone, Nepalese rupee, New Zealand
+        dollar, Omani rial, Panamanian balboa, Peruvian sol,
+      Papua New Guinean kina, Philippine piso, Pakistani rupee,
+      Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+        leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+        riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+        pound, Swedish krona/kronor, Singapore dollar, Saint
+        Helena pound, Sierra Leonean leone, Somali shilling,
+      Surinamese dollar, South Sudanese pound, São Tomé and
+        Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+        lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+        manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+      Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+        shilling, Ukrainian hryvnia, Ugandan shilling, United
+        States dollar, United States dollar, Uruguay Peso en
+        Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+      Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+        tala, CFA franc BEAC, Silver, Gold, European Composite
+        Unit, European Monetary Unit, European Unit of Account,
+      European Unit of Account, East Caribbean dollar, Special
+        drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+      Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+        African rand, Zambian kwacha, Zimbabwean dollar ]
+  expiration: { type: string, description: The expiration date of the related
+    debit account. }
+  platform:
+    type: string
+    description: "The platform used to process this Transaction. \n\n<details>\n\
+                 <summary>Valid Values</summary>\n\n- `ELAVON`  - The Elavon processor.\n\n\
+                 - `VANTIV`  - The WorldPay (aka Vantiv or Litle) eComm (aka VAP) processor.\n\n- `VCORE` - The WorldPay (aka Vantiv) Core processor.\n\n\
+                 - `TDBANK` - External funding with TD Bank via the Operating Account.\n\n- `TDBANKCA` - External funding with TD Bank Canada via the Operating Account.\n\n\
+                 - `WELLSACH` - The Wells Fargo ACH processor.\n\n- `WELLSFARGO` - The Wells Fargo Merchant Services processor.\n\n\
+                 - `WFSINGLE` - The WFSINGLE processor.\n\n- `WORLDPAY` - The WORLDPAY processor.\n\n</details>\n"
+    enum: [ ELAVON, VANTIV, VCORE, TDBANK, TDBANKCA, WELLSACH, WELLSFARGO,
+            WFSINGLE, WORLDPAY ]
+    example: VCORE
+    x-enum-descriptions: [ '', '', '', '', '', '', '', '', '' ]
+  sameDay:
+    type: integer
+    description: "Whether sameDay funding is enabled or disabled\
+                             \ for this disbursement.\n\n<details>\n<summary>Valid\
+                             \ Values</summary>\n\n- `0` - **Disabled.** \n\n- `1`\
+                             \ - **Enabled.**\n</details>\n"
+    enum: [ 0, 1 ]
+    x-enum-descriptions: [ Disabled, Enabled ]
+  frozen:
+    { $ref: ../frozen.yaml }
+  inactive:
+    { $ref: ../inactive.yaml }

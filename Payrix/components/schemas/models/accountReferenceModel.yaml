@@ -1,0 +1,23 @@
+properties:
+  id: {$ref: ../id.yaml}
+  created: {$ref: ../created.yaml}
+  modified: {$ref: ../modified.yaml}
+  creator: {$ref: ../creator.yaml}
+  modifier: {$ref: ../modifier.yaml}
+  account: {type: string, description: "An object representing details of the Account,
+              including the type of Account (method), Account number and routing code."}
+  ref: {type: string, description: The reference ID from the third party}
+  stage:
+    type: string
+    description: "The stage for which this reference is set. \n\n<details>\n<summary>Valid Values</summary>\n\n\
+                     - `accessToken` - **The accessToken is used to obtain information about account.**\n\n- `accountToken` - **The account token used to represent the id of the account in the integration platform.**\n\n- `clientUserId` - **Plaid client user ID the client user ID we sent when created link token.**\
+                     \ \n\n</details> \n"
+    enum: [accessToken, accountToken, clientUserId]
+    x-enum-descriptions: ['', '', '']
+  platform:
+    type: string
+    description: "The third party from which the account reference was retrieved. \n\n<details>\n<summary>Valid Values</summary>\n\n\
+                     - `PLAID` - **The Plaid account verification platform.**\
+                     \ \n\n</details> \n"
+    enum: [PLAID]
+    x-enum-descriptions: ['']

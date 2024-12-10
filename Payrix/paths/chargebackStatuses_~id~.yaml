@@ -1,0 +1,49 @@
+get:
+  description: Query ChargebackStatuses. A ChargebackStatuses is the logged status
+    changes of a Chargeback, The resource for each Chargeback gives details of the
+    Chargeback, including the reason why it occurred and the date when it occurred.
+  parameters:
+    - description: The Chargeback Status ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebackStatusesModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebackStatusesModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Retrieve Chargeback Status Response for the query on chargebackStatuses
+        resource.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve a Chargeback Status by it's ID.
+  tags: [ Chargebacks ]
+  operationId: getChargebackStatusesId

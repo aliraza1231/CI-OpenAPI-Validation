@@ -1,0 +1,106 @@
+  get:
+    description: Query a Contact, which represents an individual who is associated with
+      an Entity.
+    parameters:
+     - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+     - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+     - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+     - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+     - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/contactsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/contactsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The Response for query to retrieve from contacts resources.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Contacts.
+    tags: [Contacts]
+    operationId: getContacts
+  post:
+    description: "Create a Contact. \nA Contact resource represents an individual who\
+      \ is associated with an Entity."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/contactsRequestModel.yaml}              
+            required: [email, entity, first, frozen, inactive, last]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/contactsRequestModel.yaml}
+            required: [email, entity, first, frozen, inactive, last]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/contactsRequestModel.yaml}
+            required: [email, entity, first, frozen, inactive, last]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/contactsRequestModel.yaml}
+            required: [email, entity, first, frozen, inactive, last]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/contactsRequestModel.yaml}
+            required: [email, entity, first, frozen, inactive, last]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/contactsRequestModel.yaml}
+            required: [email, entity, first, frozen, inactive, last]
+            x-redacted: []
+      description: Create Contact Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/contactsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/contactsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: 'Response for create on Contacts resource: Create Contact Response'
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Contact
+    tags: [Contacts]
+    operationId: postContacts

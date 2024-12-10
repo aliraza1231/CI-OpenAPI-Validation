@@ -1,0 +1,2078 @@
+---
+openapi: 3.0.0
+info:
+  title: "Reporting: Sales Pipeline API"
+  description: "API used to retrieve Sales Pipeline Information. \n # Authentication \n<SecurityDefinitions />"
+  contact:
+    name: Developer Support
+    email: APICustomerIntegration@fisglobal.com
+  version: 1.0.7
+servers:
+- url: https://apis.stage.worldpay.com/merchant-reporting/sales-pipeline/v1
+security:
+- api_key: []
+paths:
+  /sales/summary/month:
+    post:
+      tags:
+      - Sales
+      summary: Sales summary grouped by month.
+      description: Retrieves sales summary for independendent sales channel code(s) for selected month range.
+      operationId: postSalesSummaryMonth
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SalesSummaryMonthRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesSummaryMonthResponse'
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /leads/summary/month:
+    post:
+      tags:
+      - Leads
+      summary: Leads summary grouped by month.
+      description: Retrieves leads summary for independent sales channel code(s) for selected month range.
+      operationId: postLeadsSummaryMonth
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsSummaryMonthRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadsSummaryMonthResponse'
+              examples:
+                Leads Summary - Month:
+                  value:
+                    totalLeadCount: 94145
+                    totalActionableLeadCount: 47329
+                    totalSignedDealCount: 5503
+                    totalSignedDealAverageAmount: 62.37
+                    totalSignedDealPercentage: 35.52
+                    totalActivatedAccounts: 3866
+                    summaries:
+                    - processMonth: 2021-04
+                      leadCount: 7300
+                      actionableLeadCount: 5000
+                      signedDealCount: 315
+                      signedDealAverageAmount: 579.0
+                      signedDealPercentage: 4.29
+                      activatedAccounts: 171
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /leads/count/category:
+    post:
+      tags:
+      - Leads
+      summary: Leads count grouped by lead category.
+      description: Retrieves leads category and its counts for independent sales channel code(s) for selected month range.
+      operationId: postLeadsCountCategory
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsCountCategoryRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadsCountCategoryResponse'
+              examples:
+                Leads Summary - Lead Category:
+                  value:
+                    totalCount: 94145
+                    counts:
+                    - category: IN_PROGRESS_LEADS
+                      count: 91446
+                    - category: ACTIVATED
+                      count: 1916
+                    - category: MERCHANT_NOT_INTERESTED
+                      count: 686
+                    - category: APPROVED_BUT_NOT_ACTIVATED
+                      count: 68
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /leads/count/source:
+    post:
+      tags:
+      - Leads
+      summary: Leads count grouped by lead source.
+      description: Retrieves leads counts and its source for independendent sales channel code(s) for selected month range lead source.
+      operationId: postLeadsCountSource
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsCountSourceRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadsCountSourceResponse'
+              examples:
+                Lead Count - Lead Source:
+                  value:
+                    totalCount: 94145
+                    counts:
+                    - source: List - Bank
+                      count: 82945
+                    - source: Marketing
+                      count: 11200
+                    - source: Referral - Bank
+                      count: 1120
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /leads/count/disqualification-reasons:
+    post:
+      tags:
+      - Leads
+      summary: Leads count grouped by disqualification reasons.
+      description: Retrieves leads counts with its disqualification reason for independendent sales channel code(s) for selected month range.
+      operationId: postLeadsCountDisqualified
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsCountDisqualifiedRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadsCountDisqualifiedResponse'
+              examples:
+                Lead Count - Disqualified leads:
+                  value:
+                    totalCount: 94145
+                    counts:
+                    - disqualificationReason: Invalid Contact Information
+                      count: 82945
+                    - disqualificationReason: Out of Business
+                      count: 11200
+                    - disqualificationReason: Unable to Contact
+                      count: 1120
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /leads/count/closed-lost-reasons:
+    post:
+      tags:
+      - Leads
+      summary: Leads count grouped by closed lost reasons.
+      description: Retrieves leads count with its closed lost reason for independendent sales channel code(s) for selected month range.
+      operationId: postLeadsCountClosedLost
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsCountClosedlostreasonsRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadsCountClosedLostReasonResponse'
+              examples:
+                Lead Count - Lost leads:
+                  value:
+                    totalCount: 94145
+                    counts:
+                    - disqualificationReason: Change in customer priorities / circumstances
+                      count: 82945
+                    - disqualificationReason: Disqualified opportunity
+                      count: 11200
+                    - disqualificationReason: Solution fit to Customer's needs
+                      count: 1120
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /pending-leads/summary/merchant:
+    post:
+      tags:
+      - Pending Leads
+      summary: Pending leads summary grouped by merchant.
+      description: Retrieves pending leads summary for merchants.
+      operationId: postPendingLeadsSummaryMerchant
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PendingLeadsSummaryMerchantRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingLeadsSummaryMerchantResponse'
+              examples:
+                Signed Deals Summary - Merchant:
+                  value:
+                    totalEstimatedRevenueAmount: 1564263.0
+                    totalMerchantCount: 125
+                    totalLeadCount: 125
+                    summaries:
+                    - merchantName: MANNA FARM AND GARDEN INC
+                      referringBanker: Eric Kaveny
+                      branchName: Downtown Branch
+                      closedDate: 2022-03-01
+                      estimatedRevenueAmount: 4520000.0
+                    - merchantName: CVS Payflex - Prepaid Card Pro
+                      referringBanker: Samuel Merkle
+                      branchName: City Center Branch
+                      closedDate: 2022-04-01
+                      estimatedRevenueAmount: 1290000.0
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /signed-deals/summary/month:
+    post:
+      tags:
+      - Signed Deals
+      summary: Signed deals summary grouped by month.
+      description: Retrieves signed deals summary for independendent sales channel code(s) for selected month range.
+      operationId: postSignedDealsSummaryMonth
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignedDealsSummaryMonthRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignedDealsSummaryMonthResponse'
+              examples:
+                Signed Deals Summary - Month:
+                  value:
+                    totalSignedDealCount: 368
+                    totalEstimatedAnnualRevenueAmount: 90546.0
+                    totalEstimatedAnnualVolumeAmount: 1.000156E7
+                    signedDealRatio: 9.8
+                    summaries:
+                    - processMonth: 2021-01
+                      signedDealCount: 168
+                      signedDealRatio: 6.7
+                      estimatedAnnualRevenueAmount: 5492.0
+                      estimatedAnnualVolumeAmount: 60000.0
+                    - processMonth: 2021-02
+                      signedDealCount: 268
+                      signedDealRatio: 3.1
+                      estimatedAnnualRevenueAmount: 5495.0
+                      estimatedAnnualVolumeAmount: 80000.0
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /signed-deals/summary/merchant:
+    post:
+      tags:
+      - Signed Deals
+      summary: Signed deals summary grouped by merchant.
+      description: Retrieves signed deals summary for merchant
+      operationId: postsignedmerchantsummary
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignedDealsSummaryMerchantRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SignedDealsSummaryMerchantResponse'
+              examples:
+                Signed Deals Summary - Merchant:
+                  value:
+                    totalSignedMerchantCount: 3
+                    totalEstimatedAnnualRevenueAmount: 90265.0
+                    totalEstimatedAnnualVolumeAmount: 15000.0
+                    signedDealRatio: 12.5
+                    summaries:
+                    - merchantName: CRISP AND NUTS
+                      branchName: NH445 | Hampton Falls
+                      estimatedAnnualRevenueAmount: 43419.0
+                      estimatedAnnualVolumeAmount: 6000.0
+                    - merchantName: MANNA FARM AND GARDEN INC
+                      branchName: NH45 | NEPTUNE FORT
+                      estimatedAnnualRevenueAmount: 24923.0
+                      estimatedAnnualVolumeAmount: 5000.0
+                    - merchantName: VICTOR PHARMACY
+                      branchName: GH45 | HADDOWS ROAD
+                      estimatedAnnualRevenueAmount: 21923.0
+                      estimatedAnnualVolumeAmount: 4000.0
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /activated-accounts/summary/month:
+    post:
+      tags:
+      - Activated Accounts
+      summary: Activated accounts summary grouped by month.
+      description: Retrieves activated accounts summary for independendent sales channel code(s) for selected month range.
+      operationId: postActivatedAccountsSummaryMonth
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivationsSummaryMonthRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivationsSummaryMonthResponse'
+              examples:
+                Activated Accounts Summary - Month:
+                  value:
+                    totalActivatedAccounts: 3866
+                    totalActivationPercentage: 89.3
+                    averageDaysToActivate: 51.0
+                    summaries:
+                    - processMonth: 2021-02
+                      activatedAccounts: 134
+                      activationPercentage: 28.75
+                      averageDaysToActivate: 31.0
+                    - processMonth: 2021-03
+                      activatedAccounts: 224
+                      activationPercentage: 60.55
+                      averageDaysToActivate: 20.0
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+components:
+  schemas:
+    SortSalesSummaryMonth:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 36
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by PROCESS_MONTH.
+          example: PROCESS_MONTH
+          enum:
+          - PROCESS_MONTH
+          - LEAD_COUNT
+          - DISQUALIFIED_LEAD_COUNT
+          - ACTIONABLE_LEAD_COUNT
+          - ACTIONABLE_LEAD_PERCENTAGE
+          - SIGNED_DEAL_COUNT
+          - SIGNED_DEAL_RATIO
+          - SIGNED_DEAL_PERCENTAGE
+          - SIGNED_DEAL_AVERAGE_AMOUNT
+          - SIGNED_DEAL_ESTIMATED_REVENUE_AMOUNT
+          - ACTIVATED_ACCOUNTS
+          - ACTIVATION_PERCENTAGE
+          - AVERAGE_DAYS_TO_ACTIVATE
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of sales summary.
+    SortLeadsSummaryMonth:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 26
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by PROCESS_MONTH.
+          example: PROCESS_MONTH
+          enum:
+          - PROCESS_MONTH
+          - LEAD_COUNT
+          - ACTIONABLE_LEAD_COUNT
+          - SIGNED_DEAL_COUNT
+          - SIGNED_DEAL_AVERAGE_AMOUNT
+          - SIGNED_DEAL_PERCENTAGE
+          - ACTIVATED_ACCOUNTS
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of leads summary.
+    SortLeadsCountCategory:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 8
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by CATEGORY.
+          example: CATEGORY
+          enum:
+          - CATEGORY
+          - COUNT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of leads category.
+    SortLeadsCountSource:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 6
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by SOURCE.
+          example: SOURCE
+          enum:
+          - SOURCE
+          - COUNT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of leads source.
+    SalesSummaryMonthRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            maxLength: 10000
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of sales summary.
+          allOf:
+          - $ref: '#/components/schemas/SortSalesSummaryMonth'
+      description: Request message to get sales summary by month.
+    SalesSummaryMonthResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Sales summary grouped by month.
+          items:
+            type: object
+            description: Sales summary.
+            allOf:
+            - $ref: '#/components/schemas/SalesSummaryMonthSummaryDetails'
+      description: Sales summary for the selected month range.
+      allOf:
+      - $ref: '#/components/schemas/SalesSummaryMonthCommonResponse'
+    SalesSummaryMonthCommonResponse:
+      type: object
+      properties:
+        totalLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads generated for the independent sales channel(s) for the selected range of month.
+          example: 94145
+        totalDisqualifiedLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of disqualified leads for the independent sales channel(s) for the selected range of month.
+          example: 57
+        totalActionableLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads that need to be acted upon for progressing it to next stage.
+          example: 47329
+        totalActionableLeadPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total actionable leads percentage for the independent sales channel(s) for the selected range of month.
+          format: double
+          example: 79.2
+        totalSignedDealCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of signed deals for the independent sales channel(s) for the selected range of month. This is also known as 'closed deals'.
+          example: 5492
+        signedDealRatio:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Signed deal ratio or closed ratio for the independent sales channel(s) for the selected range of month.
+          format: double
+          example: 9.2
+        totalSignedDealPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total signed deals percentage for the independent sales channel(s) for the selected range of month.
+          format: double
+          example: 35.52
+        totalSignedDealAverageAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Total signed deals average amount for the selected month range.
+          format: double
+          example: 62.37
+        totalSignedDealEstimatedRevenueAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Total estimated revenue amount of signed deals.
+          format: double
+          example: 530
+        totalActivatedAccounts:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of accounts activated for the selected month range.
+          example: 3866
+        totalActivationPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total activation percentage for the selected month range.
+          format: double
+          example: 89.3
+        leadPerBusinessDayCount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Number of referrals per business day.
+          format: double
+          example: 0.7
+        averageDaysToActivate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Average days to activate the accounts.
+          format: double
+          example: 515
+        pipelineRevenueNext90DaysAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Pipeline revenue in next 90 days for the selected month range.
+          format: double
+          example: 55000000
+      description: Sales summary for the selected month range.
+    SalesSummaryMonthSummaryDetails:
+      type: object
+      properties:
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Process month.
+          example: 2021-04
+        leadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads generated for the independent sales channel(s) for the processed month.
+          example: 7300
+        disqualifiedLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of disqualified leads for the month.
+          example: 57
+        actionableLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of leads that need to be acted upon for progressing it to next stage for the month.
+          example: 5000
+        actionableLeadPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Actionable leads percentage for the month.
+          format: double
+          example: 68.3
+        signedDealCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of signed deals or closed deals for the month.
+          example: 315
+        signedDealRatio:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Signed deals ratio lose ratio for the month.
+          format: double
+          example: 6.3
+        signedDealPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Signed deals or closed deals percentage for the month.
+          format: double
+          example: 4.29
+        signedDealAverageAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Signed deals average amount for the month.
+          format: double
+          example: 579
+        signedDealEstimatedRevenueAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Estimated revenue amount from the signed deals for the month.
+          format: double
+          example: 863340
+        activatedAccounts:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of accounts activated for the month.
+          example: 171
+        activationPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Activation percentage for the month.
+          format: double
+          example: 276.2
+        averageDaysToActivate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Average number of days from approval date to activation date.
+          format: double
+          example: 515
+      description: Sales summary grouped by month.
+    LeadsSummaryMonthRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of leads summary.
+          allOf:
+          - $ref: '#/components/schemas/SortLeadsSummaryMonth'
+      description: Request message to get leads summary by month.
+    LeadsSummaryMonthResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Leads summary grouped by month.
+          items:
+            type: object
+            description: Lead summary.
+            allOf:
+            - $ref: '#/components/schemas/LeadsSummaryMonthSummaryDetails'
+      description: Leads summary for the selected month range.
+      allOf:
+      - $ref: '#/components/schemas/LeadsSummaryMonthCommonResponse'
+    LeadsSummaryMonthCommonResponse:
+      type: object
+      properties:
+        totalLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads generated for the independent sales channel(s) for the selected range of month.
+          example: 94145
+        totalActionableLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads that need to be acted upon for progressing it to next stage.
+          example: 47329
+        totalSignedDealCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of signed deals for the independent sales channel(s) for the selected range of month. This is also known as 'closed deals'.
+          example: 5503
+        totalSignedDealAverageAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Total signed deals average amount for the selected month range.
+          format: double
+          example: 62.37
+        totalSignedDealPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total SignedDeals percentage for the selected month range.
+          format: double
+          example: 35.52
+        totalActivatedAccounts:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of accounts activated for the selected month range.
+          example: 3866
+      description: Leads summary for the selected month range.
+    LeadsSummaryMonthSummaryDetails:
+      type: object
+      properties:
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Process month.
+          example: 2021-04
+        leadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads generated for the independent sales channel(s) for the processed month.
+          example: 7300
+        actionableLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of leads that need to be acted upon for progressing it to next stage for the month.
+          example: 5000
+        signedDealCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of signed deals or closed deals for the month.
+          example: 315
+        signedDealAverageAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Signed deals average amount for the month.
+          format: double
+          example: 579
+        signedDealPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Signed deals or closed deals percentage for the month.
+          format: double
+          example: 4.29
+        activatedAccounts:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of accounts activated for the month.
+          example: 171
+      description: Leads summary grouped by month.
+    LeadsCountCategoryRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        category:
+          type: array
+          description: Refers to the status of the lead.
+          items:
+            maximum: 4
+            minimum: 1
+            maxLength: 26
+            type: string
+            enum:
+            - IN_PROGRESS_LEADS
+            - APPROVED_BUT_NOT_ACTIVATED
+            - ACTIVATED
+            - MERCHANT_NOT_INTERESTED
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of leads category.
+          allOf:
+          - $ref: '#/components/schemas/SortLeadsCountCategory'
+      description: Request message to get leads count by category.
+    LeadsCountCategoryResponse:
+      type: object
+      properties:
+        counts:
+          type: array
+          description: Leads count grouped by category.
+          items:
+            type: object
+            description: Lead category summary.
+            allOf:
+            - $ref: '#/components/schemas/LeadsCountCategorySummaryDetails'
+      description: Leads count for the selected month range.
+      allOf:
+      - $ref: '#/components/schemas/LeadsCountCategoryCommonResponse'
+    LeadsCountCategoryCommonResponse:
+      type: object
+      properties:
+        totalCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads generated for the independent sales channel(s) for the selected range of month.
+          example: 35781
+      description: Leads count for the selected month range.
+    LeadsCountCategorySummaryDetails:
+      type: object
+      properties:
+        category:
+          maxLength: 26
+          type: string
+          description: Refers to the status of the lead.
+          example: IN_PROGRESS_LEADS
+        count:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of leads of specific lead category.
+          example: 2563
+      description: Leads count grouped by category.
+    LeadsCountSourceRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of leads source.
+          allOf:
+          - $ref: '#/components/schemas/SortLeadsCountSource'
+      description: Request message to get leads count by source.
+    LeadsCountSourceResponse:
+      type: object
+      properties:
+        counts:
+          type: array
+          description: Leads count grouped by source.
+          items:
+            type: object
+            description: Lead source summary.
+            allOf:
+            - $ref: '#/components/schemas/LeadsCountSourceSummaryDetails'
+      description: Leads count for selected month range.
+      allOf:
+      - $ref: '#/components/schemas/LeadsCountSourceCommonResponse'
+    LeadsCountSourceCommonResponse:
+      type: object
+      properties:
+        totalCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads generated for the independent sales channel(s) for the selected range of month.
+          example: 35781
+      description: Leads count for selected month range.
+    LeadsCountSourceSummaryDetails:
+      type: object
+      properties:
+        source:
+          maxLength: 10000
+          type: string
+          description: Source from where leads are generated.
+          example: List - Bank
+        count:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of leads generated from a specific source.
+          example: 2563
+      description: Leads count grouped by source.
+    PendingLeadsSummaryMerchantRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of pending leads summary.
+          allOf:
+          - $ref: '#/components/schemas/SortPendingLeadsSummaryMerchant'
+      description: Request message to get pending leads summary by merchant.
+    PendingLeadsSummaryMerchantResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Pending leads summary grouped by merchant.
+          items:
+            type: object
+            description: Pending lead summary.
+            allOf:
+            - $ref: '#/components/schemas/PendingLeadsSummaryMerchantDetails'
+      description: Pending leads summary for selected month range.
+      allOf:
+      - $ref: '#/components/schemas/PendingLeadsMerchantCommonSummaryResponse'
+    SortPendingLeadsSummaryMerchant:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 24
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by MERCHANT_NAME.
+          example: MERCHANT_NAME
+          enum:
+          - MERCHANT_NAME
+          - REFERRING_BANKER
+          - BRANCH_NAME
+          - CLOSED_DATE
+          - ESTIMATED_REVENUE_AMOUNT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of pending leads summary.
+    PendingLeadsMerchantCommonSummaryResponse:
+      type: object
+      properties:
+        totalEstimatedRevenueAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total estiamted revenue amount of the pending leads.
+          format: double
+          example: 1564263
+        totalMerchantCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of merchants in pipeline for the selected month range.
+          example: 125
+        totalLeadCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads generated for the independent sales channel(s) for the selected range of month.
+          example: 125
+      description: Pending leads summary for selected month range.
+    PendingLeadsSummaryMerchantDetails:
+      type: object
+      properties:
+        merchantName:
+          maxLength: 10000
+          type: string
+          description: Name of the merchant in pipeline.
+          example: MANNA FARM AND GARDEN INC
+        referringBanker:
+          maxLength: 10000
+          type: string
+          description: Name of the referring banker.
+          example: Eric Kaveny
+        branchName:
+          maxLength: 10000
+          type: string
+          description: Name of the branch.
+          example: Downtown Branch
+        closedDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Opportunity closed date.
+          format: YYYY-MM-DD
+          example: 2022-06-30
+        estimatedRevenueAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Estimated revenue amount for the merchant.
+          format: double
+          example: 4520000
+      description: Pending leads summary grouped by merchant.
+    SignedDealsSummaryMonthRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of signed deals summary.
+          allOf:
+          - $ref: '#/components/schemas/SortSignedDealsSummaryMonth'
+      description: Request message to get signed deals summary by month.
+    SignedDealsSummaryMonthResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Signed deals summary grouped by month.
+          items:
+            type: object
+            description: Signed deals summary.
+            allOf:
+            - $ref: '#/components/schemas/SignedDealsSummaryMonthDetails'
+      description: Search results for signed deals summary.
+      allOf:
+      - $ref: '#/components/schemas/SignedDealsCommonSummaryResponse'
+    SortSignedDealsSummaryMonth:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 31
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by PROCESS_MONTH.
+          example: PROCESS_MONTH
+          enum:
+          - PROCESS_MONTH
+          - SIGNED_DEAL_COUNT
+          - SIGNED_DEAL_RATIO
+          - ESTIMATED_ANNUAL_REVENUE_AMOUNT
+          - ESTIMATED_ANNUAL_VOLUME_AMOUNT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of signed deals summary.
+    SignedDealsCommonSummaryResponse:
+      type: object
+      properties:
+        totalSignedDealCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of singed deals for selected month range.
+          example: 368
+        totalEstimatedAnnualRevenueAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Total estimated annual revenue amount.
+          format: double
+          example: 90546
+        totalEstimatedAnnualVolumeAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Total estimated annual volume amount.
+          format: double
+          example: 10001560
+        signedDealRatio:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Signed deal or closed deal ratio for the selected month range.
+          format: double
+          example: 9.8
+      description: Signed deals summary for selected month range.
+    SignedDealsSummaryMerchantRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of signed deals summary by merchant.
+          allOf:
+          - $ref: '#/components/schemas/SortSignedDealsSummaryMerchant'
+      description: Request message to get signed deals summary by merchant.
+    SignedDealsSummaryMerchantResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Signed deals summary grouped by merchant.
+          items:
+            type: object
+            description: Signed deals summary by merchant.
+            allOf:
+            - $ref: '#/components/schemas/SignedDealsSummaryMerchantDetails'
+      description: Signed deals summary for selected month range.
+      allOf:
+      - $ref: '#/components/schemas/SignedDealsMerchantCommonSummaryResponse'
+    SortSignedDealsSummaryMerchant:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 31
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by MERCHANT_NAME.
+          example: MERCHANT_NAME
+          enum:
+          - MERCHANT_NAME
+          - BRANCH_NAME
+          - ESTIMATED_ANNUAL_REVENUE_AMOUNT
+          - ESTIMATED_ANNUAL_VOLUME_AMOUNT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of signed deals summary by merchant.
+    SignedDealsMerchantCommonSummaryResponse:
+      type: object
+      properties:
+        totalSignedMerchantCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of signed merchants for selected month range.
+          example: 3
+        totalEstimatedAnnualRevenueAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Total estimated annual revenue amount for selected month range.
+          format: double
+          example: 90265
+        totalEstimatedAnnualVolumeAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Total estimated annual volume amount for selected month range.
+          format: double
+          example: 1100000
+        signedDealRatio:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Signed deal or closed deal ratio for the selected month range.
+          format: double
+          example: 12.5
+      description: Signed deals summary for selected month range.
+    SignedDealsSummaryMerchantDetails:
+      type: object
+      properties:
+        merchantName:
+          maxLength: 10000
+          type: string
+          description: Name of the signed deal merchant.
+          example: MANNA FARM AND GARDEN INC
+        branchName:
+          maxLength: 10000
+          type: string
+          description: Branch name associated with the merchant.
+          example: NH445 | Hampton Falls
+        estimatedAnnualRevenueAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Estimated annual revenue amount of a specific merchant.
+          format: double
+          example: 24923
+        estimatedAnnualVolumeAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Estimated annual volume of a specific merchant.
+          format: double
+          example: 6000
+      description: Signed deals summary grouped by merchant.
+    SignedDealsSummaryMonthDetails:
+      type: object
+      properties:
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Process month.
+          example: 2021-01
+        signedDealCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of signed deals for the month.
+          example: 368
+        signedDealRatio:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Signed deal or closed deal ratio for the month.
+          format: double
+          example: 6.8
+        estimatedAnnualRevenueAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Estimated annual revenue amount for the month.
+          format: double
+          example: 5492
+        estimatedAnnualVolumeAmount:
+          maximum: 9999999999999.99
+          type: number
+          description: Estimated annual volume amount for the month.
+          format: double
+          example: 60000
+      description: Signed deals summary by grouped by month.
+    ActivationsSummaryMonthRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of activated accounts summary.
+          allOf:
+          - $ref: '#/components/schemas/SortActivationsSummaryMonth'
+      description: Request message to get activations summary by month.
+    ActivationsSummaryMonthResponse:
+      type: object
+      properties:
+        summaries:
+          type: array
+          description: Activation summary grouped by month.
+          items:
+            type: object
+            description: Activation summary.
+            allOf:
+            - $ref: '#/components/schemas/ActivationsSummaryMonthDetails'
+      description: Activation summary for selected month range.
+      allOf:
+      - $ref: '#/components/schemas/ActivationsMonthCommonSummaryResponse'
+    SortActivationsSummaryMonth:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 24
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by PROCESS_MONTH.
+          example: PROCESS_MONTH
+          enum:
+          - PROCESS_MONTH
+          - ACTIVATED_ACCOUNTS
+          - ACTIVATION_PERCENTAGE
+          - AVERAGE_DAYS_TO_ACTIVATE
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of activated accounts summary.
+    ActivationsMonthCommonSummaryResponse:
+      type: object
+      properties:
+        totalActivatedAccounts:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of accounts activated for selected month range.
+          example: 3866
+        totalActivationPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total activated percentage for selected month range.
+          format: double
+          example: 89.3
+        averageDaysToActivate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Average days to activate account for selected month range.
+          format: double
+          example: 51
+      description: Activation summary for selected month range.
+    ActivationsSummaryMonthDetails:
+      type: object
+      properties:
+        processMonth:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Process month.
+          example: 2021-02
+        activatedAccounts:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Number of accounts activated for the month.
+          example: 124
+        activationPercentage:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Activation percentage for the month.
+          format: double
+          example: 68.75
+        averageDaysToActivate:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Average day to activate account for the month.
+          format: double
+          example: 32
+      description: Activation summary grouped by month.
+    LeadsCountDisqualifiedRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for the search results of disqualified leads.
+          allOf:
+          - $ref: '#/components/schemas/SortLeadsCountDisqualified'
+      description: Request message to get count of disqualified leads.
+    LeadsCountDisqualifiedResponse:
+      type: object
+      properties:
+        counts:
+          type: array
+          description: Leads count grouped by disqualification reason.
+          items:
+            type: object
+            description: Disqualified leads summary.
+            allOf:
+            - $ref: '#/components/schemas/LeadsCountDisqualifiedSummaryDetails'
+      description: Leads count for selected month range.
+      allOf:
+      - $ref: '#/components/schemas/LeadsCountDisqualifiedCommonResponse'
+    SortLeadsCountDisqualified:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 23
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by DISQUALIFICATION_REASON.
+          example: DISQUALIFICATION_REASON
+          enum:
+          - DISQUALIFICATION_REASON
+          - COUNT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for the search results of disqualified leads.
+    LeadsCountDisqualifiedCommonResponse:
+      type: object
+      properties:
+        totalCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads for the selected month range
+          example: 35781
+        counts:
+          type: array
+          description: Leads count grouped by disqualification reason.
+          items:
+            type: object
+            description: Disqualified leads summary.
+            allOf:
+            - $ref: '#/components/schemas/LeadsCountDisqualifiedSummaryDetails'
+      description: Leads count for selected month range.
+    LeadsCountDisqualifiedSummaryDetails:
+      type: object
+      properties:
+        disqualificationReason:
+          maxLength: 10000
+          type: string
+          description: Reason for disqualification of leads.
+          example: Restricted Business Type
+        count:
+          maximum: 9999999999
+          minimum: 0
+          type: number
+          description: Number of leads disqualified for a specific reason.
+          format: double
+          example: 84
+      description: Leads count grouped by disqualification reason.
+    LeadsCountClosedlostreasonsRequest:
+      required:
+      - independentSalesChannelCodes
+      - monthRange
+      type: object
+      properties:
+        independentSalesChannelCodes:
+          maxLength: 10000
+          type: array
+          description: Independent sales channel value provides a secondary entity under the independent sales organization hierarchy level.
+          example:
+          - MTBCON
+          - MTBNEW
+          items:
+            type: string
+        monthRange:
+          type: object
+          description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+          allOf:
+          - $ref: '#/components/schemas/MonthRange'
+        sortResultsBy:
+          type: object
+          description: Sorting order for search results of closed lost reasons.
+          allOf:
+          - $ref: '#/components/schemas/SortsLeadsCountClosedLostReasons'
+      description: Request message to get count of lost leads.
+    LeadsCountClosedLostReasonResponse:
+      type: object
+      properties:
+        counts:
+          type: array
+          description: Leads count grouped by lost reason.
+          items:
+            type: object
+            description: Lost leads summary.
+            allOf:
+            - $ref: '#/components/schemas/LeadsCountClosedLostReasonSummaryDetails'
+      description: Leads count for selected month range.
+      allOf:
+      - $ref: '#/components/schemas/LeadsCountClosedLostReasonCommonResponse'
+    LeadsCountClosedLostReasonCommonResponse:
+      type: object
+      properties:
+        totalCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Total number of leads for the selected month range
+          example: 35781
+      description: Leads count for selected month range.
+    SortsLeadsCountClosedLostReasons:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 18
+          type: string
+          description: List of fields for sorting the result set. The result set is sorted in the given order <br> By default sorting will be done by CLOSED_LOST_REASON.
+          example: CLOSED_LOST_REASON
+          enum:
+          - CLOSED_LOST_REASON
+          - COUNT
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Type of ordering. <BR> ASC stands for ascending order. <BR> DESC stands for descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Sorting order for search results of closed lost reasons.
+    LeadsCountClosedLostReasonSummaryDetails:
+      type: object
+      properties:
+        closedLostReason:
+          maxLength: 10000
+          type: string
+          description: Reason due to which leads are lost.
+          example: Project Cancelled
+        count:
+          maximum: 9999999999
+          minimum: 0
+          type: number
+          description: Number of leads lost due to specific reason.
+          format: double
+          example: 741
+      description: Leads count grouped by lost reason.
+    MonthRange:
+      type: object
+      properties:
+        startMonth:
+          maxLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Start month
+          format: YYYY-MM
+          example: 2022-01
+        endMonth:
+          maxLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: End month. Maximum month range supported is 13 months.
+          format: YYYY-MM
+          example: 2022-06
+      description: Month range for which data is to be retrieved. Maximum month range supported is 13 months.
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      description: Returned if any error.
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          maxLength: 256
+          type: string
+          description: A short description of the error occurs.
+          example: must not be blank
+        target:
+          maxLength: 256
+          type: string
+          description: Parameter or source that caused error.
+          example: independentSalesChannelCodes
+      description: Error details.
+  responses:
+    Default:
+      description: Default errors
+      headers:
+        v-correlation-id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            "400 Bad Request":
+              $ref: '#/components/examples/400BadRequest'
+            "401 Unauthorized":
+              $ref: '#/components/examples/401Unauthorized'
+            "403 Forbidden":
+              $ref: '#/components/examples/403Forbidden'
+            "404 Not Found":
+              $ref: '#/components/examples/404NotFound'
+            "500 Server Error":
+              $ref: '#/components/examples/500ServerError'
+  parameters:
+    CorrelationId:
+      name: v-correlation-id
+      in: header
+      description: Unique correlation id.
+      required: false
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        minLength: 36
+        pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+        type: string
+        format: uuid
+      example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+  examples:
+    "400BadRequest":
+      description: Bad Request
+      value:
+        errors:
+        - errorMessage: must not be blank
+          target: "independentSalesChannelCodes[0]"
+    "401Unauthorized":
+      value:
+        errors:
+        - errorMessage: Invalid API key. Please ensure key is accurate and the Authorization is included.
+          target: Authorization
+    "403Forbidden":
+      value:
+        errors:
+        - errorMessage: You are not authorized to access this resource.
+    "404NotFound":
+      value:
+        errors:
+        - errorMessage: "The entities with the following ids were not found: MTBCON123"
+    "500ServerError":
+      value:
+        errors:
+        - errorMessage: "Internal server error, please contact support referencing correlationId: 871a2a88-064f-4124-a864-e03a47573144"
+  headers:
+    CorrelationId:
+      description: Unique correlation id.
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        minLength: 36
+        pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+        type: string
+        format: uuid
+      example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: '``` License format is WORLDPAY license=''xxxx''```'
+      name: Authorization
+      in: header

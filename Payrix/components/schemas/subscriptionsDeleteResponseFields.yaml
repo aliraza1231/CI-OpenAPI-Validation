@@ -1,0 +1,80 @@
+type: object
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  plan:
+    type: string
+    description: The identifier of the Plan that this Subscription is associated with. The Plan determines the frequency and amount of each payment.
+  statementEntity:
+    type: string
+  firstTxn:
+    type: string
+    description: The identification of the first transaction processed through this subscription. This is used internally to process subsequent transactions.
+  start:
+    type: integer
+    description: The date on which the Subscription should start. The date is specified as an eight digit string in YYYYMMDD format, for example, '20160120' for January 20, 2016. The value of this field must represent a date in the future.
+  finish:
+    type: integer
+    description: The date on which the Subscription should finish. The date is specified as an eight digit string in YYYYMMDD format, for example, '20160120' for January 20, 2016. The value of this field must represent a date in the future.
+  tax:
+    type: integer
+    description: The amount of the total sum of this Subscription that is made up of tax. This field is specified as an integer in cents.
+  descriptor:
+    type: string
+    description: The descriptor used in this Subscription. This field is stored as a text string and must be between 1 and 50 characters long. If a value is not set, an attempt is made to set a default value from the merchant information.
+  txnDescription:
+    type: string
+    description: The description of the Txn that will be created through this Subscription.
+  order:
+    type: string
+    description: The order of the Txn that will be created through this Subscription.
+  origin:
+    type: integer
+    description: |
+      The origin of the Txn that will be created through this Subscription.
+
+      <details>
+      <summary>Valid Values</summary>
+
+      - `2` - Customer will be subscribing through eCommerce.
+
+      - `3` - Customer will be subscribing by Mail Order/Telephone.
+
+      - `4` - Originated with Apple Pay.
+
+      - `5` - Originated as a Successful 3D Secure transaction.
+
+      - `6` - Originated as an Attempted 3D Secure transaction.
+
+      - `8` - Originated in a Payframe.
+      </details>
+    enum:
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 8
+  authentication:
+    type: string
+  authenticationId:
+    type: string
+  failures:
+    type: integer
+  maxFailures:
+    type: integer
+  inactive:
+    type: integer
+    description: "Whether this resource is marked as inactive.\n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Active** \n\n- `1` - **Inactive**\n</details>\n"
+    enum:
+      - "0"
+      - "1"
+  frozen:
+    type: integer
+    description: "Whether this resource is marked as frozen.\n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Not Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+    enum:
+      - "0"
+      - "1"

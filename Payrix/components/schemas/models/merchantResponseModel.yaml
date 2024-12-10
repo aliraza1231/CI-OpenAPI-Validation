@@ -1,0 +1,203 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  lastActivity: {description: The date and time on which this
+      Merchant last processed a Transaction., format: date-time, type: string}
+  totalApprovedSales: {description: Show the total approved
+      amount to this merchant., type: string}
+  entity: {description: The Entity associated with this Merchant., type: string}
+  dba: {description: 'The name under which the Merchant is doing
+      business, if applicable. This field is stored as a text
+      string and must be between 0 and 50 characters long.', type: string}
+  new: {type: string, description: "An indicator that specifies whether the Merchant
+      is new to credit card processing. By default, merchants
+      are considered to be new.",
+    enum: ['0', '1'],
+    x-enum-descriptions: [Not new, New]}
+  incrementalAuthSupported:
+    {type: string, description: This field allows the ability to submit merchant
+      registration files with a MasterCard (MC) Auth Integrity
+      value.,
+    enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  seasonal:
+    {type: string, description: Indicates if the merchant is a seasonal merchant
+      or operates year-round.,
+    enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  advancedBilling:
+    {type: string, description: Indicates whether the merchant accepts pre-purchase
+      for products that are shipped at a later date or not currently
+      available.,
+    enum: ['0', '1'],
+    x-enum-descriptions: [AdvancedBilling is disabled, AdvancedBilling
+        is enabled]}
+  established:
+    {type: string, description: "The date on which the Merchant was established.\
+      \ \nThe date is specified as an eight digit string in\
+      \ YYYYMMDD format, for example, '20160120' for January\
+      \ 20, 2016."}
+  annualCCSales:
+    {description: "The value of the annual credit card sales\
+      \ of this Merchant. \nThis field is specified as an integer\
+      \ in cents. For example, $25.30 is expressed as '2530'.", type: string}
+  annualCCSaleVolume:
+    {description: "The value of the annual credit card sale volume\
+      \ of this Merchant. \nThis field is specified as an integer\
+      \ in cents. For example, $25.30 is expressed as '2530'.", type: string,
+    x-enum-descriptions: ['']}
+  annualACHSaleVolume:
+    {description: "The value of the annual direct deposit sale\
+      \ volume of this Merchant. \nThis field is specified as\
+      \ an integer in cents. For example, $25.30 is expressed\
+      \ as '2530'.", type: string,
+    x-enum-descriptions: ['']}
+  amexVolume:
+    {description: Indicates the Annual AMEX Sales Volume for
+      the outlet., type: string,
+    x-enum-descriptions: ['']}
+  avgTicket:
+    {description: "The value of the average credit card sales\
+      \ of this Merchant. \nThis field is specified as an integer\
+      \ in cents. For example, $25.30 is expressed as '2530'.", type: string}
+  amex:
+    {description: "The American Express merchant identifier for\
+      \ this Merchant, if applicable. \nThis field is stored\
+      \ as a text string and must be between 1 and 15 characters\
+      \ long.", type: string}
+  discover:
+    {description: "The Discover merchant identifier for this\
+      \ Merchant, if applicable. \nThis field is stored as a\
+      \ text string and must be between 1 and 15 characters\
+      \ long.", type: string}
+  mcc: {description: 'The Merchant Category Code (MCC) for this
+      Merchant. This code is not required to create a Merchant,
+      but it is required to successfully board a Merchant.', type: string}
+  visaMvv: {description: Merchant Verification Value. A value
+      assigned by Visa to identify participation in select merchant
+      programs., type: string}
+  visaDisclosure:
+    { type: string, enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  disclosureIP: {type: string}
+  disclosureDate: {type: string}
+  environment: {type: string, description: "The environment which the Merchant is in, if
+      applicable.",
+    enum: [supermarket, moto, cardPresent, fuel, serviceStation,
+      restaurant, ecommerce],
+    x-enum-descriptions: [Supermarket, Mail Order / Telephone
+        Order, Card Present, Fuel, Service Station, Restaurant,
+      eCommerce]}
+  status:
+    {description: The status of the Merchant., type: string,
+    enum: ['0', '1', '2', '3', '4', '5', '6'],
+    x-enum-descriptions: [Not ready, Ready, Boarded, Manual,
+      Closed, Incomplete, Pending]}
+  autoBoarded:
+    {enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  statusReason: {description: The reason for manual or closed
+      status., type: string}
+  accountClosureReasonCode: {type: string}
+  accountClosureReasonDate: {type: string}
+  riskLevel: {description: "The risk level which the Merchant is in, if
+      applicable.", type: string,
+    enum: [restricted, prohibited, high, medium, low],
+    x-enum-descriptions: ['', '', '', '', '']}
+  creditRatio: {description: 'The credit ratio to use while
+      calculating risk factors for credit, if applicable.', type: string}
+  creditTimeliness: {description: 'The credit timeliness for
+      the Merchant, if applicable.', type: string}
+  chargebackRatio: {type: string}
+  ndxDays: {description: 'The ndx (Non Delivery Exposure) days
+      which the Merchant is in, if applicable.', type: string}
+  ndxPercentage: {description: 'The ndx (Non Delivery Exposure)
+      percentage to be used for the merchant, if applicable.', type: string}
+  boarded: {description: The date and time on which this Merchant
+      was successfully boarded., type: string}
+  tinStatus: {type: string}
+  saqType:
+    {enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C,
+      SAQ-P2PE-HW, SAQ-D], type: string,
+    x-enum-descriptions: ['', '', '', '', '', '', '', '']}
+  saqDate:
+    {type: string, x-enum-descriptions: ['']}
+  qsa: {type: string}
+  letterStatus:
+    {type: string, enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  letterDate: {type: string}
+  tcDate: {description: Date the tcVersion was last updated.,
+    format: date-time, type: string}
+  tcAttestation:
+    {type: string, enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  tmxSessionId: {type: string}
+  chargebackNotificationEmail: {type: string}
+  inactive:
+    {description: Whether this resource is marked as inactive., type: string,
+    enum: ['0', '1'],
+    x-enum-descriptions: [Active, Inactive]}
+  frozen:
+    {}
+  locationType:
+    {type: string, description: 'Description of the type of address that the
+      business operates at. ',
+    enum: ['77', '78', '79', '80', '81'],
+    x-enum-descriptions: [Retail Storefront, Warehouse, Private
+        Residence, Others, P. RES-PROF/Construction]}
+  percentKeyed: {description: The merchant percentage of transactions
+      that are Card Not Present (Includes MOTO and eCommerce)., type: string}
+  totalVolume: {description: The expected total volume for all
+      credit card and ACH payments that the merchant will process
+      for the current year., type: string}
+  percentEcomm: {description: This field indicates what percentage
+      are internet originated transactions., type: string}
+  percentBusiness: {description: This field indicates what percentage
+      of the transactions are Business to Business, type: string}
+  applePayActive:
+    {description: This field indicates if Apple Pay is active
+      for this merchant., type: string,
+    enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  applePayStatus: {type: string}
+  googlePayActive:
+    {type: string, enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  naics:
+    {description: The NAICS sector code that accurately describes
+      the industry the business operates in., type: string,
+    enum: ['11', '21', '22', '23', 31-33, '41', 44-45, 48-49,
+      '51', '52', '53', '54', '55', '56', '61', '62', '71',
+      '72', '81', 91/92],
+    x-enum-descriptions: ['Agriculture, Forestry, Fishing and
+        Hunting', 'Mining, Quarrying, and Oil and Gas Extraction',
+      Utilities, Construction, Manufacturing, 'Wholesale Trade ',
+      Retail Trade, Transportation and Warehousing, Information,
+      Finance and Insurance, Real Estate and Rental and Leasing,
+      'Professional, Scientific, and Technical Services', Management
+        of Companies and Enterprises, Administrative and Support
+        and Waste Management and Remediation Services, Educational
+        Services, Health Care and Social Assistance, 'Arts,
+        Entertainment, and Recreation', Accommodation and Food
+        Services, Other Services (except Public Administration),
+      Public Administration]}
+  naicsDescription: {description: 'The NAICS sector description
+      matching the above NAICS sector code. If "Other", industry
+      description is prefixed with "Other: ".', type: string}
+  expressBatchCloseMethod:
+    {description: This field indicates the batch close method
+      for this merchant applicable to Express platform.,
+    enum: [TimeInitiated, MerchantInitiated],
+    x-enum-descriptions: ['', ''], type: string}
+  expressBatchCloseTime: {description: 'This field indicates
+      the batch close time for this merchant applicable to Express
+      platform. ', type: string}
+  passTokenEnabled:
+    {description: This field indicates if Pass Token is enabled
+      for this merchant.,
+    enum: ['0', '1'],
+    x-enum-descriptions: ['', ''], type: string}

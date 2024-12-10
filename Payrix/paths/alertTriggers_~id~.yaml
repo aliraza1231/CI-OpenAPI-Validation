@@ -1,0 +1,165 @@
+get:
+  description: Query an alertTrigger resource that represents a set of triggers causing
+    an Alert to be sent, for example, the levying of a Fee or a Payout occurring,
+    each linked to a particular Alert, with the action to take when triggered set
+    up in the alertActions resource.
+  parameters:
+    - description: The ID of this alert trigger.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for retrieve Alert Trigger response.
+    '400':
+      content:
+        application/json:
+          schema: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema: { $ref: ../components/schemas/error.yaml }
+      description: Error
+  summary: Retreive an Alert Trigger by it's ID.
+  tags: [ Alert Triggers ]
+  operationId: getAlertTriggersId
+put:
+  description: Update an alertTrigger resource that represents a set of triggers causing
+    an Alert to be sent, for example levying a Fee or a Payout occurring, with each
+    trigger linked to a particular Alert and the action taken when triggered set up
+    in the alertActions resource.
+  parameters:
+    - description: The ID of this alert trigger.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  requestBody:
+    content:
+      application/json:
+        schema: { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      application/x-www-form-urlencoded:
+        schema: { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      application/xml:
+        schema: { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      multipart/form-data:
+        schema: { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      text/json:
+        schema: { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+      text/xml:
+        schema: { $ref: ../components/schemas/models/alertTriggersPut&PostReqBodySchemaModel.yaml }
+    description: Update Alert Trigger Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for update on alertTriggers resource Update Alert Trigger
+        Response
+    '400':
+      content:
+        application/json:
+          schema: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema: { $ref: ../components/schemas/error.yaml }
+      description: Error
+  summary: Update an Alert Trigger by it's ID.
+  tags: [ Alert Triggers ]
+  operationId: putAlertTriggersId
+delete:
+  description: Delete an alertTrigger resource that represents a set of triggers causing
+    an Alert to be sent, for example levying a Fee or a Payout occurring, each linked
+    to a particular Alert with the action to take set up in the alertActions resource.
+  parameters:
+    - description: The ID of this alert trigger.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/alertTriggersModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: The response for deleting an alert trigger on the alertTriggers
+        resource is the Delete Alert Trigger Response.
+    '400':
+      content:
+        application/json:
+          schema: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema: { $ref: ../components/schemas/error.yaml }
+      description: Error
+  summary: Delete an Alert Trigger by it's ID.
+  tags: [ Alert Triggers ]
+  operationId: deleteAlertTriggersId

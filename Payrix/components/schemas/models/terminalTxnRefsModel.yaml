@@ -1,0 +1,55 @@
+id: {$ref: ../id.yaml}
+created: {$ref: ../created.yaml}
+modified: {$ref: ../modified.yaml}
+creator: {$ref: ../creator.yaml}
+modifier: {$ref: ../modifier.yaml}
+terminalTxn: {
+    type: string,
+    description: The parent terminalTxn that owns this terminalTxnRef and to which this reference applies
+    A single terminalTxn may have many terminalTxnRef records.
+}
+ref: {
+    type: string,
+    description: The reference value retrieved from the third party.
+}
+stage: {
+    type: string,
+    description:
+    "An indicator showing what this terminalTxnRef refers to.\\ 
+    \n\n<details>\n<summary>Valid Values</summary> \n\n
+    - `activation` - **Terminal Activation**\n\n
+    - `auth` - **Transaction Authorization**\n\n
+    - `draft` - **Transaction Draft Number**\n\n
+    - `file` - **Import File Ref**\n\n
+    - `retrieval` - **Transaction Retrieval Number**\n\n
+    </details>\n",
+    enum: [activation, auth, draft, file, retrieval],
+    x-enum-descriptions: ['', The terminalTxnRef relates to
+        transaction authorization., The terminalTxnRef relates
+        to transaction draft number., FILE. Import file ref,
+        The terminalTxnRef relates to a transaction retrieval
+        number.]
+}
+platform: {
+    type: string,
+    description:
+    "The processor that issued this terminalTxnRef.\\
+    \n\n<details>\n<summary>Valid Values</summary> \n\n
+    - `APPLE` - **APPLE**\n\n
+    - `ELAVON` - **ELAVON**\n\n
+    - `FIRSTDATA` - **FIRSTDATA**\n\n
+    - `GOOGLE` - **GOOGLE**\n\n
+    - `VANTIV` - **VANTIV**\n\n
+    - `VCORE` - **VCORE**\n\n
+    - `WELLSACH` - **WELLSACH**\n\n
+    - `WELLSFARGO` - **WELLSFARGO**\n\n
+    - `WFSINGLE` - **WFSINGLE**\n\n
+    - `WORLDPAY` - **WORLDPAY**\n\n
+    - `TDBANKCA` - **TDBANKCA**\n\n
+    </details>\n",
+    enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+        WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA],
+    example: VCORE,
+    x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv.,
+        Vantiv Core., '', Wells Fargo., '', '', '']
+}
