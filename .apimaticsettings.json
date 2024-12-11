@@ -1,0 +1,3 @@
+{
+  "SkipOpenAPIDefinitionPaths": ["a.yaml", "c/d/d.yaml"]
+}
