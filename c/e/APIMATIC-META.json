@@ -1,6 +1,6 @@
 {
   "MergeConfiguration": {
-    "MergeApis": true,
+    "MergeApis": false,
     "MergedApiName": "Reporting API"
   }
 }
