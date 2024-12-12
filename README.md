@@ -1,2 +1,2 @@
 # CI-OpenAPI-Validation
-<text here>
+text here
