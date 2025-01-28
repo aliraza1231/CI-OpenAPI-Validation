@@ -10,7 +10,7 @@
       name: FIS Proprietary
     version: 3.0.2
   servers:
-  - url: https://apis.cert.worldpay.com/payfac/merchant/provisioning/boarding/v3
+  - url: https://apis.cert.worldpay.com/payfacc/merchant/provisioning/boarding/v3
   tags:
   - name: Health
     description: Resource to check the service availability.
