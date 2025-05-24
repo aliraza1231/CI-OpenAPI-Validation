@@ -1,0 +1,98 @@
+get:
+  description: Query an Invoice or query an Invoice. An Invoice resource is used for
+    invoicing customers, email the invoice to them, allow them to pay the invoice
+    and track payments with invoices.
+  parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Retrieve Invoices Response for query on invoices resource.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve all Invoices.
+  tags: [ Invoices ]
+  operationId: getInvoices
+post:
+  description: Create an Invoice, which is used for invoicing customers, emailing
+    the invoice to them, allowing them to pay the invoice and tracking payments with
+    invoices.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPostReqBodySchemaModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPostReqBodySchemaModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPostReqBodySchemaModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPostReqBodySchemaModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPostReqBodySchemaModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/invoicesPostReqBodySchemaModel.yaml }
+    description: Create Invoice Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items: { $ref: ../components/schemas/models/invoicesResponseModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for creating an invoice.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Create a new Invoice
+  tags: [ Invoices ]
+  operationId: postInvoices

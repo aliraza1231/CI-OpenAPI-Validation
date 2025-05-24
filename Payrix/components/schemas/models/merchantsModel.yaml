@@ -1,0 +1,349 @@
+totalApprovedSales: {
+  type: integer,
+  description: Show the total approved amount to this merchant.
+}
+entity: {
+  type: integer, 
+  description: The Entity associated with this Merchant.
+}
+dba: {
+  type: integer,
+  description: 'The name under which the Merchant is doing business,
+    if applicable. This field is stored as a text string and must be between
+    0 and 50 characters long.'
+}
+new: {
+  type: integer,
+  description: "An indicator that specifies whether the Merchant is new
+    to credit card processing, where merchants are considered to be new
+    by default and can have a valid value of either '0' (Not new) or '1'
+    (New).",
+  enum: [0, 1],
+  x-enum-descriptions: [Not new, New]
+}  
+advancedBilling: {
+  type: integer,
+  description: "Indicates whether the merchant accepts pre-purchase for
+    products that are shipped at a later date or not currently available,
+    specifying advanced billing as either disabled (0) or enabled (1).",
+  enum: [0, 1],
+  x-enum-descriptions: [AdvancedBilling is disabled, AdvancedBilling is
+      enabled]
+}  
+seasonal: {
+  type: integer,
+  description: 
+    "Indicates if the merchant is a seasonal merchant or operates year-round.
+
+    <details>
+    <summary>Valid Values</summary>
+
+    - `0` - **Year-Round Merchant**
+
+    - `1` - **Seasonal Merchant**
+
+    </details>",
+  enum: [0, 1],
+  x-enum-descriptions: ['', '']
+}  
+established: {
+  type: integer,
+  description: "The date on which the Merchant was established. \nThe\
+    \ date is specified as an eight digit string in YYYYMMDD format, for\
+    \ example, '20160120' for January 20, 2016."
+}  
+annualCCSales:
+  { description: "The value of the annual credit card sales of this Merchant.\
+    \ \nThis field is specified as an integer in cents. For example, $25.30\
+    \ is expressed as '2530'.",
+  type: integer}
+annualCCSaleVolume:
+  {description: "The value of the annual credit card sale volume of this\
+    \ Merchant. \nThis field is specified as an integer in cents. For\
+    \ example, $25.30 is expressed as '2530'.",
+  x-enum-descriptions: [''],
+  type: integer}
+annualACHSaleVolume:
+  {description: "The value of the annual direct deposit sale volume of\
+    \ this Merchant. \nThis field is specified as an integer in cents.\
+    \ For example, $25.30 is expressed as '2530'.",
+  x-enum-descriptions: [''],
+  type: integer}
+amexVolume:
+  {description: Indicates the Annual AMEX Sales Volume for the outlet.,
+  x-enum-descriptions: [''],
+  type: integer}
+avgTicket:
+  {description: "The value of the average credit card sales of this Merchant.\
+    \ \nThis field is specified as an integer in cents. For example, $25.30\
+    \ is expressed as '2530'.",
+  type: integer}
+amex:
+  { type: string, description: "The American Express merchant identifier for this Merchant,\
+    \ if applicable. \nThis field is stored as a string and must\
+    \ be between 1 and 15 characters long."}
+discover:
+  { type: string, description: "The Discover merchant identifier for this Merchant, if\
+    \ applicable. \nThis field is stored as a string and must be\
+    \ between 1 and 15 characters long."}
+mcc: {type: string, description: 'The Merchant Category Code (MCC) for this Merchant.
+    This code is not required to create a Merchant, but it is required
+    to successfully board a Merchant.'}
+visaMvv: {type: string, description: Merchant Verification Value. A value assigned by
+    Visa to identify participation in select merchant programs. }
+visaDisclosure:
+  {type: integer, description: "Whether or not the merchant has acknowledged and accepted\
+    \ the Visa Disclosure.  \n\n<details>\n<summary>Valid Values</summary>\n\
+    \n- `0` - **Not Accepted** \n\n- `1` - **Accepted**\n</details>\n",
+   enum: [0, 1],
+  x-enum-descriptions: ['', '']}
+disclosureIP: {type: string}
+disclosureDate: {type: string, format: date-time,
+                 #typex-supplemental: string
+}
+environment:
+  {
+    type : string,
+    description: " 
+      The environment which the Merchant is in, if applicable.
+      <details>
+      <summary>Valid Values</summary>
+      - `supermarket`` - **Supermarkets / Grocery** 
+      - `moto` - **Mail Order / Telephone Order**
+      - `cardPresent` - **Card Present Environment**
+      - `fuel` - **Fuel / Gas Stations**
+      - `serviceStation` - **Service Stations**
+      - `restaurant` - **Restaurants**
+      - `ecommerce` - **eCommerce / Online Sales**
+      </details>",
+    enum: [supermarket, moto, cardPresent, fuel, serviceStation, restaurant,
+      ecommerce],
+    x-enum-descriptions: [Supermarket, Mail Order / Telephone Order, Card
+        Present, Fuel, Service Station, Restaurant, eCommerce] 
+  }
+status:
+  {
+    type: integer,
+    description: "The status of the Merchant.\n  \n<details>\n<summary>Valid\
+      \ Values</summary>\n  - `0` - **Not ready**. Occurs when a new Merchant\
+      \ is created. Unable to process payments.\n  \n  - `1` - **Ready**.\
+      \ New Merchant submitted for underwriting approval after submitting\
+      \ a signup form.\n  \n  - `2` - **Boarded**. Merchant has been approved\
+      \ and boarded to the platform. Payment processing now available. \n\
+      \  \n  - `3` - **Manual**. Set internally by platform underwriting.\
+      \ New Merchant is pending manual verification. \n  \n  - `4` - **Closed**.\
+      \ Set internally by platform underwriting. New Merchant was declined\
+      \ and cannot access the platform. \n  \n  - `5` - **Incomplete**.\
+      \ Set by user boarding the merchant. Can be manually set to \"save\"\
+      \ an incomplete Merchant boarding request for a later time. \n  \n\
+      \  - `6` - **Pending**. New Merchant was submitted for boarding, platform\
+      \ access pending review.\n  </details>\n",
+    enum: [0, 1, 3, 4, 5, 6],
+    x-enum-descriptions: [Not ready, Ready, Boarded, Manual, Closed, Incomplete,Pending]
+  }
+incrementalAuthSupported:
+  { type: integer, description: "This field allows the ability to submit merchant registration\
+    \ files with a MasterCard (MC) Auth Integrity value.\n\n<details>\n\
+    <summary>Valid Values</summary>\n\n- `0` - **Incremental Auth Not\
+    \ Supported** \n\n- `1` - **Incremental Auth Supported**\n</details>\n",
+    enum: [0, 1],
+  x-enum-descriptions: ['', '']}
+autoBoarded:
+  { type: integer,
+    description: "Whether the merchant auto-boarded.\n\n<details>\n<summary>Valid\
+    \ Values</summary>\n\n- `0` - **Not Auto-Boarded** \n\n- `1` - **Auto-Boarded**\n\
+    \n</details>\n",
+    enum: [0, 1],
+    x-enum-descriptions: ['', '']
+  }
+statusReason:
+  {description: "The reason for manual or closure status. \n\n<details>\n\
+    <summary>Valid Values</summary>\n`rejected` - Merchant account rejected\
+    \ for servicing.\n\n`fraud` - Merchant or submission was determined\
+    \ to be fraudulent.\n\n`noResponse` - No response given in expected\
+    \ time frame for verification/validation inquiry.\n\n`withdrawn` -\
+    \ Merchant submission withdrawn.\n\n\n</details>\n",
+  enum: [rejected, fraud, noResponse, withdrawn],
+  type: string}
+locationType:
+  {type: integer, description: "'Description of the type of address that the business\
+    \ operates at. '\n\n<details>\n<summary>Valid Values</summary>\n\n\
+    - `77` - **Retail Storefront**\n- `78` - **Warehouse**\n- `79` - **Private\
+    \ Residence**\n- `80` - **Others**\n- `81` - **P. RES-PROF/Construction**\
+    \ \n\n</details>\n",
+  enum: [77, 78, 79, 80, 81],
+  x-enum-descriptions: [Retail Storefront, Warehouse, Private Residence,
+    Others, P. RES-PROF/Construction]}
+percentEcomm: {type: integer, description: This field indicates what percentage are internet
+    originated transactions.}
+percentKeyed: {type: integer, description: The merchant percentage of transactions that
+    are Card Not Present (Includes MOTO and eCommerce).}
+percentBusiness: {type: integer, description: This field indicates what percentage of
+    the transactions are Business to Business}
+totalVolume: {description: The expected total volume for all credit card
+    and ACH payments that the merchant will process for the current year.,
+  type: integer}
+accountClosureReasonCode: {type: integer, description: Account closure Reason code}
+accountClosureReasonDate: {type: string, description: Account closure date, format: date-time }
+riskLevel:
+  {
+  type: string,
+  description: "
+    The risk level which the Merchant is in, if applicable.
+    <details>
+    <summary>Valid Values</summary>
+    - `restricted` - **Restricted from processing transactions.**
+    - `prohibited` - **Prohibited business use category.**
+    - `high` - **High merchant risk score.**
+    - `medium` - **Medium merchant risk score.**
+    - `low` - **Low merchant risk score.**
+    </details>",
+  enum: [restricted, prohibited, high, medium, low],
+  x-enum-descriptions: ['', '', '', '', '']}
+creditRatio: {type: integer, description: 'The credit ratio to use while calculating
+    risk factors for credit, if applicable.'}
+creditTimeliness: {type: integer, description: 'The credit timeliness for the Merchant,
+    if applicable.'}
+chargebackRatio: {type: integer, description: Chargeback Ratio}
+ndxDays: {type: integer, description: 'The ndx (Non Delivery Exposure) days which the
+    Merchant is in, if applicable.'}
+ndxPercentage: {type: integer, description: 'The ndx (Non Delivery Exposure) percentage
+    to be used for the merchant, if applicable.'}
+saqType:
+  {
+    type: string,
+    description: "Payment Card Industry Data Security Standard (PCI DSS)\
+      \ Self-assessment questionnaire (SAQ). Details about a merchant's\
+      \ business and the way the currently accept payments or plan to in\
+      \ the future. \n\nFor more information, see [Understanding SAQs PCI\
+      \ DSS provided by The PCI Security Standards Council](https://listings.pcisecuritystandards.org/documents/Understanding_SAQs_PCI_DSS_v3.pdf).\
+      \  \n\n<details>\n<summary>Note about SAQ Types</summary>\n- `SAQ-A`\
+      \ is not applicable to face-to-face channels.\n- `SAQ-A-EP` is only\
+      \ applicable to e-commerce channels.\n- `SAQ-B` is not applicable\
+      \ to e-commerce channels.\n- `SAQ-B-IP` is not applicable to e-commerce\
+      \ channels.\n- `SAQ-C-VT` is not applicable to e-commerce channels.\n\
+      - `SAQ-C` is not applicable to e-commerce channels.\n- `SAQ-P2PE-HW`\
+      \ is not applicable to e-commerce channels.\n</details>\n\n<details>\n\
+      <summary>Valid Values</summary>\n  - `SAQ-A` - **Card-not-present\
+      \ merchants (e-commerce or mail/telephone-order) with PCI DSS-validated\
+      \ third-party payments service provider(s) and does not store cardholder\
+      \ data.**\n\n  - `SAQ-A-EP` - **E-commerce merchants with PCI DSS-validated\
+      \ third-party payments service provider(s) with a website that doesn't\
+      \ directly collect cardholder data, but may impact it in some way,\
+      \ and does not store cardholder data.**\n\n  - `SAQ-B` - **Merchants\
+      \ with imprint machines or standalone, dial-out terminals that do\
+      \ not store cardholder data.**\n\n  - `SAQ-B-IP` - **Merchants with\
+      \ standalone, PTS-approved payment terminals that have an IP connection\
+      \ to the payment processor, but do not store cardholder data.**\n\n\
+      \  - `SAQ-C-VT` - **Merchants that enter single transactions manually\
+      \ into an internet-based terminal hosted by PCI DSS-validated third-party\
+      \ payments service provider(s) and does not store cardholder data.**\n\
+      \n  - `SAQ-C` - **Merchants with payment application systems connected\
+      \ to the internet that do not store cardholder data.**\n\n  - `SAQ-P2PE-HW`\
+      \ - **Merchants with hardware-only payment terminals managed by a\
+      \ PCI SSC-listed P2PE solution, and does not store cardholder data.\
+      \ \n\n  - `SAQ-D` - Generic field for all Merchants that do not fall\
+      \ under the requirements for any above SAQ types. \n\n</details>\n",
+    enum: [SAQ-A, SAQ-A-EP, SAQ-B, SAQ-B-IP, SAQ-C-VT, SAQ-C, SAQ-P2PE-HW,
+      SAQ-D],
+    x-enum-descriptions: ['', '', '', '', '', '', '', '']
+  }
+saqDate: {
+  type: string,
+  description: The date of the PCI SAQ assessment.,
+  format: date-time,
+  x-enum-descriptions: [''],
+}
+qsa: {type: string}
+letterStatus: {
+  type: integer,  
+  enum: [0, 1],
+  x-enum-descriptions: ['', '']}
+letterDate: {type: string, description: The date of letter, format: date-time}
+chargebackNotificationEmail: {type: string, description: Notification Email for chargebacks}
+tcAttestation:
+  {
+  type: integer,
+  description: "Whether or not the merchant has acknowledged and accepted\
+    \ the Terms and Conditions.  \n\n<details>\n<summary>Valid Values</summary>\n\
+    \n  - `0` - **Not Accepted**\n  \n  - `1` - **Accepted**\n\n  \n</details>\n",
+  enum: [0, 1],
+  x-enum-descriptions: ['', '']}
+applePayActive:
+  {type: integer, description: "This field indicates if Apple Pay is active for this merchant.\n\
+    \n<details>\n<summary>Valid Values</summary>\n\n  - `0` - **Inactive**\n\
+    \  \n  - `1` - **Active**\n  \n</details>\n",
+   enum: [0, 1],
+  x-enum-descriptions: ['', '']}
+googlePayActive:
+ { type: integer, description: "This field indicates if Google Pay is active for this\
+    \ merchant.\n\n<details>\n<summary>Valid Values</summary>\n\n  - `0`\
+    \ - **Inactive**\n  \n  - `1` - **Active**\n  \n</details>\n",
+   enum: [0, 1],
+  x-enum-descriptions: ['', '']}
+naics:
+  {type: string, description: "The NAICS sector code that accurately describes the industry\
+    \ the business operates in.\n\nFor more information, see the [NAICS\
+    \ Manual provided by the US Census Bureau's North American Industry\
+    \ Classification System.](https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf)\n\
+    \n<details>\n<summary>Valid Values</summary>\n\n  - `11` - **Agriculture,\
+    \ Forestry, Fishing and Hunting**\n  \n  - `21` - **Mining, Quarrying,\
+    \ and Oil and Gas Extraction**\n  \n  - `22` - **Utilities**\n  \n\
+    \  - `23` - **Construction**\n  \n  - `31` / `33` - **Manufacturing**\n\
+    \  \n  - `41` - - **Wholesale Trade**\n  \n  - `44` / `45` - **Retail\
+    \ Trade**\n  \n  - `48` / `49` - **Transportation and Warehousing**\
+    \ \n  \n  - `51` - **Information**\n  \n  - `52` - **Finance and Insurance**\n\
+    \  \n  - `53` - **Real Estate and Property Rental / Leasing**\n  \n\
+    \  - `54` - **Professional, Scientific, and Technical Services**\n\
+    \  \n  - `55` - **Management of Companies and Enterprises**\n  \n\
+    \  - `56` - **Administrative and Support and Waste Management and\
+    \ Remediation Services**\n  \n  - `61` - **Educational Services**\n\
+    \  \n  - `62` - **Health Care and Social Assistance**\n  \n  - `71`\
+    \ - **Arts, Entertainment, and Recreation**\n  \n  - `72` - **Accommodation\
+    \ and Food Services**\n  \n  - `81` - **Other Services (except Public\
+    \ Administration)**\n  \n  - `91` / `92` - **Public Administration**\n\
+    \  </details>\n",
+  enum: ['11', '21', '22', '23', '31-33', '41', '44-45', '48-49', '51', '52',
+    '53', '54', '55', '56', '61', '62', '71', '72', '81', '91/92'],
+  x-enum-descriptions: ['Agriculture, Forestry, Fishing and Hunting',
+    'Mining, Quarrying, and Oil and Gas Extraction', Utilities, Construction,
+    Manufacturing, 'Wholesale Trade ', Retail Trade, Transportation and
+      Warehousing, Information, Finance and Insurance, Real Estate and
+      Rental and Leasing, 'Professional, Scientific, and Technical Services',
+    Management of Companies and Enterprises, Administrative and Support
+      and Waste Management and Remediation Services, Educational Services,
+    Health Care and Social Assistance, 'Arts, Entertainment, and Recreation',
+    Accommodation and Food Services, Other Services (except Public Administration),
+    Public Administration]}
+naicsDescription: {type: string, description: 'The NAICS sector description matching
+    the above NAICS sector code. If "Other", industry description is prefixed
+    with "Other: ".'}
+tmxSessionId: {type: string, description: Transaction Session Id}
+passTokenEnabled:
+  { type: integer, description: "This field indicates if Pass Token is enabled for this\
+    \ merchant.\n\n<details>\n<summary>Valid Values</summary>\n\n  - `0`\
+    \ - **Disabled**\n  \n  - `1` - **Enabled**\n  \n</details>\n",
+    enum: [0, 1],
+  x-enum-descriptions: ['', '']}
+expressBatchCloseMethod:
+  { type: string, description: "This field indicates the batch close method for this merchant\
+    \ applicable to Express platform.\n\n<details>\n<summary>Valid Values</summary>\n\
+    \n  - `TimeInitiated` - **Batch close occurs at specific time intervals.\
+    \ (Automated.)**\n  \n  - `MerchantInitiated` - **Batch close occurs\
+    \ when initiated by the Merchant. (Manual.)**\n\n  \n</details>\n",
+  enum: [TimeInitiated, MerchantInitiated],
+  x-enum-descriptions: ['', '']}
+expressBatchCloseTime: {type: string, description: 'This field indicates the batch close
+    time for this merchant applicable to Express platform. '}
+inactive:
+  { type: integer, description: 'Whether this resource is marked as inactive. Valid Values:
+    `0` - Active, `1` - Inactive.',
+    enum: [0, 1],
+  x-enum-descriptions: [Active, Inactive]}
+frozen: {$ref: ../frozen.yaml}  
+tinStatus: {type: integer}
+omniTokenEnabled:
+  {type: integer, description: "This field indicates if Omni Token is enabled for this\
+    \ merchant.\n\n<details>\n<summary>Valid Values</summary>\n\n  - `0`\
+    \ - **Disabled**\n  \n  - `1` - **Enabled**\n  \n</details>\n",
+   enum: [0, 1]}

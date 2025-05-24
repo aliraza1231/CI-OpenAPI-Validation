@@ -1,0 +1,162 @@
+  get:
+    description: Query an Invoice Item or query Invoice Items.
+    parameters:
+    - description: The ID of this invoice item.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceItemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceItemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for retrieve invoice item response.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve an Invoice Item by it's ID.
+    tags: [Invoices]
+    operationId: getInvoiceItemsId
+  put:
+    description: Update an Invoice Item, A InvoiceItem is a resource that stores line
+      item details for an invoice.
+    parameters:
+    - description: The ID of this invoice item.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/invoiceItemsPut&PostReqBodySchemaModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/invoiceItemsPut&PostReqBodySchemaModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/invoiceItemsPut&PostReqBodySchemaModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/invoiceItemsPut&PostReqBodySchemaModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/invoiceItemsPut&PostReqBodySchemaModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/invoiceItemsPut&PostReqBodySchemaModel.yaml}
+      description: Update Invoice Item Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceItemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceItemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: 'Response for update on invoiceItems resource: Update Invoice Item
+          Response'
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update an Invoice Item by it's ID.
+    tags: [Invoices]
+    operationId: putInvoiceItemsId
+  delete:
+    description: Delete an Invoice Item or a resource that stores line item details
+      for an invoice.
+    parameters:
+    - description: The ID of this invoice item.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceItemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/invoiceItemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The response for deleting an invoice item from the invoiceItems
+          resource is the Delete Invoice Item Response.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete an Invoice Item by it's ID.
+    tags: [Invoices]
+    operationId: deleteInvoiceItemsId

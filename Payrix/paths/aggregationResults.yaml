@@ -1,0 +1,43 @@
+  get:
+    description: Query an AggregationResult resource holding field totals calculated
+      when processing an aggregation.
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationResultsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/aggregationResultsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for querying the aggregationResults resource to retrieve
+          aggregation results.
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve all Aggregation Results.
+    tags: [Aggregations]
+    operationId: getAggregationResults

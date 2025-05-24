@@ -1,0 +1,607 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  entity: {type: string, description: The identifier of the Entity that this Contact
+      relates to.}
+  first: {type: string, description: The first name associated with this Contact.}
+  middle: {type: string, description: The middle name associated with this Contact.}
+  last: {type: string, description: The last name associated with this Contact.}
+  description: {type: string, description: A description of this Contact.}
+  email: {type: string, description: The email address of this Contact.}
+  fax: {type: string, description: "The fax number associated with this Contact. \n\
+      This field is stored as a text string and must be between\
+      \ 10 and 15 characters long."}
+  phone: {type: string, description: "The phone number associated with this Contact.\
+      \ \nThis field is stored as a text string and must be between\
+      \ 10 and 15 characters long."}
+  country: {type: string, description: "|
+      The country being used for a request.
+
+      DEFAULT VALUE: `USA`
+
+      \n\
+      \n<details>\n<summary>Valid Values</summary>\n
+      - `ABW` - **Aruba**
+
+      - `AFG` - **Afghanistan**
+
+      - `AGO` - **Angola**
+
+      - `AIA` - **Anguilla**
+
+      - `ALA` - **Aland Islands**
+
+      - `ALB` - **Albania**
+
+      - `AND` - **Andorra**
+
+      - `ARE` - **United Arab Emirates**
+
+      - `ARG` - **Argentina**
+
+      - `ARM` - **Armenia**
+
+      - `ASM` - **American Samoa (US Territory)**
+
+      - `ATA` - **Antarctica**
+
+      - `ATF` - **French Southern Territories**
+
+      - `ATG` - **Antigua and Barbuda**
+
+      - `AUS` - **Australia**
+
+      - `AUT` - **Austria**
+
+      - `AZE` - **Azerbaijan**
+
+      - `BDI` - **Burundi**
+
+      - `BEL` - **Belgium**
+
+      - `BEN` - **Benin**
+
+      - `BES` - **Bonaire, Sint Eustatius and Saba**
+
+      - `BFA` - **Burkina Faso**
+
+      - `BGD` - **Bangladesh**
+
+      - `BGR`  - **Bulgaria**
+
+      - `BHR` - **Bahrain**
+
+      - `BHS`  - **Bahamas**
+
+      - `BIH` - **Bosnia and Herzegovina**
+
+      - `BLM` - **Saint Barthélemy**
+
+      - `BLR` - **Belarus**
+
+      - `BLZ` - **Belize**
+
+      - `BMU`  - **Bermuda**
+
+      - `BOL`  - **Bolivia, Plurinational State of**
+
+      - `BRA` - **Brazil**
+
+      - `BRB` - **Barbados**
+
+      - `BRN` - **Brunei Darussalam**
+
+      - `BTN` - **Bhutan**
+
+      - `BVT` - **Bouvet Island**
+
+      - `BWA` - **Botswana**
+
+      - `CAF` - **Central African Republic**
+
+      - `CAN` - **Canada**
+
+      - `CCK` - **Cocos (Keeling) Islands**
+
+      - `CHE` - **Switzerland**
+
+      - `CHL` - **Chile**
+
+      - `CHN` - **China**
+
+      - `CIV`  - **Côte d’Ivoire**
+
+      - `CMR` - **Cameroon**
+
+      - `COD` - **Congo, the Democratic Republic of the**
+
+      - `COG` - **Congo**
+
+      - `COK` - **Cook Islands**
+
+      - `COL`  - **Colombia**
+
+      - `COM` - **Comoros**
+
+      - `CPV` - **Cape Verde**
+
+      - `CRI` - **Costa Rica**
+
+      - `CUB` - **Cuba**
+
+      - `CUW` - **Curaçao**
+
+      - `CXR` - **Christmas Island**
+
+      - `CYM` - **Cayman Islands**
+
+      - `CYP` - **Cyprus**
+
+      - `CZE` - **Czech Republic**
+
+      - `DEU` - **Germany**
+
+      - `DJI` - **Djibouti**
+
+      - `DMA` - **Dominica**
+
+      - `DNK` - **Denmark**
+
+      - `DOM` - **Dominican Republic**
+
+      - `DZA` - **Algeria**
+
+      - `ECU` - **Ecuador**
+
+      - `EGY` - **Egypt**
+
+      - `ERI` - **Eritrea**
+
+      - `ESH` - **Western Sahara**
+
+      - `ESP` - **Spain**
+
+      - `EST` - **Estonia**
+
+      - `ETH` - **Ethiopia**
+
+      - `FIN` - **Finland**
+
+      - `FJI` - **Fiji**
+
+      - `FLK` - **Falkland Islands (Malvinas)**
+
+      - `FRA` - **France**
+
+      - `FRO` - **Faroe Islands**
+
+      - `FSM` - **Micronesia, Federated States of (US Territory)**
+
+      - `GAB` - **Gabon**
+
+      - `GBR` - **United Kingdom**
+
+      - `GEO` - **Georgia**
+
+      - `GGY` - **Guernsey**
+
+      - `GHA` - **Ghana**
+
+      - `GIB` - **Gibraltar**
+
+      - `GIN` - **Guinea**
+
+      - `GLP`  - **Guadeloupe**
+
+      - `GMB` - **Gambia**
+
+      - `GNB` - **Guinea-Bissau**
+
+      - `GNQ` - **Equatorial Guinea**
+
+      - `GRC` - **Greece**
+
+      - `GRD` - **Grenada**
+
+      - `GRL`  - **Greenland**
+
+      - `GTM` - **Guatemala**
+
+      - `GUF` - **French Guiana**
+
+      - `GUM` - **Guam (US Territory)**
+
+      - `GUY` - **Guyana**
+
+      - `HKG` - **Hong Kong**
+
+      - `HMD` - **Heard Island and McDonald Islands**
+
+      - `HND` - **Honduras**
+
+      - `HRV` - **Croatia**
+
+      - `HTI` - **Haiti**
+
+      - `HUN` - **Hungary**
+
+      - `IDN` - **Indonesia**
+
+      - `IMN` - **Isle of Man**
+
+      - `IND` - **India**
+
+      - `IOT` - **British Indian Ocean Territory**
+
+      - `IRL` - **Ireland**
+
+      - `IRN` - **Iran, Islamic Republic of**
+
+      - `IRQ` - **Iraq**
+
+      - `ISL` - **Iceland**
+
+      - `ISR` - **Israel**
+
+      - `ITA` - **Italy**
+
+      - `JAM` - **Jamaica**
+
+      - `JEY` - **Jersey**
+
+      - `JOR` - **Jordan**
+
+      - `JPN` - **Japan**
+
+      - `KAZ` - **Kazakhstan**
+
+      - `KEN` - **Kenya**
+
+      - `KGZ` - **Kyrgyzstan**
+
+      - `KHM` - **Cambodia**
+
+      - `KIR`  - **Kiribati**
+
+      - `KNA` - **Saint Kitts and Nevis**
+
+      - `KOR` - **Korea, Republic of**
+
+      - `KWT` - **Kuwait**
+
+      - `LAO` - **Lao People's Democratic Republic**
+
+      - `LBN` - **Lebanon**
+
+      - `LBR` - **Liberia**
+
+      - `LBY` - **Libya**
+
+      - `LCA` - **Saint Lucia**
+
+      - `LIE` - **Liechtenstein**
+
+      - `LKA` - **Sri Lanka**
+
+      - `LSO` - **Lesotho**
+
+      - `LTU` - **Lithuania**
+
+      - `LUX` - **Luxembourg**
+
+      - `LVA` - **Latvia**
+
+      - `MAC` - **Macao**
+
+      - `MAF` - **Saint Martin (French Region)**
+
+      - `MAR` - **Morocco**
+
+      - `MCO` - **Monaco**
+
+      - `MDA` - **Moldova, Republic of**
+
+      - `MDG` - **Madagascar**
+
+      - `MDV` - **Maldives**
+
+      - `MEX` - **Mexico**
+
+      - `MHL` - **Marshall Islands (US Territory)**
+
+      - `MKD` - **Macedonia, the former Yugoslav Republic of**
+
+      - `MLI` - **Mali**
+
+      - `MLT` - **Malta**
+
+      - `MMR` - **Myanmar**
+
+      - `MNE` - **Montenegro**
+
+      - `MNG` - **Mongolia**
+
+      - `MNP`  - **Northern Mariana Islands (US Territory)**
+
+      - `MOZ` - **Mozambique**
+
+      - `MRT` - **Mauritania**
+
+      - `MSR` - **Montserrat**
+
+      - `MTQ`  - **Martinique**
+
+      - `MUS` - **Mauritius**
+
+      - `MWI`- **Malawi**
+
+      - `MYS` - **Malaysia**
+
+      - `MYT` - **Mayotte**
+
+      - `NAM` - **Namibia**
+
+      - `NCL` - **New Caledonia**
+
+      - `NER` - **Niger**
+
+      - `NFK` - **Norfolk Island**
+
+      - `NGA`  - **Nigeria**
+
+      - `NIC` - **Nicaragua**
+
+      - `NIU` - **Niue**
+
+      - `NLD` - **Netherlands**
+
+      - `NOR` - **Norway**
+
+      - `NPL` - **Nepal**
+
+      - `NRU` - **Nauru**
+
+      - `NZL` - **New Zealand**
+
+      - `OMN` - **Oman**
+
+      - `PAK` - **Pabkistan**
+
+      - `PAN` - **Panama**
+
+      - `PCN` - **Pitcairn**
+
+      - `PER` - **Peru**
+
+      - `PHL` - **Philippines**
+
+      - `PLW` - **Palau (US Territory)**
+
+      - `PNG` - **Papua New Guinea**
+
+      - `POL` - **Poland**
+
+      - `PRI` - **Puerto Rico (US Territory)**
+
+      - `PRK`  - **Korea, Democratic People's Republic of**
+
+      - `PRT` - **Portugal**
+
+      - `PRY` - **Paraguay**
+
+      - `PSE` - **Palestine, State of**
+
+      - `PYF` - **French Polynesia**
+
+      - `QAT` - **Qatar**
+
+      - `REU` - **Réunion**
+
+      - `ROU` - **Romania**
+
+      - `RUS` - **Russian Federation**
+
+      - `RWA` - **Rwanda**
+
+      - `SAU` - **Saudi Arabia**
+
+      - `SDN` - **Sudan**
+
+      - `SEN` - **Senegal**
+
+      - `SGP` - **Singapore**
+
+      - `SGS` - **South Georgia and the South Sandwich Islands**
+
+      - `SHN` - **Saint Helena, Ascension and Tristan da Cunha**
+
+      - `SJM` - **Svalbard and Jan Mayen**
+
+      - `SLB` - **Solomon Islands**
+
+      - `SLE` - **Sierra Leone**
+
+      - `SLV` - **El Salvador**
+
+      - `SMR` - **San Marino**
+
+      - `SOM` - **Somalia**
+
+      - `SPM` - **Saint Pierre and Miquelon**
+
+      - `SRB` - **Serbia**
+
+      - `SSD` - **South Sudan**
+
+      - `STP` - **Sao Tome and Principe**
+
+      - `SUR` - **Suriname**
+
+      - `SVK`  - **Slovakia**
+
+      - `SVN` - **Slovenia**
+
+      - `SWE` - **Sweden**
+
+      - `SWZ` - **Swaziland**
+
+      - `SXM`- **Sint Maarten (Dutch Region)**
+
+      - `SYC` - **Seychelles**
+
+      - `SYR` - **Syrian Arab Republic**
+
+      - `TCA` - **Turks and Caicos Islands**
+
+      - `TCD` - **Chad**
+
+      - `TGO` - **Togo**
+
+      - `THA` - **Thailand**
+
+      - `TJK` - **Tajikistan**
+
+      - `TKL` - **Tokelau**
+
+      - `TKM` - **Turkmenistan**
+
+      - `TLS` - **Timor-Leste**
+
+      - `TON` - **Tonga**
+
+      - `TTO` - **Trinidad and Tobago**
+
+      - `TUN`  - **Tunisia**
+
+      - `TUR` - **Turkey**
+
+      - `TUV` - **Tuvalu**
+
+      - `TWN` - **Taiwan, Province of China**
+
+      - `TZA` - **Tanzania, United Republic of**
+
+      - `UGA` - **Uganda**
+
+      - `UKR` - **Ukraine**
+
+      - `UMI` - **United States Minor Outlying Islands (US Territory)**
+
+      - `URY` - **Uruguay**
+
+      - `USA` - **United States**
+
+      - `UZB` - **Uzbekistan**
+
+      - `VAT` - **Holy See (Vatican City State)**
+
+      - `VCT` - **Saint Vincent and the Grenadines**
+
+      - `VEN` - **Venezuela, Bolivarian Republic of**
+
+      - `VGB` - **Virgin Islands, British**
+
+      - `VIR` - **Virgin Islands, U.S. (US Territory)**
+
+      - `VNM` - **Viet Nam**
+
+      - `VUT` - **Vanuatu**
+
+      - `WLF` - **Wallis and Futuna**
+
+      - `WSM` - **Samoa**
+
+      - `XXK` - **Kosovo**
+
+      - `YEM` - **Yemen**
+
+      - `ZAF` - **South Africa**
+
+      - `ZMB` - **Zambia**
+
+      - `ZWE` - **Zimbabwe**
+
+      </details>",
+    enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM,
+      ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD,
+      BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN,
+      BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL, CHN, CIV, CMR, COD,
+      COG, COK, COL, COM, CPV, CRI, CUB, CUW, CXR, CYM, CYP, CZE,
+      DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH, ESP, EST,
+      ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+      GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM,
+      GUY, HKG, HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL,
+      IRN, IRQ, ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ,
+      KHM, KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+      LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV, MEX,
+      MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT, MSR, MTQ,
+      MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+      NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG,
+      POL, PRI, PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA,
+      SAU, SDN, SEN, SGP, SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM,
+      SPM, SRB, SSD, STP, SUR, SVK, SVN, SWE, SWZ, SXM, SYC, SYR,
+      TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR,
+      TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN,
+      VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE],
+    example: USA}
+  zip: {type: string, description: "The ZIP code in the address associated with this\
+      \ Contact. \nThis field is stored as a text string and must\
+      \ be between 1 and 20 characters long."}
+  state: {type: string, description: "The state or province being used for a request.\n\
+      \n<details>\n<summary>Valid Values</summary>\n  
+      - `AB` - **Alberta\\ (CAN)**\n\n  - `AK` - **Alaska (US)**\n\n  - `AK` - **Arkansas\
+      \ (US)**\n\n  - `AL` - **Alabama (US)**\n\n  - `AZ` - **Arizona\
+      \ (US)**\n\n  - `BC` - **British Columbia (CAN)**\n\n  - `CA`\
+      \ - **California (US)**\n\n  - `CO` - **Colorado (US)**\n\n\
+      \  - `CT` - **Connecticut (US)**\n\n  - `DE` - **Delaware\
+      \ (US)**\n\n  - `FL` - **Florida (US)**\n\n  - `GA` - **Georgia\
+      \ (US)**\n\n  - `HI` - **Hawaii (US)**\n\n  - `IA` - **Iowa\
+      \ (US)**\n\n  - `ID` - **Idaho (US)**\n\n  - `IL` - **Illinois\
+      \ (US)**\n\n  - `IN` - **Indiana (US)**\n\n  - `KN` - **Kentucky\
+      \ (US)**\n\n  - `KS` - **Kansas (US)**\n\n  - `LA` - **Louisiana\
+      \ (US)**\n\n  - `MA` - **Massachusetts (US)**\n\n  - `MB`\
+      \ - **Manitoba (CAN)**\n\n  - `MD` - **Maryland (US)**\n\n\
+      \  - `ME` - **Maine (US)**\n\n  - `MI` - **Michigan (US)**\n\
+      \n  - `MN` - **Minnesota (US)**\n\n  - `MO` - **Missouri (US)**\n\
+      \n  - `MS` - **Mississippi (US)**\n\n  - `MT` - **Montana\
+      \ (US)**\n\n  - `NB` - **New Brunswick (CAN)**\n\n  - `NC`\
+      \ - **North Carolina (US)**\n\n  - `ND` - **North Dakota (US)**\n\
+      \n  - `NE` - **Nebraska (US)**\n\n  - `NH` - **New Hampshire\
+      \ (US)**\n\n  - `NJ` - **New Jersey (US)**\n\n  - `NL` - **Newfoundland\
+      \ and Labrador (CAN)**\n\n  - `NM` - **New Mexico (US)**\n\
+      \n  - `NS` - **Nova Scotia (CAN)**\n\n  - `NT` - **Northwest\
+      \ Territories (CAN)**\n\n  - `NU` - **Nunavut (CAN)**\n\n\
+      \  - `NV` - **Nevada (US)**\n\n  - `NY` - **New York (US)**\n\
+      \n  - `OH` - **Ohio (US)**\n\n  - `OK`- **Oklahoma (US)**\n\
+      \n  - `ON` - **Ontario (CAN)**\n\n  - `OR` - **Oregon (US)**\n\
+      \n  - `PA` - **Pennsylvania (US)**\n\n  - `PE` - **Prince\
+      \ Edward Island (CAN)**\n\n  - `QC` - **Quebec (CAN)**\n\n\
+      \  - `RI` **Rhode Island (US)**\n\n  - `SC` - **South Carolina\
+      \ (US)**\n\n  - `SD` - **South Dakota (US)**\n\n  - `SK` -\
+      \ **Saskatchewan (CAN)**\n\n  - `TN` - **Tennessee (US)**\n\
+      \n  - `TX` - **Texas (US)**\n\n  - `UT` - **Utah (US)**\n\n\
+      \  - `VA` - **Virginia (US)**\n\n  - `VT` - **Vermont (US)**\n\
+      \n  - `WA` - **Washington (US)**\n\n  - `WI` - **Wisconsin\
+      \ (US)**\n\n  - `WV` - **West Virginia (US)**\n\n  - `WY`\
+      \ - **Wyoming (US)**\n\n  - `YT` - **Yukon (CAN)**  \n  </details>\
+      \  \n",
+    enum: [AB, AK, AK, AL, AZ, BC, CA, CO, CT, DE, FL, GA, HI, IA,
+      ID, IL, IN, KN, KS, LA, MA, MB, MD, ME, MI, MN, MO, MS, MT,
+      NB, NC, ND, NE, NH, NJ, NL, NM, NS, NT, NU, NV, NY, OH, OK,
+      OR, PA, PE, QC, RI, SC, SD, SK, TN, TX, UT, VA, VT,
+      WA, WI, WV, WY, YT],
+    example: CO}
+  city: {type: string, description: "The name of the city in the address associated\
+      \ with this Contact. \nThis field is stored as a text string\
+      \ and must be between 1 and 500 characters long."}
+  address2: {type: string, description: "The second line of the address associated with\
+      \ this Contact. \nThis field is stored as a text string and\
+      \ must be between 1 and 500 characters long."}
+  address1: {type: string, description: "The first line of the address associated with\
+      \ this Contact. \nThis field is stored as a text string and\
+      \ must be between 1 and 500 characters long."}
+  frozen: {$ref: ../frozen.yaml}
+  inactive: {$ref: ../inactive.yaml}

@@ -1,0 +1,45 @@
+  get:
+    description: Querying a terminalTxnResults resource represents the result of a Transaction
+      from a processor, which may be approved, declined, or raise an error.
+    parameters:
+    - description: The ID of this terminal transaction result.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/terminalTxnResultsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/terminalTxnResultsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the response for the query on the Terminal Transaction
+          Results resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve Terminal Transaction Result by it's ID.
+    tags: [Transactions (Txns)]
+    operationId: getTerminalTxnResultsId

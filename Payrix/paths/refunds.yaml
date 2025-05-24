@@ -1,0 +1,182 @@
+  get:
+    description: "Query a Refund. \nA Refund is a way to reverse a fee that has been\
+      \ charged to another entity incorrectly."
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/refundsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/refundsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on refunds resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Transaction Refunds.
+    tags: [Transactions (Txns)]
+    operationId: getRefunds
+  post:
+    description: "Create a Refund. \nA Refund is a way to reverse a fee that has been\
+      \ charged to another entity incorrectly."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              entry: {type: string, description: The identifier of the Entries resource
+                  that is being refunded.}
+              description:
+                type: string
+                description: "A description of this Refund. \nThis field is stored as\
+                  \ a text string and must be between 0 and 100 characters long."
+              amount:
+                type: integer
+                description: "The amount of this Refund. \nThis field is specified as\
+                  \ an integer in cents. \nThis field is optional. If it is not set,\
+                  \ then the API uses the amount that is specified in the related Entry\
+                  \ resource."
+            required: [amount, entry]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              entry: {type: string, description: The identifier of the Entries resource
+                  that is being refunded.}
+              description:
+                type: string
+                description: "A description of this Refund. \nThis field is stored as\
+                  \ a text string and must be between 0 and 100 characters long."
+              amount:
+                type: integer
+                description: "The amount of this Refund. \nThis field is specified as\
+                  \ an integer in cents. \nThis field is optional. If it is not set,\
+                  \ then the API uses the amount that is specified in the related Entry\
+                  \ resource."
+            required: [amount, entry]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              entry: {type: string, description: The identifier of the Entries resource
+                  that is being refunded.}
+              description:
+                type: string
+                description: "A description of this Refund. \nThis field is stored as\
+                  \ a text string and must be between 0 and 100 characters long."
+              amount:
+                type: integer
+                description: "The amount of this Refund. \nThis field is specified as\
+                  \ an integer in cents. \nThis field is optional. If it is not set,\
+                  \ then the API uses the amount that is specified in the related Entry\
+                  \ resource."
+            required: [amount, entry]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              entry: {type: string, description: The identifier of the Entries resource
+                  that is being refunded.}
+              description:
+                type: string
+                description: "A description of this Refund. \nThis field is stored as\
+                  \ a text string and must be between 0 and 100 characters long."
+              amount:
+                type: integer
+                description: "The amount of this Refund. \nThis field is specified as\
+                  \ an integer in cents. \nThis field is optional. If it is not set,\
+                  \ then the API uses the amount that is specified in the related Entry\
+                  \ resource."
+            required: [amount, entry]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              entry: {type: string, description: The identifier of the Entries resource
+                  that is being refunded.}
+              description:
+                type: string
+                description: "A description of this Refund. \nThis field is stored as\
+                  \ a text string and must be between 0 and 100 characters long."
+              amount:
+                type: integer
+                description: "The amount of this Refund. \nThis field is specified as\
+                  \ an integer in cents. \nThis field is optional. If it is not set,\
+                  \ then the API uses the amount that is specified in the related Entry\
+                  \ resource."
+            required: [amount, entry]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              entry: {type: string, description: The identifier of the Entries resource
+                  that is being refunded.}
+              description:
+                type: string
+                description: "A description of this Refund. \nThis field is stored as\
+                  \ a text string and must be between 0 and 100 characters long."
+              amount:
+                type: integer
+                description: "The amount of this Refund. \nThis field is specified as\
+                  \ an integer in cents. \nThis field is optional. If it is not set,\
+                  \ then the API uses the amount that is specified in the related Entry\
+                  \ resource."
+            required: [amount, entry]
+            x-redacted: []
+      description: Create a Transaction Refund Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/refundsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/refundsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on refunds resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a Transaction Refund.
+    tags: [Transactions (Txns)]
+    operationId: postRefunds

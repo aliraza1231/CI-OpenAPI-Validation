@@ -1,0 +1,28 @@
+properties:
+  txn: {type: string, description: The identifier of the Transaction associated with this
+          TxnMetadatas resource.}
+  type:
+    type: string
+    description: "The type of TxnMetadatas.\n<details>\n<summary>Valid\
+                                  \ Values</summary>\n\n  - `amounts` - **Amount metadata**\n\
+                                  \  \n  - `emv` - **EMV metadata**\n  \n  - `network` -\
+                                  \ **Network metadata**\n  \n  - `timeout` - **Transaction\
+                                  \ Timeout metadata**\n\n  - `firstTxn` - **First Transaction\
+                                  \ metadata**\n  \n  - `discretionary` - **Discretionary\
+                                  \ field metadata**\n\n</details>\n"
+    enum: [amounts, emv, network, timeout, firstTxn, discretionary]
+    x-enum-descriptions: ['', EMV, Network, '', '', '']
+  field:
+    type: string
+    description: "The field being stored. <details> <summary>Valid\
+          \ Values</summary>\n\n - `discretionary1` - **Discretionary
+          \ field 1**\n\n - `discretionary2` - **Discretionary field 2**\n\n
+          \ - `discretionary3` - **Discretionary field 3**\n\n"
+    enum: ['discretionary1', 'discretionary2', 'discretionary3']
+    x-enum-descriptions: ['', '', '']
+  value:
+    type: string
+    description: "The value of the field. \nThis field is stored as a text\
+                  \ string and must be between 1 and 500 characters long."
+required: [field, txn, type, value]
+x-redacted: []

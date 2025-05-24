@@ -1,0 +1,46 @@
+  get:
+    description: "Query a Refund. \nA Refund is a way to reverse a fee that has been\
+      \ charged to another entity incorrectly."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string, description: The Refund ID.}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/refundsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/refundsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve a Transaction Refund Response for query on refunds resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve a Transaction Refund by it's ID.
+    tags: [Transactions (Txns)]
+    operationId: getRefundsId

@@ -1,0 +1,88 @@
+  get:
+    description: Query a Disbursement Reference that represents a reference code issued
+      by the Payout facilitator when a Disbursement is paid.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on disbursementRefs resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Disbursement References.
+    tags: [Disbursements]
+    operationId: getDisbursementRefs
+  post:
+    description: Create a Disbursement Reference, a resource that represents a reference
+      code issued by the Payout facilitator when a Disbursement is paid.
+    requestBody:
+      content:
+        application/json:
+          schema: {$ref: ../components/schemas/models/disbursementRefsRequestModel.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/models/disbursementRefsRequestModel.yaml}
+        application/xml:
+          schema: {$ref: ../components/schemas/models/disbursementRefsRequestModel.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/models/disbursementRefsRequestModel.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/models/disbursementRefsRequestModel.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/models/disbursementRefsRequestModel.yaml}
+      description: Create Disbursement Reference Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The response for create on disbursementRefs resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Disbursement Reference
+    tags: [Disbursements]
+    operationId: postDisbursementRefs

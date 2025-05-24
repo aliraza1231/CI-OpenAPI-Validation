@@ -1,0 +1,94 @@
+  get:
+    description: Details for query on accountRefs coming soon. TBD.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountReferenceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountReferenceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for retrieving account references on the accountRefs resource.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Retrieve all Account References.
+    tags: [Accounts]
+    operationId: getAccountRefs
+  post:
+    description: Details for create on accountRefs coming soon. TBD
+    requestBody:
+      content:
+        application/json:
+          schema: {$ref: ../components/schemas/accountRefUpdate.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/accountRefUpdate.yaml}
+        application/xml:
+          schema: {$ref: ../components/schemas/accountRefUpdate.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/accountRefUpdate.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/accountRefUpdate.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/accountRefUpdate.yaml}
+      description: Create Account Reference Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountReferenceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountReferenceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for creating an account reference on the accountRefs resource.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Create a new Account Reference.
+    tags: [Accounts]
+    operationId: postAccountRefs

@@ -1,0 +1,2944 @@
+---
+openapi: 3.0.0
+info:
+  title: "Reporting: Settlement Research API"
+  description: "API used to search and retrieve settled transactions. This API would be used to fetch search settled transactions and retrieve individual transaction details based on card types. \n # Authentication \n<SecurityDefinitions />"
+  contact:
+    name: Developer Support
+    email: APICustomerIntegration@fisglobal.com
+  version: 1.0.7
+servers:
+- url: https://apis.stage.worldpay.com/merchant-reporting/settlementresearch/v1
+security:
+- api_key: []
+tags:
+- name: Settlements
+  description: Resources to retrieve the settlement transactions
+- name: Settlement Errors
+  description: Resources to retrieve the settlement transactions rejections
+paths:
+  /settlements/search:
+    post:
+      tags:
+      - Settlements
+      summary: Retrieve settled transactions for a given hierarchy and a date range.
+      description: Endpoint is used to retrieve the settled transaction details for a given hierarchy and date range. It helps the user to perform a search based on optional fields.
+      operationId: searchSettlements
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchSettleTransactionsRequest'
+            examples:
+              SettleTxnMandatorySearchReqExample:
+                value:
+                  pagination:
+                    pageNumber: "0"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_ID
+                    orderBy: ASC
+                  hierarchy:
+                  - level: DIVISION
+                    values: "001"
+                    chainCode: "000086"
+                  dateType: PROCESS_DATE
+                  dateRange:
+                    fromDate: 2020-07-28
+                    toDate: 2020-08-31
+              SettleTxnMandatoryandfilterbycardtypeSearchReqExample:
+                value:
+                  pagination:
+                    pageNumber: "1"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_ID
+                    orderBy: ASC
+                  hierarchy:
+                  - level: MERCHANT
+                    values: "4445045300324"
+                  dateType: TRANSACTION_DATE
+                  dateRange:
+                    fromDate: 2020-07-28
+                    toDate: 2020-08-31
+                  cardTypes:
+                  - CREDIT
+                  - DEBIT
+              SettleTxnMandatoryandfilterbycardnetworkSearchReqExample:
+                value:
+                  pagination:
+                    pageNumber: "0"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_ID
+                    orderBy: ASC
+                  hierarchy:
+                  - level: DIVISION
+                    values: "001"
+                    chainCode: "000086"
+                  dateType: PROCESS_DATE
+                  dateRange:
+                    fromDate: 2020-07-28
+                    toDate: 2020-08-31
+                  cardTypes:
+                  - CREDIT
+                  cardNetwork:
+                  - AMEX
+                  - VISA
+              SettleTxnMandatoryandfilterbytransactionamountSearchReqExample:
+                value:
+                  pagination:
+                    pageNumber: "1"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_ID
+                    orderBy: ASC
+                  hierarchy:
+                  - level: DIVISION
+                    values: "001"
+                    chainCode: "000086"
+                  dateType: TRANSACTION_DATE
+                  dateRange:
+                    fromDate: 2020-07-28
+                    toDate: 2020-08-31
+                  transactionAmountRange:
+                    fromAmount: 100.09
+                    toAmount: 200.89
+              SettleTxnSearchReqExample:
+                value:
+                  pagination:
+                    pageNumber: "0"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_DATE_TIME
+                    orderBy: ASC
+                  hierarchy:
+                  - level: DIVISION
+                    values: "001"
+                    chainCode: "000086"
+                  cardTypes:
+                  - CREDIT
+                  - DEBIT
+                  cardNetwork:
+                  - BML_CORE
+                  - VISA
+                  dateRange:
+                    fromDate: 2022-07-28
+                    toDate: 2022-07-28
+                  referenceNumber: "65678787979"
+                  transactionTypeCode: IP
+                  transactionStatusCode: AA
+                  customerFields:
+                    field1: "565656"
+                    field2: "6767676"
+                    field3: "534323"
+              SettleTxnSearchReqWithIndependentSalesAffiliateEntityExample:
+                value:
+                  pagination:
+                    pageNumber: "1"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_ID
+                    orderBy: ASC
+                  hierarchy:
+                  - level: INDEPENDENT_SALES_CHANNEL
+                    values: CZBNDM
+                  dateRange:
+                    fromDate: 2023-09-08
+                    toDate: 2023-09-28
+              SettleTxnSearchReqWithPartnerEntityExample:
+                value:
+                  pagination:
+                    pageNumber: "1"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_ID
+                    orderBy: ASC
+                  hierarchy:
+                    level: PARTNER
+                    values: CORUMPNEWG001
+                  dateRange:
+                    fromDate: 2023-09-08
+                    toDate: 2023-09-28
+              SettleTxnSearchReqWithNetworkTokenExample:
+                value:
+                  pagination:
+                    pageNumber: "1"
+                    pageSize: "25"
+                  sortResultsBy:
+                    fieldName: TRANSACTION_ID
+                    orderBy: ASC
+                  hierarchy:
+                    level: MERCHANT
+                    values: "444512345678"
+                  networkToken: "123456"
+                  dateRange:
+                    fromDate: 2023-01-08
+                    toDate: 2023-01-28
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchSettledTransactionsResponse'
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /settlements/credit/{transactionId}:
+    get:
+      tags:
+      - Settlements
+      summary: Retrieve credit transaction details.
+      description: Endpoint is used to retrieve the details for a individual transaction.
+      operationId: retrieveTransactionDetailsByCreditTransactionId
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      - name: transactionId
+        in: path
+        description: Transaction id is a unique identifier generated for every card transaction for tracking purposes. (12-18 digits)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 18
+          type: string
+          example: "141710009519"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditTransactionDetailsResponse'
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /settlements/debit/{transactionId}:
+    get:
+      tags:
+      - Settlements
+      summary: Retrieve debit transaction details.
+      description: Endpoint is used to retrieve the details for an individual transaction.
+      operationId: retrieveTransactionDetailsByDebitTransactionId
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      - name: transactionId
+        in: path
+        description: Transaction id is a unique identifier generated for every card transaction for tracking purposes. (12-18 digits)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 18
+          type: string
+          example: "141710009519"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebitTransactionDetailsResponse'
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /settlements/gift/{transactionId}:
+    get:
+      tags:
+      - Settlements
+      summary: Retrieve gift transaction details.
+      description: Endpoint is used to retrieve the details for an individual transaction.
+      operationId: retrieveTransactionDetailsByGiftTransactionId
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      - name: transactionId
+        in: path
+        description: Transaction id is a unique identifier generated for every card transaction for tracking purposes. (12-18 digits)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 18
+          type: string
+          example: "141710009519"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftTransactionDetailsResponse'
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /settlementerrors/settlementfileerrors/search:
+    post:
+      tags:
+      - Settlement Errors
+      summary: Resource to search settlement rejects
+      description: Resource to search settlement rejects
+      operationId: SearchSettlementRejects
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettlementRejectsSearchRequest'
+            examples:
+              SearchByMandatory fields:
+                value:
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+              SearchByMandatoryfielsandhierarchy:
+                value:
+                  pagination:
+                    pageSize: 25
+                    pageNumber: 1
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  sortResultsBy:
+                    fieldName: PROCESS_DATE
+                    orderBy: ASC
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementRejectsSearchResponse'
+              examples:
+                Details:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                      totalRowCount: 85
+                      totalReturnedCount: 25
+                    details:
+                    - processedDate: 2017-07-20
+                      transactionDate: 2017-07-20
+                      resubmitDate: 2017-07-21
+                      accountNumber: '************0081'
+                      ddaNumber: '******7790'
+                      amount: 120.01
+                      code: D
+                      shortDescription: BAD MCC CODE
+                      longDescription: INVALID MCC CODE
+                      hierarchy:
+                        chainCode: 0F1286
+                        storeNumber: "000000001"
+                        divisionNumber: "002"
+                        merchantName: ABC SOLUTIONS
+                        merchantId: "4445492391789"
+                    - processedDate: 2017-07-21
+                      transactionDate: 2017-07-21
+                      resubmitDate: 2017-07-22
+                      accountNumber: '************8823'
+                      ddaNumber: '******6689'
+                      amount: 120.01
+                      code: D
+                      shortDescription: BAD MCC CODE
+                      longDescription: INVALID MCC CODE
+                      hierarchy:
+                        chainCode: 0F1286
+                        storeNumber: "000000001"
+                        divisionNumber: "002"
+                        merchantName: ABC SOLUTIONS
+                        merchantId: "4555492491790"
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /settlementerrors/pendingsettlementbatches/search:
+    post:
+      tags:
+      - Settlement Errors
+      summary: Resource to search bank card rejects
+      description: Resource to search bank card rejects
+      operationId: SearchBankCardRejects
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        example: 24578e35-9bd2-238f-b4c2-0bc9ad9aed2b
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankCardRejectsSearchRequest'
+            examples:
+              SearchByMandatory fields:
+                value:
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+              SearchByMandatoryfielsandhierarchy:
+                value:
+                  pagination:
+                    pageSize: 25
+                    pageNumber: 1
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  sortResultsBy:
+                    fieldName: PROCESS_DATE
+                    orderBy: ASC
+              SearchByMandatoryfielsandhierarchyfilterbyBatchNumber:
+                value:
+                  pagination:
+                    pageSize: 25
+                    pageNumber: 1
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  sortResultsBy:
+                    fieldName: PROCESS_DATE
+                    orderBy: ASC
+                  batchNumber: 999001
+              SearchByMandatoryfielsandhierarchyfilterbyBatchHoldStatus:
+                value:
+                  pagination:
+                    pageSize: 25
+                    pageNumber: 1
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  sortResultsBy:
+                    fieldName: PROCESS_DATE
+                    orderBy: ASC
+                  batchHoldStatus: RELEASE BATCH
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankCardRejectsSearchResponse'
+              examples:
+                Details:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                      totalRowCount: 85
+                      totalReturnedCount: 25
+                    details:
+                    - processDate: 2022-07-19
+                      batchNumber: 13
+                      batchAmount: 755.09
+                      saleCount: 7
+                      saleAmount: 858.17
+                      returnCount: 2
+                      returnAmount: 103.08
+                      batchHoldStatus:
+                        code: "5"
+                        shortDescription: RELEASE BATCH
+                        longDescription: RELEASE BATCH
+                      rejectionReason:
+                        code: "103"
+                        shortDescription: FORCEPOST
+                        longDescription: FORCEPOST
+                      hierarchy:
+                        chainCode: 0F0086
+                        storeNumber: "00000001"
+                        divisionNumber: "002"
+                        merchantId: "4441233455432"
+                    - processDate: '2022-07-20 '
+                      batchNumber: 12
+                      batchAmount: 531.08
+                      saleCount: 4
+                      saleAmount: 645.08
+                      returnCount: 2
+                      returnAmount: 114.97
+                      rejectionReason:
+                        code: "103"
+                        shortDescription: FORCEPOST
+                        longDescription: FORCEPOST
+                      batchHoldStatus:
+                        code: "5"
+                        shortDescription: RELEASE BATCH
+                        longDescription: RELEASE BATCH
+                      hierarchy:
+                        chainCode: "000345"
+                        storeNumber: "000000001"
+                        divisionNumber: "745"
+                        merchantId: "4441231191791"
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+components:
+  schemas:
+    SearchSettleTransactionsRequest:
+      required:
+      - dateRange
+      - hierarchy
+      type: object
+      properties:
+        pagination:
+          type: object
+          description: This is used to retrieve the numbers or marks used to indicate the sequence of pages.
+          allOf:
+          - $ref: '#/components/schemas/Paginationtype'
+        sortResultsBy:
+          type: object
+          description: A field in a record that is used in determining the final sorted sequence of the records
+          allOf:
+          - $ref: '#/components/schemas/OrderByForSettledTransactionsType'
+        hierarchy:
+          type: object
+          description: This object holds the entity and its hierarchy level
+          allOf:
+          - $ref: '#/components/schemas/EntityListType'
+        dateType:
+          maxLength: 16
+          type: string
+          description: Either processDate or transactionDate need to be passed but not both.
+          example: PROCESS_DATE
+          enum:
+          - PROCESS_DATE
+          - TRANSACTION_DATE
+        dateRange:
+          type: object
+          description: "Refers to number of dates that includes a particular start and end date and all dates in between specific periods of time.<br> Date range supported<br><br>07 Days<br>Independent Sales Organization(SO)<br>Independent Sales Affiliate(SA)<br>National(NL)<br>Partner(PT)<br>Super Chain(SC)<br><br>45 days<br>Chain(CH), Merchant(MT)."
+          allOf:
+          - $ref: '#/components/schemas/Processdaterange'
+        cardTypes:
+          maxLength: 6
+          type: string
+          description: Types of card type supported for payments.
+          example: "[\"CREDIT\",\"DEBIT\",\"GIFT\"]"
+        cardNetworks:
+          description: Network which facilitates the payment card transactions as per the card association.
+          example: VISA
+          allOf:
+          - $ref: '#/components/schemas/CardNetworks'
+        token:
+          maxLength: 19
+          type: integer
+          description: Tokenization is a substitution for Primary AccountNumber (PAN) with proxy data. Tokenization limits the ability to conduct fraudulent payment transactions. A token value is numeric and is the same length as the card number. Max length is 19 characters.<br> Either CardNumber or Token is allowed.
+          example: 123456789056789
+        networkToken:
+          maxLength: 20
+          type: string
+          description: Token associated to a transaction by the Card Network
+          example: "3434343"
+        referenceNumber:
+          maxLength: 16
+          type: string
+          description: Refers to a key to uniquely identify a card transaction based on the ISO 8583 standard.
+          example: "2444600338440029"
+        transactionId:
+          maxLength: 18
+          minLength: 12
+          type: string
+          description: Transaction id is a number generated from the electronic transafer of funds. It is a unique identifier that is generated with every card transaction. (a 12-18 digit code)
+          example: "141710009519"
+        transactionTypeCode:
+          maxLength: 3
+          type: string
+          description: Indicates the type of transaction that involves funds transfers or a financial transaction. <br> GA - ACTIVATION <BR> GAX- ACTVN REVSL <BR> GB- ADDRESS VERIFY <BR> GC- BAL TRNSFR <BR> GCX- BALANCE INQUIRY <BR> GE- CARD FROM TOKEN <BR> GEX- CASH ADVANCE <BR> GF- CLOSE <BR> GFX- CLOSE REVERSAL <BR> GK- CNVRT HV LVT <BR> GL- INACTIVITY FEES <BR> GLX- MAIL ORDER<BR> GM- MAIL/PHO ADVICE<BR> GP- MAKE KEY ADVCON<BR> GPX- MAKE KEY ADVICE<BR> GS- MAKE KEY ADVSTG<BR> GU- MAKE KEY REQUES<BR> GUX- MINISTMT<BR> GV- PARTIAL REVRSL<BR> GVX- PREAUT COMP REV<BR> GZ- PREAUTH COMPLTN<BR> GZX- PREAUTH REQUEST<BR> G1- PREAUTH RQ REV<BR> IC- PREPAID ACT REV<BR> IF- PREPAID ACTVN<BR> IL- PREPAID LD REV<BR> IM- PREPAID LOAD<BR> IP- PURCHASE<BR> IR- PARTIAL REVRSL<BR> IS- PURCHASE ADVICE<BR> IV- PURCHASE REVRSL<BR> IX- REFUND<BR> KA- REFUND REVERSAL<BR> KC- RELOAD<BR> KM- RELOAD REVERSAL<BR> KS- REVERSAL<BR> MM- REVERSAL<BR> MP- STATUS/UNSTATUS<BR> RF- TOKEN FROM CARD<BR> RL- UNLOAD<BR> TC- UNLOAD REVERSAL<BR> TK- VIRTL ACTVN<BR> TR- VIRTL ACTVN REV<BR> 00- INCOMPLETE TRAN<BR> 01- DB WITH<BR> 02- DB WITH<BR> 06- SPECIAL TRAN<BR> 10- POS DB CRD PUR<BR> 11- POS DB CRD RET<BR> 12- POS DB INQ<BR> 13- POS PRE AUTH DB<BR> 14- POS PRE ATH<BR> 15- POS DB INQ<BR> 16- POS PRE AUTH DB<BR> 17- POS PRE ATH<BR> 25- CHECK VERIFY<BR> 29- POS CR CRD PUR<BR> 30- POS CR CRD RET<BR> 31- POS CR CRD PUR <BR> 32- POS CR CRD RET <BR> 38- CC AUTH <BR> 39- CC COMPLETION <BR> 40- CC AUTH <BR> 41- CC COMPLETION <BR> 48- INTERBANK DR <BR> 49- INTERBANK CR <BR>
+          example: GA
+          enum:
+          - GA
+          - GAX
+          - GB
+          - GC
+          - GCX
+          - GE
+          - GEX
+          - GF
+          - GFX
+          - GK
+          - GL
+          - GLX
+          - GM
+          - GP
+          - GPX
+          - GS
+          - GU
+          - GUX
+          - GV
+          - GVX
+          - GZ
+          - GZX
+          - G1
+          - IC
+          - IF
+          - IL
+          - IM
+          - IP
+          - IR
+          - IS
+          - IV
+          - IX
+          - KA
+          - KC
+          - KM
+          - KS
+          - MM
+          - MP
+          - RF
+          - RL
+          - TC
+          - TK
+          - TR
+          - "253"
+          - "254"
+          - "255"
+          - "00"
+          - "01"
+          - "02"
+          - "06"
+          - "10"
+          - "11"
+          - "12"
+          - "13"
+          - "14"
+          - "15"
+          - "16"
+          - "17"
+          - "25"
+          - "29"
+          - "30"
+          - "31"
+          - "32"
+          - "38"
+          - "39"
+          - "40"
+          - "41"
+          - "48"
+          - "49"
+        transactionStatusCode:
+          maxLength: 3
+          type: string
+          description: "This field refers to the transaction status code received at the time a purchase is being made.<br> AA - APPROVAL<br> AB - APPRVL FOR LESS<br> AV - APPROVAL, VIP<br> EX -  DUPLICATE TRANS<br> F1 -  FRAUD,PCKUP CRD<br> NC -  DECLINE, PICKUP<br> ND -  DECLINE<br> NE -  DECLINE,EXPIRED<br> NL -  CRD LIMT EXCEED<br> NP -  INVALID/BAD PIN<br> NR -  REFER,CALL BANK<br> NS -  DECLINE,SPECIAL<br> NX -  ACK REFUND RQST<br> N7 -  CVV2 INVALID<br> RE -  RETRY<br> RJ -  EDIT REJECT<br> V1 -  EXCEEDS COUNT<br> V2 -  EXCEEDS AMOUNT<br> V3 -  EXCEEDS CNT/AMT<br> V4 -  VLCTY NEGATIVE<br> V5 -  VLCTY FRAUD<br> V6 -  NO ZIP MATCH<br> 000 -  TRANSACTION AUT<br> 001 -  INVALID CARD OR<br> 002 -  INVALID CARD NU<br> 003 -  CARD HAS EXPIRE<br> 004 -  CC  REC,NO XREF<br> 005 -  CLUSTER NOT ACC<br> 006 -  CC  CARD STATUS<br> 007 - CC  ACCT CLOSED<br> 008 -  PIN MISSING<br> 009 -  JIMMY(RETAIN)<br> 010 -  INVALID SPECIAL<br> 011 -  SPECIAL TRANS P<br> 012 -  SIGNON BEFORE S<br> 013 -  SIGNON SEQUENCE<br> 014 -  NO FROM ACCT<br> 015 -  FROM ACCT HAS N<br> 016 -  FROM ACCT NOT A<br> 017 -  FROM ACCT HAS N<br> 018 -  INSUFFICIENT BA<br> 019 -  INSUFFICIENT BA<br> 020 -  RR ACCT NOT ACC<br> 021 -  NO TO ACCT<br> 022 -  TO ACCT HAS NO<br> 023 -  INVALID ATM COD<br> 024 -  DAILY CLUSTER L<br> 025 -   TO ACCT NOT ACC<br> 026 -  CC  RECORD DOES<br> 027 -  DEPOSITORY FULL<br> 028 -  DAILY ACCT LIMI<br> 029 -  ATM OUT OF CASH<br> 030 -  CLUSTER STATUS<br> 031 -  ACCT STATUS ABN<br> 032 -  RR STATUS ABNOR<br> 033 -  TO ACCT STATUS<br> 034 -  091,092 CANNOT<br> 035 -  093,094 CANNOT<br> 036 -  TERMINAL OUT OF<br> 037 -  FROM ACCT CLOSE<br> 038 -  TO ACCT CLOSED<br> 039 -  RR ACCT CLOSED<br> 040 -  NO RR CONNECTED<br> 041 -  RR AND TO ACCT<br> 042 -  CUSTOMER CANCEL<br> 043 -  CLERK CANCEL<br> 044 -  INVALID PIN-TOO<br> 045 -  SIGNON,ADD AMOU<br> 046 -  SIGNON NOT INIT<br> 047 -  INTERNAL PROB(M<br> 048 -  LOGON INBETWEEN<br> 049 -  CLUSTER CLOSED(<br>"
+          example: AA
+          enum:
+          - AA
+          - AB
+          - AV
+          - EX
+          - F1
+          - NC
+          - ND
+          - NE
+          - NL
+          - NP
+          - NR
+          - NS
+          - NX
+          - N7
+          - RE
+          - RJ
+          - V1
+          - V2
+          - V3
+          - V4
+          - V5
+          - V6
+          - "000"
+          - "001"
+          - "002"
+          - "003"
+          - "004"
+          - "005"
+          - "006"
+          - "007"
+          - "008"
+          - "009"
+          - "010"
+          - "011"
+          - "012"
+          - "013"
+          - "014"
+          - "015"
+          - "016"
+          - "017"
+          - "018"
+          - "019"
+          - "020"
+          - "021"
+          - "022"
+          - "023"
+          - "024"
+          - "025"
+          - "026"
+          - "027"
+          - "028"
+          - "029"
+          - "030"
+          - "031"
+          - "032"
+          - "033"
+          - "034"
+          - "035"
+          - "036"
+          - "037"
+          - "038"
+          - "039"
+          - "040"
+          - "041"
+          - "042"
+          - "043"
+          - "044"
+          - "045"
+          - "046"
+          - "047"
+          - "048"
+          - "049"
+        transactionAmountRange:
+          type: object
+          description: Used for transaction amount range
+          allOf:
+          - $ref: '#/components/schemas/SearchAuthTransactionsRequesttransactionAmountRange'
+        fraudFields:
+          type: object
+          description: Fraud fields are data points in a transaction record.
+          allOf:
+          - $ref: '#/components/schemas/FraudFields'
+    SearchSettledTransactionsResponse:
+      type: object
+      properties:
+        paginationResponse:
+          type: object
+          description: This is used to retrieve the numbers or marks used to indicate the sequence of pages.
+          allOf:
+          - $ref: '#/components/schemas/PaginationResponse'
+        settlements:
+          type: array
+          description: Used to retrieve settled transaction details
+          items:
+            $ref: '#/components/schemas/SearchSettledTransactionsResponse_settlements'
+      description: Resource is used to retrieve the settled transactions details
+    SettlementRejectsSearchRequest:
+      required:
+      - dateRange
+      - hierarchy
+      type: object
+      properties:
+        pagination:
+          type: object
+          description: This is used to retrieve the numbers or marks used to indicate the sequence of pages
+          allOf:
+          - $ref: '#/components/schemas/Paginationtype'
+        hierarchy:
+          type: object
+          description: This object holds the entity and its hierarchy level
+          allOf:
+          - $ref: '#/components/schemas/Entity'
+        sortResultsBy:
+          type: object
+          description: A field in a record that is used in determining the final sorted sequence of the records
+          allOf:
+          - $ref: '#/components/schemas/Sortsettlementfiledetails'
+        dateRange:
+          type: object
+          description: Refers to number of dates that includes a particular start and end date and all dates in between specific periods of time.
+          allOf:
+          - $ref: '#/components/schemas/Daterange'
+    SettlementRejectsSearchResponse:
+      type: object
+      properties:
+        pagination:
+          type: object
+          description: This is used to retrieve the numbers or marks used to indicate the sequence of pages
+          allOf:
+          - $ref: '#/components/schemas/PaginationResponse'
+        details:
+          type: array
+          description: Refers to settlement details
+          items:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/SettlementRejRealTimeTransaction'
+      description: Used for pagination
+    BankCardRejectsSearchRequest:
+      required:
+      - dateRange
+      - hierarchy
+      type: object
+      properties:
+        pagination:
+          type: object
+          description: This is used to retrieve the numbers or marks used to indicate the sequence of pages.
+          allOf:
+          - $ref: '#/components/schemas/Paginationtype'
+        hierarchy:
+          type: object
+          description: This object holds the entity and its hierarchy level
+          allOf:
+          - $ref: '#/components/schemas/Entity'
+        sortResultsBy:
+          type: object
+          description: A field in a record that is used in determining the final sorted sequence of the records
+          allOf:
+          - $ref: '#/components/schemas/Sortbankcarddetails'
+        dateRange:
+          type: object
+          description: Refers to number of dates that includes a particular start and end date and all dates in between specific periods of time.
+          allOf:
+          - $ref: '#/components/schemas/Daterange'
+        batchNumber:
+          maximum: 999999
+          minimum: 100000
+          type: integer
+          description: Settlement transactions are processed in batches and each batch file must have a unique sequential identifier within the file called Batch Number of length 6 bytes.
+          format: int32
+          example: 20345
+        batchHoldStatus:
+          maxLength: 256
+          type: string
+          description: Indicates batch hold status of the transaction
+          example: 'RELEASE BATCH '
+        batchAmount:
+          maximum: 9999999999
+          minimum: 1000000000
+          type: number
+          description: Total Batch Amount of all the transactions that are part of the batch file
+          format: float
+          example: 37551.09
+        saleAmount:
+          maximum: 9999999999
+          minimum: 1000000000
+          type: number
+          description: Indicates sale amount of the transaction
+          format: float
+          example: 36551.08
+        returnAmount:
+          maximum: 9999999999
+          minimum: 1000000000
+          type: number
+          description: Indicates return amount of the transaction
+          format: float
+          example: 113.08
+    BankCardRejectsSearchResponse:
+      type: object
+      properties:
+        pagination:
+          type: object
+          description: This is used to retrieve the numbers or marks used to indicate the sequence of pages
+          allOf:
+          - $ref: '#/components/schemas/PaginationResponse'
+        details:
+          type: array
+          description: Refers to settlement details
+          items:
+            type: object
+            allOf:
+            - $ref: '#/components/schemas/BankCardRejRealTimeTransaction'
+      description: Used for pagination
+    Daterange:
+      type: object
+      properties:
+        fromDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Start date
+          format: YYYY-MM-DD
+          example: 2021-12-01
+        toDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: End date
+          format: YYYY-MM-DD
+          example: 2021-12-01
+      description: Refers to number of dates that includes a particular start and end date and all dates in between specific periods of time.
+    CardNetworks:
+      type: array
+      description: Network the card is associated with facilitating the payment.
+      example:
+      - VISA
+      - MASTERCARD
+      items:
+        type: string
+        enum:
+        - STAR
+        - INTERLINK
+        - PULSE
+        - NYCE
+        - JEANIE
+        - OTHER
+        - EBT
+        - WIC
+        - ACH_CARD
+        - BUY_NOW_PAY_LATER
+        - BILL_ME_LATER_CORE_PRODUCT
+        - BILL_ME_LATER_90DAYS_SAC
+        - BILL_ME_LATER_BUSINESS_CORE
+        - BILL_ME_LATER_PRIVATE_LABEL
+        - BILL_ME_LATER_BUSINESS_90DAYS_SAC
+        - BILL_ME_LATER_PRIVATE_LABEL_90DAYS_SAC
+        - BATCH
+        - DEBIT
+        - GIFT_CARD
+        - COBRAND
+        - INTERNAL
+        - BILL_ME_LATER
+        - FLEET_ONE
+        - FLEETCOR
+        - BATCH_INQUIRY
+        - POSA_GIFT_CARD
+        - UNKNOWN
+        - VOYAGER
+        - WRIGHT_EXPRESS
+        - MASTERCARD
+        - PAYPAL
+        - JCB
+        - VISA
+        - DISCOVER
+        - AMEX
+        - DINERS
+        - PRIVATE_LABEL
+    CodeAndDescription:
+      type: object
+      properties:
+        code:
+          maxLength: 6
+          type: string
+          description: Identifier Code
+          example: BD
+        shortDescription:
+          maxLength: 255
+          type: string
+          description: Short description of the code
+          example: Short description
+        longDescription:
+          maxLength: 255
+          type: string
+          description: Long description of the code
+          example: long description
+    CodeAndDescription1:
+      type: object
+      properties:
+        code:
+          maxLength: 256
+          type: string
+          description: Identifier code
+          example: BD
+        description:
+          maxLength: 15
+          type: string
+          description: Description of the code
+          example: Description
+    DecimalNineAmountType:
+      maxLength: 255
+      type: string
+      description: Amount
+      format: decimal
+      example: "-0.25"
+    Processdaterange:
+      type: object
+      properties:
+        fromDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Start Date
+          format: YYYY-MM-DD
+          example: 2021-12-01
+        toDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: End Date
+          format: YYYY-MM-DD
+          example: 2021-12-01
+      description: Refers to number of dates that includes a particular start and end date and all dates in between specific periods of time.
+    SearchAuthTransactionsRequesttransactionAmountRange:
+      type: object
+      properties:
+        fromAmount:
+          maxLength: 15
+          pattern: "[0-9]{13}.[0-9]{2}"
+          type: number
+          description: Lowest Transaction value
+          format: double
+          example: 5000.89
+        toAmount:
+          maxLength: 15
+          pattern: "[0-9]{13}.[0-9]{2}"
+          type: number
+          description: Highest Transaction value
+          format: double
+          example: 120000.86
+        authorizationCurrencyCode:
+          maxLength: 3
+          type: string
+          description: Authorization Currency Code defines alpha codes and numeric codes for the representation of currencies and provides information about the relationships between individual currencies and their minor units.
+          example: 840  (ISO Standard country code for United States)
+    OrderByForSettledTransactionsType:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 21
+          type: string
+          description: A field in a record that is used in determining the final sorted sequence of the records.
+          example: TRANSACTION_ID
+          enum:
+          - TRANSACTION_ID
+          - TRANSACTION_DATE_TIME
+          - PROCESS_DATE_TIME
+          - TRANSACTION_STATUS
+          - TRANSACTION_TYPE
+          - AUTHORIZATION_CODE
+          - AUTHORIZATION_AMOUNT
+          - REFERENCE_NUMBER
+          - CARD_NUMBER
+          - CARD_TYPE
+          - CARD_NETWORK
+          - CARD_EXPIRY_DATE
+          - CHAIN_CODE
+          - MERCHANT_NAME
+          - MERCHANT_ID
+          - FIELD_1
+          - FIELD_2
+          - FIELD_3
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Determines the sorting order of the fields selected in either ascending or descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    SearchCardDetail:
+      type: object
+      properties:
+        cardType:
+          maxLength: 6
+          type: string
+          description: "Type of the payment card. Possible values CREDIT, DEBIT, GIFTCARD"
+          example: CREDIT
+        cardNetwork:
+          type: object
+          description: Network which facilitates the payment card transactions as per the card association.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        token:
+          maxLength: 19
+          type: string
+          description: A Token is a substitution for Primary AccountNumber (PAN which is the card number) with proxy data which is a measure to avoid fraudulent payment transactions. A token value is numeric and is the same length as the card account number length. Max length of token is 19 characters.
+          example: "374245111181117"
+        networkToken:
+          maxLength: 20
+          type: string
+          description: Token associated to a transaction by the Card Network
+          example: "3434343"
+        hierarchy:
+          type: object
+          description: This object holds the entity and its hierarchy level
+          allOf:
+          - $ref: '#/components/schemas/MerchantHierarchyDetails'
+    BankCardRejRealTimeTransaction:
+      type: object
+      properties:
+        processDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Refers to the date when the transaction has been processed for settlement between the two parties.
+          format: YYYY-MM-DD
+          example: 2021-07-19
+        batchNumber:
+          maximum: 999999
+          minimum: 100000
+          type: integer
+          description: Settlement transactions are processed in batches and each batch file must have a unique sequential identifier within the file called Batch Number of length 6 bytes.
+          format: int32
+          example: 20345
+        batchAmount:
+          maximum: 9999999999
+          minimum: 1000000000
+          type: number
+          description: Total Batch Amount of all the transactions that are part of the batch file
+          format: float
+          example: 37551.09
+        saleCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Indicates sale count of the transaction
+          format: int32
+          example: 7
+        saleAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Indicates sale amount of the transaction
+          format: float
+          example: 37551.08
+        returnCount:
+          maximum: 9999999999
+          minimum: 0
+          type: integer
+          description: Indicates return count of the transaction
+          format: int32
+          example: 2
+        returnAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Indicates return amount of the transaction
+          format: double
+          example: 113.08
+        rejectionReason:
+          maxLength: 265
+          type: string
+          description: Reject Reason code states why the transaction was rejected as per the predefined set of reasons in MDB Database and Mainframes.
+          example:
+            code: "103"
+            shortDescription: FORCEPOST
+            longDescription: FORCEPOST
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        batchHoldStatus:
+          maxLength: 265
+          type: string
+          description: Status of the batch file.
+          example:
+            code: "5"
+            shortDescription: RELEASE BATCH
+            longDescription: RELEASE BATCH
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        hierarchy:
+          maxLength: 265
+          type: string
+          description: "This object holds the entity and its hierarchy level such as<br> SalesOrganization/Sales Channel max limit 1 Entity<br> National, SuperChain, Partner and PartnerGroup with maximum limit of 10 Entities<br> Chain, Division, Store and Merchant with maximum limit of 2,000 Entities."
+          example: Chain
+          allOf:
+          - $ref: '#/components/schemas/MerchantHierarchy'
+    SettlementRejRealTimeTransaction:
+      type: object
+      properties:
+        processedDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Refers to the date when the transaction has been processed for settlement between the two parties.
+          format: YYYY-MM-DD
+          example: 2016-07-19
+        transactionDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Refers to the date and time when the bank has settled/rejected the transaction (deposits or withdraws funds).
+          format: YYYY-MM-DD
+          example: 2022-07-19
+        resubmitDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Indicates resubmission date  of the transaction
+          format: YYYY-MM-DD
+          example: 2022-07-21
+        accountNumber:
+          maxLength: 19
+          type: string
+          description: Account number or Card number involved in the rejected transaction
+          example: "4445123456789012"
+        ddaNumber:
+          maxLength: 16
+          type: string
+          description: Demand deposit account is a type of bank account that offers access to money.
+          example: "4020016689"
+        amount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Rejected transaction amount.
+          format: float
+          example: 5000.89
+        rejectionReason:
+          maxLength: 265
+          type: string
+          description: Reject Reason code states why the transaction was rejected as per the predefined set of reasons in MDB Database and Mainframes.
+          example:
+            code: D
+            shortDescription: BAD MCC CODE
+            longDescription: INVALID MCC CODE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        hierarchy:
+          type: object
+          description: Merchant hierarchy information
+          allOf:
+          - $ref: '#/components/schemas/MerchantHierarchyDetail'
+    MerchantHierarchyDetail:
+      type: object
+      properties:
+        chainCode:
+          maxLength: 6
+          type: string
+          description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+          example: "070110"
+        divisionNumber:
+          maxLength: 3
+          type: string
+          description: "The Division is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. It is an optional hierarchy level but if created, is required for all child entities under the Division Number which is typically 3 digits and unique to that particular Chain meaning same Division number can exist for a Division under a different Chain but no duplicates are allowed under the same Chain."
+          example: "002"
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain."
+          example: "000000001"
+        merchantId:
+          maxLength: 20
+          type: string
+          description: "Merchant level is lowest level in the FIS Merchant Hierarchy structure. Merchant ID (MID) is a 12-16 digit unique identifier assigned to each Merchant which is used to identify a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+          example: "4445091191791"
+        merchantName:
+          maxLength: 256
+          type: string
+          description: Merchant Name refers to the name registered for the business.
+          example: HARPER ENGRAVING
+    MerchantHierarchyDetails:
+      type: object
+      properties:
+        chainCode:
+          maxLength: 6
+          type: string
+          description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+          example: "070110"
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain."
+          example: "000000001"
+        merchantId:
+          maxLength: 20
+          type: string
+          description: "Merchant level is lowest level in the FIS Merchant Hierarchy structure. Merchant ID (MID) is a 12-16 digit unique identifier assigned to each Merchant which is used to identify a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+          example: "4445091191791"
+        merchantName:
+          maxLength: 256
+          type: string
+          description: Merchant Name refers to the name registered for the business.
+          example: HARPER ENGRAVING
+      description: This object holds the entity and its hierarchy level
+    MerchantHierarchy:
+      type: object
+      properties:
+        chainCode:
+          maxLength: 6
+          type: string
+          description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+          example: "070110"
+        divisionNumber:
+          maxLength: 3
+          type: string
+          description: "The Division is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. It is an optional hierarchy level but if created, is required for all child entities under the Division Number which is typically 3 digits and unique to that particular Chain meaning same Division number can exist for a Division under a different Chain but no duplicates are allowed under the same Chain."
+          example: "002"
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain."
+          example: "000000001"
+        merchantId:
+          maxLength: 20
+          type: string
+          description: "Merchant level is lowest level in the FIS Merchant Hierarchy structure. Merchant ID (MID) is a 12-16 digit unique identifier assigned to each Merchant which is used to identify a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+          example: "4445091191791"
+      description: This object holds the entity and its hierarchy level
+    FraudSightDetail:
+      type: object
+      properties:
+        fraudScore:
+          maximum: 100
+          minimum: 0.01
+          maxLength: 6
+          pattern: "[0-9]{3}.[0-9]{2}"
+          type: number
+          description: Fraud score is a measure that helps gauge risk involved with orders before processing.
+          format: float
+          example: 100
+        fraudRule:
+          maxLength: 256
+          type: string
+          description: Fraud rule is a condition that helps you decide whether an activity is fraudulent or not.
+          example: Fraudlent
+        fraudResponseCode:
+          type: object
+          description: Predefined set of codes that determines various types of fraudulent activities to classify accordingly.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        fraudRuleResult:
+          type: object
+          description: The result of the decision made from the Fraud rule applied for the transaction.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        fraudResponseTime:
+          maxLength: 256
+          type: string
+          description: Time taken to verify if the transaction was fraudulent.
+          example: "3"
+      description: This object holds the fraud score and rule result information
+    BankCardMerchantHierarchyDetail:
+      type: object
+      properties:
+        chainCode:
+          maxLength: 6
+          type: string
+          description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+          example: "070110"
+        divisionNumber:
+          maxLength: 3
+          type: string
+          description: "The Division is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. It is an optional hierarchy level but if created, is required for all child entities under the Division Number which is typically 3 digits and unique to that particular Chain meaning same Division number can exist for a Division under a different Chain but no duplicates are allowed under the same Chain."
+          example: "002"
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain."
+          example: "000000001"
+        merchantId:
+          maxLength: 20
+          type: string
+          description: "Merchant level is lowest level in the FIS Merchant Hierarchy structure. Merchant ID (MID) is a 12-16 digit unique identifier assigned to each Merchant which is used to identify a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+          example: "4445091191791"
+    EntityListType:
+      type: object
+      description: "Supports entities such as<br> SalesOrganization/Sales Channel max limit 1 Entity<br> National, SuperChain, Partner and PartnerGroup with maximum limit of 10 Entities<br> Chain, Division, Store and Merchant with maximum limit of 2,000 Entities."
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+    Sortbankcarddetails:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: A field in a record that is used in determining the final sorted sequence of the records <br> By default sorting is based on PROCESS_DATE.
+          example: PROCESS_DATE
+          enum:
+          - PROCESS_DATE
+          - BATCH_NUMBER
+          - BATCH_HOLD_STATUS
+          - CHAIN_CODE
+          - MERCHANT_ID
+        orderBy:
+          type: string
+          description: Type of Ordering.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: This object used for sorting
+    FraudFields:
+      type: object
+      properties:
+        fraudScore:
+          $ref: '#/components/schemas/FraudFields_fraudScore'
+        fraudResponseCode:
+          maxLength: 256
+          type: string
+          description: Predefined set of codes that determines various types of fraudulent activities to classify accordingly.
+          example: FRAUD_SYSTEM_APPROVED
+          enum:
+          - FRAUD_SYSTEM_APPROVED
+          - FRAUD_DECLINE
+          - NO_RESPONSE_FRAUD_SYSTEM_TIMEOUT
+          - NO_RESPONSE_COMMUNICATION_ERROR
+          - NO_RESPONSE_FRAUD_SYSTEM_ERROR
+          - NO_RESPONSE_AUTH_SYSTEM_ERROR
+        fraudRuleResult:
+          maxLength: 256
+          type: string
+          description: The result of the decision made from the Fraud rule applied for the transaction.
+          example: MANUAL_REVIEW
+          enum:
+          - FRAUD_SIGHT_NOT_INVOKED
+          - APPROVED
+          - MANUAL_REVIEW
+          - DECLINE
+          - FRAUD_RULE_NOT_INVOKED
+      description: Metric indicating transactions potential fraudulent activity level.
+    Sortsettlementfiledetails:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: A field in a record that is used in determining the final sorted sequence of the records <br> By default sorting is based on PROCESS_DATE.
+          example: PROCESS_DATE
+          enum:
+          - PROCESS_DATE
+          - TRANSACTION_DATE
+          - RESUBMIT_DATE
+          - ACCOUNT_NUMBER
+          - DDA_NUMBER
+          - AMOUNT
+          - CHAIN_CODE
+          - MERCHANT_ID
+        orderBy:
+          type: string
+          description: Type of Ordering.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+    Entity:
+      type: object
+      properties:
+        level:
+          maxLength: 30
+          type: string
+          description: "Support levels such as SalesOrganization/Sales Channel (limit 1 value).<br> National, SuperChain, Partner (maximum limit of 10 values).<br> Chain, Division, Store and Merchant (maximum limit of 2,000 values)."
+          example: INDEPENDENT_SALES_ORGANIZATION
+          enum:
+          - MERCHANT
+          - STORE
+          - DIVISION
+          - CHAIN
+          - PARTNER
+          - SUPER_CHAIN
+          - NATIONAL
+          - INDEPENDENT_SALES_CHANNEL
+          - INDEPENDENT_SALES_ORGANIZATION
+        values:
+          type: array
+          description: Values of hierarchy levels
+          example:
+          - "4445000860700"
+          - "4445000860702"
+          items:
+            maxLength: 30
+            type: string
+        chainCode:
+          maxLength: 6
+          type: string
+          description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system. <br> Chain Code is mandatory to pass when level is store or division."
+          example: OA1234
+      description: Entity details.
+    Paginationtype:
+      type: object
+      properties:
+        pageNumber:
+          maximum: 16777215
+          type: integer
+          description: This is the page number that you would like to retrieve. <br> By default page number is 0
+          format: int32
+          example: 2
+          default: 0
+        pageSize:
+          maximum: 2000
+          type: integer
+          description: Number of record that you would want to retrieve per page. <br> By default page size is 25
+          format: int32
+          example: 10
+          default: 25
+      description: This is used to retrieve the numbers or marks used to indicate the sequence of pages.
+    PaginationResponse:
+      type: object
+      properties:
+        pageNumber:
+          maximum: 16777215
+          type: integer
+          description: This is the page number that you would like to retrieve.
+          format: int32
+          example: 1
+          default: 0
+        pageSize:
+          maximum: 2000
+          type: integer
+          description: Number of record that you would want to retrieve per page.
+          format: int32
+          example: 50
+          default: 25
+        totalRowCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of records meeting the search criteria
+          format: int32
+          example: 45
+        totalReturnedCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of records returned in the response
+          format: int32
+          example: 25
+      description: This is used to retrieve the numbers or marks used to indicate the sequence of pages.
+    SettleTransactionInfo:
+      type: object
+      properties:
+        transactionId:
+          maxLength: 18
+          minLength: 12
+          type: string
+          description: Transaction id is a number generated from the electronic transafer of funds. It is a unique identifier that is generated with every card transaction. (a 12-18 digit code)
+          example: "141710009519"
+        transactionDateTime:
+          maxLength: 19
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}[T]{1}[0-9]{2}:[0-9]{2}:[0-9]{2}"
+          type: string
+          description: Refers to the date and time when the bank has settled the transaction (deposits or withdraws funds).
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2016-07-19T16:41:31
+        processDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Refers to the date when the transaction has been processed for settlement between the two parties.
+          format: YYYY-MM-DD
+          example: 2021-07-19
+        transactionType:
+          type: object
+          description: Indicates the type of transaction that involves funds transfers or a financial transaction.
+          example:
+            code: "253"
+            description: SALE
+            longDescription: SALE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        transactionStatus:
+          type: object
+          description: Indicates the functions performed in a transaction.
+          example:
+            code: NC
+            description: "DECLINE, PICKUP"
+            longDescription: "DECLINE, PICK UP CARD"
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        authorizationCode:
+          maxLength: 6
+          type: string
+          description: "Authorization codes are used for any transaction that has restrictions on which users are entitiled to access. Authorization Code is a six number code from the issuing bank to the vendor, that authorizes the sale."
+          example: "112920"
+        amount:
+          maxLength: 15
+          pattern: "[0-9]{13}.[0-9]{2}"
+          type: number
+          description: Refers to the settled amount between the parties.
+          format: double
+          example: 3445.56
+        authorizationCurrency:
+          maxLength: 3
+          type: object
+          description: Authorization Currency Code defines alpha codes and numeric codes for the representation of currencies and provides information about the relationships between individual currencies and their minor units. Code is as per ISO Standard country code for United States".
+          example:
+            code: 840
+            shortDescription: USA
+            longDescription: USA
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        referenceNumber:
+          maxLength: 16
+          type: string
+          description: Refers to a key to uniquely identify a card transaction based on the ISO 8583 standard.
+          example: "2444600338440029"
+        entryMode:
+          type: object
+          description: POS Entry Mode defines the conditions under which the card account number/PAN is entered and the terminal PIN capabilities.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        avsResponseCode:
+          type: object
+          description: "Address Verification Service (AVS) data is the address and/or zip code of the cardholder. AVS data is only valide for credit.AVS data is not valid for fleet, debit, or EBT cards.Store policy dictates if a transaction is approved or denied based on the AVS response. ( Length - 2 Characters)"
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        terminalNumber:
+          maxLength: 16777216
+          type: string
+          description: Terminal number is an eight-digit sequence of characters used by financial institutions to monitor which terminal is used to process a transaction.
+          example: D0640450
+    CreditTransactionDetailsResponse:
+      type: object
+      properties:
+        transactionDetails:
+          type: object
+          description: This object provides transaction amount related information
+          allOf:
+          - $ref: '#/components/schemas/CreditTransactionDetails'
+        cardDetails:
+          type: object
+          description: This object provides credit card related information
+          allOf:
+          - $ref: '#/components/schemas/CreditCardDetails'
+        locationDetails:
+          type: object
+          description: This object provides details of transaction location -- merchant related information
+          allOf:
+          - $ref: '#/components/schemas/CreditMerchantHierarchyDetails'
+        interChangeDetails:
+          type: object
+          description: This object provides information on interchange related details
+          allOf:
+          - $ref: '#/components/schemas/CreditInterChangeDetails'
+        premiumPayback:
+          type: object
+          description: This object provides information on payback related details
+          allOf:
+          - $ref: '#/components/schemas/CreditPremiumPaybackDetails'
+        otherServices:
+          type: object
+          description: This object provides information on other services related information.
+          allOf:
+          - $ref: '#/components/schemas/CreditOtherServicesDetails'
+        additionalDetails:
+          type: object
+          description: This object provides additional details on the transaction
+          allOf:
+          - $ref: '#/components/schemas/CreditAdditionalDetails'
+      description: This object provides the details of the credit transactions
+    DebitTransactionDetailsResponse:
+      type: object
+      properties:
+        transactionDetails:
+          type: object
+          description: This object provides transaction amount related information
+          allOf:
+          - $ref: '#/components/schemas/DebitTransactionDetails'
+        cardDetails:
+          type: object
+          description: This object provides card related information
+          allOf:
+          - $ref: '#/components/schemas/DebitCardDetails'
+        locationDetails:
+          type: object
+          description: This object provides details of transaction location -- merchant related information
+          allOf:
+          - $ref: '#/components/schemas/DebitMerchantHierarchyDetails'
+        premiumPayback:
+          type: object
+          description: This object provides information on payback related details
+          allOf:
+          - $ref: '#/components/schemas/DebitPremiumPaybackDetails'
+        otherServices:
+          type: object
+          description: Other service details.
+          allOf:
+          - $ref: '#/components/schemas/DebitOtherServicesDetails'
+        additionalDetails:
+          type: object
+          description: This object provides additional details on the transaction
+          allOf:
+          - $ref: '#/components/schemas/DebitAdditionalDetails'
+      description: This object provides the details of the debit transactions
+    GiftTransactionDetailsResponse:
+      type: object
+      properties:
+        transactionDetails:
+          type: object
+          description: Resource is used for transaction details
+          allOf:
+          - $ref: '#/components/schemas/GiftTransactionDetails'
+        cardDetails:
+          type: object
+          description: This object provides credit card related information
+          allOf:
+          - $ref: '#/components/schemas/GiftCardDetails'
+        locationDetails:
+          type: object
+          description: This object provides details of transaction location -- merchant related information
+          allOf:
+          - $ref: '#/components/schemas/GiftMerchantHierarchyDetails'
+        otherServices:
+          type: object
+          description: Other service details.
+          allOf:
+          - $ref: '#/components/schemas/GiftOtherServicesDetails'
+        additionalDetails:
+          type: object
+          description: This object provides additional details on the transaction
+          allOf:
+          - $ref: '#/components/schemas/GiftAdditionalDetails'
+      description: This object provides the details of the gift transactions
+    CreditTransactionDetails:
+      type: object
+      properties:
+        transactionId:
+          maxLength: 18
+          minLength: 12
+          type: string
+          description: Transaction id is a number generated from the electronic transafer of funds. It is a unique identifier that is generated with every card transaction. (a 12-18 digit code)
+          example: "141710009519"
+        processDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Refers to the date when the transaction has been processed for settlement between the two parties.
+          format: YYYY-MM-DD
+          example: 2022-06-16
+        transactionDateTime:
+          maxLength: 19
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}[T]{1}[0-9]{2}:[0-9]{2}:[0-9]{2}"
+          type: string
+          description: Refers to the date and time when the bank has settled the transaction (deposits or withdraws funds).
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2016-07-19T16:41:31
+        authorizationAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          pattern: "[0-9]{13}.[0-9]{2}"
+          type: number
+          description: An authorized amount is a sum that a merchant transmits to a credit or debit card processor to make sure the customer has the funds required to make a purchase—the approved amount of money to be charged.
+          format: double
+          example: 100.04
+        authorizationCode:
+          maxLength: 6
+          type: integer
+          description: "Authorization codes are used for any transaction that has restrictions on which users are entitiled to access. Authorization Code is a six number code from the issuing bank to the vendor, that authorizes the sale."
+          example: 112920
+        authorizationCurrency:
+          maxLength: 3
+          type: object
+          description: Authorization Currency Code defines alpha codes and numeric codes for the representation of currencies and provides information about the relationships between individual currencies and their minor units. Code is as per ISO Standard country code for United States".
+          example:
+            code: 840
+            shortDescription: USA
+            longDescription: USA
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        transactionType:
+          type: object
+          description: Indicates the type of transaction that involves funds transfers or a financial transaction.
+          example:
+            code: "253"
+            description: SALE
+            longDescription: SALE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        entryMode:
+          type: object
+          description: POS Entry Mode defines the conditions under which the card account number/PAN is entered and the terminal PIN capabilities.
+          example:
+            code: 1
+            shortDescription: KEY ENTERED
+            longDescription: KEY ENTERED
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        avsResponseCode:
+          type: object
+          description: "Address Verification Service (AVS) data is the address and/or zip code of the cardholder. AVS data is only valide for credit.AVS data is not valid for fleet, debit, or EBT cards.Store policy dictates if a transaction is approved or denied based on the AVS response. ( Length - 2 Character)"
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        cardholderId:
+          type: object
+          description: This field indicates the unique identification number issued by the provider to the insured.
+          example:
+            code: 4
+            shortDescription: Mail\Phone
+            longDescription: MAIL\PHONE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        sequenceNumber:
+          maxLength: 256
+          type: string
+          description: Sequence Number
+          example: "34"
+        customerIdentifier:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom customer identifier.
+          example: G768
+        merchantOrderIdentifier:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom merchant order identifier.
+          example: A453
+        campaign:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom campaign.
+          example: D453
+        affiliate:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom affiliate.
+          example: G123
+        merchantGroupingIdentifier:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom merchant grouping identifier
+          example: S673
+        reportGroup:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom report group
+          example: E874
+        chargeId:
+          maxLength: 27
+          type: string
+          description: This field indicates the returns on a successful pay transaction. It must be returned on reversal/refund to restore PAN for routing.
+          example: G453
+        aci:
+          maxLength: 256
+          type: string
+          description: It determines whether the authorization qualifies for Visa Custom Payment Service (CPS).
+          example: Card Present
+        mailPhoneIndicator:
+          type: object
+          description: Indicator for mail/phone order and description of the code - card not present transaction
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        originType:
+          type: object
+          description: Represents the origination type of the transaction.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        validationCode:
+          maxLength: 256
+          type: string
+          description: Refers to visa validation code
+          example: TN2S
+        mastercardWalletId:
+          maxLength: 3
+          type: string
+          description: Master card wallet identifier
+          example: DR1
+        mastercardTICIndicator:
+          maxLength: 3
+          type: string
+          description: Mastercard transaction integrity class indicator
+          example: EU9
+        bankNetDate:
+          maxLength: 8
+          pattern: "--[0-9]{2}-[0-9]{2}"
+          type: string
+          description: "Payments network operated by master card, value will be present only if transaction is master card, otherwise null."
+          format: --MM-DD
+          example: --12-02
+        bankNetReferenceNumber:
+          maxLength: 256
+          type: string
+          description: Bank Reference Number
+          example: "65678787979"
+        posRegisterNumber:
+          maxLength: 256
+          type: string
+          description: Refers to registered POS Number
+          example: "0050"
+        terminalNumber:
+          maxLength: 256
+          type: string
+          description: Terminal number is an eight-digit sequence of characters used by financial institutions to monitor which terminal is used to process a transaction.
+          example: D0640450
+        referenceNumber:
+          maxLength: 16
+          type: string
+          description: Refers to a key to uniquely identify a card transaction based on the ISO 8583 standard.
+          example: "2444600338440029"
+        merchantReferenceNumber:
+          maxLength: 11
+          type: string
+          description: Refers to merchant reference or draft locator number
+          example: "65678787979"
+        terminalCapability:
+          type: object
+          description: Refers to the code of terminal capabilities.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: This object provides transaction amount related information
+    DebitTransactionDetails:
+      type: object
+      properties:
+        transactionId:
+          maxLength: 18
+          minLength: 12
+          type: string
+          description: Transaction id is a number generated from the electronic transafer of funds. It is a unique identifier that is generated with every card transaction. (a 12-18 digit code)
+          example: "141710009519"
+        processDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Refers to the date when the transaction has been processed for settlement between the two parties.
+          format: YYYY-MM-DD
+          example: 2022-07-19
+        transactionDateTime:
+          maxLength: 19
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}[T]{1}[0-9]{2}:[0-9]{2}:[0-9]{2}"
+          type: string
+          description: Refers to the date and time when the bank has settled the transaction (deposits or withdraws funds).
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2016-07-19T16:41:31
+        transactionType:
+          type: object
+          description: Indicates the type of transaction that involves funds transfers or a financial transaction.
+          example:
+            code: "253"
+            description: SALE
+            longDescription: SALE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        authorizationAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          pattern: "[0-9]{13}.[0-9]{2}"
+          type: number
+          description: An authorized amount is a sum that a merchant transmits to a credit or debit card processor to make sure the customer has the funds required to make a purchase—the approved amount of money to be charged.
+          format: double
+          example: 100.04
+        entryMode:
+          type: object
+          description: POS Entry Mode defines the conditions under which the card account number/PAN is entered and the terminal PIN capabilities.
+          example:
+            code: 1
+            shortDescription: KEY ENTERED
+            longDescription: KEY ENTERED
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        batchNumber:
+          maxLength: 256
+          type: string
+          description: Batch Number
+          example: "00000000000"
+        sequenceNumber:
+          maxLength: 256
+          type: string
+          description: Sequence number.
+          example: "823040"
+        cashbackAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Amount refunds to the cardholder's account a small percentage of the sum spent on purchases.
+          format: float
+          example: 9.06
+        denialCode:
+          type: object
+          description: Denial Code and its description
+          example:
+            code: 0
+            shortDescription: TRANSACTION AUTHORIZED
+            longDescription: TRANSACTION AUTHORIZED
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        interchange:
+          maxLength: 256
+          type: string
+          description: Interchange details
+          example: 000145253-VS DEBIT REGULATED
+        interchangeFees:
+          maxLength: 11
+          type: string
+          description: Interchange Fees
+          example: DDDDDDDDDCC
+          allOf:
+          - $ref: '#/components/schemas/DecimalNineAmountType'
+        customerIdentifier:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom customer identifier.
+          example: G768
+        merchantOrderIdentifier:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom merchant order identifier.
+          example: A453
+        campaign:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom campaign.
+          example: D453
+        affiliate:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom affiliate.
+          example: G123
+        merchantGroupingIdentifier:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom merchant grouping identifier
+          example: S673
+        reportGroup:
+          maxLength: 25
+          type: string
+          description: This field indicates the ecom report group
+          example: E874
+        chargeId:
+          maxLength: 27
+          type: string
+          description: This field indicates the returns on a successful pay transaction. It must be returned on reversal/refund to restore PAN for routing.
+          example: G453
+        networkId:
+          maxLength: 5
+          type: string
+          description: Indicates network id
+          example: STAR
+        networkGroup:
+          type: object
+          description: "A network group is a collection on hosts,gateways,networks, or other groups.Groups can be used to facilitate and simplify network management."
+          example:
+            code: 6
+            shortDescription: Other
+            longDescription: OTHER
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        voucherNumber:
+          maxLength: 256
+          type: string
+          description: Refers the unique reference number associated with a voucher.
+          example: "484426"
+        fromAccount:
+          maxLength: 256
+          type: string
+          description: Refers the type of settlement account
+          example: AB
+        toAccount:
+          maxLength: 256
+          type: string
+          description: Refers the type of settlement account
+          example: DE
+        terminalId:
+          maxLength: 15
+          type: integer
+          description: Terminal Id or Terminal Locator is a 15-digit terminal identification number.
+          format: int32
+          example: 90123123
+        posRegisterNumber:
+          maxLength: 256
+          type: string
+          description: Refers to registered POS Number
+          example: "0010"
+      description: This object provides the details of the debit transactions
+    GiftTransactionDetails:
+      type: object
+      properties:
+        transactionId:
+          maxLength: 18
+          minLength: 12
+          type: string
+          description: Transaction id is a number generated from the electronic transafer of funds. It is a unique identifier that is generated with every card transaction. (a 12-18 digit code)
+          example: "141710009519"
+        processDate:
+          maxLength: 10
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+          type: string
+          description: Refers to the date when the transaction has been processed for settlement between the two parties.
+          format: YYYY-MM-DD
+          example: 2022-07-19
+        transactionDateTime:
+          maxLength: 19
+          pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}[T]{1}[0-9]{2}:[0-9]{2}:[0-9]{2}"
+          type: string
+          description: Refers to the date and time when the bank has settled the transaction (deposits or withdraws funds).
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2016-07-19T16:41:31
+        transactionType:
+          type: object
+          description: Indicates the type of transaction that involves funds transfers or a financial transaction.
+          example:
+            code: "253"
+            description: SALE
+            longDescription: SALE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        authorizationCode:
+          maxLength: 6
+          type: string
+          description: "Authorization codes are used for any transaction that has restrictions on which users are entitled to access. Authorization Code is a six number code from the issuing bank to the vendor, that authorizes the sale."
+          example: 73994M
+        authorizationSource:
+          maxLength: 256
+          type: object
+          description: This field indicates the point of authorization.
+          example:
+            code: 5
+            shortDescription: Issuer Approval
+            longDescription: Issuer Approval
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        authorizationCurrency:
+          maxLength: 3
+          type: object
+          description: Authorization Currency Code defines alpha codes and numeric codes for the representation of currencies and provides information about the relationships between individual currencies and their minor units. Code is as per ISO Standard country code for United States".
+          example:
+            code: 840
+            shortDescription: USA
+            longDescription: USA
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        oldAuthorizationAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: This field indicates the amount is the previous transaction amount a merchant submitted to the customer's issuing bank for approval.
+          format: float
+          example: 104.33
+        requestedAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: This field indicates the amount is the transaction amount a merchant submitted to the customer's issuing bank for approval.
+          format: float
+          example: 100.02
+        authorizationAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          pattern: "[0-9]{13}.[0-9]{2}"
+          type: number
+          description: An authorized amount is a sum that a merchant transmits to a credit or debit card processor to make sure the customer has the funds required to make a purchase—the approved amount of money to be charged.
+          format: double
+          example: 100.04
+        remainingBalance:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Refers to the amount you still owe after a payment.
+          format: float
+          example: 100.23
+        cashbackAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Amount refunds to the cardholder's account a small percentage of the sum spent on purchases.
+          format: float
+          example: 9.06
+        entryMode:
+          type: object
+          description: POS Entry Mode defines the conditions under which the card account number/PAN is entered and the terminal PIN capabilities.
+          example:
+            code: 1
+            shortDescription: KEY ENTERED
+            longDescription: KEY ENTERED
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        voidIndicator:
+          maxLength: 1
+          type: string
+          description: "A method of confirming that a terminal received a transaction. The terminal transmits the reference number of the last EFT transaction in each request. If the terminal and host are not in sync, the last EFT transaction is reversed."
+          example: A
+        originType:
+          type: object
+          description: Represents the origination type of the transaction.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        posConditionCode:
+          type: object
+          description: This field indicates the POS Condition Code for transactions.
+          example:
+            code: 59
+            shortDescription: E-Commerce
+            longDescription: E-COMMERCE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        gcRetrievalReferenceNumber:
+          maxLength: 12
+          type: string
+          description: "Gift Card Retrieval Reference Number, a key to uniquely identify a card transaction based on the ISO 8583 standard."
+          example: DE353849534834
+        chargeId:
+          maxLength: 27
+          type: string
+          description: This field indicates the returns on a successful pay transaction. It must be returned on reversal/refund to restore PAN for routing.
+          example: G453
+        avsResponseCode:
+          type: object
+          description: "Address Verification Service (AVS) data is the address and/or zip code of the cardholder. AVS data is only valide for credit.AVS data is not valid for fleet, debit, or EBT cards.Store policy dictates if a transaction is approved or denied based on the AVS response. ( Length - 2 Character)"
+          example:
+            code: "Y"
+            shortDescription: ADDRESS AND 5 DIGIT ZIP MATCH
+            longDescription: ADDRESS AND 5 DIGIT ZIP MATCH
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        cardHolderId:
+          type: object
+          description: This field indicates the unique identification number issued by the provider to the insured.
+          example:
+            code: 4
+            shortDescription: Mail\Phone
+            longDescription: MAIL\PHONE
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: This object provides the details of the gift transactions
+    CreditAdditionalDetails:
+      type: object
+      properties:
+        cardAccountTerm:
+          type: object
+          description: This object indicates the type of terminal
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        agentBank:
+          maxLength: 256
+          type: string
+          description: Agent Bank Information
+          example: "0000"
+        merchantCategory:
+          type: object
+          description: Merchant category codes (MCCs) are four-digit numbers that describe a merchant's primary business activities.
+          example:
+            code: 5812
+            shortDescription: RESTAURANTS
+            longDescription: EATING PLACES AND RESTAURANTS
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: This object provides additional details on the transaction
+    DebitOtherServicesDetails:
+      type: object
+      properties:
+        standInIndicator:
+          type: object
+          description: Indicates standin option is available or not.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: Other service details of debit card transaction.
+    DebitAdditionalDetails:
+      type: object
+      properties:
+        pinLess:
+          type: boolean
+          description: possible values True or False
+          example: true
+        forcePost:
+          type: boolean
+          description: possible values True or False
+          example: true
+        hasAdjustmentRecords:
+          maxLength: 256
+          type: string
+          description: Refers to any adjustment made in records
+          example: Not Adjusted
+        merchantCategory:
+          type: object
+          description: Merchant category codes (MCCs) are four-digit numbers that describe a merchant's primary business activities.
+          example:
+            code: 5812
+            shortDescription: RESTAURANTS
+            longDescription: EATING PLACES AND RESTAURANTS
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: This object provides additional details on the transaction
+    GiftAdditionalDetails:
+      type: object
+      properties:
+        agentBank:
+          maxLength: 256
+          type: string
+          description: Agent Bank Information
+          example: "0000"
+        merchantCategory:
+          type: object
+          description: Merchant category codes (MCCs) are four-digit numbers that describe a merchant's primary business activities.
+          example:
+            code: 5812
+            shortDescription: RESTAURANTS
+            longDescription: EATING PLACES AND RESTAURANTS
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: This object provides additional details on the transaction
+    GiftOtherServicesDetails:
+      type: object
+      properties:
+        standInIndicator:
+          type: object
+          description: Indicates standin option is available or not.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        standInLevel:
+          type: object
+          description: Standin level details.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: Other service details of gift card transaction.
+    CreditMerchantHierarchyDetails:
+      type: object
+      properties:
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain."
+          example: "000000001"
+        merchantId:
+          maxLength: 20
+          type: string
+          description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+          example: "444512303421535"
+        alternateMerchantId:
+          maxLength: 16
+          type: string
+          description: Merchant level is lowest level in the FIS Merchant Hierarchy structure. Merchant ID (MID) is a 12-16 digit unique identifier assigned to each Merchant
+          example: "521110665864"
+        merchantName:
+          maxLength: 256
+          type: string
+          description: Merchant Name refers to the name registered for the business.
+          example: CLIENT SERVICES TEST
+        employeeNumber:
+          maximum: 9
+          minimum: 9
+          type: integer
+          description: Refers to one of the following sales person/clerk id/ employee number
+          format: int32
+          example: 100728453
+      description: This object provides details of transaction location -- merchant related information
+    DebitMerchantHierarchyDetails:
+      type: object
+      properties:
+        acro:
+          maxLength: 4
+          type: string
+          description: Each hierarchy has a generic ACRO defined by default per banking relationship.All merchants have a 4 character billing acronym.
+          example: WALG
+        chainCode:
+          maxLength: 6
+          type: string
+          description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+          example: "070110"
+        divisionNumber:
+          maxLength: 3
+          type: string
+          description: "The Division Number is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. The Division Code is an optional hierarchy level but if created, is required for all child entities under the Division Number."
+          example: "088"
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain."
+          example: "000000001"
+        merchantId:
+          maxLength: 20
+          type: string
+          description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+          example: "4445091034215"
+        merchantName:
+          maxLength: 256
+          type: string
+          description: Merchant Name refers to the name registered for the business.
+          example: CLIENT SERVICES TEST
+      description: This object provides details of transaction location -- merchant related information
+    GiftMerchantHierarchyDetails:
+      type: object
+      properties:
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: "The Store/Location Code is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location. The Store/ Locations are used to link multiple merchant numbers assigned to different terminals and/or business lines (MCC’s)."
+          example: "0001"
+        merchantId:
+          maxLength: 20
+          type: string
+          description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+          example: "4445091034215"
+        alternateMerchantId:
+          maxLength: 16
+          type: string
+          description: Merchant level is lowest level in the FIS Merchant Hierarchy structure. Merchant ID (MID) is a 12-16 digit unique identifier assigned to each Merchant
+          example: "521110665864"
+      description: Refers to gift details
+    CreditCardDetails:
+      type: object
+      properties:
+        cardNetwork:
+          type: object
+          description: "Indicates type of card networks, which are used for payments."
+          example:
+            code: C
+            shortDescription: DISCOVER
+            longDescription: DISCOVER
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        cvv2ResponseCode:
+          type: object
+          description: This object provides the information on response for the card verification value.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        cvv2PresenceIndicator:
+          type: object
+          description: "This field indicates the presence of card verification value. Possible values CVV2 value not provided, CVV2 value provided / present, CVV2 value illegible, CVV2 value not on card."
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        token:
+          maxLength: 19
+          type: string
+          description: Tokenization is a substitution for Primary AccountNumber (PAN) with proxy data. Tokenization limits the ability to conduct fraudulent payment transactions. A token value is numeric and is the same length as the card account number length. Max length of token is 19 characters.
+          example: "374245111181117"
+        tokenId:
+          maxLength: 256
+          type: string
+          description: Token id is a host-generated numeric value created during the tokenization process using a token key assigned to a merchant. This value is returned to the POS when tokenization is requested along with the token for utilization.
+          example: A834GD
+        tokenAssuranceLevel:
+          maxLength: 256
+          type: string
+          description: A request and response field. A score or confidence level that determines the expected level of assurance associated with the approved token requestor and the identification and verification method performed at the time of token request.
+          example: "99"
+        tokenExpirationDate:
+          maxLength: 7
+          pattern: "[0-9]{4}-[0-9]{2}"
+          type: string
+          description: This is the expiration date of the token in the YYYY-MM format with a fixed length of 6.
+          format: YYYY-MM
+          example: 2022-12
+        internationalIndicator:
+          type: boolean
+          description: Indicator for international transaction
+          example: true
+        networkRejectIndicator:
+          type: boolean
+          description: Possible values are true and false
+          example: true
+      description: This object provides gift card related information
+    DebitCardDetails:
+      type: object
+      properties:
+        cardHolderBankAcro:
+          maxLength: 4
+          type: string
+          description: Card Holder Bank
+          example: MAE1
+        token:
+          maxLength: 256
+          type: string
+          description: Tokenization is a substitution for Primary AccountNumber (PAN) with proxy data. Tokenization limits the ability to conduct fraudulent payment transactions. A token value is numeric and is the same length as the card account number length. Max length of token is 19 characters.
+          example: "374245111181117"
+        tokenId:
+          maxLength: 256
+          type: string
+          description: Token ID is a host-generated numeric value created during the tokenization process using a token key assigned to a merchant. This value is returned to the POS when tokenization is requested along with the token for utilization.
+          example: A834GD
+        tokenAssuranceLevel:
+          maxLength: 256
+          type: string
+          description: A request and response field. A score or confidence level that determines the expected level of assurance associated with the approved token requestor and the identification and verification method performed at the time of token request.
+          example: "99"
+        tokenExpirationDate:
+          maxLength: 7
+          pattern: "[0-9]{2}-[0-9]{2}"
+          type: string
+          description: This is the expiration date of the token in the YYYY-MM format with a fixed length of 6.
+          format: YYYY-MM
+          example: 2022-10
+      description: This object provides debit card related information
+    GiftCardDetails:
+      type: object
+      properties:
+        cardNetwork:
+          type: object
+          description: "Indicates type of card networks, which are used for payments."
+          example:
+            code: G
+            shortDescription: GIFT
+            longDescription: GIFT
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        token:
+          maxLength: 19
+          type: string
+          description: Tokenization is a substitution for Primary AccountNumber (PAN) with proxy data. Tokenization limits the ability to conduct fraudulent payment transactions. A token value is numeric and is the same length as the card account number length. Max length of token is 19 characters.
+          example: "374245111181117"
+        tokenId:
+          maxLength: 6
+          type: string
+          description: Token ID is a host-generated numeric value created during the tokenization process using a token key assigned to a merchant. This value is returned to the POS when tokenization is requested along with the token for utilization.
+          example: A834GD
+        cvv2ResponseCode:
+          description: This object provides the information on response for the card verification value.
+          example:
+            code: M
+            shortDescription: CVV2 Match
+            longDescription: CVV2 Match
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        cvv2PresenceIndicator:
+          type: object
+          description: "This field indicates the presence of card verification value. Possible values CVV2 value not provided, CVV2 value provided / present, CVV2 value illegible, CVV2 value not on card."
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: This object provides gift card related information
+    CreditOtherServicesDetails:
+      type: object
+      properties:
+        dccIndicator:
+          maxLength: 1
+          type: string
+          description: Provides dynamic currency conversion information to the merchant. Applicable for credit (master credit card).
+          example: "Y"
+        levelIndicator:
+          type: object
+          description: Level code and description of the code
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        reAuthorizationAttemptsCount:
+          maxLength: 256
+          type: string
+          description: Indicates count of authorization re-attempts.
+          example: "6"
+        signatureCapabilitiesIndicator:
+          maxLength: 256
+          type: string
+          description: Indicator of signature capabilities.
+          example: "NO, SIGNATURE WAS NOT CAPTURED"
+        signatureCompression:
+          maxLength: 256
+          type: string
+          description: Indicates signature compression.
+          example: GEHG
+        signatureEncryptKey:
+          maxLength: 256
+          type: string
+          description: Indicates key of signature encryption.
+          example: FYJGDT
+        signatureEncryptMethod:
+          maxLength: 256
+          type: string
+          description: It is used to verify the encryption method.
+          example: EJYUH
+        signaturePen:
+          maxLength: 256
+          type: string
+          description: Pinless transaction.
+          example: GEBD
+      description: This object provides information on other services related information
+    DebitPremiumPaybackDetails:
+      type: object
+      properties:
+        indicatorPassed:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        eligibleBIN:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        eligible:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        redemptionAccepted:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        redemptionAmount:
+          maxLength: 15
+          type: string
+          description: This field indicates the early repayment charges.
+          format: decimal
+          example: "200.56"
+      description: This object provides information on payback related details
+    CreditPremiumPaybackDetails:
+      type: object
+      properties:
+        indicatorPassed:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        eligibleBIN:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        eligible:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        redemptionAccepted:
+          type: boolean
+          description: Possible Values True or False
+          example: false
+        redemptionAmount:
+          maxLength: 15
+          type: string
+          description: This field indicates the early repayment charges.
+          format: decimal
+          example: "200.56"
+      description: This object provides information on payback related details
+    CreditInterChangeDetails:
+      type: object
+      properties:
+        cardProductResults:
+          type: object
+          description: Refers to card product results
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        cardProductType:
+          type: object
+          description: Refers to card product
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        daysLate:
+          maxLength: 256
+          type: string
+          description: Number of days late
+          example: "02"
+        discountAmount:
+          maxLength: 38
+          type: object
+          description: Discount Amount Value
+          allOf:
+          - $ref: '#/components/schemas/DecimalNineAmountType'
+        interchange:
+          maxLength: 256
+          type: string
+          description: Interchange details
+          example: 000145253-VS DEBIT REGULATED
+        interchangeFees:
+          maxLength: 11
+          type: string
+          description: Interchange Fees
+          example: 17.25
+          allOf:
+          - $ref: '#/components/schemas/DecimalNineAmountType'
+        organizationInterchangeIndicator:
+          maxLength: 256
+          type: string
+          description: Indicator of organization interchange.
+          example: "5"
+        surchargeAmount:
+          maxLength: 38
+          type: string
+          description: Surcharge Amount
+          example: "893.56"
+          allOf:
+          - $ref: '#/components/schemas/DecimalNineAmountType'
+        surchargeReason:
+          type: object
+          description: Reason for Surcharge
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription1'
+        billingIndicator:
+          type: object
+          description: Refers to the bundling indicator for the Settled transaction.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+      description: This object provides information on interchange related details
+    SearchSettleTransactionsRequestfraudScore:
+      type: object
+      properties:
+        from:
+          maximum: 100
+          minimum: 0.01
+          maxLength: 6
+          pattern: "[0-9]{3}.[0-9]{2}"
+          type: number
+          description: Start fraud score
+          format: float
+          example: 0.13
+        to:
+          maximum: 100
+          minimum: 0.01
+          maxLength: 6
+          pattern: "[0-9]{3}.[0-9]{2}"
+          type: number
+          description: End fraud score
+          format: float
+          example: 0.84
+    Error:
+      type: object
+      properties:
+        errorCode:
+          maxLength: 256
+          type: string
+          description: Code of error
+          example: ERROR_CODE
+        errorMessage:
+          maxLength: 256
+          type: string
+          description: Error Message
+          example: Error message here.
+        target:
+          maxLength: 256
+          type: string
+          description: Error Target
+          example: Target field name.
+      description: Error Message
+    SearchSettledTransactionsResponse_settlements:
+      type: object
+      properties:
+        fraudFields:
+          type: object
+          description: Metric indicating transactions potential fraudulent activity level.
+          allOf:
+          - $ref: '#/components/schemas/FraudSightDetail'
+    FraudFields_fraudScore:
+      type: object
+      properties:
+        fromScore:
+          maximum: 100
+          minimum: 0
+          type: number
+          description: Starting fraud score
+          format: float
+          example: 0.13
+        toScore:
+          maximum: 100
+          minimum: 0
+          type: number
+          description: Ending fraud score
+          format: float
+          example: 0.84
+      description: Fraud score is a measure that helps gauge risk involved with orders before processing.
+  responses:
+    default:
+      description: Default errors
+      headers:
+        v-correlation-id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            "204":
+              $ref: '#/components/examples/204NoContent'
+            "400 Bad Request":
+              $ref: '#/components/examples/400BadRequest'
+            "401 Unauthorized":
+              $ref: '#/components/examples/401Unauthorized'
+            "403 Forbidden":
+              $ref: '#/components/examples/403Forbidden'
+            "404 Not Found":
+              $ref: '#/components/examples/404NotFound'
+            "500 Server Error":
+              $ref: '#/components/examples/500ServerError'
+  examples:
+    "204NoContent":
+      value:
+        message: No content
+    "400BadRequest":
+      value:
+        errors:
+        - errorMessage: No entries found with provided id.
+    "401Unauthorized":
+      value:
+        errors:
+        - errorMessage: Invalid API key. Please ensure the key is accurate and authorization is included.
+    "403Forbidden":
+      value:
+        errors:
+        - errorMessage: Resource
+    "404NotFound":
+      value:
+        errors:
+        - errorMessage: Resource Not Found
+    "500ServerError":
+      value:
+        errors:
+        - errorMessage: Internal Client Error
+  headers:
+    CorrelationId:
+      description: Correlation ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        minLength: 36
+        pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        type: string
+        format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: "``` License format is WORLDPAY license='xxxx'``` \n"
+      name: Authorization
+      in: header

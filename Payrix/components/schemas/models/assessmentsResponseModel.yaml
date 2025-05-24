@@ -1,0 +1,182 @@
+id: {$ref: ../id.yaml}
+created: {$ref: ../created.yaml}
+modified: {$ref: ../modified.yaml}
+creator: {$ref: ../creator.yaml}
+modifier: {$ref: ../modifier.yaml}
+entity: {type: string, description: The identifier of the Entity that owns
+    this assessment.}
+onentity: {type: string, description: The identifier of the Entity that
+    this assessment refers to. This is the owner of the record
+    that triggered the charge.}
+forentity: {type: string, description: "The identifier of the Entity that this assessment\
+    \ applies to. \nThis is an optional field and will create\
+    \ an opposing assessment for this entity."}
+partition: {type: string, description: The identifier of the Partition that
+    this assessment resource refers to.}
+opposingAssessment: {type: string, description: The identifier of the Assessment
+    of the forentity assessment.}
+fee: {type: string, description: The identifier of the Fee that this assessment
+    resource refers to.}
+disbursement: {type: string, description: The identifier of the Disbursement
+    that this assessment resource refers to.}
+txn: {type: string, description: The identifier of the Txn that this assessment
+    resource refers to.}
+chargeback: {type: string, description: The identifier of the Chargeback
+    that this assessment resource refers to.}
+merchant: {type: string, description: The identifier of the Merchant that
+    this assessment resource refers to.}
+event: {type: string, description: The type of event that triggered this assessments
+    resource.,
+  enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+    '11', '12', '13', '14', '15', '16', '17', '18', '19',
+    '20', '21', '22', '23', '24', '25', '26', '27', '28',
+    '29', '30', '31', '32', '33', '34', '35', '43', '44',
+    '45', '46', '47', '51', '52', '53', '54', '55', '56',
+    '57', '58', '59', '60', '61', '62', '63', '64', '65',
+    '66', '67', '68', '69', '70', '71', '72', '73', '74',
+    '75', '76', '77', '78', '79', '80', '81', '82', '83',
+    '84', '85', '86', '200', '201', '202', '203', '204', '205',
+    '206', '207', '208', '209', '210', '211', '212', '213',
+    '400', '401'],
+  x-enum-descriptions: [DAYS. This assessment triggers every
+      day., WEEKS. This assessment triggers every week., MONTHS.
+      This assessment triggers every month., YEARS. This assessment
+      triggers every year., SINGLE. This assessment is a one-off
+      event., AUTH. This assessment triggers at the time of
+      authorization of a transaction., CAPTURE. This assessment
+      triggers at the capture time of a Transaction., REFUND.
+      This assessment triggers when a refund transaction is
+      processed., BOARD. This assessment triggers when the
+      Merchant is boarded., PAYOUT. This assessment triggers
+      when a payout is processed., CHARGEBACK. This assessment
+      triggers when a card chargeback occurs., OVERDRAFT.
+      This assessment triggers when an overdraft usage charge
+      from a bank is levied., INTERCHANGE. This assessment
+      triggers when interchange Fees are assessed for the
+      Transactions of this Merchant., PROCESSOR. This assessment
+      triggers when the Transactions of this Merchant are
+      processed by a payment processor., ACHFAIL. This assessment
+      triggers when an automated clearing house failure occurs.,
+    ACCOUNT. This assessment triggers when a bank account
+      is verified., SIFT. This assessment triggers on the
+      Transaction fraud score., ADJUSTMENT. This assessment
+      triggers when the transaction is adjusted., RETRIEVAL.
+      This assessment triggers on a Retrieval Request Chargeback.,
+    ARBITRATION. This assessment triggers on an Arbitration
+      Chargeback., ECSALE. This assessment triggers on an
+      eCheck Sale transaction., ECREFUND. This assessment
+      triggers on an eCheck Refund transaction., ECRETURN.
+      This assessment triggers on an eCheck Return transaction.,
+    SETTLEMENT. This assessment triggers on a transaction
+      settlement., MISUSE. This assessment triggers on a Misuse
+      of authorization., PROFIT_SHARE. This assessment triggers
+      on a Profit Sharing entry event., UNAUTH. This assessment
+      triggers at the time of an unauthorized entry., ACHNOC.
+      This assessment triggers at the time of an ACH Notification
+      Change., ECNOC. This assessment triggers at the time
+      of an eCheck Notification Change., ECFAIL. This assessment
+      triggers at the time of an eCheck Fail, ECNSF. This
+      assessment triggers an the time of an eCheck non-disbursed
+      funds., CURRENCY_CONVERSION. This assessment triggers
+      at the time of a currency conversion, TERMINAL_TXN.
+      This assessment triggers at the time of a terminal transaction.,
+    REVERSE_PAYOUT. This assessment triggers when a payout
+      has been partially reversed, PARTIAL_REVERSE_PAYOUT.
+      This assessment triggers when a payout is partially
+      reversed., '', PAYMENT_UPDATE. This assessment triggers
+      on a payment update for Account Updater., '', PAYMENT_GROUP_UPDATE.
+      This assessment triggers on a payment group update for
+      Account Updater., ENTRY_REFUND. This assessment triggers
+      on an entry refund., '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+    '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+    '', '']}
+eventId: {type: string, description: The identifier of the record that is
+    associated with this assessments resource.}
+description: {type: string, description: A description of this assessments
+    resource.}
+amount:
+  {type: string, description: "The amount involved in this assessments resource.\
+    \ It refers to the amount charged, transferred, or disbursed.\
+    \ \nThis field is specified as an integer in cents."}
+platform:
+  {type: string, enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+    WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA],
+  x-enum-descriptions: ['', '', '', '', Vantiv., Vcore., '',
+    '', '', '', '']}
+currency:
+  {type: string, description: The currency of the amount in this assessments
+    resource.,
+  enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+    BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+    BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+    CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+    DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+    GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+    ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+    KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+    LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+    MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+    OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+    RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+    SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+    TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+    VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+    XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+    ZWL],
+  x-enum-descriptions: [United Arab Emirates dirham, Afghan
+      afghani, Albanian lek, Armenian dram, Netherlands Antillean
+      guilder, Angolan kwanza, Argentine peso, Australian
+      dollar, Aruban florin, Azerbaijani manat, Bosnia and
+      Herzegovina convertible mark, Barbados dollar, Bangladeshi
+      taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+    Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+    Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+      pula, Belarusian ruble, Belize dollar, Canadian dollar,
+    Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+      de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+      peso, Unidad de Valor Real, Costa Rican colon, Cuban
+      convertible peso, Cuban peso, Cape Verde escudo, Czech
+      koruna, Djiboutian franc, Danish krone, Dominican peso,
+    Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+      birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+      sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+    Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+      dollar, Hong Kong dollar, Honduran lempira, Croatian
+      kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+    Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+      rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+    Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+      riel, Comoro franc, North Korean won, South Korean won,
+    Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+    Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+    Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+      leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+    Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+    Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+      peso, Mexican Unidad de Inversion, Malaysian ringgit,
+    Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+      córdoba, Norwegian krone, Nepalese rupee, New Zealand
+      dollar, Omani rial, Panamanian balboa, Peruvian sol,
+    Papua New Guinean kina, Philippine piso, Pakistani rupee,
+    Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+      leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+      riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+      pound, Swedish krona/kronor, Singapore dollar, Saint
+      Helena pound, Sierra Leonean leone, Somali shilling,
+    Surinamese dollar, South Sudanese pound, São Tomé and
+      Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+      lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+      manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+    Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+      shilling, Ukrainian hryvnia, Ugandan shilling, United
+      States dollar, United States dollar, Uruguay Peso en
+      Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+    Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+      tala, CFA franc BEAC, Silver, Gold, European Composite
+      Unit, European Monetary Unit, European Unit of Account,
+    European Unit of Account, East Caribbean dollar, Special
+      drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+    Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+      African rand, Zambian kwacha, Zimbabwean dollar]}

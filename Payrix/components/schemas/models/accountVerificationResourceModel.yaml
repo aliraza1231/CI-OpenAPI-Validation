@@ -1,0 +1,21 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  account: {type: string, description: The identifier of the Account that
+              you want to verify.}
+  type:
+    type: string
+    description: "The type of account verification you want to
+      perform. \n\n<details>\n<summary>Valid Values</summary>\n\n\
+                 - `debit` - **Makes two challenge debits (debit1 and debit2).**\n\n- `credentials` - **Uses a bank account credential (username/password).**\
+                 \ \n\n</details> \n"
+    enum: [debit, credential]
+    x-enum-descriptions: [Debit amount verification, Credential
+      verification.]
+  debit1: {type: integer, description: The first verification amount debited in cents.}
+  debit2: {type: integer, description: The second verification amount debited in cents.}
+  trials: {type: integer, description: The number of verification challenge responses attempted.}
+  toaccount: {type: string, description: "Account that will be deposited with both amounts: debit1 and debit2."}

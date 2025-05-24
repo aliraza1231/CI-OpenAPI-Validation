@@ -1,0 +1,181 @@
+
+ get:
+   description: Query a Token, which is a resource that acts as a storage place for
+     credit card and customer information, allowing you to run Transactions.
+   parameters:
+   - description: The ID of this token.
+     explode: false
+     in: path
+     name: id
+     required: true
+     schema: {type: string}
+     style: simple
+   - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+   - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                    {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+       description: Response for retrieve token response.
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Retrieve Token by it's ID.
+   tags: [Tokens]
+   operationId: getTokensId
+ put:
+   description: Update a Token. A Token is a resource that acts as a storage place
+     for credit card and customer information, allowing you to run Transactions.
+   parameters:
+   - description: The ID of this token.
+     explode: false
+     in: path
+     name: id
+     required: true
+     schema: {type: string}
+     style: simple
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   requestBody:
+     content:
+       application/json:
+         schema:
+           {$ref: ../components/schemas/models/tokenPutRequestModel.yaml}
+       application/x-www-form-urlencoded:
+         schema:
+           {$ref: ../components/schemas/models/tokenPutRequestModel.yaml}
+       application/xml:
+         schema:
+           {$ref: ../components/schemas/models/tokenPutRequestModel.yaml}
+       multipart/form-data:
+         schema:
+           {$ref: ../components/schemas/models/tokenPutRequestModel.yaml}
+       text/json:
+         schema:
+           {$ref: ../components/schemas/models/tokenPutRequestModel.yaml}
+       text/xml:
+         schema:
+           {$ref: ../components/schemas/models/tokenPutRequestModel.yaml}
+     description: Update Token Request
+     required: true
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+       description: Response for update on tokens resource Update Token Response
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Update Token by it's ID.
+   tags: [Tokens]
+   operationId: putTokensId
+   x-examples:
+   - request: {id: p1_tok_5a1ef5e55657c4c37326b69, inactive: 1}
+     response: {id: p1_tok_5a1ef5e55657c4c37326b69, created:  '2017-11-28T01:02:57Z',
+       modified:  '2017-11-29T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+       modifier: p1_log_5a1ef5e55653ed720159d53, customer: p1_cus_5a1ef5e55656e2484591e84,
+       token: e41272ec5464d9ec81cc85c854837472, expiration: '0114', inactive: 1, frozen: 0}
+ delete:
+   description: Delete a Token, which is a resource that acts as a storage place for
+     credit card and customer information, allowing you to run Transactions.
+   parameters:
+   - description: The ID of this token.
+     explode: false
+     in: path
+     name: id
+     required: true
+     schema: {type: string}
+     style: simple
+   - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+   - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+       description: The response for deleting a token on the tokens resource is the
+         Delete Token Response.
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Delete Token by it's ID.
+   tags: [Tokens]
+   operationId: deleteTokensId

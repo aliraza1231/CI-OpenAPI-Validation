@@ -1,0 +1,394 @@
+  get:
+    description: "Query a holds resource. \nA holds resource represents a reviewable\
+      \ action taken on a Transaction."
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve all Transaction Holds and response for query on holds
+          resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Transaction Holds.
+    tags: [Transactions (Txns)]
+    operationId: getHolds
+  post:
+    description: "Create a holds resource. \nA holds resource represents a reviewable\
+      \ action taken on a Transaction."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              login: {type: string, description: The identifier of the Login that owns
+                  this holds resource.}
+              entity: {type: string, description: The Entity id in which this Hold belongs
+                  to.}
+              txn: {type: string, description: The identifier of the Txn that is being
+                  held with this hold.}
+              terminalTxn: {type: string, description: The TerminalTxn id in which this
+                  Hold belongs to.}
+              account: {type: string, description: The identifier of the Account that
+                  owns this holds resource.}
+              verification: {type: string, description: If this hold resource was triggered
+                  through a verification then this field stores the identifier of the
+                  Verification.}
+              verificationRef: {type: string, description: If this hold resource was
+                  triggered through Payrix Integration Risk then this field stores the
+                  identifier of the VerificationRef.}
+              decisionAction: {type: string, description: The DecisionAction id in which
+                  this Hold belongs to.}
+              action:
+                type: integer
+                description: "The action taken on the referenced Txn. Block, Hold, or\
+                  \ Reserve it.\n\n<details>\n<summary>Valid Values</summary> \n\n -\
+                  \ `0` - **NONE** No Action\n\n - `1` - **Block.** Block the Transaction\
+                  \ from proceeding. This returns an error.\n\n - `3` - **Hold.** Hold\
+                  \ the Transaction. It will not be captured until it is manually released.\n\
+                  \n - `4` - **Reserve** Reserve the Transaction. The funds for the\
+                  \ transaction will not be released until the Transaction is manually\
+                  \ reviewed.\n\n - `5` - **LIMIT** Block current activity.\n\n - `6`\
+                  \ - **PASS** Passed decision(s).\n\n </details>\n"
+                enum: [0, 1, 3, 4, 5, 6]
+                x-enum-descriptions: ['', '', Block. Block the Transaction from proceeding.
+                    This returns an error., Hold. Hold the Transaction. It will not
+                    be captured until it is manually released., Reserve. Reserve the
+                    Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed., '', '']
+              released: {type: string, description: If this hold was released this will
+                  contain the timestamp for when it was released., format: date-time}
+              reviewed: {type: string, description: If this hold was reviewed this will
+                  contain the timestamp for when it was reviewed., format: date-time}
+              releaseAction:
+                type: integer
+                example: '[releaseAction]'
+                enum: [1, 2, 3, 4]
+                description: "The final action taken on the hold while its been released.Valid\
+                  \ Values:\n\n<details>\n<summary>Valid Values</summary> \n\n - `1`\
+                  \ - **Holds released because the hold resource was approved.**\n\n\
+                  \ - `2` - **Holds released because the hold resource was cancelled.**\n\
+                  \n - `3` - **Holds released because the hold resource was refunded.**\n\
+                  \n - `4` - **Holds released because the hold resource was failed.**\n\
+                  \n </details>\n"
+                x-enum-descriptions: [Holds released because the hold resource was approved.,
+                  Holds released because the hold resource was cancelled., Holds released
+                    because the hold resource was refunded., Holds released because
+                    the hold resource was failed.]
+              holdSource:
+                type: string
+                example: '[holdSource]'
+                description: "Field created to know the reason for why a hold was created.\n\
+                  \n<details>\n<summary>Valid Values</summary> \n\n - `API_DECISION`\
+                  \ - **API_DECISION**\n\n - `POLICY_RUN` - **POLICY_RUN**\n\n - `RISK_ALERT`\
+                  \ - **RISK_ALERT**\n\n - `MANUAL` - **MANUAL**\n\n - `ERROR` - **ERROR**\n\
+                  \n </details>\n"
+                enum: [API_DECISION, POLICY_RUN, RISK_ALERT, MANUAL, ERROR]
+              holdSourceId: {type: string, description: Reason id for why a hold was
+                  created.}
+              delayedFundingStartDate: {type: string, format: date-time, description: The
+                  timestamp when hold was considered to be delaying funding.}
+              delayedFundingEndDate: {type: string, format: date-time, description: The
+                  timestamp when hold stopped delaying funding this might be due to
+                  the hold been released cancelled or funded.}
+              analyst: {type: string, description: The person who review the hold applied.}
+              claimed: {type: string, format: date-time, description: The timestamp
+                  for the most recent update of the analyst field}
+              division: {type: string, description: ID of the division associated with
+                  this vendor}
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [action, frozen, inactive, login]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this holds
+                  resource.}
+              entity: {}
+              txn: {description: The identifier of the Txn that is being held with this
+                  hold.}
+              terminalTxn: {}
+              account: {description: The identifier of the Account that owns this holds
+                  resource.}
+              verification: {description: If this hold resource was triggered through
+                  a verification then this field stores the identifier of the Verification.}
+              verificationRef: {description: If this hold resource was triggered through
+                  Payrix Integration Risk then this field stores the identifier of the
+                  VerificationRef.}
+              decisionAction: {}
+              action:
+                description: The action taken on the referenced Txn.
+                enum: ['0', '8', '1', '3', '4', '5', '6']
+                x-enum-descriptions: ['', '', Block. Block the Transaction from proceeding.
+                    This returns an error., Hold. Hold the Transaction. It will not
+                    be captured until it is manually released., Reserve. Reserve the
+                    Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed., '', '']
+              released: {description: If this hold was released this will contain the
+                  timestamp for when it was released., format: date-time}
+              reviewed: {description: If this hold was reviewed this will contain the
+                  timestamp for when it was reviewed., format: date-time}
+              releaseAction:
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: ['', '', '', '']
+              delayedFundingStartDate: {format: date-time}
+              delayedFundingEndDate: {format: date-time}
+              analyst: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, frozen, inactive, login]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this holds
+                  resource.}
+              entity: {}
+              txn: {description: The identifier of the Txn that is being held with this
+                  hold.}
+              terminalTxn: {}
+              account: {description: The identifier of the Account that owns this holds
+                  resource.}
+              verification: {description: If this hold resource was triggered through
+                  a verification then this field stores the identifier of the Verification.}
+              verificationRef: {description: If this hold resource was triggered through
+                  Payrix Integration Risk then this field stores the identifier of the
+                  VerificationRef.}
+              decisionAction: {}
+              action:
+                description: 'The action taken on the referenced Txn. Valid Values:
+                  `0` - TBD; `1` - Block, block the Transaction from proceeding, returning
+                  an error; `3` - Hold, hold the Transaction, not captured until manually
+                  released; `4` - Reserve, reserve the Transaction, funds not released
+                  until manually reviewed; `5` - TBD; `6` - TBD.'
+                enum: ['0', '8', '1', '3', '4', '5', '6']
+                x-enum-descriptions: ['', '', Block. Block the Transaction from proceeding.
+                    This returns an error., Hold. Hold the Transaction. It will not
+                    be captured until it is manually released., Reserve. Reserve the
+                    Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed., '', '']
+              released: {description: If this hold was released this will contain the
+                  timestamp for when it was released., format: date-time}
+              reviewed: {description: If this hold was reviewed this will contain the
+                  timestamp for when it was reviewed., format: date-time}
+              releaseAction:
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: ['', '', '', '']
+              delayedFundingStartDate: {format: date-time}
+              delayedFundingEndDate: {format: date-time}
+              analyst: {}
+              inactive:
+                description: 'Whether this resource is marked as inactive. Valid Values:
+                  `0` - Active, `1` - Inactive.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: 'Whether this resource is marked as frozen. Valid Values:
+                  `0` - Not Frozen, `1` - Frozen.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, frozen, inactive, login]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this holds
+                  resource.}
+              entity: {}
+              txn: {description: The identifier of the Txn that is being held with this
+                  hold.}
+              terminalTxn: {}
+              account: {description: The identifier of the Account that owns this holds
+                  resource.}
+              verification: {description: 'If this hold resource was triggered through
+                  a verification, then this field stores the identifier of the Verification.'}
+              verificationRef: {description: 'If this hold resource was triggered through
+                  Payrix Integration Risk, then this field stores the identifier of
+                  the VerificationRef.'}
+              decisionAction: {}
+              action:
+                description: The action taken on the referenced Txn.
+                enum: ['0', '8', '1', '3', '4', '5', '6']
+                x-enum-descriptions: ['', '', Block. Block the Transaction from proceeding.
+                    This returns an error., Hold. Hold the Transaction. It will not
+                    be captured until it is manually released., Reserve. Reserve the
+                    Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed., '', '']
+              released: {description: 'If this hold was released, this will contain
+                  the timestamp for when it was released.', format: date-time}
+              reviewed: {description: 'If this hold was reviewed, this will contain
+                  the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: ['', '', '', '']
+              delayedFundingStartDate: {format: date-time}
+              delayedFundingEndDate: {format: date-time}
+              analyst: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, frozen, inactive, login]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this holds
+                  resource.}
+              entity: {}
+              txn: {description: The identifier of the Txn that is being held with this
+                  hold.}
+              terminalTxn: {}
+              account: {description: The identifier of the Account that owns this holds
+                  resource.}
+              verification: {description: 'If this hold resource was triggered through
+                  a verification, then this field stores the identifier of the Verification.'}
+              verificationRef: {description: 'If this hold resource was triggered through
+                  Payrix Integration Risk, then this field stores the identifier of
+                  the VerificationRef.'}
+              decisionAction: {}
+              action:
+                description: The action taken on the referenced Txn.
+                enum: ['0', '8', '1', '3', '4', '5', '6']
+                x-enum-descriptions: ['', '', Block. Block the Transaction from proceeding.
+                    This returns an error., Hold. Hold the Transaction. It will not
+                    be captured until it is manually released., Reserve. Reserve the
+                    Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed., '', '']
+              released: {description: 'If this hold was released, this will contain
+                  the timestamp for when it was released.', format: date-time}
+              reviewed: {description: 'If this hold was reviewed, this will contain
+                  the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: ['', '', '', '']
+              delayedFundingStartDate: {format: date-time}
+              delayedFundingEndDate: {format: date-time}
+              analyst: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, frozen, inactive, login]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this holds
+                  resource.}
+              entity: {}
+              txn: {description: The identifier of the Txn that is being held with this
+                  hold.}
+              terminalTxn: {}
+              account: {description: The identifier of the Account that owns this holds
+                  resource.}
+              verification: {description: 'If this hold resource was triggered through
+                  a verification, then this field stores the identifier of the Verification.'}
+              verificationRef: {description: 'If this hold resource was triggered through
+                  Payrix Integration Risk, then this field stores the identifier of
+                  the VerificationRef.'}
+              decisionAction: {}
+              action:
+                description: The action taken on the referenced Txn.
+                enum: ['0', '8', '1', '3', '4', '5', '6']
+                x-enum-descriptions: ['', '', Block. Block the Transaction from proceeding.
+                    This returns an error., Hold. Hold the Transaction. It will not
+                    be captured until it is manually released., Reserve. Reserve the
+                    Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed., '', '']
+              released: {description: 'If this hold was released, this will contain
+                  the timestamp for when it was released.', format: date-time}
+              reviewed: {description: 'If this hold was reviewed, this will contain
+                  the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: ['', '', '', '']
+              delayedFundingStartDate: {format: date-time}
+              delayedFundingEndDate: {format: date-time}
+              analyst: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, frozen, inactive, login]
+            x-redacted: []
+      description: Create a Transaction Hold Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Create a Transaction Hold Response for the holds resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a Transaction Hold.
+    tags: [Transactions (Txns)]
+    operationId: postHolds

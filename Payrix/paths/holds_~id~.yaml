@@ -1,0 +1,393 @@
+  get:
+    description: "Query a holds resource. \nA holds resource represents a reviewable\
+      \ action taken on a Transaction."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string, description: The Transaction Hold ID.}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve a Transaction Hold Response for query on holds resource.
+      400:
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve a Transaction Hold by its ID.
+    tags: [Transactions (Txns)]
+    operationId: getHoldsId
+  put:
+    description: Details for update on holds
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string, description: The Transaction Hold ID.}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              login: {type: string, description: The identifier of the Login that owns
+                  this holds resource.}
+              verificationRef: {type: string, description: 'If this hold resource was
+                  triggered through Payrix Integration Risk, then this field stores
+                  the identifier of the VerificationRef.'}
+              released: {type: string, description: 'If this hold was released, this
+                  will contain the timestamp for when it was released.', format: date-time}
+              reviewed: {type: string, description: 'If this hold was reviewed, this
+                  will contain the timestamp for when it was reviewed., format: date-time'}
+              releaseAction:
+                type: integer
+                example: 2
+                enum: [1, 2, 3, 4]
+                description: "The final action taken on the hold while its been released.Valid\
+                  \ Values:\n\n<details>\n<summary>Valid Values</summary> \n\n - `1`\
+                  \ - **Holds released because the hold resource was approved.**\n\n\
+                  \ - `2` - **Holds released because the hold resource was cancelled.**\n\
+                  \n - `3` - **Holds released because the hold resource was refunded.**\n\
+                  \n - `4` - **Holds released because the hold resource was failed.**\n\
+                  \n </details>\n"
+                x-enum-descriptions: [Holds released because the hold resource was approved.,
+                  Holds released because the hold resource was cancelled., Holds released
+                    because the hold resource was refunded., Holds released because
+                    the hold resource was failed.]
+              holdSource:
+                type: string
+                example: RISK_ALERT
+                description: "Field created to know the reason for why a hold was created.\n\
+                  \n<details>\n<summary>Valid Values</summary> \n\n - `API_DECISION`\
+                  \ - **API_DECISION**\n\n - `POLICY_RUN` - **POLICY_RUN**\n\n - `RISK_ALERT`\
+                  \ - **RISK_ALERT**\n\n - `MANUAL` - **MANUAL**\n\n - `ERROR` - **ERROR**\n\
+                  \n </details>\n"
+                enum: [API_DECISION, POLICY_RUN, RISK_ALERT, MANUAL, ERROR]
+              holdSourceId: {type: string, description: reasonid for why a hold was
+                  created.}
+              delayedFundingStartDate: {type: string, format: date-time, description: The
+                  timestamp when hold was considered to be delaying funding.}
+              delayedFundingEndDate: {type: string, format: date-time, description: 'The
+                  timestamp when hold stopped delaying funding, this might be due to
+                  the hold been released, cancelled or funded.'}
+              analyst: {type: string, description: The person who review the hold applied.}
+              claimed: {type: string, format: date-time, description: The timestamp
+                  for the most recent update of the analyst field}
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              login: {type: string, description: The identifier of the Login that owns
+                  this holds resource.}
+              verificationRef: {type: string, description: 'If this hold resource was
+                  triggered through Payrix Integration Risk, then this field stores
+                  the identifier of the VerificationRef.'}
+              released: {type: string, description: 'If this hold was released, this
+                  will contain the timestamp for when it was released.', format: date-time}
+              reviewed: {type: string, description: 'If this hold was reviewed, this
+                  will contain the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                type: integer
+                example: [releaseAction]
+                enum: [1, 2, 3, 4]
+                description: "The final action taken on the hold while its been released.Valid\
+                  \ Values:\n\n<details>\n<summary>Valid Values</summary> \n\n - `1`\
+                  \ - **Holds released because the hold resource was approved.**\n\n\
+                  \ - `2` - **Holds released because the hold resource was cancelled.**\n\
+                  \n - `3` - **Holds released because the hold resource was refunded.**\n\
+                  \n - `4` - **Holds released because the hold resource was failed.**\n\
+                  \n </details>\n"
+                x-enum-descriptions: [Holds released because the hold resource was approved.,
+                  Holds released because the hold resource was cancelled., Holds released
+                    because the hold resource was refunded., Holds released because
+                    the hold resource was failed.]
+              holdSource:
+                type: string
+                example: RISK_ALERT
+                description: "Field created to know the reason for why a hold was created.\n\
+                  \n<details>\n<summary>Valid Values</summary> \n\n - `API_DECISION`\
+                  \ - **API_DECISION**\n\n - `POLICY_RUN` - **POLICY_RUN**\n\n - `RISK_ALERT`\
+                  \ - **RISK_ALERT**\n\n - `MANUAL` - **MANUAL**\n\n - `ERROR` - **ERROR**\n\
+                  \n </details>\n"
+                enum: [API_DECISION, POLICY_RUN, RISK_ALERT, MANUAL, ERROR]
+              holdSourceId: {type: string, description: reasonid for why a hold was
+                  created.}
+              delayedFundingStartDate: {type: string, format: date-time, description: The
+                  timestamp when hold was considered to be delaying funding.}
+              delayedFundingEndDate: {type: string, format: date-time, description: 'The
+                  timestamp when hold stopped delaying funding, this might be due to
+                  the hold been released, cancelled or funded.'}
+              analyst: {type: string, description: The person who review the hold applied.}
+              claimed: {type: string, format: date-time, description: The timestamp
+                  for the most recent update of the analyst field}
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              login: {type: string, description: The identifier of the Login that owns
+                  this holds resource.}
+              verificationRef: {type: string, description: 'If this hold resource was
+                  triggered through Payrix Integration Risk, then this field stores
+                  the identifier of the VerificationRef.'}
+              released: {type: string, description: 'If this hold was released, this
+                  will contain the timestamp for when it was released.', format: date-time}
+              reviewed: {type: string, description: 'If this hold was reviewed, this
+                  will contain the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                type: integer
+                example: 1
+                enum: [1, 2, 3, 4]
+                description: "The final action taken on the hold while its been released.Valid\
+                  \ Values:\n\n<details>\n<summary>Valid Values</summary> \n\n - `1`\
+                  \ - **Holds released because the hold resource was approved.**\n\n\
+                  \ - `2` - **Holds released because the hold resource was cancelled.**\n\
+                  \n - `3` - **Holds released because the hold resource was refunded.**\n\
+                  \n - `4` - **Holds released because the hold resource was failed.**\n\
+                  \n </details>\n"
+                x-enum-descriptions: [Holds released because the hold resource was approved.,
+                  Holds released because the hold resource was cancelled., Holds released
+                    because the hold resource was refunded., Holds released because
+                    the hold resource was failed.]
+              holdSource:
+                type: string
+                example: RISK_ALERT
+                description: "Field created to know the reason for why a hold was created.\n\
+                  \n<details>\n<summary>Valid Values</summary> \n\n - `API_DECISION`\
+                  \ - **API_DECISION**\n\n - `POLICY_RUN` - **POLICY_RUN**\n\n - `RISK_ALERT`\
+                  \ - **RISK_ALERT**\n\n - `MANUAL` - **MANUAL**\n\n - `ERROR` - **ERROR**\n\
+                  \n </details>\n"
+                enum: [API_DECISION, POLICY_RUN, RISK_ALERT, MANUAL, ERROR]
+              holdSourceId: {type: string, description: reasonid for why a hold was
+                  created.}
+              delayedFundingStartDate: {type: string, format: date-time, description: The
+                  timestamp when hold was considered to be delaying funding.}
+              delayedFundingEndDate: {type: string, format: date-time, description: 'The
+                  timestamp when hold stopped delaying funding, this might be due to
+                  the hold been released, cancelled or funded.'}
+              analyst: {type: string, description: The person who review the hold applied.}
+              claimed: {type: string, format: date-time, description: The timestamp
+                  for the most recent update of the analyst field}
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              login: {type: string, description: The identifier of the Login that owns
+                  this holds resource.}
+              verificationRef: {type: string, description: 'If this hold resource was
+                  triggered through Payrix Integration Risk, then this field stores
+                  the identifier of the VerificationRef.'}
+              released: {type: string, description: 'If this hold was released, this
+                  will contain the timestamp for when it was released.', format: date-time}
+              reviewed: {type: string, description: 'If this hold was reviewed, this
+                  will contain the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                type: integer
+                example: [releaseAction]
+                enum: [1, 2, 3, 4]
+                description: "The final action taken on the hold while its been released.Valid\
+                  \ Values:\n\n<details>\n<summary>Valid Values</summary> \n\n - `1`\
+                  \ - **Holds released because the hold resource was approved.**\n\n\
+                  \ - `2` - **Holds released because the hold resource was cancelled.**\n\
+                  \n - `3` - **Holds released because the hold resource was refunded.**\n\
+                  \n - `4` - **Holds released because the hold resource was failed.**\n\
+                  \n </details>\n"
+                x-enum-descriptions: [Holds released because the hold resource was approved.,
+                  Holds released because the hold resource was cancelled., Holds released
+                    because the hold resource was refunded., Holds released because
+                    the hold resource was failed.]
+              holdSource:
+                type: string
+                example: RISK_ALERT
+                description: "Field created to know the reason for why a hold was created.\n\
+                  \n<details>\n<summary>Valid Values</summary> \n\n - `API_DECISION`\
+                  \ - **API_DECISION**\n\n - `POLICY_RUN` - **POLICY_RUN**\n\n - `RISK_ALERT`\
+                  \ - **RISK_ALERT**\n\n - `MANUAL` - **MANUAL**\n\n - `ERROR` - **ERROR**\n\
+                  \n </details>\n"
+                enum: [API_DECISION, POLICY_RUN, RISK_ALERT, MANUAL, ERROR]
+              holdSourceId: {type: string, description: reasonid for why a hold was
+                  created.}
+              delayedFundingStartDate: {type: string, format: date-time, description: The
+                  timestamp when hold was considered to be delaying funding.}
+              delayedFundingEndDate: {type: string, format: date-time, description: 'The
+                  timestamp when hold stopped delaying funding, this might be due to
+                  the hold been released, cancelled or funded.'}
+              analyst: {type: string, description: The person who review the hold applied.}
+              claimed: {type: string, format: date-time, description: The timestamp
+                  for the most recent update of the analyst field}
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              login: {type: string, description: The identifier of the Login that owns
+                  this holds resource.}
+              verificationRef: {type: string, description: 'If this hold resource was
+                  triggered through Payrix Integration Risk, then this field stores
+                  the identifier of the VerificationRef.'}
+              released: {type: string, description: 'If this hold was released, this
+                  will contain the timestamp for when it was released.', format: date-time}
+              reviewed: {type: string, description: 'If this hold was reviewed, this
+                  will contain the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                type: integer
+                example: 1
+                enum: [1, 2, 3, 4]
+                description: "The final action taken on the hold while its been released.Valid\
+                  \ Values:\n\n<details>\n<summary>Valid Values</summary> \n\n - `1`\
+                  \ - **Holds released because the hold resource was approved.**\n\n\
+                  \ - `2` - **Holds released because the hold resource was cancelled.**\n\
+                  \n - `3` - **Holds released because the hold resource was refunded.**\n\
+                  \n - `4` - **Holds released because the hold resource was failed.**\n\
+                  \n </details>\n"
+                x-enum-descriptions: [Holds released because the hold resource was approved.,
+                  Holds released because the hold resource was cancelled., Holds released
+                    because the hold resource was refunded., Holds released because
+                    the hold resource was failed.]
+              holdSource:
+                type: string
+                example: [holdSource]
+                description: "Field created to know the reason for why a hold was created.\n\
+                  \n<details>\n<summary>Valid Values</summary> \n\n - `API_DECISION`\
+                  \ - **API_DECISION**\n\n - `POLICY_RUN` - **POLICY_RUN**\n\n - `RISK_ALERT`\
+                  \ - **RISK_ALERT**\n\n - `MANUAL` - **MANUAL**\n\n - `ERROR` - **ERROR**\n\
+                  \n </details>\n"
+                enum: [API_DECISION, POLICY_RUN, RISK_ALERT, MANUAL, ERROR]
+              holdSourceId: {type: string, description: reasonid for why a hold was
+                  created.}
+              delayedFundingStartDate: {type: string, format: date-time, description: The
+                  timestamp when hold was considered to be delaying funding.}
+              delayedFundingEndDate: {type: string, format: date-time, description: 'The
+                  timestamp when hold stopped delaying funding, this might be due to
+                  the hold been released, cancelled or funded.'}
+              analyst: {type: string, description: The person who review the hold applied.}
+              claimed: {type: string, format: date-time, description: The timestamp
+                  for the most recent update of the analyst field}
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              login: {type: string, description: The identifier of the Login that owns
+                  this holds resource.}
+              verificationRef: {type: string, description: 'If this hold resource was
+                  triggered through Payrix Integration Risk, then this field stores
+                  the identifier of the VerificationRef.'}
+              released: {type: string, description: 'If this hold was released, this
+                  will contain the timestamp for when it was released.', format: date-time}
+              reviewed: {type: string, description: 'If this hold was reviewed, this
+                  will contain the timestamp for when it was reviewed.', format: date-time}
+              releaseAction:
+                type: integer
+                example: 3
+                enum: [1, 2, 3, 4]
+                description: "The final action taken on the hold while its been released.Valid\
+                  \ Values:\n\n<details>\n<summary>Valid Values</summary> \n\n - `1`\
+                  \ - **Holds released because the hold resource was approved.**\n\n\
+                  \ - `2` - **Holds released because the hold resource was cancelled.**\n\
+                  \n - `3` - **Holds released because the hold resource was refunded.**\n\
+                  \n - `4` - **Holds released because the hold resource was failed.**\n\
+                  \n </details>\n"
+                x-enum-descriptions: [Holds released because the hold resource was approved.,
+                  Holds released because the hold resource was cancelled., Holds released
+                    because the hold resource was refunded., Holds released because
+                    the hold resource was failed.]
+              holdSource:
+                type: string
+                example: ERROR
+                description: "Field created to know the reason for why a hold was created.\n\
+                  \n<details>\n<summary>Valid Values</summary> \n\n - `API_DECISION`\
+                  \ - **API_DECISION**\n\n - `POLICY_RUN` - **POLICY_RUN**\n\n - `RISK_ALERT`\
+                  \ - **RISK_ALERT**\n\n - `MANUAL` - **MANUAL**\n\n - `ERROR` - **ERROR**\n\
+                  \n </details>\n"
+                enum: [API_DECISION, POLICY_RUN, RISK_ALERT, MANUAL, ERROR]
+              holdSourceId: {type: string, description: reasonid for why a hold was
+                  created.}
+              delayedFundingStartDate: {type: string, format: date-time, description: The
+                  timestamp when hold was considered to be delaying funding.}
+              delayedFundingEndDate: {type: string, format: date-time, description: 'The
+                  timestamp when hold stopped delaying funding, this might be due to
+                  the hold been released, cancelled or funded.'}
+              analyst: {type: string, description: The person who review the hold applied.}
+              claimed: {type: string, format: date-time, description: The timestamp
+                  for the most recent update of the analyst field}
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [frozen, inactive, login]
+            x-redacted: []
+      description: Update Transaction Hold Request
+      required: true
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/holdsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for update on holds transaction response.
+      400:
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update a Transaction Hold by its ID.
+    tags: [Transactions (Txns)]
+    operationId: putHoldsId

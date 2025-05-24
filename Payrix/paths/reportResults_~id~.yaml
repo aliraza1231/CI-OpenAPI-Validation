@@ -1,0 +1,858 @@
+  get:
+    description: Query a Report Result details for coming soon.
+    parameters:
+    - description: The ID of this report.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          report: {}
+                          type: {}
+                          documentType:
+                            enum: [json, xml, soap]
+                            x-enum-descriptions: ['', '', '']
+                          original: {}
+                          status:
+                            enum: [pending, processed]
+                            x-enum-descriptions: ['', '']
+                          effective: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      report: {}
+                      type: {}
+                      documentType:
+                        description: "The report results data format type. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n  - `json` - **JSON data\
+                          \ format.**\n\n  - `xml` - **XML data format.**\n\n  - `soap`\
+                          \ - **SOAP data format.**\n </details>\n"
+                        enum: [json, xml, soap]
+                      original: {}
+                      status:
+                        description: |
+                          Report Results Status
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `pending` - **Report Results Pending.**
+
+                            - `processed` - **Report Results Complete.**
+
+                          </details>
+                        enum: [pending, processed]
+                      effective: {}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          \n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Not\
+                          \ Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          report: {}
+                          type: {}
+                          documentType:
+                            enum: [json, xml, soap]
+                            x-enum-descriptions: ['', '', '']
+                          original: {}
+                          status:
+                            enum: [pending, processed]
+                            x-enum-descriptions: ['', '']
+                          effective: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      report: {}
+                      type: {}
+                      documentType:
+                        description: "The report results data format type. \n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n  - `json` - **JSON data\
+                          \ format.**\n\n  - `xml` - **XML data format.**\n\n  - `soap`\
+                          \ - **SOAP data format.**\n </details>\n"
+                        enum: [json, xml, soap]
+                      original: {}
+                      status:
+                        description: |
+                          Report Results Status
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `pending` - **Report Results Pending.**
+
+                            - `processed` - **Report Results Complete.**
+
+                          </details>
+                        enum: [pending, processed]
+                      effective: {}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          \n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Not\
+                          \ Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Retrieve Report Results Response for query on reportResults resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve Report Results by it's ID.
+    tags: [Report Results]
+    operationId: getReportResultsId
+  put:
+    description: Details for update on reportResults coming soon
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              report: {}
+              documentType:
+                enum: [json, xml, soap]
+                x-enum-descriptions: ['', '', '']
+              status:
+                enum: [pending, processed]
+                x-enum-descriptions: ['', '']
+              effective: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [documentType, frozen, inactive, report, status]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              report: {}
+              documentType:
+                enum: [json, xml, soap]
+                x-enum-descriptions: ['', '', '']
+              status:
+                enum: [pending, processed]
+                x-enum-descriptions: ['', '']
+              effective: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [documentType, frozen, inactive, report, status]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              report: {}
+              documentType:
+                enum: [json, xml, soap]
+                x-enum-descriptions: ['', '', '']
+              status:
+                enum: [pending, processed]
+                x-enum-descriptions: ['', '']
+              effective: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [documentType, frozen, inactive, report, status]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              report: {}
+              documentType:
+                enum: [json, xml, soap]
+                x-enum-descriptions: ['', '', '']
+              status:
+                enum: [pending, processed]
+                x-enum-descriptions: ['', '']
+              effective: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [documentType, frozen, inactive, report, status]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              report: {}
+              documentType:
+                enum: [json, xml, soap]
+                x-enum-descriptions: ['', '', '']
+              status:
+                enum: [pending, processed]
+                x-enum-descriptions: ['', '']
+              effective: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [documentType, frozen, inactive, report, status]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              report: {}
+              documentType:
+                enum: [json, xml, soap]
+                x-enum-descriptions: ['', '', '']
+              status:
+                enum: [pending, processed]
+                x-enum-descriptions: ['', '']
+              effective: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [documentType, frozen, inactive, report, status]
+            x-redacted: []
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          report: {}
+                          type: {}
+                          documentType:
+                            enum: [json, xml, soap]
+                            x-enum-descriptions: ['', '', '']
+                          original: {}
+                          status:
+                            enum: [pending, processed]
+                            x-enum-descriptions: ['', '']
+                          effective: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          report: {}
+                          type: {}
+                          documentType:
+                            enum: [json, xml, soap]
+                            x-enum-descriptions: ['', '', '']
+                          original: {}
+                          status:
+                            enum: [pending, processed]
+                            x-enum-descriptions: ['', '']
+                          effective: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for update on reportResults resource
+    tags: [Report Results]
+    operationId: putReportResultsId
+  delete:
+    description: Details for delete on reportResults coming soon
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          report: {}
+                          type: {}
+                          documentType:
+                            enum: [json, xml, soap]
+                            x-enum-descriptions: ['', '', '']
+                          original: {}
+                          status:
+                            enum: [pending, processed]
+                            x-enum-descriptions: ['', '']
+                          effective: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          report: {}
+                          type: {}
+                          documentType:
+                            enum: [json, xml, soap]
+                            x-enum-descriptions: ['', '', '']
+                          original: {}
+                          status:
+                            enum: [pending, processed]
+                            x-enum-descriptions: ['', '']
+                          effective: {}
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for delete on reportResults resource
+    tags: [Report Results]
+    operationId: deleteReportResultsId

@@ -1,0 +1,767 @@
+properties:
+  type: {
+    type: string,
+    description: "The type of terminal. This field is stored as an integer and must be between 1 and 417.
+      <details><summary>Valid Values</summary>\n\    
+        \n- `125158LLC` - **12:51:58 LLC POS**\n\
+        \n- `3Delta` - **3 Delta Systems Virtual Terminal**\n\
+        \n- `3DeltaPws` - **3 Delta Systems Payment WorkSuite**\n\
+        \n- `911SoftwareCreditline` - **911 Software Credit Line**\n\
+        \n- `abcLiquors` - **''**\n\
+        \n- `abc610SE` - **''**\n\
+        \n- `achDirect` - **''**\n\
+        \n- `aciRcsSwitch` - **''**\n\
+        \n- `acoSoftware` - **''**\n\
+        \n- `activantFalcon` - **''**\n\
+        \n- `adsGilbarco` - **''**\n\
+        \n- `adyen` - **''**\n\
+        \n- `ahcc` - **''**\n\
+        \n- `ajb` - **''**\n\
+        \n- `ajbFipayDirectTandem` - **''**\n\
+        \n- `ajbIcip610` - **''**\n\
+        \n- `ajbRtsIbm` - **''**\n\
+        \n- `ajbRtsTandem` - **''**\n\
+        \n- `ajbBevn` - **''**\n\
+        \n- `ajbRue21` - **''**\n\
+        \n- `ajbSpoch` - **''**\n\
+        \n- `allureGlobal` - **''**\n\
+        \n- `alohaEnhanced610` - **''**\n\
+        \n- `alohaTerm` - **''**\n\
+        \n- `aprivaGateway` - **''**\n\
+        \n- `aprivaIwl255` - **''**\n\
+        \n- `apriva610` - **''**\n\
+        \n- `aprivapayAtt` - **''**\n\
+        \n- `aprivapayMobile` - **''**\n\
+        \n- `aptosEpicorRetail` - **''**\n\
+        \n- `ascom` - **''**\n\
+        \n- `asig` - **''**\n\
+        \n- `aurus` - **''**\n\
+        \n- `authorizeNet` - **''**\n\
+        \n- `automatedCashSystems` - **''**\n\
+        \n- `b2kSystems` - **''**\n\
+        \n- `bevnSoftware` - **''**\n\
+        \n- `billabong` - **''**\n\
+        \n- `bncb` - **''**\n\
+        \n- `bobEvans610` - **''**\n\
+        \n- `bookstoreManager` - **''**\n\
+        \n- `boost2Delta` - **''**\n\
+        \n- `boostBoraPayer` - **''**\n\
+        \n- `boostDirectInsite` - **''**\n\
+        \n- `boostMpg` - **''**\n\
+        \n- `breakawayVisionPos` - **''**\n\
+        \n- `bridgepay` - **''**\n\
+        \n- `brinkSoftware` - **''**\n\
+        \n- `buyAtab` - **''**\n\
+        \n- `caclGift` - **''**\n\
+        \n- `cardinalHealth610` - **''**\n\
+        \n- `cayan` - **''**\n\
+        \n- `ccciWebsite` - **''**\n\
+        \n- `cdsGlobalPaydq` - **''**\n\
+        \n- `cenposHostCapture` - **''**\n\
+        \n- `cenposIsoEmd` - **''**\n\
+        \n- `cfre610` - **''**\n\
+        \n- `chargePayments` - **''**\n\
+        \n- `chargesmartPaywareConnect` - **''**\n\
+        \n- `chrb610` - **''**\n\
+        \n- `chsp` - **''**\n\
+        \n- `ckfrIntrixSupercharge` - **''**\n\
+        \n- `clre610Salepoint` - **''**\n\
+        \n- `comdataSmartdesq` - **''**\n\
+        \n- `commerciant` - **''**\n\
+        \n- `crackerBarrel` - **''**\n\
+        \n- `crainAtlanta` - **''**\n\
+        \n- `craneVendingServices` - **''**\n\
+        \n- `creditCall` - **''**\n\
+        \n- `ctrSystems` - **''**\n\
+        \n- `cubicPaymentApplication` - **''**\n\
+        \n- `cyberSource` - **''**\n\
+        \n- `cyberSourceVsntConversion` - **''**\n\
+        \n- `cyberSourceVsntResellerBasic` - **''**\n\
+        \n- `cyberSourceVsntResellerPremier` - **''**\n\
+        \n- `dataBusnessSystems` - **''**\n\
+        \n- `dataCap` - **''**\n\
+        \n- `dataCapDialTran` - **''**\n\
+        \n- `dataCapEpayRepro` - **''**\n\
+        \n- `dataCapGiftEpay` - **''**\n\
+        \n- `dataCapIpTran` - **''**\n\
+        \n- `dataCapIpTranLt` - **''**\n\
+        \n- `dataCapIpTranLtMoble` - **''**\n\
+        \n- `dataCapNetEpay` - **''**\n\
+        \n- `dataCapTranRepro` - **''**\n\
+        \n- `dataCapTwinTran` - **''**\n\
+        \n- `dataCapTwinTxnServer` - **''**\n\
+        \n- `dataVantage` - **''**\n\
+        \n- `dataVantageFnln610` - **''**\n\
+        \n- `dbsTplusEnHanced` - **''**\n\
+        \n- `dbsTransactionPlus` - **''**\n\
+        \n- `dealBird` - **''**\n\
+        \n- `dejavoo` - **''**\n\
+        \n- `delego` - **''**\n\
+        \n- `digicom` - **''**\n\
+        \n- `directInsite` - **''**\n\
+        \n- `discGoTech` - **''**\n\
+        \n- `dl610Snt` - **''**\n\
+        \n- `dlglVarSoftware` - **''**\n\
+        \n- `dlgl610s` - **''**\n\
+        \n- `dominosAci` - **''**\n\
+        \n- `ecommercePlus` - **''**\n\
+        \n- `edgil` - **''**\n\
+        \n- `eesCompanies` - **''**\n\
+        \n- `elavonEnConcert610` - **''**\n\
+        \n- `elavonFuseboxGateway` - **''**\n\
+        \n- `elavonProtobase` - **''**\n\
+        \n- `elavonPayments` - **''**\n\
+        \n- `elpl610r` - **''**\n\
+        \n- `epayHealthcareMonetra` - **''**\n\
+        \n- `equinox` - **''**\n\
+        \n- `esdCard` - **''**\n\
+        \n- `eatouch` - **''**\n\
+        \n- `exatouchVsb` - **''**\n\
+        \n- `exit41` - **''**\n\
+        \n- `ezDine` - **''**\n\
+        \n- `ezRetail` - **''**\n\
+        \n- `fandango` - **''**\n\
+        \n- `firstGlobalBillingSapwalletVsb` - **''**\n\
+        \n- `fitb610s` - **''**
+        \n- `fredmeyr610` - **''**\n\
+        \n- `freedomPay` - **''**\n\
+        \n- `ftniGatewayEtran` - **''**\n\
+        \n- `futurePosVsb` - **''**\n\
+        \n- `GambleidTsevo` - **GambleID / TSEVO POS**\n\
+        \n- `Giftango` - **Giftango POS**\n\
+        \n- `Givex` - **Givex POS**\n\
+        \n- `gmsPaymentGateway` - **''**\n\
+        \n- `gmsPajb` - **''**\n\
+        \n- `gnctSoftware` - **''**\n\
+        \n- `goEMerchant` - **''**\n\
+        \n- `govolution` - **''**\n\
+        \n- `grantStreet` - **''**\n\
+        \n- `greatLakesScrip` - **''**\n\
+        \n- `greatLakesScripVar` - **''**\n\
+        \n- `gsiCommerce` - **''**\n\
+        \n- `handpoint` - **''**\n\
+        \n- `harleyOwnersGroup` - **''**\n\
+        \n- `highradius` - **''**\n\
+        \n- `hp` - **''**\n\
+        \n- `hypercom5500m` - **''**\n\
+        \n- `hypercomPaymentServer` - **''**\n\
+        \n- `hypercomT4205` - **''**\n\
+        \n- `hypercomT4205E2e` - **''**\n\
+        \n- `hypercomT4210` - **''**\n\
+        \n- `hypercomT4210E2e` - **''**\n\
+        \n- `hypercom4220Dial` - **''**\n\
+        \n- `hypercom4220DialE2e` - **''**\n\
+        \n- `hypercom4220Ssl` - **''**\n\
+        \n- `hypercom4220SslE2e` - **''**\n\
+        \n- `i2cVsb` - **''**\n\
+        \n- `ibmace` - **''**\n\
+        \n- `icVerify` - **''**\n\
+        \n- `incentPay` - **''**\n\
+        \n- `index` - **''**\n\
+        \n- `ingenico610` - **''**\n\
+        \n- `ingenico720` - **''**\n\
+        \n- `ingenicoIct2203xDial` - **''**\n\
+        \n- `ingenicoIct2203xDialE2ee` - **''**\n\
+        \n- `ingenicoIct2203xDialPilot` - **''**\n\
+        \n- `ingenicoIct2203xSsl` - **''**\n\
+        \n- `ingenicoIct2203xSslE2ee` - **''**\n\
+        \n- `ingenicoIct2203xSSLPilot` - **''**\n\
+        \n- `ingenicoIct220Ctls3xDial` - **''**\n\
+        \n- `ingenicoIct220Ctls3xDialEe2e` - **''**\n\
+        \n- `ingenicoIct220Ctls3xSsl` - **''**\n\
+        \n- `ingenicoIct220Ctls3xSslE2ee` - **''**\n\
+        \n- `ingenicoIct2503xDial` - **''**\n\
+        \n- `ingenicoIct2503xDialE2ee` - **''**\n\
+        \n- `ingenicoIct2503xSsl` - **''**\n\
+        \n- `ingenicoIct2503xSSLE2ee` - **''**\n\
+        \n- `ingenicoIwl222BtDial` - **''**\n\
+        \n- `ingenicoIwl222BtDialE2ee` - **''**\n\
+        \n- `ingenicoIwl222BtSsl` - **''**\n\
+        \n- `ingenicoIwl222BtSSlE2ee` - **''**\n\
+        \n- `ingenicoIwl252BtDial` - **''**\n\
+        \n- `ingenicoIw252BtDialE2ee` - **''**\n\
+        \n- `ingenicoIw252BtSsl` - **''**\n\
+        \n- `ingenicoIw252BtSslE2ee` - **''**\n\
+        \n- `ingenicoIw2553g` - **''**\n\
+        \n- `ingenicoIw2553gE2ee` - **''**\n\
+        \n- `ingenicoSiEnterprise` - **''**\n\
+        \n- `instamed` - **''**\n\
+        \n- `ipayGateway` - **''**\n\
+        \n- `isd` - **''**\n\
+        \n- `islandPacific` - **''**\n\
+        \n- `isvOpenmotionVsb` - **''**\n\
+        \n- `isv510` - **''**\n\
+        \n- `isv600` - **''**\n\
+        \n- `isv610` - **''**\n\
+        \n- `isvVsk` - **''**\n\
+        \n- `itransact` - **''**\n\
+        \n- `jewlSoftware` - **''**\n\
+        \n- `jockeyEcomm` - **''**\n\
+        \n- `jockeyRetail` - **''**\n\
+        \n- `kachyng` - **''**\n\
+        \n- `klik` - **''**\n\
+        \n- `kmartGift` - **''**\n\
+        \n- `kubra` - **''**\n\
+        \n- `lightYear` - **''**\n\
+        \n- `linked2Pay` - **''**\n\
+        \n- `longRangeSystemsLrs` - **''**\n\
+        \n- `lumberVisaK` - **''**\n\
+        \n- `lumgPos` - **''**\n\
+        \n- `magicWrighter` - **''**\n\
+        \n- `magnetCardServices` - **''**\n\
+        \n- `mainstreetMonetra510` - **''**\n\
+        \n- `mainstreetMonetra610` - **''**\n\
+        \n- `mastercardOpenapi` - **''**\n\
+        \n- `mastercardPaymentGateway` - **''**\n\
+        \n- `meiApriva` - **''**\n\
+        \n- `menusoftDigitalDining` - **''**\n\
+        \n- `merchantLinkCDG` - **''**\n\
+        \n- `merchantLinkCredit` - **''**\n\
+        \n- `meritSolar` - **''**\n\
+        \n- `microsSymphony` - **''**\n\
+        \n- `microsalePos` - **''**\n\
+        \n- `midniteExpressSlipstream` - **''**\n\
+        \n- `mightyTicket` - **''**\n\
+        \n- `milleniumRetailSolutions` - **''**\n\
+        \n- `mobileAccept` - **''**\n\
+        \n- `mobileAcceptFlatRate` - **''**\n\
+        \n- `mobileCheckoutQms` - **''**\n\
+        \n- `mobileCheckoutStandard` - **''**\n\
+        \n- `monetraAuth` - **''**\n\
+        \n- `monroMuffler` - **''**\n\
+        \n- `mpayGateway` - **''**\n\
+        \n- `mtxepsWineps` - **''**\n\
+        \n- `mvsp` - **''**\n\
+        \n- `ncrAdvancedRestaurant` - **''**\n\
+        \n- `ncrCinema` - **''**\n\
+        \n- `ncrCounterpoint510` - **''**\n\
+        \n- `ncrCounterpoint610` - **''**\n\
+        \n- `ncrRetalixConnectedPayments` - **''**\n\
+        \n- `ncrSilver` - **''**\n\
+        \n- `ncrSilverPro` - **''**\n\
+        \n- `ncrSilverProQms` - **''**\n\
+        \n- `neoGames610` - **''**\n\
+        \n- `networkMerchants` - **''**\n\
+        \n- `nsbEps` - **''**\n\
+        \n- `nourdersOdp` - **''**\n\
+        \n- `nurit2159` - **''**\n\
+        \n- `nurit8400EDial` - **''**\n\
+        \n- `oCharleys` - **''**\n\
+        \n- `olo` - **''**\n\
+        \n- `opConnect` - **''**\n\
+        \n- `optimalPaymentsGateway` - **''**\n\
+        \n- `orccCollectPay` - **''**\n\
+        \n- `orccAciWorldwide` - **''**\n\
+        \n- `orderTalk` - **''**\n\
+        \n- `paVitalcheck` - **''**\n\
+        \n- `paFidelityExpress` - **''**\n\
+        \n- `paGrantStreet` - **''**\n\
+        \n- `parkmobile` - **''**\n\
+        \n- `paxSp30Casio` - **''**\n\
+        \n- `payGov` - **''**\n\
+        \n- `paydiantSj` - **''**\n\
+        \n- `payFirstEdcVpos` - **''**\n\
+        \n- `paypalPayflowLink` - **''**\n\
+        \n- `paypalPayflowLinkReseller` - **''**\n\
+        \n- `paypalPayflowPro` - **''**\n\
+        \n- `paypalPayflowProReseller` - **''**\n\
+        \n- `payright` - **''**\n\
+        \n- `paytechVsb` - **''**\n\
+        \n- `pcAmerica` - **''**\n\
+        \n- `PLSTQ610` - **''**\n\
+        \n- `plugNPlay` - **''**\n\
+        \n- `poynt` - **''**\n\
+        \n- `precida` - **''**\n\
+        \n- `pricetonCardConnect` - **''**\n\
+        \n- `princetonEcommCollectpay` - **''**\n\
+        \n- `princetonPayments` - **''**\n\
+        \n- `princetonPayware` - **''**\n\
+        \n- `propSoftware` - **''**\n\
+        \n- `purecommerceVsb` - **''**\n\
+        \n- `pxpSolutionsRetail` - **''**\n\
+        \n- `rediantRposLighthouse` - **''**\n\
+        \n- `rainbowApparel` - **''**\n\
+        \n- `rdyc610s` - **''**\n\
+        \n- `redOakPs` - **''**\n\
+        \n- `redfinNetwork` - **''**\n\
+        \n- `remcoSoftware` - **''**\n\
+        \n- `rentACenter` - **''**\n\
+        \n- `reproOnlyIngIct220Dial` - **''**\n\
+        \n- `reproOnlyIngIct220DialE2ee` - **''**\n\
+        \n- `reproOnlyIngIct220SslE2ee` - **''**\n\
+        \n- `reproOnlyIngIct250Dial` - **''**\n\
+        \n- `reproOnlyIngIct250DialE2ee` - **''**\n\
+        \n- `reproOnlyIngIct250Ssl` - **''**\n\
+        \n- `reproOnlyIngIct250SslE2ee` - **''**\n\
+        \n- `reproOnlyVerifoneVx520DcDial` - **''**\n\
+        \n- `reproOnlyVerifoneVx520DcSsl` - **''**\n\
+        \n- `reproOnlyVerifoneVx520DialCtls` - **''**\n\
+        \n- `reproOnlyVerifoneVx520SslCtls` - **''**\n\
+        \n- `retrieverSoftware` - **''**\n\
+        \n- `revlinkCollect` - **''**\n\
+        \n- `revtrak` - **''**\n\
+        \n- `reamMobile` - **''**\n\
+        \n- `roamMobileTest` - **''**\n\
+        \n- `roamData` - **''**\n\
+        \n- `salepoint` - **''**\n\
+        \n- `salepointClaires` - **''**\n\
+        \n- `sbcSolutions` - **''**\n\
+        \n- `secureTrading` - **''**\n\
+        \n- `sequoiaRetialSystems` - **''**\n\
+        \n- `shci610` - **''**\n\
+        \n- `shift4OnTheNet` - **''**\n\
+        \n- `sightlinePayments` - **''**\n\
+        \n- `slimCdEntNonReseller` - **''**\n\
+        \n- `slimCdEnterprise` - **''**\n\
+        \n- `slimCdPro` - **''**\n\
+        \n- `slimCdProNonReseller` - **''**\n\
+        \n- `snlh610` - **''**\n\
+        \n- `southernDataComm` - **''**\n\
+        \n- `spsEzpay` - **''**\n\
+        \n- `squirrelSystems` - **''**\n\
+        \n- `ster610` - **''**\n\
+        \n- `storisVision9` - **''**\n\
+        \n- `ststSoftware` - **''**\n\
+        \n- `talbots` - **''**\n\
+        \n- `tangiblePayments` - **''**\n\
+        \n- `tenderRetail` - **''**\n\
+        \n- `tillster` - **''**\n\
+        \n- `tnspayGateway` - **''**\n\
+        \n- `toast` - **''**\n\
+        \n- `toyzPos` - **''**\n\
+        \n- `transactionWirelessSvs` - **''**\n\
+        \n- `transax` - **''**\n\
+        \n- `tranzgate` - **''**\n\
+        \n- `trem610` - **''**\n\
+        \n- `triversity` - **''**\n\
+        \n- `triversityPos` - **''**\n\
+        \n- `trustcommVault610` - **''**\n\
+        \n- `trustcommVault600` - **''**\n\
+        \n- `trustcommerce2011` - **''**\n\
+        \n- `tsysAmexPipPcSoftware` - **''**\n\
+        \n- `tsysAmexPipTerminal` - **''**\n\
+        \n- `tsysDialPay` - **''**\n\
+        \n- `tsysPosPort` - **''**\n\
+        \n- `twitpay` - **''**\n\
+        \n- `uhaul` - **''**\n\
+        \n- `uicBezel8` - **''**\n\
+        \n- `upSolution610` - **''**\n\
+        \n- `usaEpay` - **''**\n\
+        \n- `usfs` - **''**\n\
+        \n- `ventek` - **''**\n\
+        \n- `verifone` - **''**\n\
+        \n- `verifone510Terminal` - **''**\n\
+        \n- `verifone600Terminal` - **''**\n\
+        \n- `verifone610` - **''**\n\
+        \n- `verifoneOmni3200` - **''**\n\
+        \n- `verifonePaywareConnect` - **''**\n\
+        \n- `verifonePaywareMobile` - **''**\n\
+        \n- `verifonePaywarePc` - **''**\n\
+        \n- `verifonePaywareTranactRita` - **''**\n\
+        \n- `verifonePcChargeGoSoftware` - **''**\n\
+        \n- `verifonePoint` - **''**\n\
+        \n- `verifonePointEntMx` - **''**\n\
+        \n- `verifonePointEntVx` - **''**\n\
+        \n- `verifoneRuby` - **''**\n\
+        \n- `verifoneVx510` - **''**\n\
+        \n- `verifoneVx510DcDial` - **''**\n\
+        \n- `verifoneVx510DcIp` - **''**\n\
+        \n- `verifoneVx510DcSsl` - **''**\n\
+        \n- `verifoneVx510le` - **''**\n\
+        \n- `verifoneVx520DcDialCtlsE2ee` - **''**\n\
+        \n- `verifoneVx520DcDialE2ee` - **''**\n\
+        \n- `verifoneVx520DcIp1` - **''**\n\
+        \n- `verifoneVx520DcIp2` - **''**\n\
+        \n- `verifoneVx520DcIpCtls` - **''**\n\
+        \n- `verifoneVx520DcIpCtlsE2ee` - **''**\n\
+        \n- `verifoneVx520DcSslCtlsE2ee` - **''**\n\
+        \n- `verifoneVx520DcSslE2ee` - **''**\n\
+        \n- `verifoneVx520DialOnly` - **''**\n\
+        \n- `verifoneVx570Dial` - **''**\n\
+        \n- `verifoneVx570Ip` - **''**\n\
+        \n- `verifoneVx570Ssl` - **''**\n\
+        \n- `verifoneVx6803gGprs` - **''**\n\
+        \n- `vicoSoftware` - **''**\n\
+        \n- `virtualTerminal` - **''**\n\
+        \n- `vistaEntertainment` - **''**
+        \n- `vitalcheck` - **''**\n\
+        \n- `vmcAddOnAndroidByodQmd` - **''**\n\
+        \n- `vmcAddOnAndroidByodStandard` - **''**\n\
+        \n- `vmcAddOnBundleByodQms` - **''**\n\
+        \n- `vmcAddOnBundleByodStandard` - **''**\n\
+        \n- `vmcAddOnBundleCellularQmd` - **''**\n\
+        \n- `vmcAddOnBundleCellularStandard` - **''**\n\
+        \n- `vmcAddOnBundleWifiQmd` - **''**\n\
+        \n- `vmcAddOnBundleWifiStandard` - **''**\n\
+        \n- `vmcFieldBundleByodQmd` - **''**\n\
+        \n- `vmcFieldBundleByodStandard` - **''**\n\
+        \n- `vmcFieldBundleCellularQms` - **''**\n\
+        \n- `vmcFieldBundleCellularStandard` - **''**\n\
+        \n- `vmcStoreAndroidByodQms` - **''**\n\
+        \n- `vmcStoreAndroidByodStandard` - **''**\n\
+        \n- `vmcStoreBundleByodQms` - **''**\n\
+        \n- `vmcStoreBundleByodStandard` - **''**\n\
+        \n- `vmcStoreBundleCellularQms` - **''**\n\
+        \n- `vmcStoreBundleCellularStandard` - **''**\n\
+        \n- `vmcStoreBundleWifiQms` - **''**\n\
+        \n- `vmcStoreBundleWifiStandard` - **''**\n\
+        \n- `vPlus` - **''**\n\
+        \n- `vsb` - **''**\n\
+        \n- `vsbGreenbeanRecycle` - **''**\n\
+        \n- `vsbKaizen` - **''**\n\
+        \n- `vsbOrderbridge` - **''**\n\
+        \n- `vsbPhonixManagedNetwork` - **''**\n\
+        \n- `vsbSamurai` - **''**\n\
+        \n- `vsbVisat` - **''**\n\
+        \n- `vsbWiretrust` - **''**\n\
+        \n- `vsbXgateway` - **''**\n\
+        \n- `wandGift` - **''**\n\
+        \n\n- `waySystemsMtt5000` - **''**\n\
+        \n- `wendysCom` - **''**\n\
+        \n- `whirl` - **''**\n\
+        \n- `winn610s` - **''**\n\
+        \n- `xpaySoftware` - **''**\n\
+        \n- `xpient610` - **''**\n\
+        \n- `xpientSolutions` - **''**\n\n
+      </details>",
+    enum: [ 125158LLC, 3Delta, 3DeltaPws, 911SoftwareCreditline,
+            abcLiquors, abc610SE, achDirect, aciRcsSwitch, acoSoftware,
+            activantFalcon, adsGilbarco, adyen, ahcc, ajb, ajbFipayDirectTandem,
+            ajbIcip610, ajbRtsIbm, ajbRtsTandem, ajbBevn, ajbRue21,
+            ajbSpoch, allureGlobal, alohaEnhanced610, alohaTerm, aprivaGateway,
+            aprivaIwl255, apriva610, aprivapayAtt, aprivapayMobile,
+            aptosEpicorRetail, ascom, asig, aurus, authorizeNet, automatedCashSystems,
+            b2kSystems, bevnSoftware, billabong, bncb, bobEvans610,
+            bookstoreManager, boost2Delta, boostBoraPayer, boostDirectInsite,
+            boostMpg, breakawayVisionPos, bridgepay, brinkSoftware,
+            buyAtab, caclGift, cardinalHealth610, cayan, ccciWebsite,
+            cdsGlobalPaydq, cenposHostCapture, cenposIsoEmd, cfre610,
+            chargePayments, chargesmartPaywareConnect, chrb610, chsp,
+            ckfrIntrixSupercharge, clre610Salepoint, comdataSmartdesq,
+            commerciant, crackerBarrel, crainAtlanta, craneVendingServices,
+            creditCall, ctrSystems, cubicPaymentApplication, cyberSource,
+            cyberSourceVsntConversion, cyberSourceVsntResellerBasic,
+            cyberSourceVsntResellerPremier, dataBusnessSystems, dataCap,
+            dataCapDialTran, dataCapEpayRepro, dataCapGiftEpay, dataCapIpTran,
+            dataCapIpTranLt, dataCapIpTranLtMoble, dataCapNetEpay,
+            dataCapTranRepro, dataCapTwinTran, dataCapTwinTxnServer,
+            dataVantage, dataVantageFnln610, dbsTplusEnHanced, dbsTransactionPlus,
+            dealBird, dejavoo, delego, digicom, directInsite, discGoTech,
+            dl610Snt, dlglVarSoftware, dlgl610s, dominosAci, ecommercePlus,
+            edgil, eesCompanies, elavonEnConcert610, elavonFuseboxGateway,
+            elavonProtobase, elavonPayments, elpl610r, epayHealthcareMonetra,
+            equinox, esdCard, eatouch, exatouchVsb, exit41, expressTriPos,
+            ezDine, ezRetail, fandango, firstGlobalBillingSapwalletVsb,
+            fitb610s, fredmeyr610, freedomPay, ftniGatewayEtran, futurePosVsb,
+            GambleidTsevo, Giftango, Givex, gmsPaymentGateway, gmsPajb,
+            gnctSoftware, goEMerchant, govolution, grantStreet, greatLakesScrip,
+            greatLakesScripVar, gsiCommerce, handpoint, harleyOwnersGroup,
+            highradius, hp, hypercom5500m, hypercomPaymentServer,
+            hypercomT4205, hypercomT4205E2e, hypercomT4210, hypercomT4210E2e,
+            hypercom4220Dial, hypercom4220DialE2e, hypercom4220Ssl,
+            hypercom4220SslE2e, i2cVsb, ibmace, icVerify, incentPay,
+            index, ingenico610, ingenico720, ingenicoIct2203xDial,
+            ingenicoIct2203xDialE2ee, ingenicoIct2203xDialPilot, ingenicoIct2203xSsl,
+            ingenicoIct2203xSslE2ee, ingenicoIct2203xSSLPilot, ingenicoIct220Ctls3xDial,
+            ingenicoIct220Ctls3xDialEe2e, ingenicoIct220Ctls3xSsl,
+            ingenicoIct220Ctls3xSslE2ee, ingenicoIct2503xDial, ingenicoIct2503xDialE2ee,
+            ingenicoIct2503xSsl, ingenicoIct2503xSSLE2ee, ingenicoIwl222BtDial,
+            ingenicoIwl222BtDialE2ee, ingenicoIwl222BtSsl, ingenicoIwl222BtSSlE2ee,
+            ingenicoIwl252BtDial, ingenicoIw252BtDialE2ee, ingenicoIw252BtSsl,
+            ingenicoIw252BtSslE2ee, ingenicoIw2553g, ingenicoIw2553gE2ee,
+            ingenicoSiEnterprise, instamed, ipayGateway, isd, islandPacific,
+            isvOpenmotionVsb, isv510, isv600, isv610, isvVsk, itransact,
+            jewlSoftware, jockeyEcomm, jockeyRetail, kachyng, klik,
+            kmartGift, kubra, lightYear, linked2Pay, longRangeSystemsLrs,
+            lumberVisaK, lumgPos, magicWrighter, magnetCardServices,
+            mainstreetMonetra510, mainstreetMonetra610, mastercardOpenapi,
+            mastercardPaymentGateway, meiApriva, menusoftDigitalDining,
+            merchantLinkCDG, merchantLinkCredit, meritSolar, microsSymphony,
+            microsalePos, midniteExpressSlipstream, mightyTicket,
+            milleniumRetailSolutions, mobileAccept, mobileAcceptFlatRate,
+            mobileCheckoutQms, mobileCheckoutStandard, monetraAuth,
+            monroMuffler, mpayGateway, mtxepsWineps, mvsp, ncrAdvancedRestaurant,
+            ncrCinema, ncrCounterpoint510, ncrCounterpoint610, ncrRetalixConnectedPayments,
+            ncrSilver, ncrSilverPro, ncrSilverProQms, neoGames610,
+            networkMerchants, nsbEps, nourdersOdp, nurit2159, nurit8400EDial,
+            oCharleys, olo, opConnect, optimalPaymentsGateway, orccCollectPay,
+            orccAciWorldwide, orderTalk, paVitalcheck, paFidelityExpress,
+            paGrantStreet, parkmobile, paxSp30Casio, payGov, paydiantSj,
+            payFirstEdcVpos, paypalPayflowLink, paypalPayflowLinkReseller,
+            paypalPayflowPro, paypalPayflowProReseller, payright,
+            paytechVsb, pcAmerica, PLSTQ610, plugNPlay, poynt, precida,
+            pricetonCardConnect, princetonEcommCollectpay, princetonPayments,
+            princetonPayware, propSoftware, purecommerceVsb, pxpSolutionsRetail,
+            rediantRposLighthouse, rainbowApparel, rdyc610s, redOakPs,
+            redfinNetwork, remcoSoftware, rentACenter, reproOnlyIngIct220Dial,
+            reproOnlyIngIct220DialE2ee, reproOnlyIngIct220SslE2ee,
+            reproOnlyIngIct250Dial, reproOnlyIngIct250DialE2ee, reproOnlyIngIct250Ssl,
+            reproOnlyIngIct250SslE2ee, reproOnlyVerifoneVx520DcDial,
+            reproOnlyVerifoneVx520DcSsl, reproOnlyVerifoneVx520DialCtls,
+            reproOnlyVerifoneVx520SslCtls, retrieverSoftware, revlinkCollect,
+            revtrak, reamMobile, roamMobileTest, roamData, salepoint,
+            salepointClaires, sbcSolutions, secureTrading, sequoiaRetialSystems,
+            shci610, shift4OnTheNet, sightlinePayments, slimCdEntNonReseller,
+            slimCdEnterprise, slimCdPro, slimCdProNonReseller, snlh610,
+            southernDataComm, spsEzpay, squirrelSystems, ster610,
+            storisVision9, ststSoftware, talbots, tangiblePayments,
+            tenderRetail, tillster, tnspayGateway, toast, toyzPos,
+            transactionWirelessSvs, transax, tranzgate, trem610, triversity,
+            triversityPos, trustcommVault610, trustcommVault600, trustcommerce2011,
+            tsysAmexPipPcSoftware, tsysAmexPipTerminal, tsysDialPay,
+            tsysPosPort, twitpay, uhaul, uicBezel8, upSolution610,
+            usaEpay, usfs, ventek, verifone, verifone510Terminal,
+            verifone600Terminal, verifone610, verifoneOmni3200, verifonePaywareConnect,
+            verifonePaywareMobile, verifonePaywarePc, verifonePaywareTranactRita,
+            verifonePcChargeGoSoftware, verifonePoint, verifonePointEntMx,
+            verifonePointEntVx, verifoneRuby, verifoneVx510, verifoneVx510DcDial,
+            verifoneVx510DcIp, verifoneVx510DcSsl, verifoneVx510le,
+            verifoneVx520DcDialCtlsE2ee, verifoneVx520DcDialE2ee,
+            verifoneVx520DcIp1, verifoneVx520DcIp2, verifoneVx520DcIpCtls,
+            verifoneVx520DcIpCtlsE2ee, verifoneVx520DcSslCtlsE2ee,
+            verifoneVx520DcSslE2ee, verifoneVx520DialOnly, verifoneVx570Dial,
+            verifoneVx570Ip, verifoneVx570Ssl, verifoneVx6803gGprs,
+            vicoSoftware, virtualTerminal, vistaEntertainment, vitalcheck,
+            vmcAddOnAndroidByodQmd, vmcAddOnAndroidByodStandard, vmcAddOnBundleByodQms,
+            vmcAddOnBundleByodStandard, vmcAddOnBundleCellularQmd,
+            vmcAddOnBundleCellularStandard, vmcAddOnBundleWifiQmd,
+            vmcAddOnBundleWifiStandard, vmcFieldBundleByodQmd, vmcFieldBundleByodStandard,
+            vmcFieldBundleCellularQms, vmcFieldBundleCellularStandard,
+            vmcStoreAndroidByodQms, vmcStoreAndroidByodStandard, vmcStoreBundleByodQms,
+            vmcStoreBundleByodStandard, vmcStoreBundleCellularQms,
+            vmcStoreBundleCellularStandard, vmcStoreBundleWifiQms,
+            vmcStoreBundleWifiStandard, vPlus, vsb, vsbGreenbeanRecycle,
+            vsbKaizen, vsbOrderbridge, vsbPhonixManagedNetwork, vsbSamurai,
+            vsbVisat, vsbWiretrust, vsbXgateway, wandGift, waySystemsMtt5000,
+            wendysCom, whirl, winn610s, xpaySoftware, xpient610, xpientSolutions ],
+    x-enum-descriptions: [ 12 51 58 LLC, 3DELTA, 3DELTA PWS,
+                           911 SOFTWARE CREDITLINE, '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', GAMBLEID TSEVO, GIFTANGO, GIVEX, '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', PLSTQ610, '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '' ] }
+  capability: { type: integer,
+                description: "The credit card terminal’s capabilities. \n\
+                                \n<details>\n<summary>Valid Values</summary>\n\n- `KEYED`\
+                                \ - **Keyed.** Manual Card Payment Entry.\n\n- `MAGSTRIPE`\
+                                \ - **Magstripe/Swipe.**\n\n- `EMV` - **EMV.** (EuroPay,\
+                                \ Mastercard, & Visa) Chip Card Payments. \n\n- `TAP`\
+                                \ - **Tap-to-Pay.**\n\n</details>\n",
+                enum: [ 1, 2, 3, 4 ],
+                x-enum-descriptions: [ KEYED, MAGSTRIPE, EMV, '' ] }
+  environment: { type: integer,
+                 description: "How is the terminal employed in the type of
+                   business using the terminal.
+                   \n\n<details>\n<summary>Valid Values</summary> \n\n 
+        - `1` - **Retail**\n\n 
+        - `2` - **Retail with tips**\n\n
+        - `3` - **Restaurant**\n\n
+        - `4` - **Lodging**\n\n
+        - `5` - **Bar**\n\n
+        - `6` - **Cash Advance**\n\n
+        - `7` - **Mail/Telephone Order**\n\n
+        - `8` - **Pay At The Pump**\n\n
+        - `9` - **Service Rest**\n\n
+        - `10` - **E-commerce**\n\n
+        - `11` - **Direct Marketing**\n\n
+        - `12` - **Fine Dining**\n\n
+        - `13` - **Gift Card Only**\n\n
+         </details>\n",
+                 enum: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                         11, 12, 13 ],
+                 x-enum-descriptions: [ Retail, Retail with tips, Restaurant,
+                   Lodging, Bar, Cash Advance, Mail/Telephone Order, Pay
+                     At The Pump, Service Rest, E-commerce, Direct Marketing,
+                   Fine Dining, Gift Card Only ] }
+  autoClose: { type: integer,
+               description: "If the terminal should be manually or automatically\
+                                \ closed for the day.\n\n<details>\n<summary>Valid Values</summary>\n\
+                                \n- `0` - **Automatic** \n\n- `1` - **Manual**\n\n- `2`\
+                                \ - **None**\n\n</details>\n",
+               enum: [ 0, 1, 2 ],
+               x-enum-descriptions: [ Automatic, Manual, None ] }
+  autoCloseTime: { type: integer, description: 'The time when the terminal should
+                                be automatically closed for the day. This field is only
+                                required when AutoClose is set to automatic; the format
+                                should be HHMM (1145, 2200, etc).' }
+  cloudEnabled: { type: integer,
+                  description: "Whether or not the terminal has cloud services\
+                                \ enabled. \n\n<details>\n<summary>Valid Values</summary>\n\
+                                \n- `0` - **Cloud Services Disabled** \n\n- `1` - **Cloud\
+                                \ Services Enabled**\n\n</details>    \n",
+                  enum: [ 0, 1 ],
+                  x-enum-descriptions: [ '', '' ] }
+  serial: { type: string, description: The serial number of the terminal device. }
+  token: { type: string, description: "" }
+  name: { type: string, description: The name of this Terminal. This field
+    is stored as a text string and must be between 1 and 100
+    characters long. }
+  description: { type: string, description: A description of the Terminal.
+    This field is stored as a text string and must be between
+    1 and 100 characters long. }
+  address1: { type: string, description: The first line of the address associated
+    with this Terminal's location. This field is stored as
+    a text string and must be between 1 and 500 characters
+    long. }
+  address2: { type: string, description: The second line of the address associated
+    with this Terminal's location. This field is stored as
+    a text string and must be between 1 and 500 characters
+    long. }
+  city: { type: string, description: The name of the city in the address associated
+    with this Terminal's location. This field is stored as
+    a text string and must be between 1 and 500 characters
+    long. }
+  state: { description: "The U.S. state or Canadian province in the
+      address associated with this Terminal's location.",
+           enum: [ AB, BC, MB, NB, NL, NT, NS, NU, PE, QC, SK, YT, IA,
+                   ID, IL, IN, KN, KS, LA, MA, MB, MD, ME, MI, MN, MO, MS,
+                   MT, NB, NC, ND, NE, NH, NJ, NL, NM, NS, NT, NU, NV, NY,
+                   OH, OK, OR, PA, PE, QC, RI, SC, SD, SK, TN, TX, UT, VA,
+                   VT, WA, WI, WV, WY, YT ],
+           example: CO,
+           x-enum-descriptions: [ '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '' ],
+           type: string }
+  zip: { type: string, description: 'The ZIP code in the address associated
+                                with this Terminal''s location, This field is stored as
+                                a text string and must be between 1 and 20 characters
+                                long.' }
+  country: {
+    description: "The country in the address associated with
+      the Terminal's location. Currently, this field only accepts
+             the value 'USA'.",
+    enum: [ ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+            ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+            BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+            BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+            CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+            CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+            ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+            FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+            GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+            HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+            ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+            KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+            LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+            MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+            MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+            NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+            PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+            QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+            SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+            SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+            TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+            UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+            VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE ],
+    example: USA,
+    x-enum-descriptions: [ Aruba, Afghanistan, Angola, Anguilla,
+      Aland Islands, Albania, Andorra, United Arab Emirates,
+      Argentina, Armenia, American Samoa, Antarctica, French
+        Southern Territories, Antigua and Barbuda, Australia,
+      Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                                  Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+      Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+        Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+                                  State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+      Bouvet Island, Botswana, Central African Republic, Canada,
+      Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+        d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+                                  of the', Congo, Cook Islands, Colombia, Comoros, Cape
+        Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+      Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+      Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+      Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+      Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+        Islands, 'Micronesia, Federated States of', Gabon, United
+        Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+      Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+      Greece, Grenada, Greenland, Guatemala, French Guiana,
+      Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+      Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+        Man, India, British Indian Ocean Territory, Ireland,
+      'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+      Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+      Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+                                  of', Kuwait, Lao People's Democratic Republic, Lebanon,
+      Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+      Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+        (French part), Morocco, Monaco, 'Moldova, Republic of',
+      Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+                                  the former Yugoslav Republic of', Mali, Malta, Myanmar,
+      Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+      Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+      Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+        Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+      Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+      Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+        Rico, 'Korea, Democratic People''s Republic of', Portugal,
+      Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+      Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+      Sudan, Senegal, Singapore, South Georgia and the South
+        Sandwich Islands, 'Saint Helena, Ascension and Tristan
+                                  da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+      Sierra Leone, El Salvador, San Marino, Somalia, Saint
+        Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+        Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+      Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+      Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+      Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+        Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+                                  China', 'Tanzania, United Republic of', Uganda, Ukraine,
+      United States Minor Outlying Islands, Uruguay, United
+        States, Uzbekistan, Holy See (Vatican City State), Saint
+        Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+                                  of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+      Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+      South Africa, Zambia, Zimbabwe ],
+    type: string }
+  phone: { type: string, description: 'The Phone number is the telephone number
+                                associated with the Terminal''s location, stored as a
+                                text string and must be between 5 and 15 characters long
+                                and numeric characters only.' }
+  timezone: { type: string,
+              description: "The timezone for the address associated with
+      the terminal's location.",
+              enum: [ est, cst, pst, mst, akst, hst, sst, chst, ast, pwt,
+                      mht, chut, nst ],
+              x-enum-descriptions: [ Eastern Standard Time, Central Standard
+                Time, Pacific Standard Time, Mountain Standard Time,
+                Alaska Standard Time, Hawaii Standard Time, Singapore
+                  Standard Time, Chamorro Standard Time, Atlantic Standard
+                  Time, '', '', '', '' ] }
+  status: { type: integer,
+            description: "The current active status of the terminal.
+    \n\n<details>\n<summary>Valid Values</summary> \n\n 
+        - `0` - **Inactive**\n\n 
+        - `1` - **Active**\n\n
+         </details>\n",
+            enum: [ 0, 1 ],
+            x-enum-descriptions: [ Inactive, Active ] }
+required: [autoClose, autoCloseTime, status, type]
+x-redacted: []

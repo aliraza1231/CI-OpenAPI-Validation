@@ -1,0 +1,39 @@
+properties:
+  terminal: { type: string, description: The identifier of the Terminal that
+    owns this terminalRefs resource. }
+  ref: { type: string, description: The reference code itself. This field is
+    stored as a text string and must be between 0 and 50 characters
+    long. }
+  stage: { type: string,   description: "An indicator showing what this terminalRef\
+                              \ refers to, such as 'create', 'pid', 'tid', 'token',\
+                              \ or 'ctid'. \n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n   - `create`  -  **Terminal Creation**\n  \n   - `pid`\
+                              \  -  **Platform ID**\n  \n   - `tid`  -  **Terminal ID**\n\
+                              \  \n   - `token`  -  **Token ID**\n  \n   - `ctid`  -\
+                              \  **''**\n\n\n</details>",
+           enum: [ create, pid, tid, token, ctid ],
+           x-enum-descriptions: [ Related to the creation of a terminal.,
+                                  '', The Terminal ID., '', '' ] }
+  platform: { type: string, description: "The platform that issued this terminalRef.\n\
+      \n<details>\n<summary>Valid Values</summary>\n\n- `ELAVON`\
+      \ - **ELAVON Payments Platorm.** \n\n- `FIRSTDATA` - **FirstData\
+      \ Payments Platorm.**\n\n- `VCORE` - **WorldPay / Vantiv\
+      \ Core Payments Platorm.** \n\n- `VANTIV` - **WorldPay\
+      \ / Vantiv eComm Payments (VAP) Platorm.**\n\n- `WELLSFARGO`\
+      \ - **Wells Fargo Merchant Services Payments Platorm.**\
+      \ \n\n- `SOUNDPAYMENTS` - **SoundPayments EMV and POS\
+      \ Payments Platorm.**\n\n- `PAYRIX` - **Payrix Merchnt\
+      \ Payments Platform.** \n\n</details>\n",
+              enum: [ ELAVON, FIRSTDATA, VCORE, VANTIV, WELLSFARGO, SOUNDPAYMENTS,
+                      PAYRIX ],
+              x-enum-descriptions: [ ELAVON Payments., '', Vantiv Core.,
+                                     Vantiv., Wells Fargo., '', '' ] }
+  processor: { type: string,     description: "The platform used for the adjustment. This
+    field is required if the adjustment is not between entities.",
+               enum: [ APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                       WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA ],
+               example: VCORE,
+               x-enum-descriptions: [ '', '', '', '', '', '', '', '', '',
+                                      '', '' ] }
+required: [ platform, processor, ref, stage, terminal ]
+x-redacted: [ ]

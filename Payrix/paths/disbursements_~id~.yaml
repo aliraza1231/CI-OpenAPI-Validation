@@ -1,0 +1,100 @@
+  get:
+    description: Query a Disbursement, which represents a record of an occasion where
+      money is either paid to a bank account or received from a bank account.
+    parameters:
+    - description: The ID of this disbursement.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the Response for the query on the Disbursements resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve Disbursement by it's ID.
+    tags: [Disbursements]
+    operationId: getDisbursementsId
+  put:
+    description: Update Disbursement by it's ID.
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema: {$ref: ../components/schemas/models/disbursementsRequestModel.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/models/disbursementsRequestModel.yaml}
+        application/xml:
+          schema: {$ref: ../components/schemas/models/disbursementsRequestModel.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/models/disbursementsRequestModel.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/models/disbursementsRequestModel.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/models/disbursementsRequestModel.yaml}
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/disbursementsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the Disbursements Response for query on disbursements
+          resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Response for update on disbursements resource
+    tags: [Disbursements]
+    operationId: putDisbursementsId

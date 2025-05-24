@@ -1,0 +1,173 @@
+  get:
+    description: Query a Billing that is a means to collect and invoice for any funds
+      owed for a particular period of time, such as setting up a billing to collect
+      fees and create a statement on a monthly basis.
+    parameters:
+    - description: The ID of this resource and The Billing ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve billing response for query on billings resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve Billing by it's ID.
+    tags: [Billing]
+    operationId: getBillingsId
+  put:
+    description: Update a Billing, which is a means to collect and invoice for any funds
+      owed for a particular period of time, such as setting up a billing to collect
+      fees and create a statement on a monthly basis.
+    parameters:
+    - description: The ID of this resource and The Billing ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingsRequestModel.yaml}
+            required: [collection, collectionFactor, collectionIncludeCurrent, collectionOffset,
+              currency, entity, frozen, inactive, login, schedule, scheduleFactor, start]
+            x-redacted: []
+      description: Update Billing Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for Update Billing Response
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update Billing by it's ID.
+    tags: [Billing]
+    operationId: putBillingsId
+  delete:
+    description: Delete a Billing that is a means to collect and invoice for any funds
+      owed for a particular period of time, such as setting up a billing to collect
+      fees and create a statement on a monthly basis.
+    parameters:
+    - description: The ID of this resource and The Billing ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingsResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for deleting a billing.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete Billing by it's ID.
+    tags: [Billing]
+    operationId: deleteBillingsId

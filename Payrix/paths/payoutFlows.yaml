@@ -1,0 +1,93 @@
+  get:
+    description: |-
+      Query a payoutFlows resource.
+      A payoutFlows resource represents a way to set up a Payouts resource automatically for an Entity or Org when it is boarded, or when a bank account is associated.
+      You can set up the schedule and amount for the Payouts in the payoutFlows resource.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutFlowsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutFlowsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve Response for query on payoutFlows resource to get the
+          Payout Flow ID.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Payout Flows.
+    tags: [Payouts]
+    operationId: getPayoutFlows
+  post:
+    description: |
+      Create a payoutFlows resource.
+      A payoutFlows resource represents a way to set up a Payouts resource automatically for an Entity or Org when it is boarded, or when a bank account is associated.
+      You can set up the schedule and amount for the Payouts in the payoutFlows resource.
+    requestBody:
+      content:
+        application/json:
+          schema: {$ref: ../components/schemas/models/payoutFlowsRequestModel.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/models/payoutFlowsRequestModel.yaml}
+        application/xml:
+          schema: {$ref: ../components/schemas/models/payoutFlowsRequestModel.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/models/payoutFlowsRequestModel.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/models/payoutFlowsRequestModel.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/models/payoutFlowsRequestModel.yaml}
+      description: Create Payout Flow Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutFlowsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutFlowsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on payoutFlows resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Payout Flow.
+    tags: [Payouts]
+    operationId: postPayoutFlows

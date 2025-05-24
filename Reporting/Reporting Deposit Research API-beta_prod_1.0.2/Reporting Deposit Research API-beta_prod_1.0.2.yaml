@@ -1,0 +1,787 @@
+---
+openapi: 3.0.0
+info:
+  title: 'Reporting: Deposit Research API'
+  description: "This API allows you to search for and retrived Debit and Credit deposit transactions on an individual level.  For example, the API allows you to search for transactions that have been deposited or failed in transfers to and from a merchant's account. And determine funding issues which include failures in the payment processing life cycle. \n # Authentication \n<SecurityDefinitions />"
+  contact:
+    name: Developer Support
+    email: APICustomerIntegration@fisglobal.com
+  license:
+    name: FIS Proprietary
+  version: beta_prod_1.0.2
+servers:
+- url: https://apis.cert.worldpay.com/merchant-reporting/depositresearch/v1
+paths:
+  /deposits/search:
+    post:
+      tags:
+      - Deposit Details
+      summary: To retrieve deposit transactions details for respective date range.
+      description: Endpoint is used to get the deposit details at different hierarchy levels for respective date range. Optionals fields is used to filter the serach criteria.
+      operationId: searchDepositDetails
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchByCategoryRequest'
+            examples:
+              SearchByCategoryWithSettlementCategoryExample:
+                value:
+                  pagination:
+                    pageNumber: 1
+                    pageSize: 25
+                  sortResultsBy:
+                    fieldName: DATE
+                    orderBy: ASC
+                  settlementCategory: FEES
+                  dateRange:
+                    fromDate: 2019-07-27
+                    toDate: 2020-10-27
+              SearchByCategoryWithDateExample:
+                value:
+                  pagination:
+                    pageNumber: 1
+                    pageSize: 25
+                  sortResultsBy:
+                    fieldName: DATE
+                    orderBy: ASC
+                  hierarchy:
+                    level: CHAIN
+                    values: "081111"
+                  dateRange:
+                    fromDate: 2019-07-27
+                    toDate: 2020-10-27
+              SearchByCategoryWithDate And SettlementCategoryExample:
+                value:
+                  pagination:
+                    pageNumber: 1
+                    pageSize: 25
+                  sortResultsBy:
+                    fieldName: DATE
+                    orderBy: ASC
+                  dateRange:
+                    fromDate: 2019-07-27
+                    toDate: 2020-10-27
+                  hierarchy:
+                  - level: CHAIN
+                    values: "080101"
+                  settlementCategory: FEES
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchByCategoryResponse'
+              examples:
+                SearchByCategoryWithDateResponseExample:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                      totalRowCount: 15
+                      totalReturnedCount: 31
+                    deposits:
+                    - routingNumber: 4532209756
+                      ddaNumber: '******101'
+                      creditAmount: 459.11
+                      debitAmount: -2.94
+                      settlementCategory:
+                        code: F
+                        description: Fees
+                      hierarchy:
+                        chainCode: "009013"
+                        merchantId: "4445100112458"
+                        divisionNumber: "604"
+                        storeNumber: "000011245"
+                      traceId: "042000314429301"
+                      fundingMethod: ACH
+                      date: 2020-08-02
+                    - routingNumber: 3422209867
+                      ddaNumber: '******123'
+                      creditAmount: 43.09
+                      debitAmount: -4.45
+                      settlementCategory:
+                        code: F
+                        description: Fees
+                      hierarchy:
+                        chainCode: "002098"
+                        merchantId: "33351111112569"
+                        divisionNumber: "543"
+                        storeNumber: "000000003"
+                      traceId: 2336515830025
+                      fundingMethod: ACH
+                      date: 2020-08-03
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /depositerrors/search:
+    post:
+      tags:
+      - Deposit Details
+      summary: To retrieve deposit error transactions details for respective date range.
+      description: Endpoint is used to get the deposit error details at different hierarchy levels for respective date range. Optionals fields is used to filter the serach criteria.
+      operationId: searchdepositerrors
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+          type: string
+          format: uuid
+          example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ACHRejectsSearchRequest'
+            examples:
+              SearchByMandatory fields:
+                value:
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  fundingMethod: BANK_ACCOUNT
+              SearchByDateRange+Hierarchy+FundingMethod:
+                value:
+                  dateRange:
+                    fromDate: 2021-12-26
+                    toDate: 2021-12-26
+                  hierarchy:
+                  - level: MERCHANT
+                    values: 4445045300324
+                  fundingMethod: PREPAID_CARD
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ACHRejectsSearchResponse'
+              examples:
+                SearchByMandatory fields:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 50
+                      totalRowCount: 45
+                      totalReturnedCount: 25
+                    depositerrors:
+                    - returnDate: 2022-07-19
+                      effectiveDate: 2022-07-19
+                      fundingMethod: ACH
+                      rejectionReason:
+                        code: A11
+                        shortDescription: REBILL
+                        longDescription: REBILL
+                      routingNumber: 4200031
+                      amount: 120.01
+                      hierarchy:
+                        chainCode: "000086"
+                        divisionNumber: "002"
+                        storeNumber: "0001"
+                        merchantId: "4445091191791"
+                    - returnDate: 2022-09-10
+                      effectiveDate: 2022-09-10
+                      fundingMethod: ACH
+                      rejectionReason:
+                        code: A22
+                        shortDescription: RECLASS
+                        longDescription: RECLASS
+                      routingNumber: 4200465
+                      amount: 475.04
+                      hierarchy:
+                        chainCode: "000245"
+                        divisionNumber: "042"
+                        storeNumber: "0001"
+                        merchantId: "6536786578958765"
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                "204":
+                  $ref: '#/components/examples/204NoContent'
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+components:
+  schemas:
+    SearchByCategoryRequest:
+      type: object
+      description: Search by category will be used to search on the criteria provided within the API for a given timeframe.  The From and To dates are required and are used to limit the number of transactions to those that fall inbetween and including those dates.
+      allOf:
+      - $ref: '#/components/schemas/DepositSearchRequest'
+    DepositSearchRequest:
+      required:
+      - dateRange
+      - hierarchy
+      type: object
+      properties:
+        pagination:
+          type: object
+          description: pagination details
+          allOf:
+          - $ref: '#/components/schemas/PaginationType'
+        sortResultsBy:
+          type: object
+          description: The sort results by field is used in request to establish the sort order for the data to be returned in ascending or descending order.
+          allOf:
+          - $ref: '#/components/schemas/OrderByForSearchByCategoryType'
+        hierarchy:
+          allOf:
+          - $ref: '#/components/schemas/EntityListType'
+        settlementCategory:
+          maxLength: 15
+          type: string
+          description: settlement category
+          example: FEES
+          enum:
+          - EBT
+          - POS
+          - WIC
+          - UDS
+          - RISK
+          - FEES
+          - DEBIT
+          - REAUTH
+          - UDSDEP
+          - DEPOSIT
+          - OFFSETS
+          - GIFT_CARD
+          - GIFT_CENT
+          - VSNET_DEP
+          - EQUIPMENT
+          - FLEET_TAX
+          - REJ_RETRY
+          - MTHLY_DISC
+          - FLEET_DISC
+          - MISC_ADJMT
+          - ADJUSTMENT
+          - INTERCHANGE
+          - CHARGEBACKS
+          - UDS_VISANET
+          - JOINT_ROLLUP
+          - WEEK_DISCOUNT
+          - DAILY_DISCOUNT
+          - CONVENIENCE_FEE
+        dateRange:
+          allOf:
+          - $ref: '#/components/schemas/DateRange'
+      description: Deposit search request details
+    SearchByCategoryResponse:
+      type: object
+      properties:
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/PaginationResponse'
+        deposits:
+          type: array
+          description: deposit items details
+          items:
+            allOf:
+            - $ref: '#/components/schemas/SearchTotalResponse'
+      description: Search by Category response details
+    ACHRejectsSearchRequest:
+      required:
+      - dateRange
+      - fundingMethod
+      - hierarchy
+      type: object
+      properties:
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/PaginationType'
+        hierarchy:
+          allOf:
+          - $ref: '#/components/schemas/Entity'
+        dateRange:
+          allOf:
+          - $ref: '#/components/schemas/DateRange'
+        fundingMethod:
+          maxLength: 12
+          type: string
+          description: Refers to the method that was used for the deposit. Bank Account indicates the methods used for a payment.
+          example: PREPAID_CARD
+          enum:
+          - BANK_ACCOUNT
+          - PREPAID_CARD
+        sortResultsBy:
+          type: object
+          description: The sort results by field is used in request to establish the sort order for the data to be returned in ascending or descending order.
+          allOf:
+          - $ref: '#/components/schemas/OrderByForErrorsByCategoryType'
+      description: The ACH Rejects Search request is used to search for rejected ACH transactions based on the criteria provided within the API endpoint request for a given timeframe.  The From and To dates are required and are used to limit the number of transactions that fall inbetween and including those dates.
+    ACHRejectsSearchResponse:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+        depositerrors:
+          type: array
+          description: deposit error details
+          items:
+            allOf:
+            - $ref: '#/components/schemas/RejRealTimeTransaction'
+      description: ACH Reject search response details
+    OrderByForSearchByCategoryType:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 19
+          type: string
+          description: This is the field is used to sort on in the request.
+          example: CHAIN_CODE
+          enum:
+          - DATE
+          - SETTLEMENT_CATEGORY
+          - FUNDING_METHOD
+          - TRACE_ID
+          - ROUTING_NUMBER
+          - DDA_NUMBER
+          - CREDITED_AMOUNT
+          - DEBITED_AMOUNT
+          - CHAIN_CODE
+          - MERCHANT_ID
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Order by refers to the ordering being requested in the search that is based on the Field Name.  The response will return the data records in ascending or descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: details of Search by By Category Type
+    OrderByForErrorsByCategoryType:
+      type: object
+      properties:
+        fieldName:
+          maxLength: 15
+          type: string
+          description: This is the field is used to sort on in the request. Default sorting RETURN_DATE
+          example: RETURN_DATE
+          enum:
+          - RETURN_DATE
+          - EFFECTIVE_DATE
+          - FUNDING_METHOD
+          - ROUTING_NUMBER
+          - AMOUNT
+          - CHAIN_CODE
+          - MERCHANT_ID
+        orderBy:
+          maxLength: 4
+          type: string
+          description: Order by refers to the ordering being requested in the search that is based on the Field Name.  The response will return the data records in ascending or descending order.
+          example: ASC
+          enum:
+          - ASC
+          - DESC
+      description: Details of Order By Errors Category Type
+    DateRange:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        fromDate:
+          maxLength: 10
+          pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'
+          type: string
+          description: Start Date
+          format: YYYY-MM-DD
+          example: 2019-10-27
+        toDate:
+          maxLength: 10
+          pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'
+          type: string
+          description: End Date
+          format: YYYY-MM-DD
+          example: 2019-11-27
+      description: The From and To Dates are required.  They are used to select all transaction data that fall within and including these dates.
+    RejRealTimeTransaction:
+      type: object
+      properties:
+        returnDate:
+          maxLength: 10
+          pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'
+          type: string
+          description: Indicates the date when the deposit was reject.
+          format: YYYY-MM-DD
+          example: 2022-07-19
+        effectiveDate:
+          maxLength: 10
+          pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'
+          type: string
+          description: Effective date of the transaction.
+          format: YYYY-MM-DD
+          example: 2022-07-19
+        fundingMethod:
+          maxLength: 12
+          type: string
+          description: Refers to the method used for the deposits. Possible Values-
+          example: ACH
+        rejectionReason:
+          type: string
+          description: Reason why the payment was not processed.
+          example:
+            code: A11
+            shortDescription: REBILL
+            longDescription: REBILL
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        routingNumber:
+          maximum: 999999999
+          minimum: 100000000
+          maxLength: 9
+          type: integer
+          description: The Routing number is a 9 digit number that is used to identify the financial organization or bank where the account resides.
+          format: int32
+          example: 1114137
+        amount:
+          maximum: 9999999999999.99
+          minimum: 0
+          maxLength: 15
+          type: number
+          description: The amount rejected in the process of being deposited.
+          format: float
+          example: 120.01
+        hierarchy:
+          allOf:
+          - $ref: '#/components/schemas/MerchantDetail'
+      description: Details of Real time rejected transaction
+    PaginationType:
+      type: object
+      properties:
+        pageNumber:
+          maximum: 16777215
+          type: integer
+          description: This is the page number that you would like to retrieve.
+          format: int32
+          example: 2
+          default: 1
+        pageSize:
+          maximum: 2000
+          type: integer
+          description: Number of record that you would want to retrieve per page.
+          format: int32
+          example: 10
+          default: 25
+      description: Used for pagination.
+    PaginationResponse:
+      type: object
+      properties:
+        pageNumber:
+          maximum: 16777215
+          type: integer
+          description: This is the page number that you would like to retrieve.
+          format: int32
+          example: 1
+          default: 1
+        pageSize:
+          maximum: 2000
+          type: integer
+          description: Number of record that you would want to retrieve per page.
+          format: int32
+          example: 50
+          default: 25
+        totalRowCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of records meeting the search criteria
+          format: int32
+          example: 45
+        totalReturnedCount:
+          maximum: 9999999999
+          type: integer
+          description: Total number of records returned in the response
+          format: int32
+          example: 25
+      description: Pagination response details
+    EntityListType:
+      type: object
+      description: The hierarchy is required. It supports entities such as:<br> IndependentSalesOrganization/IndependentSalesChannel (limit 1 Entity).<br> National, SuperChain, Partner (maximum limit of 10 entities).<br> Chain, Division, Store and Merchant (maximum limit of 2,000 entities).
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+    Entity:
+      type: object
+      properties:
+        level:
+          maxLength: 30
+          type: string
+          description: hierarchy level
+          example: MERCHANT
+          enum:
+          - MERCHANT
+          - STORE
+          - DIVISION
+          - CHAIN
+          - PARTNER
+          - SUPERCHAIN
+          - NATIONAL
+          - INDEPENDENT_SALES_CHANNEL
+          - INDEPENDENT_SALES_ORGANIZATION
+        values:
+          type: array
+          description: example values of Entity
+          example:
+          - "4445000860700"
+          - "4445000860702"
+          items:
+            maxLength: 256
+            minLength: 0
+            type: string
+        chainCode:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: Chain Code is mandatory to pass when merchant hierarchy level is store or division.
+          example: OA1234
+      description: The hierarchy is required. It supports entities such as:<br> IndependentSalesOrganization/IndependentSalesChannel (limit 1 Entity).<br> National, SuperChain, Partner (maximum limit of 10 entities).<br> Chain, Division, Store and Merchant (maximum limit of 2,000 entities).
+    SearchTotalResponse:
+      properties:
+        traceId:
+          maxLength: 256
+          minLength: 0
+          type: string
+          description: A trace number is a 15 digit number used to track amount transfers. It is issued by the sender and can be provided to receiver to track the impending transfer even before it has arrived in their system.
+          example: "121301014009120"
+        routingNumber:
+          maximum: 99999999
+          minimum: 10000000
+          maxLength: 9
+          type: integer
+          description: Routing number is a 9 digit number that is used to identify a financial organization or bank.
+          format: int32
+          example: 71304804
+        ddaNumber:
+          maximum: 99999999
+          minimum: 10000000
+          maxLength: 9
+          type: integer
+          description: Demand deposit account (DDA) is a type of bank account that offers access to deposited funds without advance notice.
+          format: int32
+          example: 7024149101
+        creditedAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          maxLength: 15
+          type: number
+          description: The credit amount is the amount being deposited to an account increasing the overall account balance.
+          format: float
+          example: 223.35
+        debitedAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          maxLength: 15
+          type: number
+          description: The debited amount is the amount taken from an account which lowers the overall account balance.
+          format: float
+          example: 2.94
+        hierarchy:
+          allOf:
+          - $ref: '#/components/schemas/MerchantDetail'
+      allOf:
+      - $ref: '#/components/schemas/SummaryResponse'
+    MerchantDetail:
+      type: object
+      properties:
+        chainCode:
+          maxLength: 6
+          type: string
+          description: The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system.
+          example: "000086"
+        divisionNumber:
+          maxLength: 3
+          type: string
+          description: The Division Number is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. The Division Code is an optional hierarchy level but if created, is required for all child entities under the Division Number.
+          example: "002"
+        storeNumber:
+          maxLength: 9
+          type: string
+          description: The Store/Location Code is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location. The Store Locations are used to link multiple merchant numbers assigned to different terminals and/or business lines (MCC’s).
+          example: "0001"
+        merchantId:
+          maxLength: 16
+          type: string
+          description: The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels.
+          example: "6536786578958765"
+      description: Details related to Hierarchy
+    SummaryResponse:
+      type: object
+      properties:
+        date:
+          maxLength: 10
+          pattern: '[0-9]{4}-[0-9]{2}-[0-9]{2}'
+          type: string
+          format: YYYY-MM-DD
+          example: 2017-01-25
+        settlementCategory:
+          description: Settlement Category Details
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        fundingMethod:
+          maxLength: 12
+          type: string
+          description: Refers to the method used for deposits.
+          example: ACH
+      description: Summary Response details
+    CodeAndDescription:
+      type: object
+      properties:
+        code:
+          maxLength: 1
+          type: string
+          description: Code of respective field
+          example: D
+        description:
+          maxLength: 256
+          type: string
+          description: Description of respective field
+          example: Fees
+      description: Code and description of respective field
+    Error:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Erroranderrors'
+      description: Error messages
+    Erroranderrors:
+      type: object
+      properties:
+        errorMessage:
+          maxLength: 256
+          type: string
+          description: Error Message
+        target:
+          maxLength: 256
+          type: string
+          description: target field
+      description: error message details
+  responses:
+    default:
+      description: Default errors
+      headers:
+        v-correlation-id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          examples:
+            "204":
+              $ref: '#/components/examples/204NoContent'
+            "400 Bad Request":
+              $ref: '#/components/examples/400BadRequest'
+            "401 Unauthorized":
+              $ref: '#/components/examples/401Unauthorized'
+            "403 Forbidden":
+              $ref: '#/components/examples/403Forbidden'
+            "404 Not Found":
+              $ref: '#/components/examples/404NotFound'
+            "500 Server Error":
+              $ref: '#/components/examples/500ServerError'
+  examples:
+    "204NoContent":
+      value:
+        message: No content
+    "400BadRequest":
+      value:
+        errors:
+        - errorMessage: No entries found with provided id.
+    "401Unauthorized":
+      value:
+        errors:
+        - errorMessage: Invalid API key. Please ensure the key is accurate and authorization is included.
+    "403Forbidden":
+      value:
+        errors:
+        - errorMessage: Resource
+    "404NotFound":
+      value:
+        errors:
+        - errorMessage: Resource Not Found
+    "500ServerError":
+      value:
+        errors:
+        - errorMessage: Internal Client Error
+  headers:
+    CorrelationId:
+      description: Correlation ID
+      required: true
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        minLength: 36
+        pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+        type: string
+        format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: License format is WORLDPAY license='xxxx'
+      name: Authorization
+      in: header

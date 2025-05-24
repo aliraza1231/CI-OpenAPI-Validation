@@ -1,0 +1,165 @@
+  get:
+    description: Query an Account representing a bank account associated with an Entity.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for querying and retrieving all bank accounts.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Retreive all Bank Accounts.
+    tags: [Accounts]
+    operationId: getAccounts
+  post:
+    description: Create an account, representing a bank account, to associate bank information
+      with one or more entities.
+    requestBody:
+      content:
+        application/json:
+          examples:
+            Create an Account:
+              value:
+                entity: p1_ent_5a1ef5e5565631155c95344
+                primary: 1
+                account: {method: 8, number: 123456789012345, routing: 63013924}
+          schema: {$ref: ../components/schemas/accountsAddBankAccountReqBody.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/accountsAddBankAccountReqBodySchema.yaml}
+        application/xml:
+          examples:
+            Create an Account:
+              value:
+                entity: p1_ent_5a1ef5e5565631155c95344
+                primary: 1
+                account: {method: 8, number: 123456789012345, routing: 63013924}
+          schema: {$ref: ../components/schemas/accountsAddBankAccountReqBody.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/accountsAddBankAccountReqBodySchema.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/accountsAddBankAccountReqBodySchema.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/accountsAddBankAccountReqBodySchema.yaml}
+      description: Add Bank Account Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Create Account Response:
+                value:
+                  account: {method: 8, number: 2345, routing: 3924, payment: null}
+                  id: p1_act_5a1ef5e55656698eefaf8b6
+                  created: 2017-11-28T01:02:57Z
+                  modified: 2017-11-28T01:02:57Z
+                  creator: p1_log_5a1ef5e55653ed720159d53
+                  modifier: p1_log_5a1ef5e55653ed720159d53
+                  entity: p1_ent_5a1ef5e5565631155c95344
+                  token: ae1abb3aaa18e4c374ca83fa75a7fff6
+                  name: ''
+                  description: ''
+                  primary: 1
+                  status: 0
+                  currency: USD
+                  inactive: 0
+                  frozen: 0
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            examples:
+              Create Account Response:
+                value:
+                  account: {method: 8, number: 2345, routing: 3924, payment: null}
+                  id: p1_act_5a1ef5e55656698eefaf8b6
+                  created: 2017-11-28T01:02:57Z
+                  modified: 2017-11-28T01:02:57Z
+                  creator: p1_log_5a1ef5e55653ed720159d53
+                  modifier: p1_log_5a1ef5e55653ed720159d53
+                  entity: p1_ent_5a1ef5e5565631155c95344
+                  token: ae1abb3aaa18e4c374ca83fa75a7fff6
+                  name: ''
+                  description: ''
+                  primary: 1
+                  status: 0
+                  currency: USD
+                  inactive: 0
+                  frozen: 0
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The response for creating an account on the accounts resource.
+          This is the Add Bank Account Response.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Add a new Bank Account.
+    tags: [Accounts]
+    x-examples:
+    - request:
+        entity: p1_ent_5a1ef5e5565631155c95344
+        primary: 1
+        account: {method: 8, number: '0123456789012345', routing: '063013924'}
+      response:
+        account: {method: 8, number: '2345', routing: '3924'}
+        id: p1_act_5a1ef5e55656698eefaf8b6
+        created: 2017-11-28T01:02:57Z
+        modified: 2017-11-28T01:02:57Z
+        creator: p1_log_5a1ef5e55653ed720159d53
+        modifier: p1_log_5a1ef5e55653ed720159d53
+        entity: p1_ent_5a1ef5e5565631155c95344
+        token: ae1abb3aaa18e4c374ca83fa75a7fff6
+        name: ''
+        description: ''
+        primary: 1
+        status: 0
+        currency: USD
+        inactive: 0
+        frozen: 0
+    operationId: postAccounts

@@ -1,0 +1,48 @@
+  get:
+    description: Query a chargebackMessage. A chargebackMessage resource represents
+      a message that is sent by a Merchant, processor, or bank in relation to a Chargeback.
+    parameters:
+    - description: The ID of this chargeback message.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/chargebackMessageModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/chargebackMessageModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve Chargeback Messages Response for query on chargebackMessages
+          resource.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve a Chargeback Message by it's ID.
+    tags: [Chargebacks]
+    operationId: getChargebackMessagesId

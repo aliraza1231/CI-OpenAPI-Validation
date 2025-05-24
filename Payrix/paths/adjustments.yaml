@@ -1,0 +1,98 @@
+  get:
+    description: Query an Adjustment, which is a way to make monetary adjustments to
+      an entity's funds.
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/adjustmentsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/adjustmentsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Retrieve the Response for query on adjustments resource.
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve all Adjustments.
+    tags: [Entries]
+    operationId: getAdjustments
+  post:
+    description: "Create an Adjustment. \nAn Adjustment is a way to make monetary adjustments\
+      \ to an entity's funds."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/adjustmentsPostReqBodySchemaModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/adjustmentsPostReqBodySchemaModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/adjustmentsPostReqBodySchemaModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/adjustmentsPostReqBodySchemaModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/adjustmentsPostReqBodySchemaModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/adjustmentsPostReqBodySchemaModel.yaml}
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/adjustmentsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/adjustmentsModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for create on adjustments resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    tags: [Entries]
+    operationId: postAdjustments

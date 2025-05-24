@@ -1,0 +1,813 @@
+openapi: 3.1.0
+info:
+  contact:
+    email: support@payrix.com
+    name: Payrix
+    url: https://payrix.com
+  description:
+    { $ref: ./welcome.md }
+  license:
+    name: Payrix license
+    url: http://legal.payrix.com/
+  title: API Description
+  version: 0.2.0
+servers:
+  - description: Dev Server
+    url: https://api-test.payrix.com
+  - description: Prod Server
+    url: https://api.payrix.com
+security:
+  - apiKey: []
+  - sessionKey: []
+  - txnSessionKey: []
+tags:
+- name: "API Keys"
+  description: "Interaction with the API requires authentication. For application\
+    \ integration and persistent authentication, an Apikey is required."
+- name: "Accounts"
+  description: "Accounts deals with  payment account details for merchant boarding\
+    \ and entity funding. Ultimately, all the business performed within Payrix (be\
+    \ it merchant transactions, vendor income or facilitator fees) must end up in\
+    \ the entity’s payment account."
+- name: "Aggregations"
+  description: "Aggregations acts as a scheduler, ithey contains needed parameters\
+    \ to properly generate results containing the calculated totals and keeps such\
+    \ record in the aggregation results resource."
+- name: "Alert Actions"
+  description: "Alert Actions deals with specific action that occurs following a triggered\
+    \ web alert."
+- name: "Alert Triggers"
+  description: "Alert Trigger deals with  triggers associated with web alerts"
+- name: "Alerts"
+  description: "Web alerts, also known as webhooks, are automated notifications sent\
+    \ from the API server when triggered by a specific action that occurs in your\
+    \ portfolio. You can configure the actions that trigger the alerts to notify you\
+    \ of any event that’s important to your business model"
+- name: "Authentication Tokens"
+  description: " Tokens provide the means through which to safely and securely store\
+    \ payment methods (e.g. credit cards or bank accounts) for later use. A transaction\
+    \ may be initiated for a customer by providing the token as the source of payment\
+    \ data. Similarly, a subscription may be associated with a token for automated\
+    \ recurring billing on that payment instrument."
+- name: "Batches (Settlements)"
+  description: "Batches are a container for transactions that enables batch processing\
+    \ to the processor for a merchant (to settle customer sales). Processing transactions\
+    \ for settlement to the processor is done in batches."
+- name: "Billing"
+  description: "The billing deals with billing configuration for an entity, org, division\
+    \ or partition. A billing configuration determines how an entity is billed for\
+    \ their payables within Payrix."
+- name: "Chargebacks"
+  description: "Resources that deal with chargebacks. A chargeback is a dispute of\
+    \ a purchase that has already been charged to an account that can result in a\
+    \ return of funds."
+- name: "Confirmation Codes"
+  description: "Represents a unique confirmation code issued to an email address,\
+    \ either when a user indicates that they have forgotten their password, or when\
+    \ the system needs to verify the email address associated with a login."
+- name: "Contacts"
+  description: "A contact reflects a known, valid individual registered as a contact\
+    \ for the entity. It is purely informational and not a required record."
+- name: "Credentials"
+  description: "Represents an authorization that a given Entity has to connect to\
+    \ an integration to perform a particular action, such as send Transactions to\
+    \ the processor, or board a Merchant with the processor."
+- name: "Customers"
+  description: "Customers deals with merchant customer information. Customers may\
+    \ be associated with tokens to create a stored method of payment or with invoices\
+    \ for billing."
+- name: "Decision Actions"
+  description: "A piece of conditional logic that makes a Verification Result change\
+    \ the application and the decision action in certain circumstance."
+- name: "Decision Rules"
+  description: "A piece of conditional logic that makes a Decision apply only in certain\
+    \ circumstances."
+- name: "Decisions"
+  description: "Decisions deal with the schedule and rules for a check done on Transactions."
+- name: "Disbursements"
+  description: "A disbursement represents a movement of funds in an entity’s payment\
+    \ account. Records of an occasion where money is either paid to a bank account\
+    \ or received from a bank account."
+- name: "Divisions"
+  description: "Divisions contains a list of user divisions associated with an account.\
+    \ It allows for an additional and optional layer of separation within a partition."
+- name: "Entities"
+  description: "Entities are portion of a single facilitator, vendor or merchant.\
+    \ Common business-related details for each type of entity are stored here (like\
+    \ name and address) as well as management details (like which login the entity\
+    \ belongs to). ny kind of business within the Payrix API (like board merchants\
+    \ as a facilitator, capture fees as a vendor or accept payments as a merchant)\
+    \ an entity record is required."
+- name: "EntityRefs"
+  description: "An entityRef may be used to store referential IDs for merchants, \
+    \ facilitators and even vendors. For a merchant, at least a mid and funding entityRef is required for proper transacting and funding. \
+    \ For a facilitator, at least the entity and funding entityRefs should be defined for proper merchant boarding, \
+    \ transaction processing and funding operations as well as any other references required for operating on the selected platform."
+- name: "EntityData"
+  description: "An entityData record is used to store a signature image for an entity’s acceptance of terms and conditions. \ 
+    \ This is stored in a separate table so as not to bloat the entities table with signature images that use a lot of space. \ 
+    \ Additionally, the signatures are not included in API requests for the entities themselves, instead they are requested separately via the entityDatas resource."
+- name: "EntitiesCustomFields"
+  description: "the Entity Custom Fields feature, designed to empower partners to send identifiers and Risk-requested items using unlimited custom fields. \
+    \ By leveraging this feature, partners can ensure that their software works seamlessly, leading to increased Boarding Rates. Additionally, \
+    \ partners can avoid waiting for Risk to request information manually, streamlining their operations."
+- name: "Entity Liabilities"
+  description: "the Entity Custom Fields feature, designed to empower partners to send identifiers and Risk-requested items using unlimited custom fields. \
+    \ By leveraging this feature, partners can ensure that their software works seamlessly, leading to increased Boarding Rates. Additionally, \
+    \ partners can avoid waiting for Risk to request information manually, streamlining their operations."
+- name: "Entries"
+  description: " An entry record represents a credit or debit of funds for an entity,\
+    \ possibly part of a transfer of funds between two entities. Any monetary change\
+    \ for an entity in Payrix is recorded in an entry. This serves as a “ledger” of\
+    \ financial activity for an entity."
+- name: "Fees"
+  description: "Fees are costs for specific timeframes elapsing, such as weekly, or\
+    \ monthly; or as actions taking place, such as a transaction authorization, Merchant\
+    \ onboarding, or chargeback management. These fees are assessed by a Referrer\
+    \ or Facilitator to their child entities (such as Referrer to Merchant, or Facilitator\
+    \ to Referrer or Merchant) when specified actions have occurred or a time interval\
+    \ has elapsed. "
+- name: "Funds"
+  description: "Funds deal with aggregate funding amount records. A funds record is\
+    \ a snapshot for funding activity, per entity and currency, and is used to determine\
+    \ available funds for an entity."
+- name: "IP Address Lists"
+  description: "An iplist represents a whitelisted or blacklisted IP address or range.\
+    \ As an additional security measure, it may be useful for users to set specific,\
+    \ known IP addresses to be the only allowed IPs for API interaction."
+- name: "Invoices"
+  description: "Invoices deals with  customer invoice details allowing for presenting\
+    \ charges to a customer and for payments to be made related to certain products\
+    \ or services."
+- name: "Logins"
+  description: "Logins resources deal with individual user details like name and email\
+    \ as well as management details like which partition and division the user belongs\
+    \ to"
+- name: "Mappings"
+  description: "Mappings enable the re-mapping of fields in the API for either in\
+    \ or out, using a set of JSON field mappings.  For example, if your system uses\
+    \ a different format for out data that it will send to the API, then you can re-map\
+    \ the in fields for the API using a Mapping resource"
+- name: "Members"
+  description: "A member represents a control or beneficiary member of the entity.\
+    \ At least one primary member record is required for merchant boarding."
+- name: "Merchant Results"
+  description: "Result created after an oboarding attempt, it will contain important\
+    \ information related to the boarding and attempt."
+- name: "Merchants"
+  description: "Merchant details for transaction processing entities. Together with\
+    \ the entities table, this table defines a merchant. A merchant is primarily an\
+    \ entity that accepts payments and transacts with customers in Payrix."
+- name: "Message Threads"
+  description: "Represents the sender, receiver, and subject of the Messages resources."
+- name: "Messages"
+  description: "Represents a message within a Message Thread."
+- name: "Notes"
+  description: "Notes handles  risk management notes, reviews and releases for a Hold,\
+    \ Transaction and Entity specific data."
+- name: "Orgs"
+  description: "Resource that deals with records of all orgs. An org is an arbitrary\
+    \ grouping of entity records that can be attached to other resources as a unit\
+    \ for shared functionality. "
+- name: "Payouts"
+  description: "Resource that tracks details that allow a Disbursement to be paid\
+    \ or debited"
+- name: "Report Items"
+  description: "REMOVE?"
+- name: "Report Results"
+  description: "REMOVE?"
+- name: "Reports"
+  description: "Resources that deal with scheduling, creating, and publication of\
+    \ reports. "
+- name: "Reserves"
+  description: "Resources that deals with reserve activity. Reserving means to withhold\
+    \ funds from an entity by removing the ability to extract the funds from the control\
+    \ of the financial institution."
+- name: "Secrets"
+  description: "Keys used to decrypt data or an indicator of which key to be used\
+    \ to decrypt data"
+- name: "Sessions"
+  description: "Resources that deals with secret (private) and public (publishable)\
+    \ user session keys for authentication in API interactionss"
+- name: "Statements"
+  description: "Resources for dealing with billing statements for entities. Statements\
+    \ are generated from billing configurations and represent the amount billed for\
+    \ a given period of time."
+- name: "Subscriptions"
+  description: "Resources that deal with customer subscriptions to a plan. Customers\
+    \ are subscribed to plans to allow for recurring payments to be made from that\
+    \ customer."
+- name: "Teams"
+  description: "A team is an arbitrary grouping of user records that may have access\
+    \ provisioned on each other and can be attached to other resources as a unit for\
+    \ shared functionality"
+- name: "Terminals"
+  description: "Resources for dealing with transaction that occur on physical terminals,\
+    \ such as a table or register"
+- name: "Tokens"
+  description: "Tokens provide the means through which to safely and securely store payment methods\
+    \ (e.g. credit cards or bank accounts) for later use"
+- name: "Transactions (Txns)"
+  description: "Resources for dealing with information relating to a particular credit\
+    \ card transaction, including the merchant, token, subscription, customer and\
+    \ card information."
+- name: "Vendors"
+  description: "Resources that deal with third-party entities (non-facilitators and\
+    \ non-merchants) that are involved with the merchant processing and provide a\
+    \ service (or set of services) to the merchant, for which they usually take a\
+    \ fee."
+paths:
+  "/accounts/{id}":
+    $ref: paths/accounts_~id~.yaml
+  /accounts:
+    $ref: paths/accounts.yaml
+  "/accountRefs/{id}":
+    $ref: paths/accountRefs_~id~.yaml
+  /accountRefs:
+    $ref: paths/accountRefs.yaml
+  "/accountVerificationResults/{id}":
+    $ref: paths/accountVerificationResults_~id~.yaml
+  /accountVerificationResults:
+    $ref: paths/accountVerificationResults.yaml
+  "/accountVerifications/{id}":
+    $ref: paths/accountVerifications_~id~.yaml
+  /accountVerifications:
+    $ref: paths/accountVerifications.yaml
+  "/adjustments/{id}":
+    $ref: paths/adjustments_~id~.yaml
+  /adjustments:
+    $ref: paths/adjustments.yaml
+  "/aggregationResultGroups/{id}":
+    $ref: paths/aggregationResultGroups_~id~.yaml
+  /aggregationResultGroups:
+    $ref: paths/aggregationResultGroups.yaml
+  "/aggregationResults/{id}":
+    $ref: paths/aggregationResults_~id~.yaml
+  /aggregationResults:
+    $ref: paths/aggregationResults.yaml
+  "/aggregations/{id}":
+    $ref: paths/aggregations_~id~.yaml
+  /aggregations:
+    $ref: paths/aggregations.yaml
+  "/alertActions/{id}":
+    $ref: paths/alertActions_~id~.yaml
+  /alertActions:
+    $ref: paths/alertActions.yaml
+  "/alerts/{id}":
+    $ref: paths/alerts_~id~.yaml
+  /alerts:
+    $ref: paths/alerts.yaml
+  "/alertTriggers/{id}":
+    $ref: paths/alertTriggers_~id~.yaml
+  /alertTriggers:
+    $ref: paths/alertTriggers.yaml
+  "/apikeys/{id}":
+    $ref: paths/apikeys_~id~.yaml
+  /apikeys:
+    $ref: paths/apikeys.yaml
+  "/assessments/{id}":
+    $ref: paths/assessments_~id~.yaml
+  /assessments:
+    $ref: paths/assessments.yaml
+  "/auditLogs/{id}":
+    $ref: paths/auditLogs_~id~.yaml
+  /auditLogs:
+    $ref: paths/auditLogs.yaml
+  "/authTokens/{id}":
+    $ref: paths/authTokens_~id~.yaml
+  /authTokens:
+    $ref: paths/authTokens.yaml
+  "/batches/{id}":
+    $ref: paths/batches_~id~.yaml
+  /batches:
+    $ref: paths/batches.yaml
+  "/batchRefs/{id}":
+    $ref: paths/batchRefs_~id~.yaml
+  /batchRefs:
+    $ref: paths/batchRefs.yaml
+  "/billingEvents/{id}":
+    $ref: paths/billingEvents_~id~.yaml
+  /billingEvents:
+    $ref: paths/billingEvents.yaml
+  "/billingModifiers/{id}":
+    $ref: paths/billingModifiers_~id~.yaml
+  /billingModifiers:
+    $ref: paths/billingModifiers.yaml
+  "/billings/{id}":
+    $ref: paths/billings_~id~.yaml
+  /billings:
+    $ref: paths/billings.yaml
+  "/bins/{id}":
+    $ref: paths/bins_~id~.yaml
+  /bins:
+    $ref: paths/bins.yaml
+  "/changeRequests/{id}":
+    $ref: paths/changeRequests_~id~.yaml
+  /changeRequests:
+    $ref: paths/changeRequests.yaml
+  "/chargebackDocuments/{id}":
+    $ref: paths/chargebackDocuments_~id~.yaml
+  /chargebackDocuments:
+    $ref: paths/chargebackDocuments.yaml
+  "/chargebackMessageResults/{id}":
+    $ref: paths/chargebackMessageResults_~id~.yaml
+  /chargebackMessageResults:
+    $ref: paths/chargebackMessageResults.yaml
+  "/chargebackMessages/{id}":
+    $ref: paths/chargebackMessages_~id~.yaml
+  /chargebackMessages:
+    $ref: paths/chargebackMessages.yaml
+  "/chargebacks/{id}":
+    $ref: paths/chargebacks_~id~.yaml
+  /chargebacks:
+    $ref: paths/chargebacks.yaml
+  "/chargebackStatuses/{id}":
+    $ref: paths/chargebackStatuses_~id~.yaml
+  /chargebackStatuses:
+    $ref: paths/chargebackStatuses.yaml
+  "/configurations/{id}":
+    $ref: paths/configurations_~id~.yaml
+  /configurations:
+    $ref: paths/configurations.yaml
+  "/configurationStages/{id}":
+    $ref: paths/configurationStages_~id~.yaml
+  /configurationStages:
+    $ref: paths/configurationStages.yaml
+  "/confirmCodes/{id}":
+    $ref: paths/confirmCodes_~id~.yaml
+  /confirmCodes:
+    $ref: paths/confirmCodes.yaml
+  "/contacts/{id}":
+    $ref: paths/contacts_~id~.yaml
+  /contacts:
+    $ref: paths/contacts.yaml
+  "/credentials/{id}":
+    $ref: paths/credentials_~id~.yaml
+  /credentials:
+    $ref: paths/credentials.yaml
+  "/currencyRates/{id}":
+    $ref: paths/currencyRates_~id~.yaml
+  /currencyRates:
+    $ref: paths/currencyRates.yaml
+  "/customers/{id}":
+    $ref: paths/customers_~id~.yaml
+  /customers:
+    $ref: paths/customers.yaml
+  "/debtorEntities/{id}":
+    $ref: paths/debtorEntities_~id~.yaml
+  /debtorEntities:
+    $ref: paths/debtorEntities.yaml
+  "/decisionActions/{id}":
+    $ref: paths/decisionActions_~id~.yaml
+  /decisionActions:
+    $ref: paths/decisionActions.yaml
+  "/decisionRules/{id}":
+    $ref: paths/decisionRules_~id~.yaml
+  /decisionRules:
+    $ref: paths/decisionRules.yaml
+  "/decisions/{id}":
+    $ref: paths/decisions_~id~.yaml
+  /decisions:
+    $ref: paths/decisions.yaml
+  /disbursementEntitiesLog:
+    $ref: paths/disbursementEntitiesLog.yaml
+  "/disbursementEntitiesLog/{id}":
+    $ref: paths/disbursementEntitiesLog_~id~.yaml  
+  "/disbursementEntries/{id}":
+    $ref: paths/disbursementEntries_~id~.yaml
+  /disbursementEntries:
+    $ref: paths/disbursementEntries.yaml
+  "/disbursementRefs/{id}":
+    $ref: paths/disbursementRefs_~id~.yaml
+  /disbursementRefs:
+    $ref: paths/disbursementRefs.yaml
+  "/disbursements/{id}":
+    $ref: paths/disbursements_~id~.yaml
+  /disbursements:
+    $ref: paths/disbursements.yaml
+  "/disbursementResults/{id}":
+    $ref: paths/disbursementResults_~id~.yaml
+  /disbursementResults:
+    $ref: paths/disbursementResults.yaml
+  "/divisions/{id}":
+    $ref: paths/divisions_~id~.yaml
+  /divisions:
+    $ref: paths/divisions.yaml
+  /entities:
+    $ref: paths/entities.yaml
+  "/entities/{id}":
+    $ref: paths/entities_~id~.yaml  
+  "/entityCustomFields/{id}":
+    $ref: paths/entityCustomFields_~id~.yaml
+  /entityCustomFields:
+    $ref: paths/entityCustomFields.yaml
+  "/entityDatas/{id}":
+    $ref: paths/entityDatas_~id~.yaml
+  /entityDatas:
+    $ref: paths/entityDatas.yaml
+  "/entityDebts/{id}":
+    $ref: paths/entityDebts_~id~.yaml
+  /entityDebts:
+    $ref: paths/entityDebts.yaml
+  "/entityRefs/{id}":
+    $ref: paths/entityRefs_~id~.yaml
+  /entityRefs:
+    $ref: paths/entityRefs.yaml
+  "/entityReserves/{id}":
+    $ref: paths/entityReserves_~id~.yaml
+  /entityReserves:
+    $ref: paths/entityReserves.yaml
+  "/entityReturns/{id}":
+    $ref: paths/entityReturns_~id~.yaml
+  /entityReturns:
+    $ref: paths/entityReturns.yaml
+  "/entityRoutes/{id}":
+    $ref: paths/entityRoutes_~id~.yaml
+  /entityRoutes:
+    $ref: paths/entityRoutes.yaml
+  "/entries/{id}":
+    $ref: paths/entries_~id~.yaml
+  /entries:
+    $ref: paths/entries.yaml
+  "/entryOrigins/{id}":
+    $ref: paths/entryOrigins_~id~.yaml
+  /entryOrigins:
+    $ref: paths/entryOrigins.yaml
+  "/externalFees/{id}":
+    $ref: paths/externalFees_~id~.yaml
+  /externalFees:
+    $ref: paths/externalFees.yaml
+  "/feeModifiers/{id}":
+    $ref: paths/feeModifiers_~id~.yaml
+  /feeModifiers:
+    $ref: paths/feeModifiers.yaml
+  "/feeRules/{id}":
+    $ref: paths/feeRules_~id~.yaml
+  /feeRules:
+    $ref: paths/feeRules.yaml
+  "/fees/{id}":
+    $ref: paths/fees_~id~.yaml
+  /fees:
+    $ref: paths/fees.yaml
+  "/files/{id}":
+    $ref: paths/files_~id~.yaml
+  /files:
+    $ref: paths/files.yaml
+  "/fundOrigins/{id}":
+    $ref: paths/fundOrigins_~id~.yaml
+  /fundOrigins:
+    $ref: paths/fundOrigins.yaml
+  "/fundingParameters/{id}":
+    $ref: paths/fundingParameters_~id~.yaml
+  /fundingParameters:
+    $ref: paths/fundingParameters.yaml
+  "/funds/{id}":
+    $ref: paths/funds_~id~.yaml
+  /funds:
+    $ref: paths/funds.yaml
+  "/holds/{id}":
+    $ref: paths/holds_~id~.yaml
+  /holds:
+    $ref: paths/holds.yaml
+  "/hosts/{id}":
+    $ref: paths/hosts_~id~.yaml
+  /hosts:
+    $ref: paths/hosts.yaml
+  "/invoiceItems/{id}":
+    $ref: paths/invoiceItems_~id~.yaml
+  /invoiceItems:
+    $ref: paths/invoiceItems.yaml
+  "/invoiceLineItems/{id}":
+    $ref: paths/invoiceLineItems_~id~.yaml
+  /invoiceLineItems:
+    $ref: paths/invoiceLineItems.yaml
+  "/invoiceParameters/{id}":
+    $ref: paths/invoiceParameters_~id~.yaml
+  /invoiceParameters:
+    $ref: paths/invoiceParameters.yaml
+  "/invoiceResults/{id}":
+    $ref: paths/invoiceResults_~id~.yaml
+  /invoiceResults:
+    $ref: paths/invoiceResults.yaml
+  "/invoices/{id}":
+    $ref: paths/invoices_~id~.yaml
+  /invoices:
+    $ref: paths/invoices.yaml
+  "/iplists/{id}":
+    $ref: paths/iplists_~id~.yaml
+  /iplists:
+    $ref: paths/iplists.yaml
+  "/items/{id}":
+    $ref: paths/items_~id~.yaml
+  /items:
+    $ref: paths/items.yaml
+  "/logins/{id}":
+    $ref: paths/logins_~id~.yaml
+  /logins:
+    $ref: paths/logins.yaml
+  "/loginsHelpers/{id}":
+    $ref: paths/loginsHelpers_~id~.yaml
+  /loginsHelpers:
+    $ref: paths/loginsHelpers.yaml
+  "/mccs/{id}":
+    $ref: paths/mccs_~id~.yaml
+  /mccs:
+    $ref: paths/mccs.yaml
+  "/messages/{id}":
+    $ref: paths/messages_~id~.yaml
+  /messages:
+    $ref: paths/messages.yaml
+  "/messageThreads/{id}":
+    $ref: paths/messageThreads_~id~.yaml
+  /messageThreads:
+    $ref: paths/messageThreads.yaml
+  "/members/{id}":
+    $ref: paths/members_~id~.yaml
+  /members:
+    $ref: paths/members.yaml
+  "/merchantResults/{id}":
+    $ref: paths/merchantResults_~id~.yaml
+  /merchantResults:
+    $ref: paths/merchantResults.yaml  
+  /merchants:
+    $ref: paths/merchants.yaml
+  "/merchants/{id}":
+    $ref: paths/merchants_~id~.yaml
+  "/mappings/{id}":
+    $ref: paths/mappings_~id~.yaml
+  /mappings:
+    $ref: paths/mappings.yaml
+  "/mfaRecoveryCodes/{id}":
+    $ref: paths/mfaRecoveryCodes_~id~.yaml
+  /mfaRecoveryCodes:
+    $ref: paths/mfaRecoveryCodes.yaml
+  "/notes/{id}":
+    $ref: paths/notes_~id~.yaml
+  /notes:
+    $ref: paths/notes.yaml
+  "/noteDocuments/{id}":
+    $ref: paths/noteDocuments_~id~.yaml
+  /noteDocuments:
+    $ref: paths/noteDocuments.yaml
+  "/orgEntities/{id}":
+    $ref: paths/orgEntities_~id~.yaml
+  /orgEntities:
+    $ref: paths/orgEntities.yaml
+  "/orgFlowActions/{id}":
+    $ref: paths/orgFlowActions_~id~.yaml
+  /orgFlowActions:
+    $ref: paths/orgFlowActions.yaml
+  "/orgFlows/{id}":
+    $ref: paths/orgFlows_~id~.yaml
+  /orgFlows:
+    $ref: paths/orgFlows.yaml
+  "/orgs/{id}":
+    $ref: paths/orgs_~id~.yaml
+  /orgs:
+    $ref: paths/orgs.yaml
+  "/parameters/{id}":
+    $ref: paths/parameters_~id~.yaml
+  /parameters:
+    $ref: paths/parameters.yaml
+  "/partitions/{id}":
+    $ref: paths/partitions_~id~.yaml
+  /partitions:
+    $ref: paths/partitions.yaml
+  "/facilitators/{id}":
+    $ref: paths/facilitators_~id~.yaml
+  /facilitators:
+    $ref: paths/facilitators.yaml
+  "/paymentUpdateGroups/{id}":
+    $ref: paths/paymentUpdateGroups_~id~.yaml
+  /paymentUpdateGroups:
+    $ref: paths/paymentUpdateGroups.yaml
+  "/paymentUpdates/{id}":
+    $ref: paths/paymentUpdates_~id~.yaml
+  /paymentUpdates:
+    $ref: paths/paymentUpdates.yaml
+  "/payoutFlows/{id}":
+    $ref: paths/payoutFlows_~id~.yaml
+  /payoutFlows:
+    $ref: paths/payoutFlows.yaml
+  "/payouts/{id}":
+    $ref: paths/payouts_~id~.yaml
+  /payouts:
+    $ref: paths/payouts.yaml
+  "/pendingEntries/{id}":
+    $ref: paths/pendingEntries_~id~.yaml
+  /pendingEntries:
+    $ref: paths/pendingEntries.yaml
+  "/plans/{id}":
+    $ref: paths/plans_~id~.yaml
+  /plans:
+    $ref: paths/plans.yaml
+  "/profitShareResults/{id}":
+    $ref: paths/profitShareResults_~id~.yaml
+  /profitShareResults:
+    $ref: paths/profitShareResults.yaml
+  "/profitShareRules/{id}":
+    $ref: paths/profitShareRules_~id~.yaml
+  /profitShareRules:
+    $ref: paths/profitShareRules.yaml
+  "/profitShares/{id}":
+    $ref: paths/profitShares_~id~.yaml
+  /profitShares:
+    $ref: paths/profitShares.yaml
+  "/refunds/{id}":
+    $ref: paths/refunds_~id~.yaml
+  /refunds:
+    $ref: paths/refunds.yaml
+  "/reportItems/{id}":
+    $ref: paths/reportItems_~id~.yaml
+  /reportItems:
+    $ref: paths/reportItems.yaml
+  "/reportResults/{id}":
+    $ref: paths/reportResults_~id~.yaml
+  /reportResults:
+    $ref: paths/reportResults.yaml
+  "/reports/{id}":
+    $ref: paths/reports_~id~.yaml
+  /reports:
+    $ref: paths/reports.yaml
+  "/requestTokens/{id}":
+    $ref: paths/requestTokens_~id~.yaml
+  /requestTokens:
+    $ref: paths/requestTokens.yaml
+  "/reserveEntries/{id}":
+    $ref: paths/reserveEntries_~id~.yaml
+  /reserveEntries:
+    $ref: paths/reserveEntries.yaml
+  "/reserves/{id}":
+    $ref: paths/reserves_~id~.yaml
+  /reserves:
+    $ref: paths/reserves.yaml
+  "/revShareSchedules/{id}":
+    $ref: paths/revShareSchedules_~id~.yaml
+  /revShareSchedules:
+    $ref: paths/revShareSchedules.yaml
+  "/revShareStatements/{id}":
+    $ref: paths/revShareStatements_~id~.yaml
+  /revShareStatements:
+    $ref: paths/revShareStatements.yaml
+  "/secrets/{id}":
+    $ref: paths/secrets_~id~.yaml
+  /secrets:
+    $ref: paths/secrets.yaml
+  "/sessions/{id}":
+    $ref: paths/sessions_~id~.yaml
+  /sessions:
+    $ref: paths/sessions.yaml
+  "/settlements/{id}":
+    $ref: paths/settlements_~id~.yaml
+  /settlements:
+    $ref: paths/settlements.yaml
+  "/statementEntries/{id}":
+    $ref: paths/statementEntries_~id~.yaml
+  /statementEntries:
+    $ref: paths/statementEntries.yaml
+  "/statements/{id}":
+    $ref: paths/statements_~id~.yaml
+  /statements:
+    $ref: paths/statements.yaml
+  "/subscriptions/{id}":
+    $ref: paths/subscriptions_~id~.yaml
+  /subscriptions:
+    $ref: paths/subscriptions.yaml
+  "/subscriptionTokens/{id}":
+    $ref: paths/subscriptionTokens_~id~.yaml
+  /subscriptionTokens:
+    $ref: paths/subscriptionTokens.yaml
+  "/teamLogins/{id}":
+    $ref: paths/teamLogins_~id~.yaml
+  /teamLogins:
+    $ref: paths/teamLogins.yaml
+  "/teams/{id}":
+    $ref: paths/teams_~id~.yaml
+  /teams:
+    $ref: paths/teams.yaml
+  "/terminalRefs/{id}":
+    $ref: paths/terminalRefs_~id~.yaml
+  /terminalRefs:
+    $ref: paths/terminalRefs.yaml
+  "/terminals/{id}":
+    $ref: paths/terminals_~id~.yaml
+  /terminals:
+    $ref: paths/terminals.yaml
+  "/terminalTxnDatas/{id}":
+    $ref: paths/terminalTxnDatas_~id~.yaml
+  /terminalTxnDatas:
+    $ref: paths/terminalTxnDatas.yaml
+  "/terminalTxnMetadatas/{id}":
+    $ref: paths/terminalTxnMetadatas_~id~.yaml
+  /terminalTxnMetadatas:
+    $ref: paths/terminalTxnMetadatas.yaml
+  "/terminalTxnRefs/{id}":
+    $ref: paths/terminalTxnRefs_~id~.yaml
+  /terminalTxnRefs:
+    $ref: paths/terminalTxnRefs.yaml
+  "/terminalTxnResults/{id}":
+    $ref: paths/terminalTxnResults_~id~.yaml
+  /terminalTxnResults:
+    $ref: paths/terminalTxnResults.yaml
+  "/terminalTxns/{id}":
+    $ref: paths/terminalTxns_~id~.yaml
+  /terminalTxns:
+    $ref: paths/terminalTxns.yaml
+  "/tokens/{id}":
+    $ref: paths/tokens_~id~.yaml
+  /tokens:
+    $ref: paths/tokens.yaml
+  "/txnDatas/{id}":
+    $ref: paths/txnDatas_~id~.yaml
+  /txnDatas:
+    $ref: paths/txnDatas.yaml
+  "/txnMetadatas/{id}":
+    $ref: paths/txnMetadatas_~id~.yaml
+  /txnMetadatas:
+    $ref: paths/txnMetadatas.yaml
+  "/txnRefs/{id}":
+    $ref: paths/txnRefs_~id~.yaml
+  /txnRefs:
+    $ref: paths/txnRefs.yaml
+  "/txnReports/{id}":
+    $ref: paths/txnReports_~id~.yaml
+  /txnReports:
+    $ref: paths/txnReports.yaml
+  "/txnResults/{id}":
+    $ref: paths/txnResults_~id~.yaml
+  /txnResults:
+    $ref: paths/txnResults.yaml
+  "/txns/{id}":
+    $ref: paths/txns_~id~.yaml
+  /txns:
+    $ref: paths/txns.yaml
+  "/txnSessions/{id}":
+    $ref: paths/txnSessions_~id~.yaml
+  /txnSessions:
+    $ref: paths/txnSessions.yaml
+  "/valueAddedServicesFlows/{id}":
+    $ref: paths/valueAddedServicesFlows_~id~.yaml
+  /valueAddedServicesFlows:
+    $ref: paths/valueAddedServicesFlows.yaml
+  "/valueAddedServices/{id}":
+    $ref: paths/valueAddedServices_~id~.yaml
+  /valueAddedServices:
+    $ref: paths/valueAddedServices.yaml
+  "/vendors/{id}":
+    $ref: paths/vendors_~id~.yaml
+  /vendors:
+    $ref: paths/vendors.yaml
+  "/verifications/{id}":
+    $ref: paths/verifications_~id~.yaml
+  /verifications:
+    $ref: paths/verifications.yaml
+  "/verificationRefs/{id}":
+    $ref: paths/verificationRefs_~id~.yaml
+  /verificationRefs:
+    $ref: paths/verificationRefs.yaml
+  "/verificationResults/{id}":
+    $ref: paths/verificationResults_~id~.yaml
+  /verificationResults:
+    $ref: paths/verificationResults.yaml
+  "/versions/{id}":
+    $ref: paths/versions_~id~.yaml
+  /versions:
+    $ref: paths/versions.yaml
+  "/watchlistItems/{id}":
+    $ref: paths/watchlistItems_~id~.yaml
+  /watchlistItems:
+    $ref: paths/watchlistItems.yaml
+  "/watchlists/{id}":
+    $ref: paths/watchlists_~id~.yaml
+  /watchlists:
+    $ref: paths/watchlists.yaml
+  /terminalTxnsDatas:
+    $ref: paths/terminalTxnsDatas.yaml
+  "/terminalTxnsDatas/{id}":
+    $ref: paths/terminalTxnsDatas_~id~.yaml
+  /terminalTxnsMetadatas:
+    $ref: paths/terminalTxnsMetadatas.yaml
+  "/terminalTxnsMetadatas/{id}":
+    $ref: paths/terminalTxnsMetadatas_~id~.yaml
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: APIKEY
+      in: header
+    sessionKey:
+      type: apiKey
+      name: SESSIONKEY
+      in: header
+    txnSessionKey:
+      type: apiKey
+      name: TXNSESSIONKEY
+      in: header
+    username:
+      type: apiKey
+      name: USERNAME
+      in: header
+    password:
+      type: apiKey
+      name: PASSWORD
+      in: header

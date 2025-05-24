@@ -1,0 +1,50 @@
+entity: { type: 'string', description: The identifier of the Entity that owns this entityRefs
+    resource.}
+member: { type: 'string',
+  description: The identifier of the Member associated with this entityRefs
+    resource. Default value is 'null' ,
+  x-enum-descriptions: ['']
+  }
+entityRoute: { type: 'string', description: "The original 'entity_route' that routed the merchant
+                 onto the platform which then returned this reference information, if applicable." }
+ref: { type: 'string', description: "The reference code itself. \nThis field is stored as a\
+    \ text string and must be between 0 and 50 characters long." }
+stage: { type: 'string', description: 'An indicator showing what this terminalRef refers to.
+    Valid Values: `create` - Terminal Creation, `pid` - Platform ID, `tid`
+    - Terminal ID, `token` - Token ID, `ctid` - TBD.',
+  enum: [amexCharge, batch, batchSuffix, boarding, chain, chargeback,
+    companyDebit, companyCredit, create, disbursement, entity, batchFile,
+    payoutFile, frontend, funding, member, merchant, mid, origId, store,
+    software, terminal, displayName, domain, expressCreds],
+  x-enum-descriptions: ['', '', '', '', The store chain ID for this Merchant.,
+    '', '', '', '', '', The Entity ID., '', '', '', The Payout funding
+      ID for this Merchant., The member ID for this Member., The Merchant
+      ID., The transaction Merchant ID (MID)., '', The store ID for this
+      Merchant., '', '', '', '', '']}
+staging: { type: 'string',
+    description: "Allows a merchant to transact under the Staging environment
+    while boarding is in progress, and allows for configuration with valid
+    values such as **Disabled** or **Enabled**.",
+    enum: ['0', '1'],
+    x-enum-descriptions: ['', '']
+  }
+platform:
+  { type: 'string', description: "The platform that issued this entityRef, used to process
+    this Disbursement.",
+  enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+    WFSINGLE, WORLDPAY, TDBANKCA],
+  example: VCORE,
+  x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+      Core., Wells Fargo eCheck., Wells Fargo., '', '', '']}
+currency: {$ref: ../properties/terminalTxnsCurrencyProperty.yaml}
+fundingCurrency: {$ref: ../properties/fundingCurrencyProperty.yaml}
+default:
+  { type: integer, description: 'Whether this entityRef is the default one. Default entityRefs
+    will have priority when processing transactions with no MID or Platform
+    set. Valid Values: `0` - Not default, `1` - Default.',
+  enum: [0, 1],
+  x-enum-descriptions: [Not default, Default]}
+fbo: {type: 'string', description: The FBO from which this entity refers to.}
+options: {type: 'string', description: A string-JSON of options for this reference value.}
+inactive: {$ref: ../../../components/schemas/inactive.yaml}
+frozen: {$ref: ../../../components/schemas/frozen.yaml}

@@ -1,0 +1,252 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  ipCreated: {description: The incoming ip address from which
+      this Entity was created., type: string}
+  ipModified: {description: The incoming ip address from which
+      this Entity was last modified., type: string}
+  clientIp: {description: "The client ip address from which the Entity\
+      \ was created. \nValid values are any Ipv4 or Ipv6 address.", type: string}
+  login: {description: The Login that owns this resource., type: string}
+  parameter: {description: The parameter associated with this Entity., type: string}
+  firstDisbursement: {description: Disbursement ID of the first disbursement this entity triggered, type: string}
+  totalCreditDisbursements: {description: Sum of all negative disbursements associated to this entity- in cents, type: string}
+  -type: {type: integer, description: "The type of Entity.",
+    enum: [0, 1, 2, 3, 5, 6, 7, 8],
+    x-enum-descriptions: [Sole Proprietor, Corporation, Limited
+        Liability Company, Partnership, Non-Profit Organization,
+      Government Organization, C Corporation, S Corporation]
+  }
+  name:
+    {type: string, description: "The name of this Entity. \nThis field is stored\
+      \ as a text string and must be between 1 and 100 characters\
+      \ long."}
+  displayName:
+    {type: string, description: "The display name of this Entity. \nThis field\
+      \ is stored as a text string and must be between 1 and\
+      \ 1000 characters long."}
+  address1:
+    {type: string, description: "The first line of the address associated with\
+      \ this Entity. \nThis field is stored as a text string\
+      \ and must be between 1 and 500 characters long."}
+  address2:
+    {type: string, description: "The second line of the address associated\
+      \ with this Entity. \nThis field is stored as a text string\
+      \ and must be between 1 and 500 characters long."}
+  city:
+    {type: string, description: "The name of the city in the address associated\
+      \ with this Entity. \nThis field is stored as a text string\
+      \ and must be between 1 and 500 characters long."}
+  state:
+    {type: string, description: "The U.S. state associated with this Entity.\
+      \ \nValid values are any U.S. state's 2 character postal\
+      \ abbreviation.",
+    enum: ['AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'true', 'PE', 'QC', 'SK',
+      'YT'],
+    x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+      '', '', '', '']}
+  website:
+    {type: string, description: "The web site URL associated with this Entity.\
+      \ \nThis field is stored as a text string and must be\
+      \ between 0 and 500 characters long."}
+  appleDomain:
+    {type: string, description: "The web sites URL associated with this Entity.\
+      \ \nThis field is stored as a text string, must be between\
+      \ 0 and 1000 characters long and separated by comma"}
+  zip:
+    {type: string, description: "The ZIP code in the address associated with\
+      \ this Entity. \nThis field is stored as a text string\
+      \ and must be between 1 and 20 characters long."}
+  country:
+    {type: string, description: The country in the address associated with the Entity.,
+    enum: ['USA', 'CAN'],
+    x-enum-descriptions: ['United States', 'Canada']}
+  timezone:
+    {type: string, description: The timezone for the address associated with
+      the Entity's location.,
+    enum: [est, cst, pst, mst, akst, hst, sst, chst, ast, pwt,
+      mht, chut, nst],
+    x-enum-descriptions: [Eastern Standard Time, Central Standard
+        Time, Pacific Standard Time, Mountain Standard Time,
+      Alaska Standard Time, Hawaii Standard Time, Singapore
+        Standard Time, Chamorro Standard Time, Atlantic Standard
+        Time, '', '', '', '']}
+  phone:
+    {type: string, description: "The phone number associated with this Entity.\
+      \ \nThis field is stored as a text string and must be\
+      \ between 5 and 15 characters long."}
+  customerPhone:
+    {type: string, description: "The customer service phone number associated\
+      \ with this Entity. For Merchants, this number will be\
+      \ displayed on the customer's credit card statement. \n\
+      This field is stored as a text string and must be between\
+      \ 5 and 15 characters long."}
+  fax:
+    {type: string, description: "The fax number associated with this Entity.\
+      \ \nThis field is stored as a text string and must be\
+      \ between 5 and 15 characters long."}
+  email:
+    {type: string, description: "The email address associated with this Entity.\
+      \ \nThis field is stored as a text string and must be\
+      \ between 1 and 100 characters long."}
+  ein:
+    {type: string, description: "The IRS Employer Number (EIN) for the Entity.\
+      \ \nThis field is stored as an interger and must be 9\
+      \ characters long.",
+    x-enum-descriptions: ['']}
+  einType:
+    {type: string, description: Indicates if the EIN being used is a TIN or
+      SSN or "other/unknown" number.,
+    enum: [ssn, tin, other],
+    x-enum-descriptions: ['', '', '']}
+  globalBusinessId:
+    {type: string, description: "The business registration number for the entity.\
+      \ \nThis field is stored as an alpha numeric and must\
+      \ be between 9 to 10 characters long",
+    x-enum-descriptions: ['']}
+  globalBusinessType:
+    {type: string, description: The business registration type for the entity.,
+    enum: [ssn, tin, other],
+    x-enum-descriptions: ['', '', '']}
+  irsFilingName: {type: string, description: The IRS Legal Filing Name. This
+      must match what has been provided to the IRS when filing
+      taxes.}
+  locations:
+    {type: string, description: "The number of locations at which this Entity\
+      \ does business. \nThis field is stored as an integer\
+      \ and must be between 1 and 1000000 characters long."}
+  tcVersion:
+    {type: string, description: "An indicator showing the version of the terms\
+      \ and conditions that this Entity has accepted. The API\
+      \ indicates the version as a string. \nThis field is stored\
+      \ as a text string and must be between 0 and 20 characters\
+      \ long."}
+  tcDate: {type: string, description: Date the tcVersion was last updated.,
+    format: date-time}
+  tcIp: {type: string, description: IP address of client from last tcVersion
+      update.}
+  tcAcceptDate:
+    {type: string, description: "Date and time on which this Entity accepted\
+      \ the Terms and Conditions, if different than tcDate.\
+      \ \nThe date is specified as a twelve digit string in\
+      \ YYYYMMDDHHII format, for example, '201601201528' for\
+      \ January 20, 2016 at 15:28 (3:28 pm)."}
+  tcAcceptIp: {type: string, description: 'IP address from which this Entity
+      accepted the Terms and Conditions, if different than tcIp.'}
+  custom: {type: string, description: 'Custom, free-form field for client-supplied
+      text, must be between 0 and 1000 characters long.'}
+  tinStatus:
+    {type: string, description: The Tax ID (TIN) status of the entity.,
+    enum: ['0', '1', '2', '3'],
+    x-enum-descriptions: [Pending, Valid, Invalid, Not required]}
+  public:
+    {type: string, description: Indicates whether this is a publicly held entity.,
+    enum: ['0', '1'],
+    x-enum-descriptions: [Private entity, Public entity]}
+  reserved:
+    {type: string, enum: ['0', '1', '3', '4', '5', '6', '7', '8'],
+    x-enum-descriptions: [No reserve, Transaction processing
+        withheld., Transaction capture withheld pending manual
+        review., Move all funds from this Transaction into a
+        reserve., '', '', '', '']}
+  pendingRiskCheck:
+    {type: string, description: Whether it is pending a risk check.,
+    enum: [pending, successful, failed, manual],
+    x-enum-descriptions: [pending, successful, '', '']}
+  checkStage:
+    {type: string, description: The last stage completed for risk.,
+    enum: [createEntity, underwriting, preboard, postboard,
+      txn, txnVolume, payout, payoutVolume],
+    x-enum-descriptions: ['', '', Preboard. Check the Merchant
+        before they are boarded., Check the Merchant after they
+        are boarded., Check the Merchant when they process a
+        Transaction., Check the Merchant when their transaction
+        volume hits a certain amount., Check the Merchant when
+        a Payout occurs., Check the Merchant when the volume
+        of Payouts to the Merchant hits a certain amount.]}
+  industry: {type: string, description: This field is stored as a text string
+      and must be between 0 and 1000 characters long.}
+  payoutSecondaryDescriptor: {type: string, description: The secondary billing
+      descriptor to appear on the bank statements for funds
+      transfer for the entity.}
+  currency:
+    {type: string, description: The currency of this Entity.,
+    enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+      BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+      BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+      CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+      DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+      GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+      ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+      KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+      LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+      MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+      OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+      RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+      SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+      TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+      VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+      XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+      ZWL],
+    x-enum-descriptions: [United Arab Emirates dirham, Afghan
+        afghani, Albanian lek, Armenian dram, Netherlands Antillean
+        guilder, Angolan kwanza, Argentine peso, Australian
+        dollar, Aruban florin, Azerbaijani manat, Bosnia and
+        Herzegovina convertible mark, Barbados dollar, Bangladeshi
+        taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+      Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+      Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+        pula, Belarusian ruble, Belize dollar, Canadian dollar,
+      Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+        de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+        peso, Unidad de Valor Real, Costa Rican colon, Cuban
+        convertible peso, Cuban peso, Cape Verde escudo, Czech
+        koruna, Djiboutian franc, Danish krone, Dominican peso,
+      Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+        birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+        sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+      Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+        dollar, Hong Kong dollar, Honduran lempira, Croatian
+        kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+      Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+        rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+      Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+        riel, Comoro franc, North Korean won, South Korean won,
+      Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+      Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+      Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+        leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+      Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+      Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+        peso, Mexican Unidad de Inversion, Malaysian ringgit,
+      Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+        córdoba, Norwegian krone, Nepalese rupee, New Zealand
+        dollar, Omani rial, Panamanian balboa, Peruvian sol,
+      Papua New Guinean kina, Philippine piso, Pakistani rupee,
+      Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+        leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+        riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+        pound, Swedish krona/kronor, Singapore dollar, Saint
+        Helena pound, Sierra Leonean leone, Somali shilling,
+      Surinamese dollar, South Sudanese pound, São Tomé and
+        Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+        lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+        manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+      Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+        shilling, Ukrainian hryvnia, Ugandan shilling, United
+        States dollar, United States dollar, Uruguay Peso en
+        Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+      Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+        tala, CFA franc BEAC, Silver, Gold, European Composite
+        Unit, European Monetary Unit, European Unit of Account,
+      European Unit of Account, East Caribbean dollar, Special
+        drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+      Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+        African rand, Zambian kwacha, Zimbabwean dollar]}
+  frozen:
+    {$ref: ../frozen.yaml}
+  inactive:
+    {$ref: ../inactive.yaml}

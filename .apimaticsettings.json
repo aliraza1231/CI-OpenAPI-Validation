@@ -1,0 +1,4 @@
+{
+  "OpenAPIDefinitionPaths": ["PayFac Boarding API", "Payrix", "Reporting"],
+  "IgnoreValidationErrors": false
+}

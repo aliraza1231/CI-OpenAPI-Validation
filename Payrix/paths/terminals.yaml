@@ -1,0 +1,100 @@
+get:
+  description: "Query a terminal resource. \nA terminal resource represents a device/software\
+      \ that will be used to process transactions."
+  parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/terminalsModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/terminalsModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for query on terminals resource
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve all Terminals.
+  tags: [ Terminals ]
+  operationId: getTerminals
+post:
+  description: "Create a terminal resource. \nA terminal resource represents a device/software\
+      \ that will be used to process transactions."
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/terminalsPostReqBodySchemaModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/terminalsPostReqBodySchemaModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/terminalsPostReqBodySchemaModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/terminalsPostReqBodySchemaModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/terminalsPostReqBodySchemaModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/terminalsPostReqBodySchemaModel.yaml }
+    description: Create Terminal Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/terminalsModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/terminalsPostReqBodySchemaModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for create on terminals resource
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Create a new Terminal
+  tags: [ Terminals ]
+  operationId: postTerminals

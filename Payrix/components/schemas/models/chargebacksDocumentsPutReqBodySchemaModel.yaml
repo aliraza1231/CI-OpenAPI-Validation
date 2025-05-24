@@ -1,0 +1,35 @@
+properties:
+  type: { type: string, description: "The type of the file that holds this chargebackDocument.\
+      \ \nThe value is set when the file is properly integrated,\
+      \ otherwise will be null.\n\n<details>\n<summary>Valid Values</summary>\n\
+      \n  - `jpg` - **JPG file**\n\n  - `jpeg` - **JPEG file**\n\
+      \n  - `gif` - **GIF file**\n\n  - `png` - **PNG file**\n\n\
+      \  - `pdf` - **PDF file**\n\n  - `tiff` - **TIFF file**\n\n\
+      \  - `tif` - **TIF file**\n\n</details>",
+          enum: [ jpg, jpeg, gif, png, pdf, tiff, tif ] }
+  ref: { type: string, description: 'The reference of this chargeback document is stored
+                  as a text string and must be between 1 and 100 characters long, with
+                  the value being set when the file is properly integrated, otherwise
+                  it will be null.' }
+  description: { type: string, description: "The description of this chargebackDocument.\
+                                \ \nThis field is stored as a text string and must be\
+                                \ between 1 and 100 characters long." }
+  status: { type: string, description: The current status of the chargebackDocument.
+                            <details>
+                            <summary>Valid Values</summary>
+
+                            - `created` - **Created.** The ChargebackDocument has been created.
+
+                            - `processed` - **Processed.** The ChargebackDocument integration has been successful.
+
+                            - `failed` - **Failed.** The ChargebackDocument integration has failed.
+
+                            </details>,
+            enum: [ created, processed, failed ] }
+  name: { type: string, description: 'The name of this chargeback document holds the real
+                  file name used by the user, stored as a text string and must be between
+                  1 and 100 characters long.' }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }
+required: [ frozen, inactive, status ]
+x-redacted: [ ]

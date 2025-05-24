@@ -1,0 +1,359 @@
+  get:
+    description: "Query an Item. \nAn Item is a line item that is associated with a\
+      \ particular Transaction. It allows you to describe the cost, quantity and other\
+      \ details of each line in the Transaction."
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/itemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/itemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on items resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Items.
+    tags: [Transactions (Txns)]
+    operationId: getItems
+  post:
+    description: "Create an Item. \nAn Item is a line item that is associated with a\
+      \ particular Transaction. It allows you to describe the cost, quantity and other\
+      \ details of each line in the Transaction."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              txn: {type: string, description: 'The txn in which these items have been
+                  sold, A single txn may have many items.'}
+              item: {type: string, description: 'The SKU, short name or title of the
+                  item sold.'}
+              description:
+                type: string
+                description: "A description of this Item. \nThis field is stored as\
+                  \ a text string and must be between 0 and 500 characters long."
+              custom:
+                type: string
+                description: "A custom identifier for this line Item. \nThis field is\
+                  \ stored as a text string and must be between 0 and 500 characters\
+                  \ long."
+              quantity:
+                type: integer
+                description: "The quantity of this Item included in the Transaction.\
+                  \ \nThis field is specified as an integer."
+              price:
+                type: integer
+                description: "The amount charged for this Item. \nThis field is specified\
+                  \ as an integer in cents."
+              um:
+                type: string
+                description: "The unit of measure for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long.\
+                  \ \nExamples of units of measure may be: each, kilogram, pound, month."
+              total:
+                type: integer
+                description: "The total price for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              commodityCode:
+                type: string
+                description: "The commodity code for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 12 characters long."
+              productCode:
+                type: string
+                description: "The product code for this Item such as: UPC, catalog number,\
+                  \ or inventory number. \nThis field is stored as a text string and\
+                  \ must be between 0 and 100 characters long."
+              discount:
+                type: integer
+                description: "The discount for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              inactive: {$ref: ../components/schemas/inactive.yaml}
+              frozen: {$ref: ../components/schemas/frozen.yaml}
+            required: [frozen, inactive, item, price, quantity, txn]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              txn: {}
+              item: {}
+              description:
+                description: "A description of this Item. \nThis field is stored as\
+                  \ a text string and must be between 0 and 500 characters long."
+              custom:
+                description: "A custom identifier for this line Item. \nThis field is\
+                  \ stored as a text string and must be between 0 and 500 characters\
+                  \ long."
+              quantity:
+                description: "The quantity of this Item included in the Transaction.\
+                  \ \nThis field is specified as an integer."
+              price:
+                description: "The amount charged for this Item. \nThis field is specified\
+                  \ as an integer in cents."
+              um:
+                description: "The unit of measure for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long.\
+                  \ \nExamples of units of measure may be: each, kilogram, pound, month."
+              total:
+                description: "The total price for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              commodityCode:
+                description: "The commodity code for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 12 characters long."
+              productCode:
+                description: "The product code for this Item such as: UPC, catalog number,\
+                  \ or inventory number. \nThis field is stored as a text string and\
+                  \ must be between 0 and 100 characters long."
+              discount:
+                description: "The discount for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, item, price, quantity, txn]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              txn: {}
+              item: {}
+              description:
+                description: "A description of this Item. \nThis field is stored as\
+                  \ a text string and must be between 0 and 500 characters long."
+              custom:
+                description: "A custom identifier for this line Item. \nThis field is\
+                  \ stored as a text string and must be between 0 and 500 characters\
+                  \ long."
+              quantity:
+                description: "The quantity of this Item included in the Transaction.\
+                  \ \nThis field is specified as an integer."
+              price:
+                description: "The amount charged for this Item. \nThis field is specified\
+                  \ as an integer in cents."
+              um:
+                description: "The unit of measure for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long.\
+                  \ \nExamples of units of measure may be: each, kilogram, pound, month."
+              total:
+                description: "The total price for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              commodityCode:
+                description: "The commodity code for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 12 characters long."
+              productCode:
+                description: "The product code for this Item such as: UPC, catalog number,\
+                  \ or inventory number. \nThis field is stored as a text string and\
+                  \ must be between 0 and 100 characters long."
+              discount:
+                description: "The discount for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              inactive:
+                description: 'Whether this resource is marked as inactive. Valid Values:
+                  `0` - Active, `1` - Inactive.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: 'Whether this resource is marked as frozen. Valid Values:
+                  `0` - Not Frozen, `1` - Frozen.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, item, price, quantity, txn]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              txn: {}
+              item: {}
+              description:
+                description: "A description of this Item. \nThis field is stored as\
+                  \ a text string and must be between 0 and 500 characters long."
+              custom:
+                description: "A custom identifier for this line Item. \nThis field is\
+                  \ stored as a text string and must be between 0 and 500 characters\
+                  \ long."
+              quantity:
+                description: "The quantity of this Item included in the Transaction.\
+                  \ \nThis field is specified as an integer."
+              price:
+                description: "The amount charged for this Item. \nThis field is specified\
+                  \ as an integer in cents."
+              um:
+                description: "The unit of measure for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long.\
+                  \ \nExamples of units of measure may be: each, kilogram, pound, month."
+              total:
+                description: "The total price for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              commodityCode:
+                description: "The commodity code for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 12 characters long."
+              productCode:
+                description: "The product code for this Item such as: UPC, catalog number,\
+                  \ or inventory number. \nThis field is stored as a text string and\
+                  \ must be between 0 and 100 characters long."
+              discount:
+                description: "The discount for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, item, price, quantity, txn]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              txn: {}
+              item: {}
+              description:
+                description: "A description of this Item. \nThis field is stored as\
+                  \ a text string and must be between 0 and 500 characters long."
+              custom:
+                description: "A custom identifier for this line Item. \nThis field is\
+                  \ stored as a text string and must be between 0 and 500 characters\
+                  \ long."
+              quantity:
+                description: "The quantity of this Item included in the Transaction.\
+                  \ \nThis field is specified as an integer."
+              price:
+                description: "The amount charged for this Item. \nThis field is specified\
+                  \ as an integer in cents."
+              um:
+                description: "The unit of measure for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long.\
+                  \ \nExamples of units of measure may be: each, kilogram, pound, month."
+              total:
+                description: "The total price for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              commodityCode:
+                description: "The commodity code for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 12 characters long."
+              productCode:
+                description: "The product code for this Item such as: UPC, catalog number,\
+                  \ or inventory number. \nThis field is stored as a text string and\
+                  \ must be between 0 and 100 characters long."
+              discount:
+                description: "The discount for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, item, price, quantity, txn]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              txn: {}
+              item: {}
+              description:
+                description: "A description of this Item. \nThis field is stored as\
+                  \ a text string and must be between 0 and 500 characters long."
+              custom:
+                description: "A custom identifier for this line Item. \nThis field is\
+                  \ stored as a text string and must be between 0 and 500 characters\
+                  \ long."
+              quantity:
+                description: "The quantity of this Item included in the Transaction.\
+                  \ \nThis field is specified as an integer."
+              price:
+                description: "The amount charged for this Item. \nThis field is specified\
+                  \ as an integer in cents."
+              um:
+                description: "The unit of measure for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long.\
+                  \ \nExamples of units of measure may be: each, kilogram, pound, month."
+              total:
+                description: "The total price for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              commodityCode:
+                description: "The commodity code for this Item. \nThis field is stored\
+                  \ as a text string and must be between 0 and 12 characters long."
+              productCode:
+                description: "The product code for this Item such as: UPC, catalog number,\
+                  \ or inventory number. \nThis field is stored as a text string and\
+                  \ must be between 0 and 100 characters long."
+              discount:
+                description: "The discount for the line item. \nThis field is specified\
+                  \ as an integer in cents."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, item, price, quantity, txn]
+            x-redacted: []
+      description: Create an Item Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/itemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties: {$ref: ../components/schemas/models/itemsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for creating an item.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create an Item.
+    tags: [Transactions (Txns)]
+    operationId: postItems

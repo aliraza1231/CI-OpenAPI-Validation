@@ -1,0 +1,810 @@
+  get:
+    description: "Query a RequestToken. \nA RequestToken represents a method of assuring\
+      \ a request is only processed once. Each RequestToken expires automatically after\
+      \ 48 hours of being created."
+    parameters:
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to request a specific page of records. \n\
+        For example, set '?page[number]=2' to retrieve the second page of records for\
+        \ this request."
+      explode: true
+      in: query
+      name: page[number]
+      required: false
+      schema: {}
+      style: form
+    - description: |-
+        Set this path parameter to request up to a specific amount of records. By default 30 records are retrieved per page. The maximum limit that can be set is 100.
+        For example, set '?page[limit]=50' to retrieve up to 50 records for this request.
+      explode: true
+      in: query
+      name: page[limit]
+      required: false
+      schema: {}
+      style: form
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this requestToken.}
+                          token:
+                            description: "The token for the current request. \nThis\
+                              \ field is stored as a text string and must be between\
+                              \ 0 and 100 characters long."
+                          resource:
+                            description: "The category number of the resource created/updated\
+                              \ in the original request. \nThis field is specified as\
+                              \ an integer."
+                            enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57,
+                              93, 118, 43, 134, 127, 124, 123, 81, 141, 84, 56, 49,
+                              34, 87, 104, 110, 45, 2, 20, 105, 3, 139, 112, 35, 13,
+                              149, 111, 65, 26, 47, 85, 36, 146, 132, 122, 33, 67, 86,
+                              72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77, 76,
+                              50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21,
+                              39, 9, 41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37,
+                              117, 115, 69, 31, 73, 23, 89, 103, 88, 42, 121, 119, 120,
+                              129, 48, 66, 143, 144, 96, 15, 131, 126, 125, 24, 25,
+                              19, 12, 75, 74, 107, 133, 108, 109, 106, 17, 60, 99, 53,
+                              68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                            x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                              accountVerifications, adjustments, aggregationResultGroups,
+                              aggregationResults, aggregations, alertActions, alerts,
+                              alertTriggers, apiKeys, assessments, auditLogs, authTokens,
+                              batches, batchRefs, billingEvents, billingModifiers, billings,
+                              bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                              chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                              configurationStages, confirmCodes, contacts, credentials,
+                              currencyRates, customers, debtorEntities, decisionActions,
+                              decisionRules, decisions, DisbursementEntitiesLog, disbursementEntries,
+                              disbursementRefs, disbursements, disbursementResults,
+                              divisions, entities, entityCustomFields, entityDatas,
+                              entityDebts, entityRefs, entityReserves, entityReturns,
+                              entityRoutes, entries, entryOrigins, externalFees, feeModifiers,
+                              feeRules, fees, files, fundOrigins, fundingParameters,
+                              funds, holdNotes, holds, hosts, invoiceItems, invoiceLineItems,
+                              invoiceParameters, invoiceResults, invoices, iplists,
+                              items, logins, loginsHelpers, mccs, messages, messageThreads,
+                              members, merchantResults, merchants, mappings, mfaRecoveryCodes,
+                              notes, noteDocuments, orgEntities, orgFlowActions, orgFlows,
+                              orgs, parameters, partitions, facilitators, paymentUpdateGroups,
+                              paymentUpdates, payoutFlows, payouts, pendingEntries,
+                              plans, profitShareResults, profitShareRules, profitShares,
+                              refunds, reportItems, reportResults, reports, requestTokens,
+                              reserveEntries, reserves, revShareSchedules, revShareStatements,
+                              secrets, sessions, settlements, statementEntries, statements,
+                              subscriptions, subscriptionTokens, teamLogins, permissions,
+                              terminalRefs, terminals, terminalTxnDatas, terminalTxnMetadatas,
+                              terminalTxnRefs, terminalTxnResults, terminalTxns, tokens,
+                              txnDatas, txnMetadatas, txnRefs, txnReports, txnResults,
+                              txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                              vendors, verifications, verificationRefs, verificationResults,
+                              versions, watchlistItems, watchlists]
+                          resourceId: {description: The identifier of the record created/updated
+                              in the original request.}
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this requestToken.}
+                          token:
+                            description: "The token for the current request. \nThis\
+                              \ field is stored as a text string and must be between\
+                              \ 0 and 100 characters long."
+                          resource:
+                            description: "The category number of the resource created/updated\
+                              \ in the original request. \nThis field is specified as\
+                              \ an integer."
+                            enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57,
+                              93, 118, 43, 134, 127, 124, 123, 81, 141, 84, 56, 49,
+                              34, 87, 104, 110, 45, 2, 20, 105, 3, 139, 112, 35, 13,
+                              149, 111, 65, 26, 47, 85, 36, 146, 132, 122, 33, 67, 86,
+                              72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77, 76,
+                              50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21,
+                              39, 9, 41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37,
+                              117, 115, 69, 31, 73, 23, 89, 103, 88, 42, 121, 119, 120,
+                              129, 48, 66, 143, 144, 96, 15, 131, 126, 125, 24, 25,
+                              19, 12, 75, 74, 107, 133, 108, 109, 106, 17, 60, 99, 53,
+                              68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                            x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                              accountVerifications, adjustments, aggregationResultGroups,
+                              aggregationResults, aggregations, alertActions, alerts,
+                              alertTriggers, apiKeys, assessments, auditLogs, authTokens,
+                              batches, batchRefs, billingEvents, billingModifiers, billings,
+                              bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                              chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                              configurationStages, confirmCodes, contacts, credentials,
+                              currencyRates, customers, debtorEntities, decisionActions,
+                              decisionRules, decisions, DisbursementEntitiesLog, disbursementEntries,
+                              disbursementRefs, disbursements, disbursementResults,
+                              divisions, entities, entityCustomFields, entityDatas,
+                              entityDebts, entityRefs, entityReserves, entityReturns,
+                              entityRoutes, entries, entryOrigins, externalFees, feeModifiers,
+                              feeRules, fees, files, fundOrigins, fundingParameters,
+                              funds, holdNotes, holds, hosts, invoiceItems, invoiceLineItems,
+                              invoiceParameters, invoiceResults, invoices, iplists,
+                              items, logins, loginsHelpers, mccs, messages, messageThreads,
+                              members, merchantResults, merchants, mappings, mfaRecoveryCodes,
+                              notes, noteDocuments, orgEntities, orgFlowActions, orgFlows,
+                              orgs, parameters, partitions, facilitators, paymentUpdateGroups,
+                              paymentUpdates, payoutFlows, payouts, pendingEntries,
+                              plans, profitShareResults, profitShareRules, profitShares,
+                              refunds, reportItems, reportResults, reports, requestTokens,
+                              reserveEntries, reserves, revShareSchedules, revShareStatements,
+                              secrets, sessions, settlements, statementEntries, statements,
+                              subscriptions, subscriptionTokens, teamLogins, permissions,
+                              terminalRefs, terminals, terminalTxnDatas, terminalTxnMetadatas,
+                              terminalTxnRefs, terminalTxnResults, terminalTxns, tokens,
+                              txnDatas, txnMetadatas, txnRefs, txnReports, txnResults,
+                              txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                              vendors, verifications, verificationRefs, verificationResults,
+                              versions, watchlistItems, watchlists]
+                          resourceId: {description: The identifier of the record created/updated
+                              in the original request.}
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for query on requestTokens resource
+    tags: [Request Tokens]
+    operationId: getRequestTokens
+  post:
+    description: "Create a RequestToken. \nA RequestToken represents a method of assuring\
+      \ a request is only processed once. Each RequestToken expires automatically after\
+      \ 48 hours of being created."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this requestToken.}
+              token:
+                description: "The token for the current request. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long."
+              resource:
+                description: "The category number of the resource created/updated in\
+                  \ the original request. \nThis field is specified as an integer."
+                enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57, 93, 118, 43,
+                  134, 127, 124, 123, 81, 141, 84, 56, 49, 34, 87, 104, 110, 45, 2,
+                  20, 105, 3, 139, 112, 35, 13, 149, 111, 65, 26, 47, 85, 36, 146, 132,
+                  122, 33, 67, 86, 72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77,
+                  76, 50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21, 39, 9,
+                  41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37, 117, 115, 69, 31, 73,
+                  23, 89, 103, 88, 42, 121, 119, 120, 129, 48, 66, 143, 144, 96, 15,
+                  131, 126, 125, 24, 25, 19, 12, 75, 74, 107, 133, 108, 109, 106, 17,
+                  60, 99, 53, 68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                  accountVerifications, adjustments, aggregationResultGroups, aggregationResults,
+                  aggregations, alertActions, alerts, alertTriggers, apiKeys, assessments,
+                  auditLogs, authTokens, batches, batchRefs, billingEvents, billingModifiers,
+                  billings, bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                  chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                  configurationStages, confirmCodes, contacts, credentials, currencyRates,
+                  customers, debtorEntities, decisionActions, decisionRules, decisions,
+                  DisbursementEntitiesLog, disbursementEntries, disbursementRefs, disbursements,
+                  disbursementResults, divisions, entities, entityCustomFields, entityDatas,
+                  entityDebts, entityRefs, entityReserves, entityReturns, entityRoutes,
+                  entries, entryOrigins, externalFees, feeModifiers, feeRules, fees,
+                  files, fundOrigins, fundingParameters, funds, holdNotes, holds, hosts,
+                  invoiceItems, invoiceLineItems, invoiceParameters, invoiceResults,
+                  invoices, iplists, items, logins, loginsHelpers, mccs, messages, messageThreads,
+                  members, merchantResults, merchants, mappings, mfaRecoveryCodes, notes,
+                  noteDocuments, orgEntities, orgFlowActions, orgFlows, orgs, parameters,
+                  partitions, facilitators, paymentUpdateGroups, paymentUpdates, payoutFlows,
+                  payouts, pendingEntries, plans, profitShareResults, profitShareRules,
+                  profitShares, refunds, reportItems, reportResults, reports, requestTokens,
+                  reserveEntries, reserves, revShareSchedules, revShareStatements, secrets,
+                  sessions, settlements, statementEntries, statements, subscriptions,
+                  subscriptionTokens, teamLogins, permissions, terminalRefs, terminals,
+                  terminalTxnDatas, terminalTxnMetadatas, terminalTxnRefs, terminalTxnResults,
+                  terminalTxns, tokens, txnDatas, txnMetadatas, txnRefs, txnReports,
+                  txnResults, txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                  vendors, verifications, verificationRefs, verificationResults, versions,
+                  watchlistItems, watchlists]
+              resourceId: {description: The identifier of the record created/updated
+                  in the original request.}
+            required: [login, resource, resourceId, token]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this requestToken.}
+              token:
+                description: "The token for the current request. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long."
+              resource:
+                description: "The category number of the resource created/updated in\
+                  \ the original request. \nThis field is specified as an integer."
+                enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57, 93, 118, 43,
+                  134, 127, 124, 123, 81, 141, 84, 56, 49, 34, 87, 104, 110, 45, 2,
+                  20, 105, 3, 139, 112, 35, 13, 149, 111, 65, 26, 47, 85, 36, 146, 132,
+                  122, 33, 67, 86, 72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77,
+                  76, 50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21, 39, 9,
+                  41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37, 117, 115, 69, 31, 73,
+                  23, 89, 103, 88, 42, 121, 119, 120, 129, 48, 66, 143, 144, 96, 15,
+                  131, 126, 125, 24, 25, 19, 12, 75, 74, 107, 133, 108, 109, 106, 17,
+                  60, 99, 53, 68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                  accountVerifications, adjustments, aggregationResultGroups, aggregationResults,
+                  aggregations, alertActions, alerts, alertTriggers, apiKeys, assessments,
+                  auditLogs, authTokens, batches, batchRefs, billingEvents, billingModifiers,
+                  billings, bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                  chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                  configurationStages, confirmCodes, contacts, credentials, currencyRates,
+                  customers, debtorEntities, decisionActions, decisionRules, decisions,
+                  DisbursementEntitiesLog, disbursementEntries, disbursementRefs, disbursements,
+                  disbursementResults, divisions, entities, entityCustomFields, entityDatas,
+                  entityDebts, entityRefs, entityReserves, entityReturns, entityRoutes,
+                  entries, entryOrigins, externalFees, feeModifiers, feeRules, fees,
+                  files, fundOrigins, fundingParameters, funds, holdNotes, holds, hosts,
+                  invoiceItems, invoiceLineItems, invoiceParameters, invoiceResults,
+                  invoices, iplists, items, logins, loginsHelpers, mccs, messages, messageThreads,
+                  members, merchantResults, merchants, mappings, mfaRecoveryCodes, notes,
+                  noteDocuments, orgEntities, orgFlowActions, orgFlows, orgs, parameters,
+                  partitions, facilitators, paymentUpdateGroups, paymentUpdates, payoutFlows,
+                  payouts, pendingEntries, plans, profitShareResults, profitShareRules,
+                  profitShares, refunds, reportItems, reportResults, reports, requestTokens,
+                  reserveEntries, reserves, revShareSchedules, revShareStatements, secrets,
+                  sessions, settlements, statementEntries, statements, subscriptions,
+                  subscriptionTokens, teamLogins, permissions, terminalRefs, terminals,
+                  terminalTxnDatas, terminalTxnMetadatas, terminalTxnRefs, terminalTxnResults,
+                  terminalTxns, tokens, txnDatas, txnMetadatas, txnRefs, txnReports,
+                  txnResults, txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                  vendors, verifications, verificationRefs, verificationResults, versions,
+                  watchlistItems, watchlists]
+              resourceId: {description: The identifier of the record created/updated
+                  in the original request.}
+            required: [login, resource, resourceId, token]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this requestToken.}
+              token:
+                description: "The token for the current request. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long."
+              resource:
+                description: "The category number of the resource created/updated in\
+                  \ the original request. \nThis field is specified as an integer."
+                enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57, 93, 118, 43,
+                  134, 127, 124, 123, 81, 141, 84, 56, 49, 34, 87, 104, 110, 45, 2,
+                  20, 105, 3, 139, 112, 35, 13, 149, 111, 65, 26, 47, 85, 36, 146, 132,
+                  122, 33, 67, 86, 72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77,
+                  76, 50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21, 39, 9,
+                  41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37, 117, 115, 69, 31, 73,
+                  23, 89, 103, 88, 42, 121, 119, 120, 129, 48, 66, 143, 144, 96, 15,
+                  131, 126, 125, 24, 25, 19, 12, 75, 74, 107, 133, 108, 109, 106, 17,
+                  60, 99, 53, 68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                  accountVerifications, adjustments, aggregationResultGroups, aggregationResults,
+                  aggregations, alertActions, alerts, alertTriggers, apiKeys, assessments,
+                  auditLogs, authTokens, batches, batchRefs, billingEvents, billingModifiers,
+                  billings, bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                  chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                  configurationStages, confirmCodes, contacts, credentials, currencyRates,
+                  customers, debtorEntities, decisionActions, decisionRules, decisions,
+                  DisbursementEntitiesLog, disbursementEntries, disbursementRefs, disbursements,
+                  disbursementResults, divisions, entities, entityCustomFields, entityDatas,
+                  entityDebts, entityRefs, entityReserves, entityReturns, entityRoutes,
+                  entries, entryOrigins, externalFees, feeModifiers, feeRules, fees,
+                  files, fundOrigins, fundingParameters, funds, holdNotes, holds, hosts,
+                  invoiceItems, invoiceLineItems, invoiceParameters, invoiceResults,
+                  invoices, iplists, items, logins, loginsHelpers, mccs, messages, messageThreads,
+                  members, merchantResults, merchants, mappings, mfaRecoveryCodes, notes,
+                  noteDocuments, orgEntities, orgFlowActions, orgFlows, orgs, parameters,
+                  partitions, facilitators, paymentUpdateGroups, paymentUpdates, payoutFlows,
+                  payouts, pendingEntries, plans, profitShareResults, profitShareRules,
+                  profitShares, refunds, reportItems, reportResults, reports, requestTokens,
+                  reserveEntries, reserves, revShareSchedules, revShareStatements, secrets,
+                  sessions, settlements, statementEntries, statements, subscriptions,
+                  subscriptionTokens, teamLogins, permissions, terminalRefs, terminals,
+                  terminalTxnDatas, terminalTxnMetadatas, terminalTxnRefs, terminalTxnResults,
+                  terminalTxns, tokens, txnDatas, txnMetadatas, txnRefs, txnReports,
+                  txnResults, txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                  vendors, verifications, verificationRefs, verificationResults, versions,
+                  watchlistItems, watchlists]
+              resourceId: {description: The identifier of the record created/updated
+                  in the original request.}
+            required: [login, resource, resourceId, token]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this requestToken.}
+              token:
+                description: "The token for the current request. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long."
+              resource:
+                description: "The category number of the resource created/updated in\
+                  \ the original request. \nThis field is specified as an integer."
+                enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57, 93, 118, 43,
+                  134, 127, 124, 123, 81, 141, 84, 56, 49, 34, 87, 104, 110, 45, 2,
+                  20, 105, 3, 139, 112, 35, 13, 149, 111, 65, 26, 47, 85, 36, 146, 132,
+                  122, 33, 67, 86, 72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77,
+                  76, 50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21, 39, 9,
+                  41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37, 117, 115, 69, 31, 73,
+                  23, 89, 103, 88, 42, 121, 119, 120, 129, 48, 66, 143, 144, 96, 15,
+                  131, 126, 125, 24, 25, 19, 12, 75, 74, 107, 133, 108, 109, 106, 17,
+                  60, 99, 53, 68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                  accountVerifications, adjustments, aggregationResultGroups, aggregationResults,
+                  aggregations, alertActions, alerts, alertTriggers, apiKeys, assessments,
+                  auditLogs, authTokens, batches, batchRefs, billingEvents, billingModifiers,
+                  billings, bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                  chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                  configurationStages, confirmCodes, contacts, credentials, currencyRates,
+                  customers, debtorEntities, decisionActions, decisionRules, decisions,
+                  DisbursementEntitiesLog, disbursementEntries, disbursementRefs, disbursements,
+                  disbursementResults, divisions, entities, entityCustomFields, entityDatas,
+                  entityDebts, entityRefs, entityReserves, entityReturns, entityRoutes,
+                  entries, entryOrigins, externalFees, feeModifiers, feeRules, fees,
+                  files, fundOrigins, fundingParameters, funds, holdNotes, holds, hosts,
+                  invoiceItems, invoiceLineItems, invoiceParameters, invoiceResults,
+                  invoices, iplists, items, logins, loginsHelpers, mccs, messages, messageThreads,
+                  members, merchantResults, merchants, mappings, mfaRecoveryCodes, notes,
+                  noteDocuments, orgEntities, orgFlowActions, orgFlows, orgs, parameters,
+                  partitions, facilitators, paymentUpdateGroups, paymentUpdates, payoutFlows,
+                  payouts, pendingEntries, plans, profitShareResults, profitShareRules,
+                  profitShares, refunds, reportItems, reportResults, reports, requestTokens,
+                  reserveEntries, reserves, revShareSchedules, revShareStatements, secrets,
+                  sessions, settlements, statementEntries, statements, subscriptions,
+                  subscriptionTokens, teamLogins, permissions, terminalRefs, terminals,
+                  terminalTxnDatas, terminalTxnMetadatas, terminalTxnRefs, terminalTxnResults,
+                  terminalTxns, tokens, txnDatas, txnMetadatas, txnRefs, txnReports,
+                  txnResults, txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                  vendors, verifications, verificationRefs, verificationResults, versions,
+                  watchlistItems, watchlists]
+              resourceId: {description: The identifier of the record created/updated
+                  in the original request.}
+            required: [login, resource, resourceId, token]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this requestToken.}
+              token:
+                description: "The token for the current request. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long."
+              resource:
+                description: "The category number of the resource created/updated in\
+                  \ the original request. \nThis field is specified as an integer."
+                enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57, 93, 118, 43,
+                  134, 127, 124, 123, 81, 141, 84, 56, 49, 34, 87, 104, 110, 45, 2,
+                  20, 105, 3, 139, 112, 35, 13, 149, 111, 65, 26, 47, 85, 36, 146, 132,
+                  122, 33, 67, 86, 72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77,
+                  76, 50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21, 39, 9,
+                  41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37, 117, 115, 69, 31, 73,
+                  23, 89, 103, 88, 42, 121, 119, 120, 129, 48, 66, 143, 144, 96, 15,
+                  131, 126, 125, 24, 25, 19, 12, 75, 74, 107, 133, 108, 109, 106, 17,
+                  60, 99, 53, 68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                  accountVerifications, adjustments, aggregationResultGroups, aggregationResults,
+                  aggregations, alertActions, alerts, alertTriggers, apiKeys, assessments,
+                  auditLogs, authTokens, batches, batchRefs, billingEvents, billingModifiers,
+                  billings, bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                  chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                  configurationStages, confirmCodes, contacts, credentials, currencyRates,
+                  customers, debtorEntities, decisionActions, decisionRules, decisions,
+                  DisbursementEntitiesLog, disbursementEntries, disbursementRefs, disbursements,
+                  disbursementResults, divisions, entities, entityCustomFields, entityDatas,
+                  entityDebts, entityRefs, entityReserves, entityReturns, entityRoutes,
+                  entries, entryOrigins, externalFees, feeModifiers, feeRules, fees,
+                  files, fundOrigins, fundingParameters, funds, holdNotes, holds, hosts,
+                  invoiceItems, invoiceLineItems, invoiceParameters, invoiceResults,
+                  invoices, iplists, items, logins, loginsHelpers, mccs, messages, messageThreads,
+                  members, merchantResults, merchants, mappings, mfaRecoveryCodes, notes,
+                  noteDocuments, orgEntities, orgFlowActions, orgFlows, orgs, parameters,
+                  partitions, facilitators, paymentUpdateGroups, paymentUpdates, payoutFlows,
+                  payouts, pendingEntries, plans, profitShareResults, profitShareRules,
+                  profitShares, refunds, reportItems, reportResults, reports, requestTokens,
+                  reserveEntries, reserves, revShareSchedules, revShareStatements, secrets,
+                  sessions, settlements, statementEntries, statements, subscriptions,
+                  subscriptionTokens, teamLogins, permissions, terminalRefs, terminals,
+                  terminalTxnDatas, terminalTxnMetadatas, terminalTxnRefs, terminalTxnResults,
+                  terminalTxns, tokens, txnDatas, txnMetadatas, txnRefs, txnReports,
+                  txnResults, txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                  vendors, verifications, verificationRefs, verificationResults, versions,
+                  watchlistItems, watchlists]
+              resourceId: {description: The identifier of the record created/updated
+                  in the original request.}
+            required: [login, resource, resourceId, token]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this requestToken.}
+              token:
+                description: "The token for the current request. \nThis field is stored\
+                  \ as a text string and must be between 0 and 100 characters long."
+              resource:
+                description: "The category number of the resource created/updated in\
+                  \ the original request. \nThis field is specified as an integer."
+                enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57, 93, 118, 43,
+                  134, 127, 124, 123, 81, 141, 84, 56, 49, 34, 87, 104, 110, 45, 2,
+                  20, 105, 3, 139, 112, 35, 13, 149, 111, 65, 26, 47, 85, 36, 146, 132,
+                  122, 33, 67, 86, 72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77,
+                  76, 50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21, 39, 9,
+                  41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37, 117, 115, 69, 31, 73,
+                  23, 89, 103, 88, 42, 121, 119, 120, 129, 48, 66, 143, 144, 96, 15,
+                  131, 126, 125, 24, 25, 19, 12, 75, 74, 107, 133, 108, 109, 106, 17,
+                  60, 99, 53, 68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                  accountVerifications, adjustments, aggregationResultGroups, aggregationResults,
+                  aggregations, alertActions, alerts, alertTriggers, apiKeys, assessments,
+                  auditLogs, authTokens, batches, batchRefs, billingEvents, billingModifiers,
+                  billings, bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                  chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                  configurationStages, confirmCodes, contacts, credentials, currencyRates,
+                  customers, debtorEntities, decisionActions, decisionRules, decisions,
+                  DisbursementEntitiesLog, disbursementEntries, disbursementRefs, disbursements,
+                  disbursementResults, divisions, entities, entityCustomFields, entityDatas,
+                  entityDebts, entityRefs, entityReserves, entityReturns, entityRoutes,
+                  entries, entryOrigins, externalFees, feeModifiers, feeRules, fees,
+                  files, fundOrigins, fundingParameters, funds, holdNotes, holds, hosts,
+                  invoiceItems, invoiceLineItems, invoiceParameters, invoiceResults,
+                  invoices, iplists, items, logins, loginsHelpers, mccs, messages, messageThreads,
+                  members, merchantResults, merchants, mappings, mfaRecoveryCodes, notes,
+                  noteDocuments, orgEntities, orgFlowActions, orgFlows, orgs, parameters,
+                  partitions, facilitators, paymentUpdateGroups, paymentUpdates, payoutFlows,
+                  payouts, pendingEntries, plans, profitShareResults, profitShareRules,
+                  profitShares, refunds, reportItems, reportResults, reports, requestTokens,
+                  reserveEntries, reserves, revShareSchedules, revShareStatements, secrets,
+                  sessions, settlements, statementEntries, statements, subscriptions,
+                  subscriptionTokens, teamLogins, permissions, terminalRefs, terminals,
+                  terminalTxnDatas, terminalTxnMetadatas, terminalTxnRefs, terminalTxnResults,
+                  terminalTxns, tokens, txnDatas, txnMetadatas, txnRefs, txnReports,
+                  txnResults, txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                  vendors, verifications, verificationRefs, verificationResults, versions,
+                  watchlistItems, watchlists]
+              resourceId: {description: The identifier of the record created/updated
+                  in the original request.}
+            required: [login, resource, resourceId, token]
+            x-redacted: []
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this requestToken.}
+                          token:
+                            description: "The token for the current request. \nThis\
+                              \ field is stored as a text string and must be between\
+                              \ 0 and 100 characters long."
+                          resource:
+                            description: "The category number of the resource created/updated\
+                              \ in the original request. \nThis field is specified as\
+                              \ an integer."
+                            enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57,
+                              93, 118, 43, 134, 127, 124, 123, 81, 141, 84, 56, 49,
+                              34, 87, 104, 110, 45, 2, 20, 105, 3, 139, 112, 35, 13,
+                              149, 111, 65, 26, 47, 85, 36, 146, 132, 122, 33, 67, 86,
+                              72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77, 76,
+                              50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21,
+                              39, 9, 41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37,
+                              117, 115, 69, 31, 73, 23, 89, 103, 88, 42, 121, 119, 120,
+                              129, 48, 66, 143, 144, 96, 15, 131, 126, 125, 24, 25,
+                              19, 12, 75, 74, 107, 133, 108, 109, 106, 17, 60, 99, 53,
+                              68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                            x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                              accountVerifications, adjustments, aggregationResultGroups,
+                              aggregationResults, aggregations, alertActions, alerts,
+                              alertTriggers, apiKeys, assessments, auditLogs, authTokens,
+                              batches, batchRefs, billingEvents, billingModifiers, billings,
+                              bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                              chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                              configurationStages, confirmCodes, contacts, credentials,
+                              currencyRates, customers, debtorEntities, decisionActions,
+                              decisionRules, decisions, DisbursementEntitiesLog, disbursementEntries,
+                              disbursementRefs, disbursements, disbursementResults,
+                              divisions, entities, entityCustomFields, entityDatas,
+                              entityDebts, entityRefs, entityReserves, entityReturns,
+                              entityRoutes, entries, entryOrigins, externalFees, feeModifiers,
+                              feeRules, fees, files, fundOrigins, fundingParameters,
+                              funds, holdNotes, holds, hosts, invoiceItems, invoiceLineItems,
+                              invoiceParameters, invoiceResults, invoices, iplists,
+                              items, logins, loginsHelpers, mccs, messages, messageThreads,
+                              members, merchantResults, merchants, mappings, mfaRecoveryCodes,
+                              notes, noteDocuments, orgEntities, orgFlowActions, orgFlows,
+                              orgs, parameters, partitions, facilitators, paymentUpdateGroups,
+                              paymentUpdates, payoutFlows, payouts, pendingEntries,
+                              plans, profitShareResults, profitShareRules, profitShares,
+                              refunds, reportItems, reportResults, reports, requestTokens,
+                              reserveEntries, reserves, revShareSchedules, revShareStatements,
+                              secrets, sessions, settlements, statementEntries, statements,
+                              subscriptions, subscriptionTokens, teamLogins, permissions,
+                              terminalRefs, terminals, terminalTxnDatas, terminalTxnMetadatas,
+                              terminalTxnRefs, terminalTxnResults, terminalTxns, tokens,
+                              txnDatas, txnMetadatas, txnRefs, txnReports, txnResults,
+                              txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                              vendors, verifications, verificationRefs, verificationResults,
+                              versions, watchlistItems, watchlists]
+                          resourceId: {description: The identifier of the record created/updated
+                              in the original request.}
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this requestToken.}
+                          token:
+                            description: "The token for the current request. \nThis\
+                              \ field is stored as a text string and must be between\
+                              \ 0 and 100 characters long."
+                          resource:
+                            description: "The category number of the resource created/updated\
+                              \ in the original request. \nThis field is specified as\
+                              \ an integer."
+                            enum: [22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57,
+                              93, 118, 43, 134, 127, 124, 123, 81, 141, 84, 56, 49,
+                              34, 87, 104, 110, 45, 2, 20, 105, 3, 139, 112, 35, 13,
+                              149, 111, 65, 26, 47, 85, 36, 146, 132, 122, 33, 67, 86,
+                              72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77, 76,
+                              50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21,
+                              39, 9, 41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37,
+                              117, 115, 69, 31, 73, 23, 89, 103, 88, 42, 121, 119, 120,
+                              129, 48, 66, 143, 144, 96, 15, 131, 126, 125, 24, 25,
+                              19, 12, 75, 74, 107, 133, 108, 109, 106, 17, 60, 99, 53,
+                              68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97]
+                            x-enum-descriptions: [accounts, accountRefs, accountVerificationResults,
+                              accountVerifications, adjustments, aggregationResultGroups,
+                              aggregationResults, aggregations, alertActions, alerts,
+                              alertTriggers, apiKeys, assessments, auditLogs, authTokens,
+                              batches, batchRefs, billingEvents, billingModifiers, billings,
+                              bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                              chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                              configurationStages, confirmCodes, contacts, credentials,
+                              currencyRates, customers, debtorEntities, decisionActions,
+                              decisionRules, decisions, DisbursementEntitiesLog, disbursementEntries,
+                              disbursementRefs, disbursements, disbursementResults,
+                              divisions, entities, entityCustomFields, entityDatas,
+                              entityDebts, entityRefs, entityReserves, entityReturns,
+                              entityRoutes, entries, entryOrigins, externalFees, feeModifiers,
+                              feeRules, fees, files, fundOrigins, fundingParameters,
+                              funds, holdNotes, holds, hosts, invoiceItems, invoiceLineItems,
+                              invoiceParameters, invoiceResults, invoices, iplists,
+                              items, logins, loginsHelpers, mccs, messages, messageThreads,
+                              members, merchantResults, merchants, mappings, mfaRecoveryCodes,
+                              notes, noteDocuments, orgEntities, orgFlowActions, orgFlows,
+                              orgs, parameters, partitions, facilitators, paymentUpdateGroups,
+                              paymentUpdates, payoutFlows, payouts, pendingEntries,
+                              plans, profitShareResults, profitShareRules, profitShares,
+                              refunds, reportItems, reportResults, reports, requestTokens,
+                              reserveEntries, reserves, revShareSchedules, revShareStatements,
+                              secrets, sessions, settlements, statementEntries, statements,
+                              subscriptions, subscriptionTokens, teamLogins, permissions,
+                              terminalRefs, terminals, terminalTxnDatas, terminalTxnMetadatas,
+                              terminalTxnRefs, terminalTxnResults, terminalTxns, tokens,
+                              txnDatas, txnMetadatas, txnRefs, txnReports, txnResults,
+                              txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                              vendors, verifications, verificationRefs, verificationResults,
+                              versions, watchlistItems, watchlists]
+                          resourceId: {description: The identifier of the record created/updated
+                              in the original request.}
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for create on requestTokens resource
+    tags: [Request Tokens]
+    operationId: postRequestTokens

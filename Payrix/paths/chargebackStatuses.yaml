@@ -1,0 +1,98 @@
+get:
+  description: Query ChargebackStatuses. A ChargebackStatuses is the logged status
+    changes of a Chargeback; The resource for each Chargeback gives details of the
+    Chargeback, including the reason why it occurred and the date when it occurred.
+  parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebackStatusesModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebackStatusesModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Retrieve response for the query on the Chargeback Statuses resource.
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  summary: Retrieve all Chargeback Statuses.
+  tags: [ Chargebacks ]
+  operationId: getChargebackStatuses
+post:
+  description: Details for create on chargebackStatuses coming soon
+  requestBody:
+    content:
+      application/json:
+        schema:
+          { $ref: ../components/schemas/models/chargebackStatusesPostReqBodySchemaModel.yaml }
+      application/x-www-form-urlencoded:
+        schema:
+          { $ref: ../components/schemas/models/chargebackStatusesPostReqBodySchemaModel.yaml }
+      application/xml:
+        schema:
+          { $ref: ../components/schemas/models/chargebackStatusesPostReqBodySchemaModel.yaml }
+      multipart/form-data:
+        schema:
+          { $ref: ../components/schemas/models/chargebackStatusesPostReqBodySchemaModel.yaml }
+      text/json:
+        schema:
+          { $ref: ../components/schemas/models/chargebackStatusesPostReqBodySchemaModel.yaml }
+      text/xml:
+        schema:
+          { $ref: ../components/schemas/models/chargebackStatusesPostReqBodySchemaModel.yaml }
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebackStatusesModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+        application/xml:
+          schema:
+            properties:
+              response:
+                properties:
+                  data:
+                    description: The data object that the API returns for this request.
+                    items:
+                      { $ref: ../components/schemas/models/chargebackStatusesModel.yaml }
+                  details: { $ref: ../components/schemas/details.yaml }
+                  errors: { $ref: ../components/schemas/error.yaml }
+      description: Response for create on chargebackStatuses resource
+    '400':
+      content:
+        { $ref: ../components/schemas/error400ResponseContent.yaml }
+      description: Error
+  tags: [ Chargebacks ]
+  operationId: postChargebackStatuses

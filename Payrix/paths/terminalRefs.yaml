@@ -1,0 +1,100 @@
+  get:
+    description: "Query a terminalRefs resource. \nA terminalRefs resource represents\
+      \ a reference code issued by the Processor that represents a particular Terminal."
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on terminalRefs resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Terminal References.
+    tags: [Terminals]
+    operationId: getTerminalRefs
+  post:
+    description: Create a terminalRefs resource that represents a reference code issued
+      by the Processor that represents a particular Terminal.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/terminalRefsPostReqBodySchemaModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/terminalRefsPostReqBodySchemaModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/terminalRefsPostReqBodySchemaModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/terminalRefsPostReqBodySchemaModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/terminalRefsPostReqBodySchemaModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/terminalRefsPostReqBodySchemaModel.yaml}
+      description: Create Terminal Reference Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on terminalRefs resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Terminal Reference.
+    tags: [Terminals]
+    operationId: postTerminalRefs

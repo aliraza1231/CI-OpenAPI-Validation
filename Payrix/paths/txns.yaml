@@ -1,0 +1,349 @@
+  get:
+    description: "Query a Transaction. \nTransactions hold all of the information relating\
+      \ to a particular credit card transaction, including the merchant, token, subscription,\
+      \ customer and card information."
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The transactions resource returns multiple transaction (txns) objects
+          in response to a query.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Transactions.
+    tags: [Transactions (Txns)]
+    operationId: getTxns
+  post:
+    description: "Create a Transaction. \nTransactions hold all of the information relating\
+      \ to a particular credit card transaction, including the merchant, token, subscription,\
+      \ customer and card information."
+    requestBody:
+      content:
+        application/json:
+          examples:
+            Token Transaction:
+              value: {merchant: p1_mer_5a1ef5e55656a739a85da21, type: 1, origin: 2,
+                token: e41272ec5464d9ec81cc85c854837472, total: 100}
+            New Card Transaction:
+              value:
+                merchant: p1_mer_5a1ef5e55656a739a85da21
+                type: 1
+                origin: 2
+                payment: {method: 2, number: '4111111111111111', cvv: '111'}
+                expiration: '0120'
+                total: 100
+            Refund Transaction:
+              value: {type: 5, fortxn: p1_txn_5a1ef5e55658ea5275a3ec0}
+          schema:
+            {$ref: ../components/schemas/models/txnsPostReqBodySchemaModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/txnsPostReqBodySchemaModel.yaml}
+        application/xml:
+          examples:
+            Token Transaction:
+              value: {merchant: p1_mer_5a1ef5e55656a739a85da21, type: 1, origin: 2,
+                token: e41272ec5464d9ec81cc85c854837472, total: 100}
+            New Card Transaction:
+              value:
+                merchant: p1_mer_5a1ef5e55656a739a85da21
+                type: 1
+                origin: 2
+                payment: {method: 2, number: '4111111111111111', cvv: '111'}
+                expiration: '0120'
+                total: 100
+            Refund Transaction:
+              value: {type: 5, fortxn: p1_txn_5a1ef5e55658ea5275a3ec0}
+          schema:
+            {$ref: ../components/schemas/models/txnsPostReqBodySchemaModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/txnsPostReqBodySchemaModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/txnsPostReqBodySchemaModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/txnsPostReqBodySchemaModel.yaml}
+      description: Create a new transaction.
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Token Transaction Response:
+                value: {id: p1_txn_5a1ef5e55658af7cf012866, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+                  merchant: p1_mer_5a1ef5e55656a739a85da21, token: e41272ec5464d9ec81cc85c854837472,
+                  fortxn: null, batch: p1_bth_5a1ef5e55655f49b141d313, subscription: null,
+                  type: 1, expiration: '0120', platform: VANTIV, authDate: null, authCode: null,
+                  captured: null, allowPartial: 0, order: '', description: null, terminal: null,
+                  origin: 2, tax: null, total: 100, cashback: null, authorization: '52703',
+                  approved: 100, cvv: 0, swiped: 0, emv: 0, signature: 0, pin: 1, unattended: null,
+                  first: Robert, middle: '', last: Johnson, company: null, email: robert.johnson@example.com,
+                  address1: 123 Example St., address2: Suite 403, city: New York, state: NY,
+                  zip: '10001', country: USA, phone: '1111111111', mid: '01170981',
+                  reserved: 0, inactive: 0, frozen: 0}
+              New Card Transaction Response:
+                value:
+                  payment: {method: 2, number: '1111', routing: '0', payment: null}
+                  id: p1_txn_5a1ef5e55658ea5275a3ec0
+                  created: 2017-11-28T01:02:57Z
+                  modified: 2017-11-28T01:02:57Z
+                  creator: p1_log_5a1ef5e55653ed720159d53
+                  modifier: p1_log_5a1ef5e55653ed720159d53
+                  ipCreated: 8.8.8.8
+                  ipModified: 8.8.8.8
+                  merchant: p1_mer_5a1ef5e55656a739a85da21
+                  token: null
+                  fortxn: null
+                  batch: p1_bth_5a1ef5e55655f49b141d313
+                  subscription: null
+                  type: 1
+                  expiration: '0120'
+                  platform: VANTIV
+                  authDate: null
+                  authCode: null
+                  captured: null
+                  allowPartial: 0
+                  order: ''
+                  description: null
+                  terminal: null
+                  origin: 2
+                  tax: null
+                  total: 100
+                  cashback: null
+                  authorization: '92962'
+                  approved: 100
+                  cvv: 1
+                  swiped: 0
+                  emv: 0
+                  signature: 0
+                  pin: 1
+                  unattended: null
+                  first: null
+                  middle: null
+                  last: null
+                  company: null
+                  email: null
+                  address1: null
+                  address2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  mid: '01170981'
+                  reserved: 0
+                  inactive: 0
+                  frozen: 0
+              Refund Transaction Response:
+                value: {id: p1_txn_5a1ef5e55659100de282ca8, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+                  merchant: p1_mer_5a1ef5e55656a739a85da21, token: null, fortxn: p1_txn_5a1ef5e55658ea5275a3ec0,
+                  batch: null, subscription: null, type: 5, expiration: null, platform: VANTIV,
+                  authDate: null, authCode: null, captured: null, allowPartial: 0, order: '',
+                  description: null, terminal: null, origin: 2, tax: null, total: 100,
+                  cashback: null, authorization: null, approved: null, cvv: 0, swiped: 0,
+                  emv: 0, signature: 0, pin: 1, unattended: null, first: null, middle: null,
+                  last: null, company: null, email: null, address1: null, address2: null,
+                  city: null, state: null, zip: null, country: null, phone: null, mid: '01170981',
+                  reserved: 0, inactive: 0, frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            examples:
+              Token Transaction Response:
+                value: {id: p1_txn_5a1ef5e55658af7cf012866, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+                  merchant: p1_mer_5a1ef5e55656a739a85da21, token: e41272ec5464d9ec81cc85c854837472,
+                  fortxn: null, batch: p1_bth_5a1ef5e55655f49b141d313, subscription: null,
+                  type: 1, expiration: '0120', platform: VANTIV, authDate: null, authCode: null,
+                  captured: null, allowPartial: 0, order: '', description: null, terminal: null,
+                  origin: 2, tax: null, total: 100, cashback: null, authorization: '52703',
+                  approved: 100, cvv: 0, swiped: 0, emv: 0, signature: 0, pin: 1, unattended: null,
+                  first: Robert, middle: '', last: Johnson, company: null, email: robert.johnson@example.com,
+                  address1: 123 Example St., address2: Suite 403, city: New York, state: NY,
+                  zip: '10001', country: USA, phone: '1111111111', mid: '01170981',
+                  reserved: 0, inactive: 0, frozen: 0}
+              New Card Transaction Response:
+                value:
+                  payment: {method: 2, number: '1111', routing: '0', payment: null}
+                  id: p1_txn_5a1ef5e55658ea5275a3ec0
+                  created: 2017-11-28T01:02:57Z
+                  modified: 2017-11-28T01:02:57Z
+                  creator: p1_log_5a1ef5e55653ed720159d53
+                  modifier: p1_log_5a1ef5e55653ed720159d53
+                  ipCreated: 8.8.8.8
+                  ipModified: 8.8.8.8
+                  merchant: p1_mer_5a1ef5e55656a739a85da21
+                  token: null
+                  fortxn: null
+                  batch: p1_bth_5a1ef5e55655f49b141d313
+                  subscription: null
+                  type: 1
+                  expiration: '0120'
+                  platform: VANTIV
+                  authDate: null
+                  authCode: null
+                  captured: null
+                  allowPartial: 0
+                  order: ''
+                  description: null
+                  terminal: null
+                  origin: 2
+                  tax: null
+                  total: 100
+                  cashback: null
+                  authorization: '92962'
+                  approved: 100
+                  cvv: 1
+                  swiped: 0
+                  emv: 0
+                  signature: 0
+                  pin: 1
+                  unattended: null
+                  first: null
+                  middle: null
+                  last: null
+                  company: null
+                  email: null
+                  address1: null
+                  address2: null
+                  city: null
+                  state: null
+                  zip: null
+                  country: null
+                  phone: null
+                  mid: '01170981'
+                  reserved: 0
+                  inactive: 0
+                  frozen: 0
+              Refund Transaction Response:
+                value: {id: p1_txn_5a1ef5e55659100de282ca8, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, ipCreated: 8.8.8.8, ipModified: 8.8.8.8,
+                  merchant: p1_mer_5a1ef5e55656a739a85da21, token: null, fortxn: p1_txn_5a1ef5e55658ea5275a3ec0,
+                  batch: null, subscription: null, type: 5, expiration: null, platform: VANTIV,
+                  authDate: null, authCode: null, captured: null, allowPartial: 0, order: '',
+                  description: null, terminal: null, origin: 2, tax: null, total: 100,
+                  cashback: null, authorization: null, approved: null, cvv: 0, swiped: 0,
+                  emv: 0, signature: 0, pin: 1, unattended: null, first: null, middle: null,
+                  last: null, company: null, email: null, address1: null, address2: null,
+                  city: null, state: null, zip: null, country: null, phone: null, mid: '01170981',
+                  reserved: 0, inactive: 0, frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on txns resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a Transaction.
+    tags: [Transactions (Txns)]
+    x-examples:
+    - request: {merchant: p1_mer_5a1ef5e55656a739a85da21, type: 1, origin: 2, token: e41272ec5464d9ec81cc85c854837472,
+        total: 100}
+      response: {id: p1_txn_5a1ef5e55658af7cf012866, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        ipCreated: 8.8.8.8, ipModified: 8.8.8.8, merchant: p1_mer_5a1ef5e55656a739a85da21,
+        token: e41272ec5464d9ec81cc85c854837472, batch: p1_bth_5a1ef5e55655f49b141d313,
+        type: 1, expiration: '0120', platform: VANTIV, allowPartial: 0, order: '', origin: 2,
+        total: 100, authorization: '52703', approved: 100, cvv: 0, swiped: 0, emv: 0,
+        signature: 0, pin: 1, first: Robert, middle: '', last: Johnson, email: robert.johnson@example.com,
+        address1: 123 Example St., address2: Suite 403, city: New York, state: NY, zip: '10001',
+        country: USA, phone: '1111111111', mid: '01170981', reserved: 0, inactive: 0,
+        frozen: 0}
+    - request:
+        merchant: p1_mer_5a1ef5e55656a739a85da21
+        type: 1
+        origin: 2
+        payment: {method: 2, number: '4111111111111111', cvv: '111'}
+        expiration: '0120'
+        total: 100
+      response:
+        payment: {method: 2, number: '1111', routing: '0'}
+        id: p1_txn_5a1ef5e55658ea5275a3ec0
+        created: 2017-11-28T01:02:57Z
+        modified: 2017-11-28T01:02:57Z
+        creator: p1_log_5a1ef5e55653ed720159d53
+        modifier: p1_log_5a1ef5e55653ed720159d53
+        ipCreated: 8.8.8.8
+        ipModified: 8.8.8.8
+        merchant: p1_mer_5a1ef5e55656a739a85da21
+        batch: p1_bth_5a1ef5e55655f49b141d313
+        type: 1
+        expiration: '0120'
+        platform: VANTIV
+        allowPartial: 0
+        order: ''
+        origin: 2
+        total: 100
+        authorization: '92962'
+        approved: 100
+        cvv: 1
+        swiped: 0
+        emv: 0
+        signature: 0
+        pin: 1
+        mid: '01170981'
+        reserved: 0
+        inactive: 0
+        frozen: 0
+    - request: {type: 5, fortxn: p1_txn_5a1ef5e55658ea5275a3ec0}
+      response: {id: p1_txn_5a1ef5e55659100de282ca8, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        ipCreated: 8.8.8.8, ipModified: 8.8.8.8, merchant: p1_mer_5a1ef5e55656a739a85da21,
+        fortxn: p1_txn_5a1ef5e55658ea5275a3ec0, type: 5, platform: VANTIV, allowPartial: 0,
+        order: '', origin: 2, total: 100, cvv: 0, swiped: 0, emv: 0, signature: 0, pin: 1,
+        mid: '01170981', reserved: 0, inactive: 0, frozen: 0}
+    operationId: postTxns

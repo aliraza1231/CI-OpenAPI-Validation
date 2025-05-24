@@ -1,0 +1,38 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  deleted: {type: string, description: 'In case resource is deleted, this field will then show the date it occurred', format: date-time}
+  login: {type: string, description: The identifier of the Login associated
+            with this ChangeRequest.}
+  authType: {type: string, description: Auth Type that originate the request.}
+  operation:
+    type: string
+    description: The operation being performed on the resource.
+    enum: [create, update]
+    x-enum-descriptions: ['', '']
+  status:
+    type: string
+    description: The status of the requested change.
+    enum: [pending, manualReview, approved, declined]
+    x-enum-descriptions: [Pending. The Change Request has a
+      pending status., ManualReview. The Change Request was
+      escalated to be manually reviewed., Approved. The Change
+      Request has been approved., '']
+  reasonType:
+    type: string
+    description: A type which categorizes the reason.
+    x-enum-descriptions: ['']
+  reason: {type: string, description: The reason in case the change was declined.}
+  changes: {type: string, description: A JSON encoded string with the request
+              payload}
+  model:
+    type: string
+    description: The model being changed.
+    x-enum-descriptions: ['']
+  recordId: {type: string, description: "The id of the model, only set when operation is update"}
+  entity: {type: string, description: The identifier of the Entity associated with this Account.}
+  analyst: {type: string, description: The person who review the request.}
+  reviewed: {type: string, description: If this change request was reviewed, format: date-time}

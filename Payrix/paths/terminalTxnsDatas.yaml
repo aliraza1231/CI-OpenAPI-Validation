@@ -1,0 +1,82 @@
+  get:
+    description: |
+      Query a TerminalTxnData resource.
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalTxnsDatasModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalTxnsDatasModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve Terminal Transaction Data Response
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Terminal Transaction Data.
+    tags: [Transactions (Txns)]
+    operationId: getTerminalTxnsDatas
+  post:
+    description: |
+      Create a TerminalTxnData resource.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/terminalTxnsDatasPostReqBodySchemaModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/terminalTxnsDatasPostReqBodySchemaModel.yaml}
+      description: Create Terminal Transaction Data Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalTxnsDatasModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/terminalTxnsDatasModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Create Terminal Transaction Data Response
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Terminal Transaction Data
+    tags: [Transactions (Txns)]
+    operationId: postTerminalTxnsDatas

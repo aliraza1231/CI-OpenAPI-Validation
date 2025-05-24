@@ -1,0 +1,4679 @@
+---
+  openapi: 3.0.0
+  info:
+    title: "Reporting: Settlement Summary API"
+    description: "Retrieve settled summaries and supports Group By operations. \n # Authentication \n<SecurityDefinitions />"
+    contact:
+      name: Developer Support
+      email: APICustomerIntegration@fisglobal.com
+    version: 1.0.14
+  servers:
+  - url: https://apis.stage.worldpay.com/merchant-reporting/settlementsummary/v2
+  paths:
+    /settlements/summary:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get total summary of settlements
+        description: Resource to get total summary of settlements for given hierarchy and date range with card type and card network being optional parameters. Refer to the  schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummary
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementsSummaryResponse'
+                examples:
+                  Summary:
+                    value:
+                      totalSaleCount: 200
+                      totalSaleAmount: 2000.11
+                      totalReturnCount: 218
+                      totalReturnAmount: 844.28
+                      totalNetAmount: 1155.72
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/cardnetwork:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by card network.
+        description: Resource to get summary of settlements grouped by card network for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybycardnetwork
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsSummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryByCardNetworkResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        cardType: CREDIT
+                        cardNetwork:
+                          code: "L,"
+                          shortDescription: BILL_ME_LATER
+                          longDescription: BILL_ME_LATER
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        cardType: DEBIT
+                        cardNetwork:
+                          code: "07"
+                          shortDescription: EBT
+                          longDescription: EBT
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/cardtype:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by card type.
+        description: Resource to get summary of settlements grouped by card type for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybycardtype
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsSummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-MERCHANT-Debit:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: DEBIT
+                    cardNetworks:
+                    - EBT
+                    - WIC
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryByCardTypeResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        cardType: CREDIT
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        cardType: DEBIT
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/processdate:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by process dates.
+        description: Resource to get summary of settlements grouped by process dates for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybyprocessdate
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsSummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryByProcessDateResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        processDate: 2019-07-27
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        processDate: 2019-07-28
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/merchant:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by merchants.
+        description: Resource to get summary of settlements grouped by merchants for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybymerchant
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsRequestByMERCHANT'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryByMERCHANTResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        merchantId: 4445000123456
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        merchantId: 4345023507756
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/store:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by stores.
+        description: Resource to get summary of settlements grouped by stores for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybystore
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsRequestBySTORE'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "000000012"
+                      - "000000023"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-SUPER_CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: SUPERCHAIN
+                      values: SCNPCB6111
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-NATIONAL:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: NATIONAL
+                      values: N009993
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryBySTOREResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        chainCode: AB1234
+                        storeNumber: "000000012"
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        chainCode: AB1234
+                        storeNumber: "000000023"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/division:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by divisions.
+        description: Resource to get summary of settlements grouped by divisions for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybydivision
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsRequestByDIVISION'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-SUPERCHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: SUPERCHAIN
+                      values: SCNPCB6111
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-NATIONAL:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: NATIONAL
+                      values: N009993
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryByDIVISIONResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        chainCode: AB1234
+                        divisionNumber: "0000356"
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        chainCode: AB1234
+                        divisionNumber: "0038453"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/chain:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by chain.
+        description: Resource to get summary of settlements grouped by chain for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybychain
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsRequestByCHAIN'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: INDEPENDENT_SALES_ORGANIZATION
+                      values: TTCM
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-IndependentINDEPENDENT_SALES_ORGANIZATION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_ORGANIZATION
+                      values: TTCM
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-IndependentINDEPENDENT_SALES_CHANNEL:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_CHANNEL
+                      values: T'TBMFW'
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-NATIONAL:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: NATIONAL
+                      values: N009993
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks: VISA
+                SearchSummaryByHierarchy-SUPER_CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: SUPERCHAIN
+                      values: SCNPCB6111
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryByCHAINResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        chainCode: AB1234
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        chainCode: "111217"
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/superchain:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements grouped by super chain.
+        description: Resource to get summary of settlements grouped by super chain for given hierarchy and date range with card type and card network being optional parameters. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: GetSettlementsSummaryBysuperchain
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettlementsRequestBySuperChain'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: INDEPENDENT_SALES_ORGANIZATION
+                      values: TTCM
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                SearchSummaryByHierarchy-SUPER_CHAIN:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: SUPERCHAIN
+                      values:
+                      - SCNPCB6111
+                      - SCNPCB8811
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-IndependentINDEPENDENT_SALES_ORGANIZATION:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_ORGANIZATION
+                      values: TTCM
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-12
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-IndependentINDEPENDENT_SALES_CHANNEL:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: INDEPENDENT_SALES_CHANNEL
+                      values: TTBMFW
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+                SearchSummaryByHierarchy-NATIONAL:
+                  value:
+                    pagination:
+                      pageNumber: 1
+                      pageSize: 25
+                    hierarchy:
+                      level: NATIONAL
+                      values: N009993
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-08-02
+                    cardType: CREDIT
+                    cardNetworks:
+                    - VISA
+                    - MASTERCARD
+                    - DISCOVER
+                    - AMEX
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SettlementSummaryBySuperChainResponse'
+                examples:
+                  Summary:
+                    value:
+                      pagination:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 85
+                        totalReturnedCount: 25
+                      totalSaleCount: 25
+                      totalSaleAmount: 257.35
+                      totalReturnCount: 20
+                      totalReturnAmount: 36.43
+                      totalNetAmount: 236.79
+                      summaries:
+                      - saleCount: 10
+                        saleAmount: 120.34
+                        returnCount: "09"
+                        returnAmount: 20.56
+                        netAmount: 99.78
+                        superChainCode: SCNPCB6111
+                      - saleCount: 15
+                        saleAmount: 137.01
+                        returnCount: 11
+                        returnAmount: 15.87
+                        netAmount: 137.01
+                        superChainCode: SCNPCB8811
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/cardtype/month:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements for given merchant and chain with month range.
+        description: Resource to get summary of settlements for given merchant and chain with month range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybymonths
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonthlyTranSummaryInput'
+              examples:
+                Search by merchant id and month range req:
+                  value:
+                    merchantId: "4445111862733"
+                    monthRange:
+                      startMonth: 2023-03
+                      endMonth: 2023-06
+                    sortResultsBy:
+                      fieldName: PROCESS_MONTH
+                      orderBy: ASC
+                Search by chain code and month range req:
+                  value:
+                    chainCode: "111186"
+                    monthRange:
+                      startMonth: 2023-01
+                      endMonth: 2023-06
+                    sortResultsBy:
+                      fieldName: PROCESS_MONTH
+                      orderBy: ASC
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TransactionSummaryByMonth'
+                examples:
+                  Search by merchant id and month range response:
+                    value:
+                      paginationResponse:
+                        pageNumber: 2
+                        pageSize: 50
+                        totalRowCount: 65
+                        totalReturnedCount: 15
+                      details:
+                      - merchantId: 4445111862733
+                        totalSalesAmount: 2090120.48
+                        totalSalesCount: 24160
+                        totalSettledSalesAmount: 1655801.76
+                        creditSalesAmount: 1485051.91
+                        creditSalesCount: 17311
+                        creditReturnsAmount: 434318.72
+                        creditReturnsCount: 3364
+                        netCreditSalesAmount: 1050733.19
+                        debitSalesAmount: 605068.57
+                        debitSalesCount: 6849
+                        debitReturnsAmount: -34464.93
+                        debitReturnsCount: 313
+                        netDebitSalesAmount: 605068.57
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 155.0
+                        chargebackSalesCount: 1
+                        processMonth: 2023-04
+                        merchantCategoryCode:
+                          code: 5311
+                          description: DEPT.   STORES
+                      - merchantId: 4445111862733
+                        totalSalesAmount: 2205419.14
+                        totalSalesCount: 24325
+                        totalSettledSalesAmount: 1753328.62
+                        creditSalesAmount: 1598633.44
+                        creditSalesCount: 17739
+                        creditReturnsAmount: 452090.52
+                        creditReturnsCount: 3705
+                        netCreditSalesAmount: 1146542.92
+                        debitSalesAmount: 606785.7
+                        debitSalesCount: 6586
+                        debitReturnsAmount: -37643.43
+                        debitReturnsCount: 328
+                        netDebitSalesAmount: 606785.7
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 429.82
+                        chargebackSalesCount: 2
+                        processMonth: 2023-05
+                        merchantCategoryCode:
+                          code: 5311
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+                  Search by chain code and month range response:
+                    value:
+                      paginationResponse:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 3
+                        totalReturnedCount: 3
+                      details:
+                      - merchantId: 4445111862733
+                        totalSalesAmount: 1765777.33
+                        totalSalesCount: 21789
+                        totalSettledSalesAmount: 1295355.31
+                        creditSalesAmount: 1261760.59
+                        creditSalesCount: 15691
+                        creditReturnsAmount: 470422.02
+                        creditReturnsCount: 4488
+                        netCreditSalesAmount: 791338.57
+                        debitSalesAmount: 504016.74
+                        debitSalesCount: 6098
+                        debitReturnsAmount: -37136.94
+                        debitReturnsCount: 383
+                        netDebitSalesAmount: 504016.74
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 125.59
+                        chargebackSalesCount: 3
+                        processMonth: 2023-01
+                        merchantCategoryCode:
+                          code: "5311"
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+                      - merchantId: 4445111862874
+                        totalSalesAmount: 3276391.49
+                        totalSalesCount: 39954
+                        totalSettledSalesAmount: 2711835.14
+                        creditSalesAmount: 2381601.18
+                        creditSalesCount: 28851
+                        creditReturnsAmount: 564556.35
+                        creditReturnsCount: 6075
+                        netCreditSalesAmount: 1817044.83
+                        debitSalesAmount: 894790.31
+                        debitSalesCount: 11103
+                        debitReturnsAmount: -65335.94
+                        debitReturnsCount: 589
+                        netDebitSalesAmount: 894790.31
+                        giftSalesAmount: 402.41
+                        giftSalesCount: 4
+                        chargebackSalesAmount: 10599.24
+                        chargebackSalesCount: 96
+                        processMonth: 2023-01
+                        merchantCategoryCode:
+                          code: "5311"
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+                      - merchantId: 4445111862882
+                        totalSalesAmount: 2937690.98
+                        totalSalesCount: 26362
+                        totalSettledSalesAmount: 2051251.08
+                        creditSalesAmount: 2002393.51
+                        creditSalesCount: 15773
+                        creditReturnsAmount: 886439.9
+                        creditReturnsCount: 7526
+                        netCreditSalesAmount: 1115953.61
+                        debitSalesAmount: 935297.47
+                        debitSalesCount: 10589
+                        debitReturnsAmount: -91268.49
+                        debitReturnsCount: 789
+                        netDebitSalesAmount: 935297.47
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 2493.57
+                        chargebackSalesCount: 11
+                        processMonth: 2023-01
+                        merchantCategoryCode:
+                          code: "5311"
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/cardtype/date:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get summaries of settlements for given merchant and chain with date range.
+        description: Resource to get summary of settlements for given merchant and chain with date range. Refer to the schema object for the allowed hierarchies and specifications.
+        operationId: Getsettlementssummarybydate
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyTranSummaryInput'
+              examples:
+                Search by merchant id and date range req:
+                  value:
+                    merchantId: "4445000860874"
+                    dateRange:
+                      fromDate: 2023-05-05
+                      toDate: 2023-07-24
+                    sortResultsBy:
+                      fieldName: PROCESS_DATE
+                      orderBy: ASC
+                Search by chain code and date range req:
+                  value:
+                    chainCode: "111186"
+                    dateRange:
+                      fromDate: 2023-05-05
+                      toDate: 2023-07-24
+                    sortResultsBy:
+                      fieldName: PROCESS_DATE
+                      orderBy: ASC
+        responses:
+          "200":
+            description: OK.
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TransactionSummaryByDate'
+                examples:
+                  Search by merchant id and date range response:
+                    value:
+                      paginationResponse:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 27
+                        totalReturnedCount: 25
+                      details:
+                      - merchantId: 4445111861874
+                        totalSalesAmount: 137188.35
+                        totalSalesCount: 1325
+                        totalSettledSalesAmount: 122776.68
+                        creditSalesAmount: 97348.53
+                        creditSalesCount: 885
+                        creditReturnsAmount: 14411.67
+                        creditReturnsCount: 115
+                        netCreditSalesAmount: 82936.86
+                        debitSalesAmount: 39839.82
+                        debitSalesCount: 440
+                        debitReturnsAmount: -1697.58
+                        debitReturnsCount: 15
+                        netDebitSalesAmount: 39839.82
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 0.0
+                        chargebackSalesCount: 0
+                        processDate: 2023-05-05
+                        merchantCategoryCode:
+                          code: 5311
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+                      - merchantId: 4445111861874
+                        totalSalesAmount: 195676.51
+                        totalSalesCount: 1814
+                        totalSettledSalesAmount: 176455.08
+                        creditSalesAmount: 139970.64
+                        creditSalesCount: 1194
+                        creditReturnsAmount: 19221.43
+                        creditReturnsCount: 150
+                        netCreditSalesAmount: 120749.21
+                        debitSalesAmount: 55705.87
+                        debitSalesCount: 620
+                        debitReturnsAmount: -2452.02
+                        debitReturnsCount: 25
+                        netDebitSalesAmount: 55705.87
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 0.0
+                        chargebackSalesCount: 0
+                        processDate: 2023-05-06
+                        merchantCategoryCode:
+                          code: 5311
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+                  Search by chain code and date range response:
+                    value:
+                      paginationResponse:
+                        pageNumber: 1
+                        pageSize: 25
+                        totalRowCount: 140
+                        totalReturnedCount: 25
+                      details:
+                      - merchantId: 4445111861711
+                        totalSalesAmount: 61879.98
+                        totalSalesCount: 623
+                        totalSettledSalesAmount: 50562.98
+                        creditSalesAmount: 43565.45
+                        creditSalesCount: 464
+                        creditReturnsAmount: 11317.0
+                        creditReturnsCount: 110
+                        netCreditSalesAmount: 32248.45
+                        debitSalesAmount: 18314.53
+                        debitSalesCount: 159
+                        debitReturnsAmount: -1190.49
+                        debitReturnsCount: 10
+                        netDebitSalesAmount: 18314.53
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 0.0
+                        chargebackSalesCount: 0
+                        processDate: 2023-05-05
+                        merchantCategoryCode:
+                          code: 5311
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+                      - merchantId: 4445111861874
+                        totalSalesAmount: 137188.35
+                        totalSalesCount: 1325
+                        totalSettledSalesAmount: 122776.68
+                        creditSalesAmount: 97348.53
+                        creditSalesCount: 885
+                        creditReturnsAmount: 14411.67
+                        creditReturnsCount: 115
+                        netCreditSalesAmount: 82936.86
+                        debitSalesAmount: 39839.82
+                        debitSalesCount: 440
+                        debitReturnsAmount: -1697.58
+                        debitReturnsCount: 15
+                        netDebitSalesAmount: 39839.82
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 0.0
+                        chargebackSalesCount: 0
+                        processDate: 2023-05-05
+                        merchantCategoryCode:
+                          code: 5311
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+                      - merchantId: 3335111860882
+                        totalSalesAmount: 122905.76
+                        totalSalesCount: 787
+                        totalSettledSalesAmount: 93160.15
+                        creditSalesAmount: 96069.46
+                        creditSalesCount: 494
+                        creditReturnsAmount: 29745.61
+                        creditReturnsCount: 207
+                        netCreditSalesAmount: 66323.85
+                        debitSalesAmount: 26836.3
+                        debitSalesCount: 293
+                        debitReturnsAmount: -2448.1
+                        debitReturnsCount: 24
+                        netDebitSalesAmount: 26836.3
+                        giftSalesAmount: 0.0
+                        giftSalesCount: 0
+                        chargebackSalesAmount: 0.0
+                        chargebackSalesCount: 0
+                        processDate: 2023-05-05
+                        merchantCategoryCode:
+                          code: 5311
+                          description: DEPT.   STORES
+                          longDescription: DEPARTMENT STORES
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /settlements/summary/cardtype/bymonth/chain:
+      post:
+        tags:
+        - Settlements
+        summary: Resource to get settlements summary by Month for a chain
+        description: API to return settled transaction summary details by month for a single chain.
+        operationId: Getsettlementssummarybymonth
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonthlyTranSummaryInputCHAIN'
+              examples:
+                Search by mandatory fields(Chain Code + Date Range):
+                  value:
+                    chainCode: "111186"
+                    dateRange:
+                      startMonth: 2023-03
+                      endMonth: 2023-06
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TransactionSummaryByMonthCHAIN'
+                examples:
+                  Summary:
+                    value:
+                      details:
+                        chainCode: "111186"
+                        totalChargebackSalesCount: 116
+                        totalChargebackSalesAmount: 158624.05
+                        totalTransactionAmount: 8.87
+                        totalTransactionCount: 7
+                        processMonthStart: 2023-03
+                        processMonthEnd: 2023-06
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /cardactivity/summary/credit:
+      post:
+        tags:
+        - Card Activity
+        summary: Resource to get authorized and settled summary for credit.
+        description: Endpoint is used to get the summaries for different card networks for the respective card numbers. Optional fields are used to filter the search criteria.
+        operationId: Getsettlementssummarybycardnetworks
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCardActivitySummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNetwork: VISA
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527836467927196307"
+                    cardNetwork: MASTERCARD
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527"
+                    cardNetwork: MASTERCARD
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                      chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527836467927196"
+                    cardNetwork: MASTERCARD
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                      chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "7196"
+                    cardNetwork: MASTERCARD
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CreditActivitySummaryResponse'
+                examples:
+                  Card Activity Summary:
+                    value:
+                      authorizationActivity:
+                        authorizationCount: 335594
+                        authorizationAmount: 12349.62
+                        approvedCount: 6357
+                        approvedAmount: 5374.65
+                        declinedCount: 7564
+                        declinedAmount: 4583.56
+                        merchantSurchargeCount: 32
+                        merchantSurchargeAmount: 327.97
+                      settlementActivity:
+                        settledCount: 84532
+                        settledAmount: 93657.54
+                        salesCount: 9673
+                        salesAmount: 93657.54
+                        returnsCount: 4356
+                        returnsAmount: 43848.87
+                        merchantSurchargeCount: 22
+                        merchantSurchargeAmount: 345.65
+                      disputeActivity:
+                        retrievalsCount: 7453
+                        retrievalsAmount: 7543725.34
+                        chargebacksCount: 38465
+                        chargebacksAmount: 933748.56
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /cardactivity/summary/debit:
+      post:
+        tags:
+        - Card Activity
+        summary: Resource to get authorized and settled summary for debit.
+        description: Endpoint is used to get the summaries for different card networks for the respective card numbers. Optional fields are used to filter the search criteria.
+        operationId: Getcardactivitysummarybydebit
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DebitCardActivitySummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNetwork: VISA
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527836467927196307"
+                    cardNetwork: MASTERCARD
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527"
+                    cardNetwork: MASTERCARD
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527836467927196"
+                    cardNetwork: AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "7196"
+                    cardNetwork: AMEX
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DebitActivitySummaryResponse'
+                examples:
+                  Card Activity Summary:
+                    value:
+                      authorizationActivity:
+                        approvedCount: 6357
+                        approvedAmount: 5374.65
+                        declinedCount: 7564
+                        declinedAmount: 4583.56
+                      settlementActivity:
+                        settledCount: 84532
+                        settledAmount: 93657.54
+                      otherActivity:
+                        reversedCount: 453
+                        reversedAmount: 756.98
+                        inquiryCount: 78
+                        inquiryAmount: 675.34
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+    /cardactivity/summary/gift:
+      post:
+        tags:
+        - Card Activity
+        summary: Resource to get authorized and settled summary for gift.
+        description: Endpoint is used to get the summaries for different card networks for the respective card numbers. Optional fields are used to filter the search criteria.
+        operationId: Getcardactivitysummarybygift
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id.
+          required: false
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+            type: string
+            format: uuid
+            example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftCardActivitySummaryRequest'
+              examples:
+                SearchSummaryByMandatoryFields:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNetwork: VISA
+                SearchSummaryByHierarchyLevel-MERCHANT:
+                  value:
+                    hierarchy:
+                      level: MERCHANT
+                      values:
+                      - "4445000123456"
+                      - "4345023507756"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527836467927196307"
+                    cardNetwork: DISCOVER
+                SearchSummaryByHierarchyLevel-CHAIN:
+                  value:
+                    hierarchy:
+                      level: CHAIN
+                      values:
+                      - AB1234
+                      - "111217"
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527"
+                    cardNetwork: AMEX
+                SearchSummaryByHierarchyLevel-STORE:
+                  value:
+                    hierarchy:
+                      level: STORE
+                      values:
+                      - "0000123"
+                      - "0000456"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "634527836467927196"
+                    cardNetwork: AMEX
+                SearchSummaryByHierarchyLevel-DIVISION:
+                  value:
+                    hierarchy:
+                      level: DIVISION
+                      values:
+                      - "0000356"
+                      - "0038453"
+                    chainCode: AB1234
+                    dateRange:
+                      fromDate: 2019-07-27
+                      toDate: 2019-09-13
+                    cardNumber: "7196"
+                    cardNetwork: MASTERCARD
+        responses:
+          "200":
+            description: OK
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/GiftActivitySummaryResponse'
+                examples:
+                  Card Activity Summary:
+                    value:
+                      authorizationActivity:
+                        authorizationCount: 335594
+                        authorizationAmount: 123429.62
+                        approvedCount: 6357
+                        approvedAmount: 5374.65
+                        declinedCount: 7564
+                        declinedAmount: 4583.56
+                        reloadCount: 32
+                        reloadAmount: 4583.56
+                        redemptionCount: 32
+                        redemptionAmount: 4583.56
+                        preAuthorizationRequestCount: 32
+                        preAuthorizationRequestAmount: 4583.56
+                        preAuthorizationRequestReversalCount: 32
+                        preAuthorizationRequestReversalAmount: 4583.56
+                        merchantSurchargeCount: 32
+                        merchantSurchargeAmount: 327.97
+                      settlementActivity:
+                        returnsCount: 4356
+                        returnsAmount: 43848.87
+                        activationCount: 32
+                        activationAmount: 327.97
+                        merchantSurchargeCount: 54
+                        merchantSurchargeAmount: 435.65
+                      otherActivity:
+                        count: 453
+                        amount: 756.98
+                        inActivityCount: 78
+                        inActivityAmount: 675.34
+                        statusCount: 45
+                        statusAmount: 876.87
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "405 Method Not Allowed":
+                    $ref: '#/components/examples/405MethodNotAllowed'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+        security:
+        - api_key: []
+  components:
+    schemas:
+      CodeAndDescription:
+        type: object
+        properties:
+          code:
+            maxLength: 256
+            type: string
+            description: code
+            example: AB
+          shortDescription:
+            maxLength: 256
+            type: string
+            description: Short Description
+            example: Short description of field
+          longDescription:
+            maxLength: 256
+            type: string
+            description: Long Description
+            example: Long description of field
+        description: Code and description details.
+      SettlementsSummaryRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/EntityListType'
+          cardType:
+            type: string
+            description: Possible value is Credit and Debit.<br>Default - All Card Type.
+            example: CREDIT
+            enum:
+            - CREDIT
+            - DEBIT
+          cardNetworks:
+            description: Card Type mandatory when adding Card Network.<br>Default - All Card Networks.
+            allOf:
+            - $ref: '#/components/schemas/cardNetwork'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeOptionalType'
+      CreditCardActivitySummaryRequest:
+        required:
+        - cardNetwork
+        - cardNumber
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/Hierarchy'
+          cardNetwork:
+            description: Indicates the network of the cards which is associated with facilitating the payment.Card Type mandatory when adding card network.
+            allOf:
+            - $ref: '#/components/schemas/cardNetwork'
+          cardNumber:
+            maxLength: 19
+            type: string
+            description: "This is the number found on the card used to make a purchase, also referred to as the bank card number.<br>Searches can be done on the full card number, on the first 6 and last 4 digits, or on the last 4 digit searches."
+            example: '************4353'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/ProcessDateRangeTypes'
+        description: This object is used to retrieve card activity summary.
+      DebitCardActivitySummaryRequest:
+        required:
+        - cardNetwork
+        - cardNumber
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/Hierarchy'
+          cardNetwork:
+            type: object
+            description: Indicates the network of the cards which is associated with facilitating the payment.Card Type mandatory when adding card network.<br>Default - all card networks.
+            allOf:
+            - $ref: '#/components/schemas/DebitCardNetwork'
+          cardNumber:
+            maxLength: 19
+            type: string
+            description: "This is the number found on the card used to make a purchase, also referred to as the bank card number.<br>Searches can be done on the full card number, on the first 6 and last 4 digits, or on the last 4 digit searches."
+            example: '************4353'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/ProcessDateRangeTypes'
+        description: This object is used to retrieve card activity summary.
+      GiftCardActivitySummaryRequest:
+        required:
+        - cardNetwork
+        - cardNumber
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/Hierarchy'
+          cardNetwork:
+            type: object
+            description: Indicates the network of the cards which is associated with facilitating the payment.Card Type mandatory when adding card network.<br>Default - all card networks..
+            allOf:
+            - $ref: '#/components/schemas/GiftCardNetwork'
+          cardNumber:
+            maxLength: 19
+            type: string
+            description: "This is the number found on the card used to make a purchase, also referred to as the bank card number.<br>Searches can be done on the full card number, on the first 6 and last 4 digits, or on the last 4 digit searches."
+            example: '************4353'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/ProcessDateRangeTypes'
+        description: This object is used to retrieve card activity summary.
+      SettlementsRequest:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/EntityListType'
+          cardType:
+            type: string
+            description: Possible value is Credit and Debit.<br>Default - All Card Type.
+            example: CREDIT
+            enum:
+            - CREDIT
+            - DEBIT
+          cardNetworks:
+            description: Indicates the network of the cards which is associated with facilitating the payment.Card Type mandatory when adding card network.
+            allOf:
+            - $ref: '#/components/schemas/cardNetwork'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeOptionalType'
+      SettlementsRequestByMERCHANT:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeMerchant'
+          cardType:
+            type: string
+            description: Possible value is Credit and Debit.<br>Default - All Card Type.
+            example: CREDIT
+            enum:
+            - CREDIT
+            - DEBIT
+          cardNetworks:
+            type: array
+            description: Card Type mandatory when adding Card Network.<br>Default - All Card Networks.
+            items:
+              $ref: '#/components/schemas/cardNetwork'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeOptionalType'
+      SettlementsRequestByCHAIN:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeChain'
+          cardType:
+            type: string
+            description: Possible value is Credit and Debit.<br>Default - All Card Type.
+            example: CREDIT
+            enum:
+            - CREDIT
+            - DEBIT
+          cardNetworks:
+            type: array
+            description: Card Type mandatory when adding Card Network<br>Default - All Card Networks.
+            items:
+              $ref: '#/components/schemas/cardNetwork'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeOptionalType'
+      SettlementsRequestBySuperChain:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeSuperChain'
+          cardType:
+            type: string
+            description: Possible value is Credit and Debit.<br>Default - All Card Type.
+            example: CREDIT
+            enum:
+            - CREDIT
+            - DEBIT
+          cardNetworks:
+            type: array
+            description: Card Type mandatory when adding Card Network<br>Default - All Card Networks.
+            items:
+              $ref: '#/components/schemas/cardNetwork'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeOptionalType'
+      SettlementsRequestBySTORE:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeStore'
+          cardType:
+            type: string
+            description: Possible value is Credit and Debit.<br>Default - All Card Type.
+            example: CREDIT
+            enum:
+            - CREDIT
+            - DEBIT
+          cardNetworks:
+            type: array
+            description: Card Type mandatory when adding Card Network<br>Default - All Card Networks.
+            items:
+              $ref: '#/components/schemas/cardNetwork'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeOptionalType'
+      SettlementsRequestByDIVISION:
+        required:
+        - dateRange
+        - hierarchy
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          hierarchy:
+            type: object
+            description: Merchant hierarchy details
+            allOf:
+            - $ref: '#/components/schemas/EntityListTypeDivision'
+          cardType:
+            type: string
+            description: Possible value is Credit and Debit.<br>Default - All Card Type.
+            example: CREDIT
+            enum:
+            - CREDIT
+            - DEBIT
+          cardNetworks:
+            type: array
+            description: Card Type mandatory when adding Card Network<br>Default - All Card Networks.
+            items:
+              $ref: '#/components/schemas/cardNetwork'
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/DateRangeOptionalType'
+      MonthlyTranSummaryInput:
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          sortResultsBy:
+            maxLength: 15
+            minLength: 0
+            type: object
+            description: Sort results by option for real time authorization transactions.
+            allOf:
+            - $ref: '#/components/schemas/OrderByForMonthlySummaryType'
+          merchantId:
+            maxLength: 16
+            type: string
+            description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+            example: "4445191034215"
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: "070110"
+          monthRange:
+            type: object
+            description: Refers to the month range
+            allOf:
+            - $ref: '#/components/schemas/MonthRangeType'
+      TransactionSummaryByMonth:
+        type: object
+        properties:
+          paginationResponse:
+            type: object
+            description: Pagination response details
+            allOf:
+            - $ref: '#/components/schemas/PaginationResponse'
+          details:
+            type: array
+            description: Object is used for monthly summary details
+            items:
+              allOf:
+              - $ref: '#/components/schemas/MonthlySummaryDetails'
+      DailyTranSummaryInput:
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationType'
+          sortResultsBy:
+            maxLength: 15
+            minLength: 0
+            type: object
+            description: Sort results by option for real time authorization transactions.
+            allOf:
+            - $ref: '#/components/schemas/OrderByForDateSummaryType'
+          merchantId:
+            maxLength: 16
+            type: string
+            description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+            example: "4445191034215"
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: "070110"
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/ProcessDateRangeTypes'
+      TransactionSummaryByDate:
+        type: object
+        properties:
+          paginationResponse:
+            type: object
+            description: Pagination response details
+            allOf:
+            - $ref: '#/components/schemas/PaginationResponse'
+          details:
+            type: array
+            description: Object is used for daily summary details
+            items:
+              allOf:
+              - $ref: '#/components/schemas/DailySummaryDetails'
+      MonthlyTranSummaryInputCHAIN:
+        required:
+        - chainCode
+        - dateRange
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: OkLV1
+          dateRange:
+            type: object
+            description: Refers to date range.
+            allOf:
+            - $ref: '#/components/schemas/ProcessMonthRangeTypes'
+      TransactionSummaryByMonthCHAIN:
+        type: object
+        properties:
+          details:
+            type: object
+            description: Object is used for monthly summary details for chain
+            allOf:
+            - $ref: '#/components/schemas/MonthlySummaryChainDetails'
+      ProcessMonthRangeTypes:
+        type: object
+        properties:
+          startMonth:
+            maxLength: 7
+            minLength: 7
+            pattern: "^[0-9]{4}-[0-9]{2}$"
+            type: string
+            description: Refers to the starting month
+            format: YYYY-MM
+            example: 2022-12
+          endMonth:
+            maxLength: 7
+            minLength: 7
+            pattern: "^[0-9]{4}-[0-9]{2}$"
+            type: string
+            description: Refers to the starting month
+            format: YYYY-MM
+            example: 2023-04
+        description: Month Range supported maximun for 6 Month <br> Data will be retrieved for complete months(CurentMonth -1).
+      MonthlySummaryChainDetails:
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: AB1234
+          totalChargebackSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of all chargeback sales
+            format: int32
+            example: 2356
+          totalChargebackSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Sum of all chargeback Sales
+            format: float
+            example: 335594.56
+          totalTransactionAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Total amount of chargebacks
+            format: float
+            example: 962955.24
+          totalTransactionCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: total count of transaction
+            format: int32
+            example: 20
+          processMonthStart:
+            maxLength: 7
+            minLength: 7
+            pattern: "^[0-9]{4}-[0-9]{2}$"
+            type: string
+            description: Refers to the starting month
+            format: YYYY-MM
+            example: 2022-12
+          processMonthEnd:
+            maxLength: 7
+            minLength: 7
+            pattern: "^[0-9]{4}-[0-9]{2}$"
+            type: string
+            description: Refers to the ending month
+            format: YYYY-MM
+            example: 2023-02
+      DailySummaryDetails:
+        type: object
+        properties:
+          merchantId:
+            maxLength: 16
+            type: string
+            description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+            example: "4445191034215"
+          totalSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Sum of credit card sales amount and debit card sales amount.
+            format: float
+            example: 96295675.24
+          totalSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Sum of credit card sales count and debit card sales count.
+            format: int32
+            example: 335594
+          totalSettledSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Sum of net credit sales amount and net debit sales amount.
+            format: float
+            example: 96295675.24
+          creditSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Credit card sales amount.
+            format: float
+            example: 58.59
+          creditSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Credit card sales count.
+            format: int32
+            example: 20
+          creditReturnsAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Credit card returns amount.
+            format: float
+            example: 58.59
+          creditReturnsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Credit card returns count.
+            format: int32
+            example: 20
+          netCreditSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Credit card sales amount - Credit card returns amount.
+            format: float
+            example: 58.59
+          debitSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Debit card sales amount.
+            format: float
+            example: 32734704.99
+          debitSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Debit card sales count.
+            format: int32
+            example: 20
+          debitReturnsAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Debit card returns amount.
+            format: float
+            example: 58.59
+          debitReturnsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Debit card returns amount.
+            format: int32
+            example: 20
+          netDebitSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Debit card sales amount - 0.
+            format: double
+            example: 58.59
+          giftSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Gift card sales amount
+            format: double
+            example: 58.59
+          giftSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Gift card sales count
+            format: int32
+            example: 20
+          chargebackSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of sales which resulted in chargebacks.
+            format: float
+            example: 58.59
+          chargebackSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of sales which resulted in chargebacks.
+            format: int32
+            example: 20
+          processDate:
+            maxLength: 10
+            minLength: 10
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            type: string
+            description: Date when transaction was processed.
+            format: YYYY-MM-DD
+            example: 2022-01-01
+          merchantCategoryCode:
+            type: object
+            description: Code and description define the category of merchant.
+            allOf:
+            - $ref: '#/components/schemas/CodeAndDescription'
+      MonthlySummaryDetails:
+        type: object
+        properties:
+          merchantId:
+            maxLength: 16
+            type: string
+            description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+            example: "4445191034215"
+          totalSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Sum of credit card sales amount and debit card sales amount.
+            format: float
+            example: 96295675.24
+          totalSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Sum of credit card sales count and debit card sales count.
+            format: int32
+            example: 335594
+          totalSettledSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Sum of net credit sales amount and net debit sales amount.
+            format: float
+            example: 96295675.24
+          creditSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of credit card sales.
+            format: float
+            example: 58.59
+          creditSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of credit card sales.
+            format: int32
+            example: 20
+          creditReturnsAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of credit card returns.
+            format: float
+            example: 58.59
+          creditReturnsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of credit card returns.
+            format: int32
+            example: 20
+          netCreditSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Credit card sales amount - Credit card returns amount.
+            format: float
+            example: 58.59
+          debitSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Debit card sales amount.
+            format: float
+            example: 32734704.99
+          debitSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Debit card sales count.
+            format: int32
+            example: 20
+          debitReturnsAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Debit card returns amount.
+            format: float
+            example: 58.59
+          debitReturnsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Debit card returns amount.
+            format: int32
+            example: 20
+          netDebitSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Debit card sales amount - 0.
+            format: float
+            example: 58.59
+          giftSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of gift sales.
+            format: float
+            example: 58.59
+          giftSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of gift sales.
+            format: int32
+            example: 20
+          chargebackSalesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of chargeback sales amount
+            format: float
+            example: 58.59
+          chargebackSalesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of chargeback sales amount
+            format: int32
+            example: 20
+          processMonth:
+            maxLength: 7
+            minLength: 7
+            pattern: "^[0-9]{4}-[0-9]{2}$"
+            type: string
+            description: Refers to the process month
+            format: YYYY-MM
+            example: 2022-12
+          merchantCategoryCode:
+            type: object
+            description: Code and description define the category of merchant.
+            allOf:
+            - $ref: '#/components/schemas/CodeAndDescription'
+      OrderByForMonthlySummaryType:
+        type: object
+        properties:
+          fieldName:
+            type: string
+            description: This is the field used to sort on in the request.
+            example: PROCESS_MONTH
+            enum:
+            - MERCHANT_ID
+            - PROCESS_MONTH
+            - TOTAL_SALES_AMOUNT
+            - TOTAL_SALES_COUNT
+            - TOTAL_SETTLED_SALES_AMOUNT
+            - CREDIT_SALES_AMOUNT
+            - CREDIT_SALES_COUNT
+            - CREDIT_RETURNS_AMOUNT
+            - CREDIT_RETURNS_COUNT
+            - DEBIT_SALES_AMOUNT
+            - DEBIT_SALES_COUNT
+            - DEBIT_RETURNS_AMOUNT
+            - DEBIT_RETURNS_COUNT
+            - GIFT_SALES_AMOUNT
+            - GIFT_SALES_COUNT
+            - CHARGEBACK_SALES_AMOUNT
+            - CHARGEBACK_SALES_COUNT
+          orderBy:
+            type: string
+            description: Order by refers to the ordering being requested in the search that is based on the Field Name.  The response will return the data records in ascending or descending order.
+            example: ASC
+            enum:
+            - ASC
+            - DESC
+        description: Default sorting by field PROCESS_MONTH.
+      OrderByForDateSummaryType:
+        type: object
+        properties:
+          fieldName:
+            type: string
+            description: This is the field used to sort on in the request.
+            example: PROCESS_DATE
+            enum:
+            - MERCHANT_ID
+            - PROCESS_DATE
+            - TOTAL_SALES_AMOUNT
+            - TOTAL_SALES_COUNT
+            - TOTAL_SETTLED_SALES_AMOUNT
+            - CREDIT_SALES_AMOUNT
+            - CREDIT_SALES_COUNT
+            - CREDIT_RETURNS_AMOUNT
+            - CREDIT_RETURNS_COUNT
+            - DEBIT_SALES_AMOUNT
+            - DEBIT_SALES_COUNT
+            - DEBIT_RETURNS_AMOUNT
+            - DEBIT_RETURNS_COUNT
+            - GIFT_SALES_AMOUNT
+            - GIFT_SALES_COUNT
+            - CHARGEBACK_SALES_AMOUNT
+            - CHARGEBACK_SALES_COUNT
+          orderBy:
+            type: string
+            description: Order by refers to the ordering being requested in the search that is based on the Field Name.  The response will return the data records in ascending or descending order.
+            example: ASC
+            enum:
+            - ASC
+            - DESC
+        description: Default sorting by field PROCESS_DATE.
+      ProcessDateRangeTypes:
+        type: object
+        properties:
+          fromDate:
+            maxLength: 10
+            minLength: 10
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            type: string
+            description: Field specifies the starting date
+            format: YYYY-MM-DD
+            example: 2023-05-01
+          toDate:
+            maxLength: 10
+            minLength: 10
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            type: string
+            description: Field specifies the ending date
+            format: YYYY-MM-DD
+            example: 2023-06-14
+        description: Date Range supported for last 90 Days.
+      DateRangeOptionalType:
+        required:
+        - fromDate
+        - toDate
+        type: object
+        properties:
+          fromDate:
+            maxLength: 10
+            minLength: 10
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            type: string
+            description: Field specifies the starting date
+            format: YYYY-MM-DD
+            example: 2023-01-01
+          toDate:
+            maxLength: 10
+            minLength: 10
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            type: string
+            description: Field specifies the ending date
+            format: YYYY-MM-DD
+            example: 2023-07-14
+        description: "Refers to number of dates that includes a particular start and finish date and all dates in between the range. <br> Date range supported at different hierarch level <br><br>07 Days<br>Independent Sales Organizationn(SO)<br>Independent Sales Affiliate(SA)<br>National(NL)<br>Partner(PT)<br>Super Chain(SC)<br><br>45 days<br>Chain(CH), Merchant(MT)."
+      MonthRangeType:
+        type: object
+        properties:
+          startMonth:
+            maxLength: 7
+            minLength: 7
+            pattern: "^[0-9]{4}-[0-9]{2}$"
+            type: string
+            description: Refers to the starting month
+            format: YYYY-MM
+            example: 2022-12
+          endMonth:
+            maxLength: 7
+            minLength: 7
+            pattern: "^[0-9]{4}-[0-9]{2}$"
+            type: string
+            description: Refers to the end month
+            format: YYYY-MM
+            example: 2023-04
+        description: Month range supported for maximum 18 Months<br>Default 1 Month<br>Data will be retrieve for completed months (current month - 1).
+      PaginationType:
+        type: object
+        properties:
+          pageNumber:
+            maximum: 9999999999999999
+            minimum: 0
+            type: integer
+            description: This is the page number that you would like to retrieve<br>Default is page number 01.
+            example: 2
+            default: 1
+          pageSize:
+            maximum: 9999999999999999
+            minimum: 0
+            type: integer
+            description: Number of record that you would want to retrieve per page<br>Default is 25 items per page.
+            example: 10
+            default: 25
+        description: Use for pagination.
+      EntityListType:
+        type: object
+        description: "Supports entities such as INDEPENDENT SALES ORGANIZATION and INDEPENDENT SALES CHANNEL 1 Entity<br>NATIONAL, SUPER CHAIN, PARTNER and PARTNER GROUP with maximum limit of 10 entities<br>CHAIN, DIVISION, STORE and MERCHANT with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/Entity'
+      SettlementsSummaryResponse:
+        allOf:
+        - $ref: '#/components/schemas/SummaryResponses'
+      CommonSummaryResponses:
+        type: object
+        properties:
+          pagination:
+            type: object
+            description: Used for pagination.
+            allOf:
+            - $ref: '#/components/schemas/PaginationResponse'
+          totalSaleCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of sales over a given period of time.
+            format: int32
+            example: 200
+          totalSaleAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of sales over a given period of time.
+            format: float
+            example: 2000.11
+          totalReturnCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of returns over a given period of time.
+            format: int32
+            example: 218
+          totalReturnAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of returns over a given period of time.
+            format: float
+            example: 844.28
+          totalNetAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Refers to the Amount left over after All deductions are made.<br>Total Net Amount = Total Sales Amount - Total Return Amount (for All Credit cards like Visa, Mastercard, Amex, Discover)<br>Total Net Amount = Total Sales Amount - 0 (for Debit transactions)."
+            format: float
+            example: 1155.72
+      SummaryResponses:
+        type: object
+        properties:
+          totalSaleCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of sales over a given period of time.
+            format: int32
+            example: 200
+          totalSaleAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of sales over a given period of time.
+            format: float
+            example: 2000.11
+          totalReturnCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Indicates the total count of returns over a given period of time.
+            format: int32
+            example: 218
+          totalReturnAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Indicates the total amount of returns over a given period of time.
+            format: float
+            example: 844.28
+          totalNetAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Refers to the Amount left over after All deductions are made.<br>Total Net Amount = Total Sales Amount - Total Return Amount (for All Credit cards like Visa, Mastercard, Amex, Discover)<br>Total Net Amount = Total Sales Amount - 0 (for Debit transactions)."
+            format: float
+            example: 1155.72
+      CommonSummaryDetail:
+        type: object
+        properties:
+          saleCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of sales for individual card network over a given period of time.
+            format: int32
+            example: 10
+          saleAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of sales for individual card network over a given period of time.
+            format: float
+            example: 120.34
+          returnCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of returns for individual card network over a given period of time.
+            format: int32
+            example: 11
+          returnAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of returns for individual card network over a given period of time.
+            format: float
+            example: 20.56
+          netAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Refers to the Amount left over after All deductions are made. (for All Credit cards like Visa, Mastercard, Amex, Discover)<br>Net Amount = Sales Amount - 0 (for Debit transactions)."
+            format: float
+            example: 100.23
+      CreditActivitySummaryResponse:
+        type: object
+        properties:
+          authorizationActivity:
+            type: object
+            description: Refers to credit authorization activity
+            allOf:
+            - $ref: '#/components/schemas/CreditAuthorizationActivitySummaryDetail'
+          settlementActivity:
+            type: object
+            description: Refers to credit settlement activity
+            allOf:
+            - $ref: '#/components/schemas/CreditSettlementActivitySummaryDetail'
+          disputeActivity:
+            type: object
+            description: Refers to credit dispute activity
+            allOf:
+            - $ref: '#/components/schemas/CreditDisputeActivitySummaryDetail'
+      DebitActivitySummaryResponse:
+        type: object
+        properties:
+          authorizationActivity:
+            type: object
+            description: Refers to debit authorization activity
+            allOf:
+            - $ref: '#/components/schemas/DebitAuthorizationActivitySummaryDetail'
+          settlementActivity:
+            type: object
+            description: Refers to debit settlement activity
+            allOf:
+            - $ref: '#/components/schemas/DebitSettlementActivitySummaryDetail'
+          otherActivity:
+            type: object
+            description: Refers to debit other activity
+            allOf:
+            - $ref: '#/components/schemas/DebitOtherActivitySummaryDetail'
+      GiftActivitySummaryResponse:
+        type: object
+        properties:
+          authorizationActivity:
+            type: object
+            description: Refers to gift authorization activity
+            allOf:
+            - $ref: '#/components/schemas/GiftAuthorizationActivitySummaryDetail'
+          settlementActivity:
+            type: object
+            description: Refers to gift settlement activity
+            allOf:
+            - $ref: '#/components/schemas/GiftSettlementActivitySummaryDetail'
+          otherActivity:
+            type: object
+            description: Refers to gift other activity
+            allOf:
+            - $ref: '#/components/schemas/GiftOtherActivitySummaryDetail'
+      DebitAuthorizationActivitySummaryDetail:
+        type: object
+        properties:
+          approvedCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of approved transactions.
+            format: int32
+            example: 6357
+          approvedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of approved transactions.
+            format: float
+            example: 5374.65
+          declinedCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of declined transactions.
+            format: int32
+            example: 7564
+          declinedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of declined transactions.
+            format: float
+            example: 4583.56
+        description: This object is used to retrieve authorization activity summary
+      DebitSettlementActivitySummaryDetail:
+        type: object
+        properties:
+          settledCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Settled count refers to the number of items is settled during a specific reporting period.
+            format: int32
+            example: 84532
+          settledAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Settled amount refers to the number of items is settled during a specific reporting period.
+            format: float
+            example: 93657.54
+        description: This object is used to retrieve settlement activity summary
+      DebitOtherActivitySummaryDetail:
+        type: object
+        properties:
+          reversedCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Reversed count refers to the merchant returns funds to the customer's bank.
+            format: int32
+            example: 453
+          reversedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Reversed amount refers to the merchant returns funds to the customer's bank.
+            format: float
+            example: 756.98
+          inquiryCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Inquiry count refers to the list of recent transactions done through the account during a specific reporting period.
+            format: int32
+            example: 78
+          inquiryAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Inquiry amount refers to the list of recent transactions done through the account during a specific reporting period.
+            format: float
+            example: 675.34
+        description: This object is used to retrieve settlement activity summary
+      CreditAuthorizationActivitySummaryDetail:
+        type: object
+        properties:
+          authorizationCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of authorization.
+            format: int32
+            example: 335594
+          authorizationAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of authorization.
+            format: float
+            example: 96295675.24
+          approvedCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of approved transactions.
+            format: int32
+            example: 6357
+          approvedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of approved transactions.
+            format: float
+            example: 5374.65
+          declinedCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Count of declined transactions.
+            format: int32
+            example: 7564
+          declinedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Amount of declined transactions.
+            format: float
+            example: 4583.56
+          merchantSurchargeCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: "Refers to count of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: int32
+            example: 32
+          merchantSurchargeAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Refers to count of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: float
+            example: 327.97
+        description: This object is used to retrieve authorization activity summary
+      CreditSettlementActivitySummaryDetail:
+        type: object
+        properties:
+          settledCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Settled count refers to the number of items is settled during a specific reporting period.
+            format: int32
+            example: 84532
+          settledAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Settled amount refers to the number of items is settled during a specific reporting period.
+            format: float
+            example: 93657.54
+          salesCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Sales count refers to the number of sells during a specific reporting period.
+            format: int32
+            example: 84532
+          salesAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Sales amount refers to the number of sells during a specific reporting period.
+            format: float
+            example: 93657.54
+          returnsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Returns count refers to the number of returns during a specific reporting period.
+            format: int32
+            example: 4356
+          returnsAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Returns amount refers to the number of returns during a specific reporting period.
+            format: float
+            example: 43848.87
+          merchantSurchargeCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: "Refers to count of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: int32
+            example: 32
+          merchantSurchargeAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Refers to count of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: float
+            example: 327.97
+        description: This object is used to retrieve settlement activity summary
+      GiftAuthorizationActivitySummaryDetail:
+        type: object
+        properties:
+          authorizationCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of authorization.
+            format: int32
+            example: 335594
+          authorizationAmount:
+            maximum: 99999
+            minimum: 0
+            type: number
+            description: Refers to amount of authorization.
+            format: float
+            example: 96295675.24
+          approvedCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of approved transactions.
+            format: int32
+            example: 6357
+          approvedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to amount of approved transactions.
+            format: float
+            example: 5374.65
+          declinedCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of declined transactions.
+            format: int32
+            example: 7564
+          declinedAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to amount of declined transactions.
+            format: float
+            example: 4583.56
+          reloadCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: "Refers to count of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: int32
+            example: 32
+          reloadAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Refers to amount of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: float
+            example: 4583.56
+          redemptionCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of gift redemption.
+            format: int32
+            example: 32
+          redemptionAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to amount of gift redemption.
+            format: float
+            example: 4583.56
+          preAuthorizationRequestCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of pre authorization request.
+            format: int32
+            example: 32
+          preAuthorizationRequestAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to amount of pre authorization request
+            format: float
+            example: 4583.56
+          preAuthorizationRequestReversalCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to count of pre authorization reversal request.
+            format: int32
+            example: 32
+          preAuthorizationRequestReversalAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to amount of pre authorization reversal request.
+            format: float
+            example: 4583.56
+          merchantSurchargeCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: "Surcharge refers to count of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: int32
+            example: 32
+          merchantSurchargeAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Surcharge refers to an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: float
+            example: 327.97
+        description: This object is used to retrieve authorization activity summary
+      GiftSettlementActivitySummaryDetail:
+        type: object
+        properties:
+          returnsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Returns count refers to the number of returns during a specific reporting period.
+            format: int32
+            example: 4356
+          returnsAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Returns amount refers to the number of returns during a specific reporting period.
+            format: float
+            example: 43848.87
+          activationCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: "Refers to count of activation, charged by the provider."
+            format: int32
+            example: 32
+          activationAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Refers to amount of activation, charged by the provider."
+            format: float
+            example: 327.97
+          merchantSurchargeCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: "Surcharge refers to count of an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: int32
+            example: 54
+          merchantSurchargeAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: "Surcharge refers to an additional charge, fee, or tax that is added to the cost of a good or service beyond the initially quoted price."
+            format: float
+            example: 435.65
+        description: This object is used to retrieve settlement activity summary
+      GiftOtherActivitySummaryDetail:
+        type: object
+        properties:
+          count:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to the count of all transaction type.
+            format: int32
+            example: 453
+          amount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to the amount of all transaction type.
+            format: float
+            example: 756.98
+          inActivityCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to the count of transactions type as G1 for the account during a specific reporting period.
+            format: int32
+            example: 78
+          inActivityAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to the amount of transactions type as G1 for the account during a specific reporting period.
+            format: float
+            example: 675.34
+          statusCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Refers to the count of transactions type as GS for the account during a specific reporting period.
+            format: int32
+            example: 45
+          statusAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Refers to the amount of transactions type as GS for the account during a specific reporting period.
+            format: float
+            example: 876.87
+        description: This object is used to retrieve Gift settlement activity summary
+      CreditDisputeActivitySummaryDetail:
+        type: object
+        properties:
+          retrievalsCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Retrievals count refers to the number of returns during a specific reporting period.
+            format: int32
+            example: 7453
+          retrievalsAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Retrievals amount refers to the number of returns during a specific reporting period.
+            format: float
+            example: 7543725.34
+          chargebacksCount:
+            maximum: 9999999999
+            minimum: 0
+            type: integer
+            description: Chargebacks count refers to the number of returns during a specific reporting period.
+            format: int32
+            example: 38465
+          chargebacksAmount:
+            maximum: 9999999999999.99
+            minimum: 0
+            type: number
+            description: Chargebacks amount refers to the number of returns during a specific reporting period.
+            format: float
+            example: 933748.56
+        description: This object is used to retrieve dispute activity summary
+      SettlementSummaryByCardNetworkResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - type: object
+                  properties:
+                    cardType:
+                      type: string
+                      example: CREDIT
+                      enum:
+                      - CREDIT
+                      - DEBIT
+                    cardNetwork:
+                      type: object
+                      example:
+                        code: BML
+                        shortDescription: Bill Me Later.
+                        longDescription: BILL ME LATER.
+                      allOf:
+                      - $ref: '#/components/schemas/CodeAndDescription'
+      SettlementSummaryByCardTypeResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - type: object
+                  properties:
+                    cardType:
+                      type: string
+                      example: CREDIT
+                      enum:
+                      - CREDIT
+                      - DEBIT
+      SettlementSummaryByProcessDateResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - type: object
+                  properties:
+                    processDate:
+                      type: string
+                      format: YYYY-MM-DD
+                      example: 2021-12-21
+      SettlementSummaryByMERCHANTResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/SummaryDetailEntityMerchant'
+      SettlementSummaryBySTOREResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/SummaryDetailEntityHierarchyStore'
+      SettlementSummaryByDIVISIONResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/SummaryDetailEntityHierarchyDivision'
+      SettlementSummaryByCHAINResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/SummaryDetailEntityChain'
+      SettlementSummaryBySuperChainResponse:
+        allOf:
+        - $ref: '#/components/schemas/CommonSummaryResponses'
+        - type: object
+          properties:
+            summaries:
+              type: array
+              items:
+                allOf:
+                - $ref: '#/components/schemas/CommonSummaryDetail'
+                - $ref: '#/components/schemas/SummaryDetailEntitySuperChain'
+      EntityListTypeMerchant:
+        type: object
+        description: "Supports entities such as NATIONAL, SUPER CHAIN and PARTNER with maximum limit of 10 entities.<br>MERCHANT, DIVISION, STORE and CHAIN with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/EntityMerchant'
+      EntityMerchant:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Level of merchant hierarchy
+            example: MERCHANT
+            enum:
+            - MERCHANT
+            - NATIONAL
+            - SUPERCHAIN
+            - PARTNER
+            - CHAIN
+            - STORE
+            - DIVISION
+          values:
+            type: array
+            description: Id of level
+            example:
+            - "4445000123456"
+            - "4445000234567"
+            items:
+              maxLength: 20
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: CHAIN Code is mandatory to pass when entity type is STORE\DIVISION.
+            example: AB1234
+      EntityListTypeChain:
+        type: object
+        description: Supports entities such as INDEPENDENT SALES ORGANIZATION and INDEPENDENT SALES CHANNEL limit 1 Entity<br>NATIONAL and SUPER CHAIN with maximum limit of 10 entities<br>CHAIN with maximum limit of 2000 entities.
+        allOf:
+        - $ref: '#/components/schemas/EntityChain'
+      EntityChain:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Level of merchant hierarchy
+            example: CHAIN
+            enum:
+            - INDEPENDENT_SALES_ORGANIZATION
+            - INDEPENDENT_SALES_CHANNEL
+            - NATIONAL
+            - SUPERCHAIN
+            - CHAIN
+          values:
+            type: array
+            description: Id of level
+            example:
+            - OB2345
+            - AB1234
+            items:
+              maxLength: 20
+              type: string
+      EntityListTypeStore:
+        type: object
+        description: "Supports entities such as national and super chain with maximum limit of 10 entities.<br>chain, store, division and merchant with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/EntityParentTypeStore'
+      EntityParentTypeStore:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Level of merchant hierarchy
+            example: STORE
+            enum:
+            - NATIONAL
+            - SUPERCHAIN
+            - CHAIN
+            - DIVISION
+            - STORE
+            - MERCHANT
+          values:
+            type: array
+            description: Id of level
+            example:
+            - "000000001"
+            - "000000002"
+            items:
+              maxLength: 20
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: Chain code is mandatory to pass when entity type is store\division.
+            example: AB1234
+        description: Supports entitiy as CHAIN with maximum limit of 2000 entities.
+      EntityListTypeSuperChain:
+        type: object
+        description: "Supports entities such as  independent sales organization and independent sales channel, with maximum limit of 1 entity<br>national and super chain with maximum limit of 10 entities."
+        allOf:
+        - $ref: '#/components/schemas/EntitySuperChain'
+      EntitySuperChain:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Level of merchant hierarchy
+            example: SUPERCHAIN
+            enum:
+            - SUPERCHAIN
+            - INDEPENDENT_SALES_CHANNEL
+            - INDEPENDENT_SALES_ORGANIZATION
+            - NATIONAL
+          values:
+            type: array
+            description: Id of level
+            example:
+            - "733123456"
+            - "845123456"
+            items:
+              maxLength: 20
+              type: string
+        description: "Supports entities independent sales organization, independent sales channel, national and super chain."
+      EntityListTypeDivision:
+        type: object
+        description: "Supports entities such as national and super chain with maximum limit of 10 entities.<br>CHAIN, DIVISION with maximum limit of 2000 entities."
+        allOf:
+        - $ref: '#/components/schemas/EntityParentTypeDivision'
+      EntityParentTypeDivision:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Level of merchant hierarchy
+            example: DIVISION
+            enum:
+            - DIVISION
+            - NATIONAL
+            - SUPERCHAIN
+            - CHAIN
+          values:
+            type: array
+            description: Id of level
+            example:
+            - "001"
+            - "002"
+            items:
+              maxLength: 20
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: Chain Code is mandatory to pass when entity type is Store\Division.
+            example: AB1234
+        description: Supports entitiy as CHAIN with maximum limit of 2000 entities.
+      Entity:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Level of merchant hierarchy
+            example: MERCHANT
+            enum:
+            - MERCHANT
+            - STORE
+            - DIVISION
+            - CHAIN
+            - PARTNER
+            - SUPERCHAIN
+            - NATIONAL
+            - INDEPENDENT_SALES_CHANNEL
+            - INDEPENDENT_SALES_ORGANIZATION
+          values:
+            type: array
+            description: Id of level
+            example:
+            - "4445000123456"
+            - "4445191034215"
+            items:
+              maxLength: 20
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: Chain code is mandatory to pass when level is passed as store\division.
+            example: AB1234
+      Hierarchy:
+        type: object
+        properties:
+          level:
+            type: string
+            description: Level of merchant hierarchy
+            example: MERCHANT
+            enum:
+            - MERCHANT
+            - STORE
+            - DIVISION
+            - CHAIN
+            - SUPERCHAIN
+          values:
+            type: array
+            description: Id of level
+            example:
+            - "4445000123456"
+            - "4445191034215"
+            items:
+              maxLength: 20
+              type: string
+          chainCode:
+            maxLength: 6
+            type: string
+            description: Chain code is mandatory to pass when level is passed as store\division.
+            example: AB1234
+        description: Merchant hierarchy details
+      SummaryDetailEntityMerchant:
+        type: object
+        properties:
+          merchantId:
+            maxLength: 16
+            type: string
+            description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+            example: "4445123456789"
+      SummaryDetailEntityHierarchyStore:
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: AB1234
+          storeNumber:
+            maxLength: 9
+            type: string
+            description: "The Store/Location is the lowest roll-up level in the hierarchy system, grouping multiple merchant account numbers (MIDs) used in a single merchant location assigned to different terminals and/or business lines (MCC’s). A Store Number is of 9 digits and unique to a particular Chain meaning same Store Number can exist for a Store under a different Divison/Chain but no duplicates under the same Divison/Chain."
+            example: "1000000001"
+        description: Supports entities chain and national.
+      SummaryDetailEntityHierarchyDivision:
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: AB1234
+          divisionNumber:
+            maxLength: 3
+            type: string
+            description: "The Division Number is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. The Division Code is an optional hierarchy level but if created, is required for all child entities under the Division Number."
+            example: "088"
+        description: Supports entities chain and national.
+      SummaryDetailEntitySuperChain:
+        type: object
+        properties:
+          superChainCode:
+            maxLength: 10
+            type: string
+            description: The identifier code that represents the group of related chains of the partner.
+            example: SCNPCB8811
+      SummaryDetailEntityChain:
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: "The Chain Code is the level of the merchant hierarchy that groups merchant identifiers (MIDs) and any related roll-up values under a common identifier for settlement, billing and reporting. Chain Code is the primary identifier for merchants boarded in MDB (Merchant Database) system."
+            example: AB1234
+      PaginationResponse:
+        type: object
+        properties:
+          pageNumber:
+            maximum: 16777215
+            type: integer
+            description: "Current page number returned, starting with page number 1"
+            example: 2
+          pageSize:
+            maximum: 2000
+            type: integer
+            description: Total number of records returned per page.
+            example: 50
+          totalRowCount:
+            maximum: 9999999999
+            type: integer
+            description: Total number of records meeting the request criteria.
+            example: 65
+          totalReturnedCount:
+            maximum: 9999999999
+            type: integer
+            description: "Total number of records returned in the response, This number will be less than or equal to pageSize. Default Returned Count is 25."
+            example: 15
+        description: Pagination response details
+      cardNetwork:
+        maxLength: 13
+        type: string
+        description: Indicates Network of card.
+        example: VISA
+        enum:
+        - VISA
+        - MASTERCARD
+        - DISCOVER
+        - AMEX
+        - VOYAGER
+        - WEX
+        - JCB
+        - PRIVATE_LABEL
+        - BILL_ME_LATER
+        - FLEETCOR
+        - FLEETONE
+        - COBRAND
+      DebitCardNetwork:
+        maxLength: 9
+        type: string
+        description: Indicates Network of card.
+        example: INTERLINK
+        enum:
+        - INTERLINK
+        - NYCE
+        - PULSE
+        - STAR
+        - OTHER
+        - EBT
+        - WIC
+        - JEANIE
+        - ACH
+      GiftCardNetwork:
+        maxLength: 4
+        type: string
+        description: Indicates Network of card.
+        example: POSA
+        enum:
+        - GIFT
+        - POSA
+      Error:
+        type: object
+        properties:
+          errorCode:
+            maxLength: 256
+            type: string
+            description: Code of error
+            example: ERROR_CODE
+          errorMessage:
+            maxLength: 256
+            type: string
+            description: Error Message
+            example: Error message here.
+          target:
+            maxLength: 256
+            type: string
+            description: Error Target
+            example: Target field name.
+        description: Error Message
+      ErrorResponse:
+        type: object
+        properties:
+          errors:
+            maxLength: 255
+            type: array
+            description: Refer to the list of errors
+            items:
+              maxLength: 255
+              type: string
+              allOf:
+              - $ref: '#/components/schemas/Error'
+    responses:
+      default:
+        description: Default errors
+        headers:
+          v-correlation-id:
+            $ref: '#/components/headers/CorrelationId'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+            examples:
+              "400 Bad Request":
+                $ref: '#/components/examples/400BadRequest'
+              "401 Unauthorized":
+                $ref: '#/components/examples/401Unauthorized'
+              "403 Forbidden":
+                $ref: '#/components/examples/403Forbidden'
+              "404 Not Found":
+                $ref: '#/components/examples/404NotFound'
+              "500 Server Error":
+                $ref: '#/components/examples/500ServerError'
+    examples:
+      "400BadRequest":
+        value:
+          errors:
+          - errorMessage: must be numeric
+            target: merchantId
+      "401Unauthorized":
+        value:
+          errors:
+          - errorMessage: "You are not authorized to access the following entities: [1000011111]"
+      "403Forbidden":
+        value:
+          errors:
+          - errorMessage: Access is denied
+      "404NotFound":
+        value:
+          errors:
+          - errorMessage: merchant not found
+      "405MethodNotAllowed":
+        value:
+          errors:
+          - errorMessage: Request method 'GET' is not supported
+      "415UnSupportedMediaType":
+        value:
+          errors:
+          - errorMessage: Content-Type 'text/plain;charset=UTF-8' is not supported
+      "500ServerError":
+        value:
+          errors:
+          - errorMessage: "Internal server error, please contact support referencing correlationId: 871a2a88-064f-4124-a864-e03a47573144"
+    headers:
+      CorrelationId:
+        description: Unique correlation Id.
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+    securitySchemes:
+      api_key:
+        type: apiKey
+        description: "``` License format is WORLDPAY license='xxxx'``` \n"
+        name: Authorization
+        in: header
+  

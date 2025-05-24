@@ -1,0 +1,339 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  alert: { type: string, description: The identifier of the Alert resource
+    that you want to invoke with this trigger. }
+  event: {
+    type: string,
+    description: "The event type that triggers the associated
+          Alert. <details>
+    <summary>Valid Values</summary>\n\
+    \n- `create` - **Triggers when the associated resource is created.**\n\
+    \n- `update` - **Triggers when the associated resource is updated.**\n\
+    \n- `delete` - **Triggers when the associated resource is deleted.**\n\
+    \n- `ownership` - **Triggers when the ownership of the associated resource changes.**\n\
+    \n- `batch` - **Triggers when Transactions are captured in a batch.**\n\
+    \n- `account` - **Triggers when the Account associated with a Merchant is updated.**\n\
+    \n- `account.created` - **Triggers when the Account is created.**\n\
+    \n- `account.updated` - **Triggers when the Account is updated.**\n\
+    \n- `payout` - **Triggers when a Payout occurs.**\n\
+    \n- `fee` - **Triggers when an Entity is charged a Fee.**\n\
+    \n- `changerequest.declined` - **Triggers when change request declined.**\n\
+    \n- `changerequest.created` - **Triggers when change request created.**\n\
+    \n- `changerequest.approved` - **Triggers when change request approved.**\n\
+    \n- `changerequest.manualReview` - **Triggers when change request reviewed manually.**\n\
+    \n- `chargeback` - **Triggers alert when Chargeback Reports are created.**\n\
+    \n- `chargeback.opened` - **Triggers alert when Chargeback opened.**\n\
+    \n- `chargeback.closed` - **Triggers alert when Chargeback closed.**\n\
+    \n- `chargeback.created` - **Triggers alert when a Chargeback is created.**\n\
+    \n- `chargeback.lost` - **Triggers alert when a Chargeback dispute was lost.**\n\
+    \n- `chargeback.won` - **Triggers alert when a Chargeback dispute was won.**\n\
+    \n- `chargebackdocument.uploaded` - **Triggers alert when Chargeback document uploaded..**\n\
+    \n- `debit.disbursement.recovery` - **''**\n\
+    \n- `disbursement.requested` - **Triggers alert when a Disbursement is requested.**\n\
+    \n- `disbursement.processing` - **Triggers alert when a Disbursement is processing.**\n\
+    \n- `disbursement.processed` - **Triggers alert when a Disbursement has been processed.**\n\
+    \n- `disbursement.failed` - **Triggers alert when a Disbursement has failed.**\n\
+    \n- `disbursement.denied` - **Triggers alert when a Disbursement has been denied.**\n\
+    \n- `disbursement.report` - **Triggers alert when Disbursements are processed.**\n\
+    \n- `disbursement.returned` - **Triggers alert when Disbursement has returned.**\n\
+    \n- `disbursementEntries.processed` - **Triggers alert when Disbursement Entries has been processed.**\n\
+    \n- `invoice.created` - **Triggers alert when an invoice has been created.**\n\
+    \n- `invoice.cancelled` - **Triggers alert when an invoice has been cancelled.**\n\
+    \n- `invoice.emailed` - **Triggers alert when an invoice has been emailed.**\n\
+    \n- `invoice.expired` - **Triggers alert when an invoice has expired.**\n\
+    \n- `invoice.paid` - **Triggers alert when an invoice has been paid.**\n\
+    \n- `invoice.refunded` - **Triggers alert when an invoice has been refunded.**\n\
+    \n- `invoice.viewed` - **Triggers alert when an invoice has been viewed.**\n\
+    \n- `invoiceResult.failure` - **Triggers alert when an invoice result has failed.**\n\
+    \n- `merchant.created` - **Triggers alert when a Merchant has been created.**\n\
+    \n- `merchant.boarding` - **Triggers alert when a Merchant is boarding.**\n\
+    \n- `merchant.boarded` - **Triggers alert when a Merchant has been boarded.**\n\
+    \n- `merchant.closed` - **Triggers alert when a Merchant is closed.**\n\
+    \n- `merchant.pending` - **Triggers alert when a Merchant is pending.**\n\
+    \n- `merchant.incomplete` - **Triggers alert when a Merchant is incomplete.**\n\
+    \n- `merchant.failed` - **Triggers alert when Merchant boarding has failed.**\n\
+    \n- `merchant.held` - **Triggers alert when a Merchant boarding requires manual review.**\n\
+    \n- `message.created` - **Triggers alert when a Message was created.**\n\
+    \n- `paymentupdate.report` - **''**\n\
+    \n- `resource.created` - **Triggers alert when a Resource was created.**\n\
+    \n- `resource.updated` - **Triggers alert when a Resource was updated.**\n\
+    \n- `subscription.created` - **Triggers alert when a Subscription was created.**\n\
+    \n- `subscription.approved` - **Triggers alert when a Subscription was approved.**\n\
+    \n- `subscription.failed` - **Triggers alert when a Subscription has failed.**\n\
+    \n- `terminalTxn.created` - **Triggers alert when Terminal Transaction has been created.**\n\
+    \n- `terminalTxn.approved` - **Triggers alert when Terminal Transaction has been approved.**\n\
+    \n- `terminalTxn.failed` - **Triggers alert when Terminal Transaction has been failed.**\n\
+    \n- `txn.created` - **Triggers alert when a Transaction is created.**\n\
+    \n- `txn.approved` - **Triggers alert when a Transaction has been approved.**\n\
+    \n- `txn.failed` - **Triggers alert when a Transaction has failed.**\n\
+    \n- `txn.captured` - **Triggers alert when a Transaction has been captured.**\n\
+    \n- `txn.settled` - **Triggers alert when a Transaction has been settled.**\n\
+    \n- `txn.returned` - **Triggers alert when a Transaction has been returned.**\n\
+    \n- `txn.echeck.funded` - **Triggers alert when a Transaction has been eCheck funded.**\n\
+    \n- `txn.delayed.funding` - **Triggers alert when a Transaction delayed funding.**\n\
+    \n- `upcoming.debit.disbursement` - **''**\n\
+    </details> ",
+    enum: [ create, update, delete, ownership, batch, account,
+            account.created, account.updated, payout, fee, changerequest.declined,
+            changerequest.created, changerequest.approved, changerequest.manualReview,
+            chargeback, chargeback.opened, chargeback.closed, chargeback.created,
+            chargeback.lost, chargeback.won, chargebackdocument.uploaded,
+            debit.disbursement.recovery, disbursement.requested, disbursement.processing,
+            disbursement.processed, disbursement.failed, disbursement.denied,
+            disbursement.report, disbursement.returned, disbursementEntries.processed,
+            invoice.created, invoice.cancelled, invoice.emailed, invoice.expired,
+            invoice.paid, invoice.refunded, invoice.viewed, invoiceResult.failure,
+            merchant.created, merchant.boarding, merchant.boarded,
+            merchant.closed, merchant.pending, merchant.incomplete,
+            merchant.failed, merchant.held, message.created, paymentupdate.report,
+            resource.created, resource.updated, subscription.created,
+            subscription.approved, subscription.failed, terminalTxn.created,
+            terminalTxn.approved, terminalTxn.failed, txn.created,
+            txn.approved, txn.failed, txn.captured, txn.settled, txn.returned,
+            txn.echeck.funded, txn.delayed.funding, upcoming.debit.disbursement ],
+    x-enum-descriptions: [ Triggers when the associated resource
+      is created., Triggers when the associated resource is
+      updated., Triggers when the associated resource is deleted.,
+      Triggers when the ownership of the associated resource
+        changes., Triggers when Transactions are captured in
+        a batch., Triggers when the Account associated with
+        a Merchant is updated., '', '', Triggers when a Payout
+        occurs., Triggers when an Entity is charged a Fee.,
+      '', '', '', '', Triggers alert when Chargeback Reports
+        are created., '', '', Triggers alert when a Chargeback
+        is created., Triggers alert when a Chargeback dispute
+        was lost., Triggers alert when a Chargeback dispute
+        was won., '', '', Triggers alert when a Disbursement
+        is requested., Triggers alert when a Disbursement is
+        processing., Triggers alert when a Disbursement has
+        been processed., Triggers alert when a Disbursement
+        has failed., Triggers alert when a Disbursement has
+        been denied., Triggers alert when Disbursements are
+        processed., Triggers alert when Disbursement has returned.,
+      '', Triggers alert when an invoice has been created.,
+      Triggers alert when an invoice has been cancelled., Triggers
+        alert when an invoice has been emailed., Triggers alert
+        when an invoice has expired., Triggers alert when an
+        invoice has been paid., '', Triggers alert when an invoice
+        has been viewed., Triggers alert when an invoice result
+        has failed., Triggers alert when a Merchant has been
+        created., Triggers alert when a Merchant is boarding.,
+      Triggers alert when a Merchant has been boarded., '',
+      '', '', Triggers alert when Merchant boarding has failed.,
+      Triggers alert when a Merchant boarding requires manual
+        review., Triggers alert when a Message was created.,
+      '', Triggers alert when a Resource was created., Triggers
+        alert when a Resource was updated., Triggers alert when
+        a Subscription was created., Triggers alert when a Subscription
+        was approved., Triggers alert when a Subscription has
+        failed., '', '', '', Triggers alert when a Transaction
+        is created., Triggers alert when a Transaction has been
+        approved., Triggers alert when a Transaction has failed.,
+      Triggers alert when a Transaction has been captured.,
+      Triggers alert when a Transaction has been settled., Triggers
+        alert when a Transaction has been returned., '', '',
+      '' ] }
+  resource: {
+    type: integer,
+    description:
+      "<details>
+       <summary>Valid Values</summary>\n\
+       \n- `22` - **accounts**\n\
+       \n- `130` - **accountRefs**\n\
+       \n- `64` - **accountVerificationResults**\n\
+       \n- `46` - **accountVerifications**\n\
+       \n- `59` - **adjustments**\n\
+       \n- `91` - **aggregationResultGroups**\n\
+       \n- `92` - **aggregationResults**\n\
+       \n- `90` - **aggregations**\n\
+       \n- `16` - **alertActions**\n\
+       \n- `7` - **alerts**\n\
+       \n- `4` - **alertTriggers**\n\
+       \n- `1` - **apiKeys**\n\
+       \n- `57` - **assessments**\n\
+       \n- `93` - **auditLogs**\n\
+       \n- `118` - **authTokens**\n\
+       \n- `43` - **batches**\n\
+       \n- `134` - **batchRefs**\n\
+       \n- `127` - **billingEvents**\n\
+       \n- `124` - **billingModifiers**\n\
+       \n- `123` - **billings**\n\
+       \n- `81` - **bins**\n\
+       \n- `141` - **changeRequests**\n\
+       \n- `84` - **chargebackDocuments**\n\
+       \n- `56` - **chargebackMessageResults**\n\
+       \n- `49` - **chargebackMessages**\n\
+       \n- `34` - **chargebacks**\n\
+       \n- `87` - **chargebackStatuses**\n\
+       \n- `104` - **configurations**\n\
+       \n- `110` - **configurationStages**\n\
+       \n- `45` - **confirmCodes**\n\
+       \n- `2` - **contacts**\n\
+       \n- `20` - **credentials**\n\
+       \n- `105` - **currencyRates**\n\
+       \n- `3` - **customers**\n\
+       \n- `139` - **debtorEntities**\n\
+       \n- `112` - **decisionActions**\n\
+       \n- `35` - **decisionRules**\n\
+       \n- `13` - **decisions**\n\
+       \n- `149` - **DisbursementEntitiesLog**\n\
+       \n- `111` - **disbursementEntries**\n\
+       \n- `65` - **disbursementRefs**\n\
+       \n- `26` - **disbursements**\n\
+       \n- `47` - **disbursementResults**\n\
+       \n- `85` - **divisions**\n\
+       \n- `36` - **entities**\n\
+       \n- `146` - **entityCustomFields**\n\
+       \n- `132` - **entityDatas**\n\
+       \n- `122` - **entityDebts**\n\
+       \n- `33` - **entityRefs**\n\
+       \n- `67` - **entityReserves**\n\
+       \n- `86` - **entityReturns**\n\
+       \n- `72` - **entityRoutes**\n\
+       \n- `27` - **entries**\n\
+       \n- `58` - **entryOrigins**\n\
+       \n- `136` - **externalFees**\n\
+       \n- `82` - **feeModifiers**\n\
+       \n- `32` - **feeRules**\n\
+       \n- `28` - **fees**\n\
+       \n- `78` - **files**\n\
+       \n- `71` - **fundOrigins**\n\
+       \n- `128` - **fundingParameters**\n\
+       \n- `29` - **funds**\n\
+       \n- `77` - **holdNotes**\n\
+       \n- `76` - **holds**\n\
+       \n- `50` - **hosts**\n\
+       \n- `101` - **invoiceItems**\n\
+       \n- `102` - **invoiceLineItems**\n\
+       \n- `94` - **invoiceParameters**\n\
+       \n- `100` - **invoiceResults**\n\
+       \n- `95` - **invoices**\n\
+       \n- `5` - **iplists**\n\
+       \n- `6` - **items**\n\
+       \n- `8` - **logins**\n\
+       \n- `145` - **loginsHelpers**\n\
+       \n- `40` - **mccs**\n\
+       \n- `80` - **messages**\n\
+       \n- `79` - **messageThreads**\n\
+       \n- `21` - **members**\n\
+       \n- `39` - **merchantResults**\n\
+       \n- `9` - **merchants**\n\
+       \n- `41` - **mappings**\n\
+       \n- `138` - **mfaRecoveryCodes**\n\
+       \n- `113` - **notes**\n\
+       \n- `114` - **noteDocuments**\n\
+       \n- `30` - **orgEntities**\n\
+       \n- `63` - **orgFlowActions**\n\
+       \n- `62` - **orgFlows**\n\
+       \n- `10` - **orgs**\n\
+       \n- `14` - **parameters**\n\
+       \n- `38` - **partitions**\n\
+       \n- `37` - **facilitators**\n\
+       \n- `117` - **paymentUpdateGroups**\n\
+       \n- `115` - **paymentUpdates**\n\
+       \n- `69` - **payoutFlows**\n\
+       \n- `31` - **payouts**\n\
+       \n- `73` - **pendingEntries**\n\
+       \n- `23` - **plans**\n\
+       \n- `89` - **profitShareResults**\n\
+       \n- `103` - **profitShareRules**\n\
+       \n- `88` - **profitShares**\n\
+       \n- `42` - **refunds**\n\
+       \n- `121` - **reportItems**\n\
+       \n- `119` - **reportResults**\n\
+       \n- `120` - **reports**\n\
+       \n- `129` - **requestTokens**\n\
+       \n- `48` - **reserveEntries**\n\
+       \n- `66` - **reserves**\n\
+       \n- `143` - **revShareSchedules**\n\
+       \n- `144` - **revShareStatements**\n\
+       \n- `96` - **secrets**\n\
+       \n- `15` - **sessions**\n\
+       \n- `131` - **settlements**\n\
+       \n- `126` - **statementEntries**\n\
+       \n- `125` - **statements**\n\
+       \n- `24` - **subscriptions**\n\
+       \n- `25` - **subscriptionTokens**\n\
+       \n- `19` - **teamLogins**\n\
+       \n- `12` - **permissions**\n\
+       \n- `75` - **terminalRefs**\n\
+       \n- `74` - **terminals**\n\
+       \n- `107` - **terminalTxnDatas**\n\
+       \n- `133` - **terminalTxnMetadatas**\n\
+       \n- `108` - **terminalTxnRefs**\n\
+       \n- `109` - **terminalTxnResults**\n\
+       \n- `106` - **terminalTxns**\n\
+       \n- `17` - **tokens**\n\
+       \n- `60` - **txnDatas**\n\
+       \n- `99` - **txnMetadatas**\n\
+       \n- `53` - **txnRefs**\n\
+       \n- `68` - **txnReports**\n\
+       \n- `44` - **txnResults**\n\
+       \n- `18` - **txns**\n\
+       \n- `142` - **txnSession**\n\
+       \n- `140` - **valueAddedServicesFlows**\n\
+       \n- `137` - **valueAddedServices**\n\
+       \n- `70` - **vendors**\n\
+       \n- `54` - **verifications**\n\
+       \n- `135` - **verificationRefs**\n\
+       \n- `55` - **verificationResults**\n\
+       \n- `83` - **versions**\n\
+       \n- `98` - **watchlistItems**\n\
+       \n- `97` - **watchlists**\n\
+       </details>",
+    enum: [ 22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57,
+            93, 118, 43, 134, 127, 124, 123, 81, 141, 84, 56, 49,
+            34, 87, 104, 110, 45, 2, 20, 105, 3, 139, 112, 35, 13,
+            149, 111, 65, 26, 47, 85, 36, 146, 132, 122, 33, 67, 86,
+            72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77, 76,
+            50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21,
+            39, 9, 41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37,
+            117, 115, 69, 31, 73, 23, 89, 103, 88, 42, 121, 119, 120,
+            129, 48, 66, 143, 144, 96, 15, 131, 126, 125, 24, 25,
+            19, 12, 75, 74, 107, 133, 108, 109, 106, 17, 60, 99, 53,
+            68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97 ],
+    x-enum-descriptions: [ accounts, accountRefs, accountVerificationResults,
+                           accountVerifications, adjustments, aggregationResultGroups,
+                           aggregationResults, aggregations, alertActions, alerts,
+                           alertTriggers, apiKeys, assessments, auditLogs, authTokens,
+                           batches, batchRefs, billingEvents, billingModifiers, billings,
+                           bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                           chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                           configurationStages, confirmCodes, contacts, credentials,
+                           currencyRates, customers, debtorEntities, decisionActions,
+                           decisionRules, decisions, DisbursementEntitiesLog, disbursementEntries,
+                           disbursementRefs, disbursements, disbursementResults,
+                           divisions, entities, entityCustomFields, entityDatas,
+                           entityDebts, entityRefs, entityReserves, entityReturns,
+                           entityRoutes, entries, entryOrigins, externalFees, feeModifiers,
+                           feeRules, fees, files, fundOrigins, fundingParameters,
+                           funds, holdNotes, holds, hosts, invoiceItems, invoiceLineItems,
+                           invoiceParameters, invoiceResults, invoices, iplists,
+                           items, logins, loginsHelpers, mccs, messages, messageThreads,
+                           members, merchantResults, merchants, mappings, mfaRecoveryCodes,
+                           notes, noteDocuments, orgEntities, orgFlowActions, orgFlows,
+                           orgs, parameters, partitions, facilitators, paymentUpdateGroups,
+                           paymentUpdates, payoutFlows, payouts, pendingEntries,
+                           plans, profitShareResults, profitShareRules, profitShares,
+                           refunds, reportItems, reportResults, reports, requestTokens,
+                           reserveEntries, reserves, revShareSchedules, revShareStatements,
+                           secrets, sessions, settlements, statementEntries, statements,
+                           subscriptions, subscriptionTokens, teamLogins, permissions,
+                           terminalRefs, terminals, terminalTxnDatas, terminalTxnMetadatas,
+                           terminalTxnRefs, terminalTxnResults, terminalTxns, tokens,
+                           txnDatas, txnMetadatas, txnRefs, txnReports, txnResults,
+                           txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                           vendors, verifications, verificationRefs, verificationResults,
+                           versions, watchlistItems, watchlists ] }
+  name: {
+    type: string,
+    description: "The name of this alertTrigger. \nThis field\
+                             \ is stored as a text string and must be between 0 and\
+                             \ 100 characters long." }
+  description: { type: string, description: "Description of Alert Triggers." }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }

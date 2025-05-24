@@ -1,0 +1,634 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  ipCreated: {type: string, description: The incoming ip address from which
+                this Transaction was created.}
+  ipModified: {type: string, description: The incoming ip address from which
+                 this Transaction was last modified.}
+  merchant: {type: string, description: The identifier of the Merchant associated
+               with this Transaction.}
+  token: {type: string, description: The token of the Tokens resource this
+            Transaction is associated with.}
+  payment:
+    type: string
+    description: The payment method associated with this Transaction,
+      including the card details.
+    properties:
+      method:
+        description: The payment method for this transaction
+          is the method used to make this payment.
+        enum: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13',
+               '14']
+        x-enum-descriptions: [American Express, Visa, MasterCard,
+          Diners Club, Discover, Debit card, Checking account,
+          Savings account, Corporate checking account, Corporate
+            savings account]
+      number:
+        description: |-
+          For credit payment method, the card number of the credit card associated with this Transaction.
+          For eCheck payment method, the bank account number associated with this Transaction.
+      routing: {description: The routing code for the eCheck
+                  or bank account payment associated with this Transaction.}
+  fortxn:
+    type: string
+    description: "If this Transaction is related to another\
+                              \ Transaction, then this field is set to the identifier\
+                              \ of the other Transaction. \nFor example, if this Transaction\
+                              \ is a refund, this field could be set to the identifier\
+                              \ of the original sale Transaction."
+  fromtxn: {type: string, description: 'Reauthorize this referenced Transaction.
+                              For example, to process a resubmission of a declined Transaction
+                              or to reauthorize an expired Transaction.'}
+  batch: {type: string, description: 'If the Transaction is linked to a Batch,
+                              this field specifies the identifier of the Batch.'}
+  subscription: {type: string, description: The identifier of the Subscription
+                   associated with this Transaction.}
+  statement: {type: string, description: The statement ID for which this transaction is being processed as payment.}
+  type:
+    type: string
+    description: "The type of Transaction. 
+      \n\n<details> <summary>Valid Values</summary> \n\n
+      - `1` - **Credit Card Only: Sale Transaction.** Processes a sale and charges the customer.\n\n
+      - `2` - **Credit Card Only: Auth Transaction.** Authorizes and holds the requested total on the credit card.\n\n
+      - `3` - **Credit Card Only: Capture Transaction.** Finalizes a prior Auth Transaction and charges the customer.\n\n
+      - `4` - **Credit Card Only: Reverse Authorization.** Reverses a prior Auth or Sale Transaction and releases the credit hold.\n\n
+      - `5` - **Credit Card Only: Refund Transaction.** Refunds a prior Capture or Sale Transaction (total may be specified for a partial refund).\n\n
+      - `7` - **Echeck Only: Echeck Sale Transaction.** Sale Transaction for ECheck payment.\n\n
+      - `8` - **Echeck Only: Echeck Refund Transaction.** Refund Transaction for prior ECheck Sale Transaction.\n\n
+      - `11` - **Echeck Only: Echeck Redeposit Transaction.** Attempt to redeposit a prior failed eCheck Sale Transaction.\n\n
+      - `12` - **Echeck Only: Echeck Account Verification Transaction.** Attempt to verify eCheck payment details.\n\n
+      </details>"
+    enum: ['1', '2', '3', '4', '5', '7', '8', '11', '12']
+    x-enum-descriptions: ['Credit Card Only: Sale Transaction.
+                                This is the most common type of Transaction, it processes
+                                a sale and charges the customer', 'Credit Card Only:
+                                Auth Transaction. Authorizes and holds the requested
+                                total on the credit card', 'Credit Card Only: Capture
+                                Transaction. Finalizes a prior Auth Transaction and
+                                charges the customer', 'Credit Card Only: Reverse Authorization.
+                                Reverses a prior Auth or Sale Transaction and releases
+                                the credit hold.', 'Credit Card Only: Refund Transaction.
+                                Refunds a prior Capture or Sale Transaction (total may
+                                be specified for a partial refund).', 'Echeck Only:
+                                Echeck Sale Transaction. Sale Transaction for ECheck
+                                payment.', 'Echeck Only: ECheck Refund Transaction.
+                                Refund Transaction for prior ECheck Sale Transaction.',
+      'Echeck Only: Echeck Redeposit Transaction. Attempt to
+                                redeposit a prior failed eCheck Sale Transaction.',
+      'Echeck Only: Echeck Account Verification Transaction.
+                                Attempt to verify eCheck payment details']
+  expiration:
+    type: string
+    description: "The expiration date of this Transaction. \n\
+                              This field is stored as a text string in 'MMYY' format,\
+                              \ where 'MM' is the number of a month and 'YY' is the\
+                              \ last two digits of a year. For example, '0623' for June\
+                              \ 2023. \nThe value must reflect a future date."
+  serviceCode: {type: string, description: The service code retrieved from the track data for a credit card swiped transaction.}
+  funded:
+    type: integer
+    description: "A date indicating when this Transaction was\
+                              \ funded. \nThis field is set automatically."
+  returned: {type: string, description: The transaction has been returned by the receiver.}
+  currency: {$ref: ../properties/terminalTxnsCurrencyProperty.yaml}
+  fundingCurrency:
+    description: |-
+      "A list of currency codes!
+      
+      To combine these two sentences, I'll assume you want to create a new sentence that combines the currencies with their corresponding country names. Here's an attempt:
+      
+      "Papua New Guinean kina (PGK) is equivalent to Philippine piso (PHP), while Pakistani rupee (PKR) is similar to Polish złoty (PLN). Meanwhile, Paraguayan guaraní (PYG) is comparable to Qatari riyal (QAR), and Romanian leu (RON) is akin to Serbian dinar (RSD). Russian ruble (RUB) is equivalent to Rwandan franc (RWF), while Saudi riyal (SAR) is similar to Solomon Islands dollar (SBD). Seychelles rupee (SCR) is comparable to Sudanese pound (SDG), and Swedish krona/kronor (SEK) is akin to Singapore dollar (SGD). Saint Helena pound (SHP) is equivalent to Sierra Leonean leone (SLL), while Somali shilling (SOS) is similar to Surinamese dollar (SRD). South Sudanese pound (SSP) is comparable to São Tomé and Príncipe dobra (STN), and Salvadoran colón (SVC) is akin to Syrian pound (SYP). Swazi lilangeni (SZL) is equivalent to Thai baht (THB), while Tajikistani somoni (TJS) is similar to Turkmenistan manat (TMT). Tunisian dinar (TND) is comparable to Tongan pa'anga (TOP), and Turkish lira (TRY) is akin to Trinidad and Tobago dollar (TTD). New Taiwan dollar (TWD) is equivalent to Tanzanian shilling (TZS), while Ukrainian hryvnia (UAH) is similar to Ugandan shilling (UGX). United States dollar (USD) is comparable to Uruguayan peso (UYU), and Uzbekistan som (UZS) is akin to Venezuelan bolívar (VEF). Vietnamese đồng (VND) is equivalent to Vanuatu vatu (VUV), while Samoan tala (WST) is similar to CFA franc BEAC (XAF). Silver (XAG) is comparable to Gold (XAU), and European Composite Unit (XBA) is akin to European Monetary Unit (XBB). European Unit of Account (XBC) is equivalent to East Caribbean dollar (XCD), while Special drawing rights (XDR) is similar to CFA franc BCEAO (XOF). Palladium (XPD) is comparable to Platinum (XPT), and SUCRE (XSU) is akin to ADB Unit of Account (XUA). Yemeni rial (YER) is equivalent to South African rand (ZAR), while Zambian kwacha (ZMW) is similar to Zimbabwean dollar (ZWL)."
+    enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+           BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+           BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+           CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+           DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+           GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+           ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+           KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+           LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+           MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+           OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+           RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+           SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+           TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+           VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+           XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+           ZWL]
+    example: USD
+    x-enum-descriptions: [United Arab Emirates dirham, Afghan
+      afghani, Albanian lek, Armenian dram, Netherlands Antillean
+      guilder, Angolan kwanza, Argentine peso, Australian
+      dollar, Aruban florin, Azerbaijani manat, Bosnia and
+      Herzegovina convertible mark, Barbados dollar, Bangladeshi
+      taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+      Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+      Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+        pula, Belarusian ruble, Belize dollar, Canadian dollar,
+      Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+        de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+        peso, Unidad de Valor Real, Costa Rican colon, Cuban
+        convertible peso, Cuban peso, Cape Verde escudo, Czech
+        koruna, Djiboutian franc, Danish krone, Dominican peso,
+      Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+        birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+        sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+      Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+        dollar, Hong Kong dollar, Honduran lempira, Croatian
+        kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+      Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+        rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+      Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+        riel, Comoro franc, North Korean won, South Korean won,
+      Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+      Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+      Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+        leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+      Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+      Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+        peso, Mexican Unidad de Inversion, Malaysian ringgit,
+      Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+        córdoba, Norwegian krone, Nepalese rupee, New Zealand
+        dollar, Omani rial, Panamanian balboa, Peruvian sol,
+      Papua New Guinean kina, Philippine piso, Pakistani rupee,
+      Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+        leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+        riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+        pound, Swedish krona/kronor, Singapore dollar, Saint
+        Helena pound, Sierra Leonean leone, Somali shilling,
+      Surinamese dollar, South Sudanese pound, São Tomé and
+        Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+        lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+        manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+      Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+        shilling, Ukrainian hryvnia, Ugandan shilling, United
+        States dollar, United States dollar, Uruguay Peso en
+        Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+      Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+        tala, CFA franc BEAC, Silver, Gold, European Composite
+        Unit, European Monetary Unit, European Unit of Account,
+      European Unit of Account, East Caribbean dollar, Special
+        drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+      Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+        African rand, Zambian kwacha, Zimbabwean dollar]
+  currencyConversion:
+    type: string
+    description: "\n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n  - `customerAccepted` - **The customer accepted the currency conversion rate**\n  \n  - `customerRejected`\
+                              \ - **The customer rejected the currency conversion rate**\n\n  - `notEligible` - **This transaction is not eligible for currency conversion**\n  \n</details>\n"
+    enum: [customerAccepted, customerRejected, notEligible]
+    x-enum-descriptions: ['', '', '']
+  convenienceFee: {type: integer, description: An integer-boolean indicating whether or not the fee should be processed as a convenience fee.}
+  fee:
+    type: integer
+    description: "Optional calculated fee amount indicator.\
+                              \ This should be used in conjunction with txnFee setting\
+                              \ on Fees resource. \nThis field is specified as an integer\
+                              \ in cents."
+  feeConsumed:
+    type: integer
+    description: "When fee is set, this will track the amount\
+                              \ of the fee that has been consumed. \nThis field is specified\
+                              \ as an integer in cents."
+  platform:
+    type: string
+    description: The platform used to process this Transaction.
+    enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+           WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA]
+    example: VCORE
+    x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                          '', '']
+  authDate:
+    type: integer
+    description: "The date on which the Transaction was authorized.\
+                              \ \nThe date is specified as an eight digit string in\
+                              \ YYYYMMDD format, for example, '20160120' for January\
+                              \ 20, 2016. \nThe value of this field must represent a\
+                              \ date in the past."
+  authCode:
+    type: string
+    description: "The authorization code for this Transaction.\
+                              \ \nThis field is stored as a text string and must be\
+                              \ between 0 and 20 characters long."
+  captured:
+    type: string
+    description: "A timestamp indicating when this Transaction\
+                              \ was captured. \nThis field is set automatically."
+    format: date-time
+  settled:
+    type: string
+    description: "A date indicating when this Transaction was\
+                              \ settled. \nThis field is set automatically."
+  settledCurrency:
+    description: "The currency of the settled total. \nThis\
+                              \ field is set automatically."
+    enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+           BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+           BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+           CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+           DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+           GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+           ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+           KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+           LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+           MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+           OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+           RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+           SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+           TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+           VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+           XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+           ZWL]
+    example: USD
+    x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', United
+        States dollars, '', '', '', '', '', '', '', '', '',
+      '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+      '', '', '', '']
+  settledTotal:
+    type: integer
+    description: "The total amount that was settled. \nThis\
+                              \ field is specified as an integer in cents and is set\
+                              \ automatically."
+  allowPartial:
+    type: integer
+    description: "Whether to allow partial amount authorizations
+      of this Transaction, For example, if the transaction amount
+      is $1000 and the processor only authorizes a smaller amount,
+      then enabling this field lets the Transaction proceed
+      anyway. <details> <summary>Valid Values</summary>\n\n
+       - `0` - **Partial amount authorizations are not allowed.**\n\n
+       - `1` - **Partial amount authorizations are allowed**\n\n
+       </details>\n\n"
+    enum: [0, 1]
+    x-enum-descriptions: [Partial amount authorizations are
+      not allowed., Partial amount authorizations are allowed]
+  order:
+    type: string
+    description: "The identifier of the Order associated with\
+                              \ this Transaction. \nThis field is stored as a text string\
+                              \ and must be between 0 and 1000 characters long."
+  description:
+    type: string
+    description: "A description of this Transaction. \nThis\
+                              \ field is stored as a text string and must be between\
+                              \ 0 and 1000 characters long."
+  descriptor:
+    type: string
+    description: "The descriptor used in this Transaction. \n\
+                              This field is stored as a text string and must be between\
+                              \ 1 and 50 characters long. If a value is not set, an\
+                              \ attempt is made to set a default value from the merchant\
+                              \ information."
+  traceNumber: {type: integer, description: Sequencial number that uniquely
+                  identifies the txn.}
+  discount: {type: integer, description: The discount applied to the transaction.}
+  shipping: {type: integer, description: The shipping fee pertaining to this
+               transaction.}
+  duty: {type: integer, description: The duty fee applicable to this transaction.}
+  terminal:
+    type: string
+    description: "The identifier of the terminal that processed\
+                              \ this Transaction. \nThe identifier is taken from the\
+                              \ terminal system and varies in format according to the\
+                              \ type of terminal. \nThis field is stored as a text string\
+                              \ and must be between 0 and 50 characters long."
+  terminalCapability:
+    type: integer
+    description: "Capabilities of the terminal device capabilities\
+                              \ of the terminal device.\n\n<details>\n<summary>Valid\
+                              \ Values</summary>\n\n- `1`  - **Key entry only terminal.**\n\
+                              \n- `2`  - **Can read magnetic stripe.**\n\n- `3`  - **Integrated\
+                              \ circuit reader.** \n\n</details>"
+    enum: [1, 2, 3, 4]
+    x-enum-descriptions: [Key entry only terminal., Can read
+      magnetic stripe., Integrated circuit reader., '']
+  entryMode: {$ref: ../properties/terminalTxnsEntryModeProperty.yaml}
+  origin:
+    type: integer
+    description: "The origin of the transaction.\n\n<details>\n\
+      <summary>Valid Values</summary>\n\n  
+      - `1` - **Originated at a credit card terminal.**\n\n  
+      - `2` - **Originated through an eCommerce system.**\n\n  
+      - `3` - **Originated as a mail order or telephone order transaction.**\n\n
+      - `4` - **Originated with Apple Pay.**\n\n
+      - `5` - **Originated as a Successful 3D Secure transaction.**\n\n
+      - `6` - **Originated as an Attempted 3D Secure transaction.**\n\n
+      - `7` - **Originated as a recurring transaction on the card.**\n\n
+      - `8` - **Originated in a PayFrame.**\n\n </details>\n\n"
+    enum: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    x-enum-descriptions: [Originated at a credit card terminal.,
+      Originated through an eCommerce system., Originated as
+        a mail order or telephone order transaction., '', Originated
+        as a Successful 3D Secure transaction., Originated as
+        an Attempted 3D Secure transaction., Originated as a
+        recurring transaction on the card., Originated in a
+        Payframe., '']
+  mobile:
+    type: integer
+    description: "Indicates if a transaction is being processed\
+                              \ through a Mobile POS\n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n- `0` - **Non-mobile POS** \n\n- `1` - **Mobile POS**\n\
+                              \n</details>\n"
+    enum: [0, 1]
+    x-enum-descriptions: [Non-mobile POS, Mobile POS]
+  tax:
+    type: integer
+    description: "The amount of the total sum of this Transaction\
+                              \ that is made up of tax. \nThis field is specified as\
+                              \ an integer in cents."
+  surcharge:
+    type: integer
+    description: "The amount of the total sum of this Transaction\
+                              \ that is made up of surcharge. \nThis field is specified\
+                              \ as an integer in cents."
+  total:
+    type: integer
+    description: "The total amount of this Transaction. \nThis\
+                              \ field is specified as an integer in cents."
+  cashback:
+    type: integer
+    description: "The amount of the total sum of this Transaction\
+                              \ that is given as cash back. \nThis field is specified\
+                              \ as an integer in cents."
+  authorization: {type: string, description: 'The authorization code for this
+                              Transaction, as returned by the network.'}
+  originalApproved: {type: integer, description: "The amount, in 'cents', of funds originally authorized for the transaction."}
+  approved:
+    type: integer
+    description: "The total amount that was approved for this\
+                              \ Transaction by the processor. \nThis field is specified\
+                              \ as an integer in cents."
+  authentication: {type: string, description: Authentication token returned
+                     by the network in a 3DSecure txn.}
+  authenticationId: {type: string, description: Optional transaction ID returned
+                       by the network in a 3DSecure txn.}
+  cvv: {type: integer, description: Whether correct cvv was sent during this
+          Transaction.}
+  cvvStatus:
+    type: string
+    description: |-
+      The status of the CVV on the card.
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `notPresent`  - **CVV is not present.**
+      
+      - `illegible`  - **CVV is illegible.**
+      
+      - `notProvided`  - **CVV was not provided.**
+      </details>
+    enum: [notPresent, illegible, notProvided]
+    x-enum-descriptions: [CVV is not present., CVV is illegible.,
+                          CVV was not provided.]
+  swiped:
+    type: integer
+    description: Whether the card was swiped during this Transaction.
+      This field is set to '1' automatically if 'track' data
+      was received, and can have valid values of 
+      `0` (**Not swiped**) or `1` (**Swiped**).
+    enum: [0, 1]
+    x-enum-descriptions: [Not swiped., Swiped.]
+  emv:
+    type: integer
+    description: Whether the card was dipped (using the EMV
+      chip) during this transaction.
+    enum: [0, 1]
+    x-enum-descriptions: [Not dipped, Dipped]
+  signature:
+    type: integer
+    description: Whether a signature was captured during this
+      Transaction. You can set this field if you took a signature
+      for the Transaction. The API also sets this field automatically
+      if you associate a signature to the Transaction by creating
+      a 'txnDatas' resource. <details> <summary>Valid Values</summary>
+      - `0`  - **Not captured**  - `1`  - **Captured** </details>
+    enum: [0, 1]
+    x-enum-descriptions: [Not captured., Captured.]
+  pin:
+    type: integer
+    description: Whether this Transaction was verified with
+      a PIN or not.
+    enum: [0, 1]
+    x-enum-descriptions: ['', '']
+  pinEntryCapability:
+    type: string
+    description: |-
+      Indicates the PIN entry capability of the device, which can be unknown, capable, notCapable, or pinPadDown.
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `unknown` - **Unknown PIN Entry Capability.**
+      - `capable` - **Terminal can accept PINs.**
+      - `notCapable` - **Terminal cannot accept entry of PINs.**
+      - `pinPadDown` - **Terminal PIN Pad is down.**
+      
+      </details>
+    enum: [unknown, capable, notCapable, pinPadDown]
+    x-enum-descriptions: [Unknown PIN Entry Capability, Terminal
+      can accept PINs, Terminal cannot accept entry of PINs,
+      Terminal PIN Pad is down]
+  unattended:
+    type: integer
+    description: Whether the card was swiped at an unattended
+      terminal during this Transaction, This field is set to
+      '0' by default.
+    enum: [0, 1]
+    x-enum-descriptions: [Attended terminal., Unattended terminal.]
+  cofType:
+    type: string
+    description: |-
+      The type of Card On File transaction when using a token is single, scheduled, or unscheduled.
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `single`  - **Individual Transaction.**
+      - `scheduled`  - **Scheduled Transaction.**
+      - `unscheduled`  - **Unscheduled sequential Transaction.**
+      </details>
+    enum: [single, scheduled, unscheduled]
+    x-enum-descriptions: [Individual Transaction, Scheduled
+      Transaction, Unscheduled sequential Transaction]
+  copyReason:
+    type: string
+    description: Reason for copying Transaction referenced in
+      fromtxn field, which can be either resubmission or reauthorization.
+    enum: [resubmission, reauthorization]
+    x-enum-descriptions: [Resubmission, Reauthorization]
+  clientIp:
+    type: string
+    description: "The client ip address from which the Transaction\
+                              \ was created. \nValid values are any Ipv4 or Ipv6 address."
+  first: {type: string, description: 'The first name associated with this
+                              Transaction. For eCheck transactions, either first or
+                              last is required.'}
+  middle: {type: string, description: The middle name associated with this
+             Transaction.}
+  last: {type: string, description: 'The last name associated with this Transaction.
+                              For eCheck transactions, either first or last is required.'}
+  company:
+    type: string
+    description: "The name of the company associated with this\
+                              \ Transaction. \nSetting this field is especially important\
+                              \ when processing an eCheck from a company."
+  email: {type: string, description: The email associated with this Transaction.}
+  address1:
+    type: string
+    description: "The first line of the address associated with\
+                              \ this Transaction. \nThis field is stored as a text string\
+                              \ and must be between 1 and 500 characters long."
+  address2:
+    type: string
+    description: "The second line of the address associated\
+                              \ with this Transaction. \nThis field is stored as a text\
+                              \ string and must be between 1 and 500 characters long."
+  city:
+    type: string
+    description: "The name of the city in the address associated\
+                              \ with this Transaction. \nThis field is stored as a text\
+                              \ string and must be between 1 and 500 characters long."
+  state:
+    type: string
+    description: "The state associated with this Transaction.\
+                              \ \nIf in the U.S. this is specified as the 2 character\
+                              \ postal abbreviation for the state, if outside of the\
+                              \ U.S. the full state name. \nThis field is stored as\
+                              \ a text string and must be between 2 and 100 characters\
+                              \ long."
+    enum: ['AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'true', 'PE', 'QC', 'SK',
+           'YT', 'IA', 'ID', 'IL', 'IN', 'KN', 'KS', 'LA', 'MA', 'MB', 'MD', 'ME', 'MI', 'MN',
+           'MO', 'MS', 'MT', 'NB', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NL', 'NM', 'NS', 'NT', 'NU',
+           'NV', 'NY', 'OH', 'OK', 'true', 'OR', 'PA', 'PE', 'QC', 'RI', 'SC', 'SD', 'SK',
+           'TN', 'TX', 'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY', 'YT']
+    example: CO
+    x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                          '', '', '', '']
+  zip:
+    type: string
+    description: "The ZIP code in the address associated with\
+                              \ this Transaction. \nThis field is stored as a text string\
+                              \ and must be between 1 and 20 characters long."
+  country: {$ref: ../properties/terminalTxnsCountryProperty.yaml}
+  phone:
+    type: string
+    description: "The phone number associated with this Transaction.\
+                              \ \nThis field is stored as a text string and must be\
+                              \ between 10 and 15 characters long."
+  mid:
+    type: string
+    description: "The Merchant ID as set by the processor. \n\
+                              This field is stored as a text string and must be between\
+                              \ 0 and 50 characters long."
+  status:
+    type: integer
+    description: "The status of the Transaction.\n\n<details>\n\
+                              <summary>Valid Values</summary>\n\n  - `0` - **Pending**\n\
+                              \  \n  - `1` - **Approved**\n  \n  - `2` - **Failed**\n\
+                              \n  - `3` - **Captured**\n  \n  - `4` - **Settled**\n\n\
+                              \  - `5` - **Returned**\n\n  </details>\n."
+    enum: [0, 1, 2, 3, 4, 5]
+    x-enum-descriptions: [Pending, Approved, Failed, Captured,
+                          Settled, Returned]
+  refunded: {type: integer, description: The amount of this Transaction that
+               has been refunded.}
+  reserved:
+    type: integer
+    description: Indicates whether the Transaction is reserved
+      and the action that will be taken as a result, with valid
+      values including No reserve, Transaction processing withheld,
+      Transaction capture withheld pending manual review, Move
+      all funds from this Transaction into a reserve, TBD, TBD,
+      TBD, and TBD.
+    enum: [0, 1, 3, 4, 5, 6, 7, 8]
+    x-enum-descriptions: [No reserve, Transaction processing
+      withheld., Transaction capture withheld pending manual
+      review., Move all funds from this Transaction into a
+      reserve., '', '', '', '']
+  misused:
+    type: integer
+    description: Indicates if an authorization has been misused
+      by not being captured or reversed within the timeframe,
+      which varies per network, mcc and type of txn closing
+      (capture/reverse auth), with valid values indicating whether
+      it's Not misused (0) or Misused (1).
+    enum: [0, 1]
+    x-enum-descriptions: [Not misused, Misused]
+  checkStage:
+    type: string
+    description: The last transaction stage check for risk.
+    enum: [activation, auth, postauth, capture, refund]
+    x-enum-descriptions: ['', AUTH. Apply this decision during
+      transaction authorization., POSTAUTH. Apply this decision
+      after transaction authorization., CAPTURE. Apply this
+      decision during transaction capture., REFUND. Apply
+      this decision when processing a refund.]
+  unauthReason:
+    type: string
+    description: "The reason for the auth reversal is set to
+                              'customerCancelled' by default, and this field can take
+                              on one of the following valid values: 
+                              \n\n<details><summary>Valid Values</summary>\n\n
+                              - `incomplete` - **Transaction Incomplete.**\n\n
+                              - `timeout` - **Transaction Timeout.**\n\n
+                              - `clerkCancelled` - **Transaction Cancelled by Clerk.**\n\n
+                              - `customerCancelled` - **Transaction Cancelled by Customer.**\n\n
+                              - `misdispense` - **Misdispense.**\n\n
+                              - `hardwareFailure` - **Hardware Failure.**\n\n 
+                              - `suspectedFraud` - **Suspected Fraud.**\n\n 
+                              </details>\n"
+    enum: [incomplete, timeout, clerkCancelled, customerCancelled,
+           misdispense, hardwareFailure, suspectedFraud]
+    x-enum-descriptions: [Incomplete, Timeout, Clerk Cancelled,
+      Customer Cancelled, Misdispense, Hardware Failure, Suspected
+        Fraud]
+  authTokenCustomer: {type: string, description: The customer identifier from
+                        the AuthToken used during authentication.}
+  channel: {type: string, description: This field is stored as a text string
+              and must be between 0 and 1000 characters long.}
+  imported:
+    type: integer
+    description: |-
+      Whether the txn was imported from a report or not, this field is set automatically whether the txn was imported from a report or not. This field is set automatically.
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `0`  - **Not Imported**
+      - `1`  - **Imported**
+      </details>
+    enum: [0, 1]
+    x-enum-descriptions: ['', '']
+  requestSequence: {type: integer, description:  "For entry creation and deletion job sequencing: the current request sequence number for this transaction."}
+  processedSequence: {type: integer, description: "For entry creation and deletion job sequencing: the current processed sequence number for this transaction."}
+  inactive: {$ref: ../inactive.yaml}
+  frozen: {$ref: ../frozen.yaml}
+  debtRepayment:
+    type: integer
+    description: If this transaction is for debt repayment or
+      not for debt repayment.
+    enum: [0, 1]
+    x-enum-descriptions: ['', '']
+  fundingEnabled:
+    type: integer
+    description: Whether or not funding is enabled for this
+      Txn.
+    enum: [0, 1]
+    x-enum-descriptions: [Disabled, Enabled]
+  fbo: {type: string, description: FBO in which each entry origin belongs to.
+  }
+  txnsession: {type: string}

@@ -1,0 +1,2769 @@
+---
+  openapi: 3.0.1
+  info:
+    title: "Enterprise API: Merchant Account Created"
+    description: "This event notification notifies subscribers whenever a new merchant is onboarded to certain sales channels or organizations \n # Authentication \n<SecurityDefinitions />"
+    contact:
+      email: APICustomerIntegration@fisglobal.com
+    license:
+      name: FIS Proprietary
+    version: 1.1.0
+  servers:
+  - url: https://apis.stage.worldpay.com/enterprise/eventnotifications/v2/notifications
+    description: Non-Prod environment
+  security:
+  - api_key: []
+  paths:
+    /{notificationId}:
+      get:
+        tags:
+        - Get details associated with a Merchant created notification
+        summary: retrieves the detailed payload from a merchant created event based on notification ID
+        description: Retrieves the merchant created notification details associated with given notification ID
+        operationId: getNotificationDetails
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+            type: string
+            format: uuid
+          example: 24578e35-9bd2-238f-b4c2-0bc9ad9aed2b
+        - name: notificationId
+          in: path
+          description: Unique identifier code for the notification.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 10
+            type: string
+            example: "123456"
+        responses:
+          "200":
+            description: successful
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/NewMerchantAccountNotification'
+                examples:
+                  merchant.accounts.created - Security vendor:
+                    value:
+                      eventType: merchant.accounts.created
+                      notificationId: 12345
+                      eventCount: 1
+                      version: "2.0"
+                      createdAt: 2020-08-17T01:56:35.000-04:00
+                      data:
+                        merchantAccounts:
+                        - hierarchy:
+                            salesOrganizationCode: "12"
+                            salesOrganizationName: Your Sales Organization Name
+                            salesChannelCode: "73"
+                            salesChannelName: Your Sales Channel Name
+                            partnerGroupId: "41"
+                            partnerGroupName: ABC Corp
+                            nationalCode: NATNL
+                            nationalName: DEF company
+                            superChainCode: DA012
+                            superChainName: ABC CORP
+                            branchCode: "9999"
+                            branchName: ABC 123
+                            divisionCode: DIV
+                            divisionName: My Divison Name
+                            chainCode: 0X1234
+                            chainName: My Chain Name
+                            storeNumber: "000000001"
+                            storeName: My Store Name
+                            merchantId: "1234567890"
+                            merchantName: Merchant Name
+                          business:
+                            chainCode: 0X1234
+                            chainAcro: ABCD
+                            createdDate: 2022-07-24
+                            legalName: Your Company Legal Name
+                            dbaName: Your Company dba Name
+                            partners:
+                            - type: Dealer partner
+                              id: "11"
+                              name: Vant
+                            federalTaxId: '******1234'
+                            ownershipType: SOLE PROPRIETOR
+                            productServiceSold: SHOES
+                            industryType: LODGING
+                            establishedDate: 1990-10-24
+                            website: https://www.website.com
+                            contractTermInMonths: "60"
+                            numberOfLocations: "5"
+                            currentlyProcessing: false
+                            closedDate: 2022-8-24
+                            billingAccountType:
+                              code: "10"
+                              description: DEPT.STORES
+                            emvEnabledDate: 2022-8-24
+                            merchantPartnerAcctId: "12345"
+                            pciVendorSetup:
+                              emailSuppressionIndicator: "false"
+                              groupId: "121216543"
+                              level: "04"
+                              sponsor:
+                                code: TW
+                                description: DEPT.STORES
+                            securityProducts:
+                              saferPayments:
+                                enabled: "true"
+                                program: SaferPayments Basic
+                                programCode: "Y"
+                            salesPerson:
+                              id: U123456
+                              name: John Doe
+                            customerServiceContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            primaryContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            chargebackContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            pciContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            physicalAddress:
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              county: Douglas
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              internationalPostalCode: H4N 1K4
+                              postalCodeExtension: "1384"
+                              timezone: MST
+                            mailingAddress:
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              county: Douglas
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              internationalPostalCode: H4N 1K4
+                              postalCodeExtension: "1384"
+                              timezone: MST
+                            billingDebitAddress:
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              county: Douglas
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              internationalPostalCode: H4N 1K4
+                              postalCodeExtension: "1384"
+                              timezone: MST
+                            owners:
+                            - type: OWNER 1 CONTACT
+                              title: President
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              ssn: '******1234'
+                              dob: 1954-01-01
+                              email: youremail@gmail.com
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              phoneType: Landline
+                              alternatePhone: "1234567890"
+                              alternatePhoneType: Mobile
+                              faxNumber: "9087654321"
+                              OwnershipPercentage: 100
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              postalCodeExtension: "1384"
+                            guarantors:
+                            - type: Guarantor 1 Contact
+                              title: President
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              ssn: '*****1234'
+                              dob: 1973-01-01
+                              email: youremail@gmail.com
+                              phoneNumber: "1236547890"
+                              phoneNumberExt: "789"
+                              phoneType: Landline
+                              alternatePhone: "5131234567"
+                              alternatePhoneType: Mobile
+                              faxNumber: "5139003344"
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              postalCodeExtension: "1384"
+                            location:
+                              storeNumber: "000000001"
+                              storeName: My Store Name
+                              merchantId: "1234567890"
+                              hostMerchantNumber: "123456789"
+                              billingDescriptor: Name of the Merchant
+                              mcc: "5812"
+                              mccDescription: Lodging
+                              seasonalMerchant: true
+                              activeMonths:
+                              - AUG
+                              - SEP
+                              - NOV
+                              lastBatchActivityDate: 2021-11-30
+                              status: ACTIVE
+                              alternateMerchantId: "123456789"
+                              cardSwipedIndicator: true
+                              ecomIndicator: true
+                              emvIndicator: true
+                              mastercardIca: "127684"
+                              motoIndicator: true
+                              p2peIndicator: false
+                              p2peServiceLevel: true
+                              thirdPartyMerchantId: "123456789"
+                              primaryContact:
+                                firstName: John
+                                middleInitial: M
+                                lastName: Doe
+                                phoneNumber: "1234569870"
+                                phoneNumberExt: "1234"
+                                email: youremail@gmail.com
+                                faxNumber: "9087654321"
+                              physicalAddress:
+                                addressLine1: 4355 N Coalwhipe St.
+                                addressLine2: suite 104
+                                city: Denver
+                                county: Douglas
+                                state: CO
+                                country: US
+                                postalCode: "80237"
+                                internationalPostalCode: string
+                                postalCodeExtension: "1384"
+                                timezone: MST
+                              deploymentContact:
+                                firstName: John
+                                middleInitial: M
+                                lastName: Doe
+                                phoneNumber: "5499004357"
+                                phoneNumberExt: "789"
+                                email: youremail@gmail.com
+                                faxNumber: "5132003344"
+                              deploymentAddress:
+                                addressLine1: 4985 N Coalwhipe St.
+                                addressLine2: suite 109
+                                city: Denver
+                                county: Douglas
+                                state: CO
+                                country: US
+                                postalCode: "80237"
+                                internationalPostalCode: H4N 1K4
+                                postalCodeExtension: "1384"
+                                timezone: MST
+                            paymentMethods:
+                              acceptedCards:
+                              - VISA
+                              - MASTERCARD
+                              - AMEX
+                              - DISCOVER
+                              valutecEnabled: true
+                              valutec:
+                                groupId: "1010"
+                                billingAccountNumber: '********2311'
+                                billingRoutingNumber: '*****2111'
+                                settlementAccountNumber: '********4500'
+                                settlementRoutingNumber: '*****4511'
+                                lastUpdatedDateTime: 2022-05-18T01:56:35.000-04:00
+                                enrollmentDate: 2022-07-12
+                                processingDate: 2022-10-12
+                              additionalAcceptedCardInfo:
+                                amex:
+                                  program: OptBlue
+                                  accountNumber: '*********9879'
+                                discover:
+                                  discoveredAcquired: true
+                                  accountNumber: '*****1089'
+                                pinOrDebit: true
+                                WIC: true
+                                ebt:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                                jcb:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                                masterCard:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                                visa:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                            products:
+                              reviewTrackers:
+                                enabled: "true"
+                                program: REVIEW TRACKERS
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                              discountProgram:
+                                enabled: "true"
+                                program: FIS DISCOUNT PROGRAM
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                              recruitingManager:
+                                enabled: "true"
+                                program: FIS RECRUITING MANAGER
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                              getUpside:
+                                enabled: "true"
+                                program: GETUPSIDE
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                            acceleratedFunding:
+                              everydayFunding:
+                                statusCode: R
+                                statusDescription: ACTIVE
+                                lastUpdatedDateTime: 2022-05-20T01:56:35.000-04:00
+                              paymentAccelerator:
+                                statusCode: Q
+                                statusDescription: PENDING
+                                lastUpdatedDateTime: 2021-05-18T01:56:35.000-04:00
+                                splitPercentageToBankAccount: 21
+                            additionalInfo:
+                              clientTrackingId: 1234
+                              partnerLeadType: Bank Lead
+                              partnerPromotionCampaign: Code234
+                              partnerVipIndicator: true
+                              partnerMarketRegion: Arizona
+                              partnerEmployeeOfficerCode: Officer Code 1
+                              partnerEmployeeType: Employee Type 1
+                              partnerEmployeeId: 1234
+                              partnerEmployeeName: John Doe
+                              partnerEmployeeRegion: ABC 123
+                              partnerEmployeeBranch: Atlanta
+                              partnerEmployeeCostCenter: Cost Center 1
+                              partnerEmployeeOfficerCode2: Officer Code 2
+                              partnerEmployeeType2: Employee Type 2
+                              partnerEmployeeName2: Jane Doe
+                              partnerEmployeeId2: 4321
+                              partnerEmployeeRegion2: ABC 123
+                              partnerEmployeeBranch2: Atlanta
+                              partnerEmployeeCostCenter2: Cost Center 1
+                              partnerEmployeeIndustry: Services
+                              partnerEmployeeRef: Reference 1
+                              partnerCustom1: data 1
+                              partnerCustom2: data 2
+                              partnerCustom3: data 3
+                              partnerCustom4: data 4
+                              partnerCustom5: data 5
+                              partnerGroupID: group 1
+                              partnerLeadId: NA00123456
+                              partnerMethod: Method 1
+                              partnerSourceDetails: Source 1
+                              partnerSalesAgentId: A001234
+                              partnerSalesAgentName: John R John
+                  merchant.accounts.created - partners:
+                    value:
+                      eventType: merchant.accounts.created
+                      notificationId: 12346
+                      eventCount: 1
+                      version: "2.0"
+                      createdAt: 2020-08-17T01:56:35.000-04:00
+                      data:
+                        merchantAccounts:
+                        - hierarchy:
+                            salesOrganizationCode: "12"
+                            salesOrganizationName: Your Sales Organization Name
+                            salesChannelCode: "73"
+                            salesChannelName: Your Sales Channel Name
+                            partnerGroupId: "41"
+                            partnerGroupName: ABC Corp
+                            nationalCode: NATNL
+                            nationalName: DEF company
+                            superChainCode: DA012
+                            superChainName: ABC CORP
+                            branchCode: "9999"
+                            branchName: ABC 123
+                            divisionCode: DIV
+                            divisionName: My Division Name
+                            chainCode: 0X1234
+                            chainName: My Chain Name
+                            storeNumber: "000000001"
+                            storeName: My Store Name
+                            merchantId: "1234567890"
+                            merchantName: Merchant Name
+                          business:
+                            chainCode: 0X1234
+                            chainAcro: ABCD
+                            createdDate: 2022-07-24
+                            legalName: Your Company Legal Name
+                            dbaName: Your Company dba Name
+                            partners:
+                            - type: Dealer partner
+                              id: "11"
+                              name: Vant
+                            federalTaxId: '******1234'
+                            ownershipType: SOLE PROPRIETOR
+                            productServiceSold: SHOES
+                            industryType: LODGING
+                            establishedDate: 1990-10-24
+                            website: https://www.website.com
+                            contractTermInMonths: "60"
+                            numberOfLocations: "5"
+                            currentlyProcessing: "false"
+                            closedDate: 2022-10-24
+                            billingAccountType:
+                              code: "10"
+                              description: DEPT.STORES
+                            emvEnabledDate: 2022-8-24
+                            merchantPartnerAcctId: "12345"
+                            salesPerson:
+                              id: U123456
+                              name: John Doe
+                            customerServiceContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            primaryContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            chargebackContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            pciContact:
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              email: youremail@gmail.com
+                              faxNumber: "9087654321"
+                            physicalAddress:
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              county: Douglas
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              internationalPostalCode: H4N 1K4
+                              postalCodeExtension: "1384"
+                              timezone: MST
+                            mailingAddress:
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              county: Douglas
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              internationalPostalCode: H4N 1K4
+                              postalCodeExtension: "1384"
+                              timezone: MST
+                            billingDebitAddress:
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              county: Douglas
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              internationalPostalCode: H4N 1K4
+                              postalCodeExtension: "1384"
+                              timezone: MST
+                            owners:
+                            - type: Owner 1 Contact
+                              title: President
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              ssn: '******1234'
+                              dob: 1954-01-01
+                              email: youremail@gmail.com
+                              phoneNumber: "1234569870"
+                              phoneNumberExt: "1234"
+                              phoneType: Landline
+                              alternatePhone: "1234567890"
+                              alternatePhoneType: Mobile
+                              faxNumber: "9087654321"
+                              OwnershipPercentage: 100
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              postalCodeExtension: "1384"
+                            guarantors:
+                            - type: Guarantor 1 Contact
+                              title: President
+                              firstName: John
+                              middleInitial: M
+                              lastName: Doe
+                              ssn: '*****1234'
+                              dob: 1973-01-01
+                              email: youremail@gmail.com
+                              phoneNumber: "1236547890"
+                              phoneNumberExt: "789"
+                              phoneType: Landline
+                              alternatePhone: "5131234567"
+                              alternatePhoneType: Mobile
+                              faxNumber: "5139003344"
+                              addressLine1: 4355 N Coalwhipe St.
+                              addressLine2: suite 104
+                              city: Denver
+                              state: CO
+                              country: US
+                              postalCode: "80237"
+                              postalCodeExtension: "1384"
+                            location:
+                              storeNumber: "000000001"
+                              storeName: My Store Name
+                              merchantId: "1234567890"
+                              hostMerchantNumber: "123456789"
+                              billingDescriptor: Name of the Merchant
+                              mcc: "5812"
+                              mccDescription: Lodging
+                              seasonalMerchant: true
+                              activeMonths:
+                              - AUG
+                              - SEP
+                              - NOV
+                              lastBatchActivityDate: 2021-11-30
+                              status: ACTIVE
+                              alternateMerchantId: "123456789"
+                              cardSwipedIndicator: true
+                              ecomIndicator: true
+                              emvIndicator: true
+                              mastercardIca: "127684"
+                              motoIndicator: true
+                              p2peIndicator: false
+                              p2peServiceLevel: true
+                              thirdPartyMerchantId: "123456789"
+                              primaryContact:
+                                firstName: John
+                                middleInitial: M
+                                lastName: Doe
+                                phoneNumber: "1234569870"
+                                phoneNumberExt: "1234"
+                                email: youremail@gmail.com
+                                faxNumber: "9087654321"
+                              physicalAddress:
+                                addressLine1: 4355 N Coalwhipe St.
+                                addressLine2: suite 104
+                                city: Denver
+                                county: Douglas
+                                state: CO
+                                country: US
+                                postalCode: "80237"
+                                internationalPostalCode: string
+                                postalCodeExtension: "1384"
+                                timezone: MST
+                              deploymentContact:
+                                firstName: John
+                                middleInitial: M
+                                lastName: Doe
+                                phoneNumber: "5139004357"
+                                phoneNumberExt: "789"
+                                email: youremail@gmail.com
+                                faxNumber: "5139003344"
+                              deploymentAddress:
+                                addressLine1: 4355 N Coalwhipe St.
+                                addressLine2: suite 104
+                                city: Denver
+                                county: Douglas
+                                state: CO
+                                country: US
+                                postalCode: "80237"
+                                internationalPostalCode: string
+                                postalCodeExtension: "1384"
+                                timezone: MST
+                            paymentMethods:
+                              acceptedCards:
+                              - - VISA
+                                - MASTERCARD
+                                - AMEX
+                                - DISCOVER
+                              valutecEnabled: true
+                              valutec:
+                                groupId: "1010"
+                                billingAccountNumber: '********2311'
+                                billingRoutingNumber: '*****2111'
+                                settlementAccountNumber: '********4500'
+                                settlementRoutingNumber: '*****4511'
+                                lastUpdatedDateTime: 2021-05-18T01:56:35.000-04:00
+                                enrollmentDate: 2021-07-12
+                                processingDate: 2021-10-12
+                              additionalAcceptedCardInfo:
+                                amex:
+                                  program: OptBlue
+                                  accountNumber: '*********9879'
+                                discover:
+                                  discoveredAcquired: true
+                                  accountNumber: '*****1089'
+                                pinOrDebit: true
+                                WIC: true
+                                ebt:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                                jcb:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                                masterCard:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                                visa:
+                                  optIn: true
+                                  accountNumber: '********1399'
+                            products:
+                              reviewTrackers:
+                                enabled: "true"
+                                program: REVIEW TRACKERS
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                              discountProgram:
+                                enabled: "true"
+                                program: FIS DISCOUNT PROGRAM
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                              recruitingManager:
+                                enabled: "true"
+                                program: FIS RECRUITING MANAGER
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                              getUpside:
+                                enabled: "true"
+                                program: GETUPSIDE
+                                optInDate: 2020-10-08
+                                optOutDate: "null"
+                                billingStartDate: 2020-11-01
+                            additionalInfo:
+                              clientTrackingId: 1234
+                              partnerLeadType: Bank Lead
+                              partnerPromotionCampaign: Code234
+                              partnerVipIndicator: true
+                              partnerMarketRegion: Arizona
+                              partnerEmployeeOfficerCode: Officer Code 1
+                              partnerEmployeeType: Employee Type 1
+                              partnerEmployeeId: 1234
+                              partnerEmployeeName: John Doe
+                              partnerEmployeeRegion: ABC 123
+                              partnerEmployeeBranch: Atlanta
+                              partnerEmployeeCostCenter: Cost Center 1
+                              partnerEmployeeOfficerCode2: Officer Code 2
+                              partnerEmployeeType2: Employee Type 2
+                              partnerEmployeeName2: Jane Doe
+                              partnerEmployeeId2: 4321
+                              partnerEmployeeRegion2: ABC 123
+                              partnerEmployeeBranch2: Atlanta
+                              partnerEmployeeCostCenter2: Cost Center 1
+                              partnerEmployeeIndustry: Services
+                              partnerEmployeeRef: Reference 1
+                              partnerCustom1: data 1
+                              partnerCustom2: data 2
+                              partnerCustom3: data 3
+                              partnerCustom4: data 4
+                              partnerCustom5: data 5
+                              partnerGroupID: group 1
+                              partnerLeadId: NA00123456
+                              partnerMethod: Method 1
+                              partnerSourceDetails: Source 1
+                              partnerSalesAgentId: A001234
+                              partnerSalesAgentName: John R John
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "410 Gone":
+                    $ref: '#/components/examples/410Gone'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+    /{notificationId}/status:
+      patch:
+        tags:
+        - Complete Notification
+        summary: Acknowledge a notification ID  with a success or failure after completion of business process activity
+        description: Complete an event notification with a success message or detailed error message in case of processing failure
+        operationId: Acknowledge notification
+        parameters:
+        - name: v-correlation-id
+          in: header
+          description: Correlation Id
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 36
+            minLength: 36
+            pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+            type: string
+            format: uuid
+          example: 24578e35-9bd2-238f-b4c2-0bc9ad9aed2b
+        - name: notificationId
+          in: path
+          description: Notification ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 10
+            type: integer
+            example: 123456
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcknowledgeRequest'
+              examples:
+                SuccessAcknowledgeRequest:
+                  value:
+                    httpStatusCode: "200"
+                    httpStatusMessage: OK
+                FailureAcknowledgeRequest:
+                  value:
+                    httpStatusCode: "500"
+                    httpStatusMessage: INTERNAL_SERVER_ERROR
+                    errors:
+                    - errorCode: ERROR_SYSTEM_ERROR
+                      errorMessage: A system error has occured.  Please contact support or try your request at a later time
+                      target: ""
+        responses:
+          "200":
+            description: OK
+            headers:
+              uuid:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AcknowledgeResponse'
+          default:
+            description: Default errors
+            headers:
+              v-correlation-id:
+                $ref: '#/components/headers/CorrelationId'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                examples:
+                  "400 Bad Request":
+                    $ref: '#/components/examples/400BadRequest'
+                  "401 Unauthorized":
+                    $ref: '#/components/examples/401Unauthorized'
+                  "403 Forbidden":
+                    $ref: '#/components/examples/403Forbidden'
+                  "404 Not Found":
+                    $ref: '#/components/examples/404NotFound'
+                  "410 Gone":
+                    $ref: '#/components/examples/410Gone'
+                  "415 UnSupported Media Type":
+                    $ref: '#/components/examples/415UnSupportedMediaType'
+                  "500 Server Error":
+                    $ref: '#/components/examples/500ServerError'
+  components:
+    schemas:
+      NewMerchantAccountNotification:
+        required:
+        - data
+        - eventCount
+        - eventType
+        - notificationId
+        - timestamp
+        type: object
+        properties:
+          eventType:
+            maxLength: 50
+            type: string
+            description: Name of the event
+            example: merchant.accounts.created
+          notificationId:
+            maxLength: 10
+            type: integer
+            description: The identifier associated with the event notification
+            example: 12345
+          eventCount:
+            maxLength: 23
+            type: integer
+            description: The count associated with the notification
+            example: 1
+          version:
+            maxLength: 3
+            type: string
+            description: The version of the event framework
+            example: "2.0"
+          createdAt:
+            maxLength: 20
+            minLength: 20
+            type: string
+            description: Notification created date and time
+            example: 2020-08-17T01:56:35.000-04:00
+          data:
+            description: This aggregate field includes details of merchantAccounts
+            allOf:
+            - $ref: '#/components/schemas/Data'
+      Data:
+        type: object
+        properties:
+          merchantAccounts:
+            type: array
+            description: "This aggregate field includes hierarchy, business, location and additional information related data of merchant"
+            items:
+              allOf:
+              - $ref: '#/components/schemas/Merchant'
+        description: This aggregate field includes merchant accounts related data
+      AdditionalInfo:
+        type: object
+        properties:
+          clientTrackingId:
+            maxLength: 255
+            type: string
+            description: Tracking ID of Client
+            example: "1234"
+          partnerLeadType:
+            maxLength: 255
+            type: string
+            description: Type of Partner Lead
+            example: Bank Lead
+          partnerPromotionCampaign:
+            maxLength: 255
+            type: string
+            description: Partner Promotion Campaign Code
+            example: Code234
+          partnerVipIndicator:
+            type: boolean
+            description: Indicator for VIP
+            example: true
+          partnerMarketRegion:
+            maxLength: 255
+            type: string
+            description: Partner Market Region
+            example: Arizona
+          partnerEmployeeOfficerCode:
+            maxLength: 50
+            type: string
+            description: Partner employee officer code
+            example: Officer Code 1
+          partnerEmployeeType:
+            maxLength: 80
+            type: string
+            description: Partner Employee Type
+            example: Employee Type 1
+          partnerEmployeeId:
+            maxLength: 16
+            type: string
+            description: Partner employee ID
+            example: "1234"
+          partnerEmployeeName:
+            maxLength: 80
+            type: string
+            description: Name of the partner employee
+            example: John Doe
+          partnerEmployeeRegion:
+            maxLength: 80
+            type: string
+            description: Partner Employee Region
+            example: ABC 123
+          partnerEmployeeBranch:
+            maxLength: 80
+            type: string
+            description: Partner Employee Branch
+            example: Atlanta
+          partnerEmployeeCostCenter:
+            maxLength: 80
+            type: string
+            description: Partner Employee Cost Center
+            example: Cost Center 1
+          partnerEmployeeOfficerCode2:
+            maxLength: 50
+            type: string
+            description: Partner employee officer code
+            example: Officer Code 2
+          partnerEmployeeType2:
+            maxLength: 255
+            type: string
+            description: Partner Employee Type
+            example: Employee Type 2
+          partnerEmployeeName2:
+            maxLength: 80
+            type: string
+            description: Name of the partner employee
+            example: Jane Doe
+          partnerEmployeeId2:
+            maxLength: 16
+            type: string
+            description: Partner employee ID
+            example: "4321"
+          partnerEmployeeRegion2:
+            maxLength: 80
+            type: string
+            description: Partner Employee Region
+            example: Atlanta
+          partnerEmployeeBranch2:
+            maxLength: 80
+            type: string
+            description: Partner Employee Branch
+            example: Atlanta
+          partnerEmployeeCostCenter2:
+            maxLength: 80
+            type: string
+            description: Partner Employee Cost Center
+            example: Cost Center 2
+          partnerEmployeeIndustry:
+            maxLength: 80
+            type: string
+            description: Partner Employee Industry
+            example: Services
+          partnerEmployeeRef:
+            maxLength: 80
+            type: string
+            description: Partner Employee Reference
+            example: Reference 1
+          partnerCustom1:
+            maxLength: 255
+            type: string
+            description: Partner Custom Data 1
+            example: data 1
+          partnerCustom2:
+            maxLength: 255
+            type: string
+            description: Partner Custom Data 2
+            example: data 2
+          partnerCustom3:
+            maxLength: 255
+            type: string
+            description: Partner Custom Data 3
+            example: data 3
+          partnerCustom4:
+            maxLength: 255
+            type: string
+            description: Partner Custom Data 4
+            example: data 4
+          partnerCustom5:
+            maxLength: 255
+            type: string
+            description: Partner Custom Data 5
+            example: data 5
+          partnerGroupID:
+            maxLength: 16
+            type: string
+            description: Partner Group ID
+            example: group 1
+          partnerLeadId:
+            maxLength: 50
+            type: string
+            description: Partner Lead ID
+            example: NA00123456
+          partnerMethod:
+            maxLength: 80
+            type: string
+            description: Partner Method
+            example: Method 1
+          partnerSourceDetails:
+            maxLength: 80
+            type: string
+            description: Partner Source Details
+            example: Source 1
+          partnerSalesAgentId:
+            maxLength: 80
+            type: string
+            description: Partner Sales Agent ID
+            example: A001234
+          partnerSalesAgentName:
+            maxLength: 80
+            type: string
+            description: Name of Partner Sales Agent
+            example: John R John
+      Products:
+        type: object
+        properties:
+          reviewTrackers:
+            description: Information on review trackers
+            allOf:
+            - $ref: '#/components/schemas/ReviewTrackers'
+          discountProgram:
+            description: Information on discount program
+            allOf:
+            - $ref: '#/components/schemas/DiscountProgram'
+          recruitingManager:
+            description: Information on recruting manager
+            allOf:
+            - $ref: '#/components/schemas/RecruitingManager'
+          getUpside:
+            description: Information on get upside
+            allOf:
+            - $ref: '#/components/schemas/GetUpside'
+      NetworkDetails:
+        type: object
+        properties:
+          optIn:
+            type: boolean
+            description: Indicator for Opted in or not
+            example: true
+          accountNumber:
+            maxLength: 21
+            type: string
+            description: Account Number
+            example: '********1399'
+      SalesPerson:
+        type: object
+        properties:
+          id:
+            maxLength: 8
+            type: string
+            description: Sales person id
+            example: U123456
+          name:
+            maxLength: 30
+            type: string
+            description: Sales person name
+            example: John Doe
+        description: This aggregate field includes details of sales person
+      pciData:
+        type: array
+        items:
+          $ref: '#/components/schemas/PCIDataInner'
+      CodeAndDescription:
+        type: object
+        properties:
+          code:
+            maxLength: 4
+            type: string
+            description: Identifier code
+            example: "10"
+          description:
+            maxLength: 255
+            type: string
+            description: Description of the code
+            example: DEPT.   STORES
+      ProductCodeShortLongDescription:
+        type: object
+        properties:
+          code:
+            maxLength: 20
+            type: string
+            description: Code associated with the object
+            example: RTRAK
+          shortDescription:
+            maxLength: 255
+            type: string
+            description: Short description associated with the object
+            example: REVIEWTRK
+          longDescription:
+            maxLength: 255
+            type: string
+            description: Long description associated with the object
+            example: REVIEW TRACKERS
+      PciScanData:
+        type: object
+        properties:
+          vulnerabilityScanningRequired:
+            maxLength: 1
+            type: string
+            description: Vulnerability Scanning Required
+            example: "N"
+          lastScanDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Last Scan Date
+            format: yyyy-MM-dd
+            example: 2021-07-24
+          pciValidated:
+            maxLength: 1
+            type: string
+            description: pci Validated
+            example: "N"
+          pciValidatedDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: pci Validated Date
+            format: yyyy-MM-dd
+            example: 2021-07-24
+      SaqData:
+        type: object
+        properties:
+          type:
+            maxLength: 8
+            type: string
+            description: Type
+            example: B
+          status:
+            maxLength: 1
+            type: string
+            description: Status
+            example: P
+          completedDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Completed Date
+            format: yyyy-MM-dd
+            example: 2021-07-24
+          statusDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: status Date
+            format: yyyy-MM-dd
+            example: 2021-07-24
+          nextDueDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Next Due Date
+            format: yyyy-MM-dd
+            example: 2021-07-24
+      Valutec:
+        required:
+        - groupId
+        type: object
+        properties:
+          groupId:
+            maxLength: 4
+            type: string
+            description: GroupId
+            example: "1010"
+          billingAccountNumber:
+            maxLength: 17
+            type: string
+            description: Billing Account Number
+            example: '********2311'
+          billingRoutingNumber:
+            maxLength: 9
+            type: string
+            description: Billing Routing Number
+            example: '*****2111'
+          settlementAccountNumber:
+            maxLength: 17
+            type: string
+            description: Settlement Account Number
+            example: '********4500'
+          settlementRoutingNumber:
+            maxLength: 9
+            type: string
+            description: Settlement Routing Number
+            example: '*****4511'
+          lastUpdatedDateTime:
+            maxLength: 29
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Record created date & timestamp in system
+            format: Using ISO 8601 yyyy-MM-dd'T'HH:mm:ssZ
+            example: 2021-05-18T01:56:35.000-04:00
+          enrollmentDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: VCS gift card enrollment date
+            format: yyyy-mm-dd
+            example: 2021-07-12
+          processingDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: VCS go live first transaction processing date
+            format: yyyy-mm-dd
+            example: 2021-10-12
+          closeDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: VCS Valutec optout date
+            format: yyyy-mm-dd
+            example: 2021-11-21
+      AcknowledgeRequest:
+        required:
+        - httpStatusCode
+        - httpStatusMessage
+        type: object
+        properties:
+          httpStatusCode:
+            maxLength: 3
+            type: string
+            description: Http response status Code
+            example: "200"
+          httpStatusMessage:
+            maxLength: 256
+            type: string
+            description: Http response status Message
+            example: OK
+          errors:
+            type: array
+            description: Error Message
+            items:
+              $ref: '#/components/schemas/Errors'
+        description: Acknowledge Request
+      AcknowledgeResponse:
+        required:
+        - httpStatusCode
+        - httpStatusMessage
+        type: object
+        properties:
+          httpStatusCode:
+            maxLength: 3
+            type: string
+            description: Http response status Code
+            example: "200"
+          httpStatusMessage:
+            maxLength: 256
+            type: string
+            description: Http response status Message
+            example: OK
+      ProductsThirdPartyIntegrationProducts:
+        type: object
+        properties:
+          productType:
+            description: Information on the product type
+            allOf:
+            - $ref: '#/components/schemas/ProductCodeShortLongDescription'
+          tierLevelcode:
+            maxLength: 1
+            type: string
+            description: code associated with the object
+            example: "1"
+            enum:
+            - "1"
+            - "2"
+            - "4"
+            - "5"
+            - "6"
+            - "7"
+            - "8"
+            - "9"
+          tierLevelDescription:
+            maxLength: 255
+            type: string
+            description: description associated with the object
+            example: ReviewTrackers
+            enum:
+            - Womply Bundled
+            - Womply BizShield
+            - Womply BizShield + Womply Insights(Upsell)
+            - Moneris Insights
+            - ReviewTrackers
+            - ReviewTrackers Upgrade-Starter
+            - ReviewTrackers Upgrade-Essential
+            - ReviewTrackers Upgrade-Platinum
+          tierChangedDate:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Tier changed date
+            format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+            example: 2020-08-17T01:56:35.000-04:00
+          optInDate:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Opt in date
+            format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+            example: 2020-08-17T01:56:35.000-04:00
+          optOutDate:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Opt out date
+            format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+            example: 2022-08-17T01:56:35.000-04:00
+        description: Details of third party integration products
+      ProductsBigCommerce:
+        type: object
+        properties:
+          tierLevelcode:
+            maxLength: 1
+            type: string
+            description: code associated with the object
+            example: "1"
+            enum:
+            - "1"
+            - "2"
+            - "4"
+            - "5"
+            - "6"
+            - "7"
+            - "8"
+            - "9"
+          tierLevelDescription:
+            maxLength: 42
+            type: string
+            description: description associated with the object
+            example: Womply Bundled
+            enum:
+            - Womply Bundled
+            - Womply BizShield
+            - Womply BizShield + Womply Insights(Upsell)
+            - Moneris Insights
+            - ReviewTrackers
+            - ReviewTrackers Upgrade-Starter
+            - ReviewTrackers Upgrade-Essential
+            - ReviewTrackers Upgrade-Platinum
+          tierChangedDate:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Tier changed date
+            format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+            example: 2022-08-17T01:56:35.000-04:00
+          optInDate:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Opt in date
+            format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+            example: 2022-08-17T01:56:35.000-04:00
+          optOutDate:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Opt out date
+            format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+            example: 2022-08-17T01:56:35.000-04:00
+          sku:
+            maxLength: 255
+            type: string
+            description: SKU
+            example: STORE-STANDARD-NP-MONTHLY
+          serviceCode:
+            maxLength: 6
+            type: string
+            description: Service Code
+            example: "12345"
+        description: Information on Big Commerce
+      PCIDataInner:
+        type: object
+        properties:
+          pciScanData:
+            type: object
+            description: Details on PCI Scan Data
+            allOf:
+            - $ref: '#/components/schemas/PciScanData'
+          saqData:
+            type: object
+            description: Details on SAQ Data
+            allOf:
+            - $ref: '#/components/schemas/SaqData'
+      Hierarchy:
+        type: object
+        properties:
+          salesOrganizationCode:
+            maxLength: 10
+            type: string
+            description: The identifier code that represents the entity value for the independent sales organization
+            example: "12"
+          salesOrganizationName:
+            maxLength: 30
+            type: string
+            description: The legal name of the independent sales organization
+            example: ABCD
+          salesChannelCode:
+            maxLength: 10
+            type: string
+            description: The identifier code that represents the entity value for the for the independent sales channel
+            example: "73"
+          salesChannelName:
+            maxLength: 30
+            type: string
+            description: The legal name of the independent sales channel
+            example: VANT
+          partnerGroupId:
+            maxLength: 16
+            type: string
+            description: The identifier associated with the partner group
+            example: "41"
+          partnerGroupName:
+            maxLength: 50
+            type: string
+            description: The legal name that represents the entity value for the partner group
+            example: VANT
+          nationalCode:
+            maxLength: 7
+            type: string
+            description: The identifier code that represents the region where the business establishment is present
+            example: NATNL
+          nationalName:
+            maxLength: 30
+            type: string
+            description: The legal name of the region where the business establishment is present
+            example: ABC Bank
+          superChainCode:
+            maxLength: 10
+            type: string
+            description: TThe identifier code that represents the group of related chains of the partner
+            example: DA012
+          superChainName:
+            maxLength: 30
+            type: string
+            description: The legal name that represents the group of related chains of the partner
+            example: ABC CORP
+          branchCode:
+            maxLength: 10
+            type: string
+            description: The identifier code that represents the entity value of the branch
+            example: "9999"
+          branchName:
+            maxLength: 30
+            type: string
+            description: The legal name that represents the entity value of the branch
+            example: SAP 123
+          divisionCode:
+            maxLength: 3
+            type: string
+            description: "The Division Number is a hierarchy level that enables merchants to roll-up child entities for Stores / Locations into different groups under a Chain. The Division Code is an optional hierarchy level but if created, is required for all child entities under the Division Number."
+            example: DIV
+          divisionName:
+            maxLength: 30
+            type: string
+            description: The name associated with a given partner division
+            example: My division Name
+          chainCode:
+            maxLength: 6
+            type: string
+            description: The identifier code that represents the entity value of the chain
+            example: 0X1234
+          chainName:
+            maxLength: 25
+            type: string
+            description: The legal name that represents the entity value for the chain
+            example: My Chain Name
+          storeNumber:
+            maxLength: 9
+            type: string
+            description: The identifier code of a store under a given partner chain. Can store alphanumber value when creating the store
+            example: "000000001"
+          storeName:
+            maxLength: 40
+            type: string
+            description: The legal name that represents the entity value for the store
+            example: My Store Name
+          merchantId:
+            maxLength: 10
+            type: string
+            description: "The Merchant hierarchy level is the last level in the Vertical Hierarchy. MID is the unique identifier assigned for a processing location, business type, MCC Code that requires a specific value to define merchant authorizations, settlement, reporting, pricing and billing levels."
+            example: "1234567890"
+          merchantName:
+            maxLength: 30
+            type: string
+            description: The legal name that represents the entity value for the merchant
+            example: Merchant Name
+        description: This aggregate field includes hierarchy data
+      Business:
+        required:
+        - dbaName
+        type: object
+        properties:
+          chainCode:
+            maxLength: 6
+            type: string
+            description: The identifier code that represents the entity value of the chain
+            example: 0X1234
+          chainAcro:
+            maxLength: 4
+            type: string
+            description: Acronym used for billing purpose
+            example: ABCD
+          createdDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Merchant created date. Using ISO 8601 'yyyy-mm-dd'
+            format: date
+            example: 2021-07-24
+          legalName:
+            maxLength: 50
+            type: string
+            description: The official name of the person or entity that owns the business.
+            example: Your Company Legal Name
+          dbaName:
+            maxLength: 50
+            type: string
+            description: A pseudonym used by companies that do not operate under their registered company name.
+            example: Your Company DBA Name
+          partners:
+            type: array
+            description: Information about the partner
+            items:
+              allOf:
+              - $ref: '#/components/schemas/Partners'
+          federalTaxId:
+            maxLength: 9
+            minLength: 9
+            pattern: "^\\d{9}$"
+            type: string
+            description: AKA Employer Identification Number (EIN). An identifying number used for tax purposes.
+            example: '******1234'
+          ownershipType:
+            maxLength: 15
+            type: string
+            description: Type of Ownership
+            example: SOLE PROPRIETOR
+            enum:
+            - GOVERNMENT
+            - SOLE PROPRIETOR
+            - FIN INSTITUTION
+            - CORPORATION
+            - PARTNERSHIP
+            - CORP NO UPG
+            - LLC
+            - NON-PROFIT
+            - ESTATE/TRUST
+            - INTRNL ORG
+            - MEDICAL CORP
+            - LEGAL CORP
+          productServiceSold:
+            maxLength: 40
+            minLength: 1
+            pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+            type: string
+            description: 'Type of goods or services sold.  '
+            example: SHOES
+          industryType:
+            maxLength: 7
+            type: string
+            description: Type of the industry
+            example: LODGING
+            enum:
+            - LODGING
+            - RETAIL
+            - LNGDINE
+            - SERVICE
+            - BANK
+            - OTHER
+          establishedDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of business establishment. Using ISO 8601 'yyyy-mm-dd'
+            format: date
+            example: 1990-10-24
+          website:
+            maxLength: 80
+            type: string
+            description: Website URL link
+            format: url
+            example: https://www.website.com
+          contractTermInMonths:
+            maximum: 99
+            minimum: 1
+            type: integer
+            description: Length of the contract
+            example: 60
+          numberOfLocations:
+            maximum: 9999
+            minimum: 1
+            type: integer
+            description: Total number of location under this business
+            example: 5
+          currentlyProcessing:
+            type: boolean
+            description: Current processing status
+            example: false
+          closedDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Using ISO 8601 'yyyy-mm-dd'
+            format: date
+            example: 2021-08-24
+          billingAccountType:
+            description: This aggregate field includes billing code and its description.
+            allOf:
+            - $ref: '#/components/schemas/CodeAndDescription'
+          emvEnabledDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Using ISO 8601 'yyyy-mm-dd'
+            format: date
+            example: 2021-08-24
+          merchantPartnerAcctId:
+            maxLength: 5
+            type: string
+            description: Partner account ID
+            example: "12345"
+          pciVendorSetup:
+            description: This aggregate field includes PCI Vendor Setup data
+            allOf:
+            - $ref: '#/components/schemas/BusinessPciVendorSetup'
+          securityProducts:
+            description: This aggregate field includes security products data
+            allOf:
+            - $ref: '#/components/schemas/BusinessSecurityProducts'
+          salesPerson:
+            description: This aggregate field includes sales person data
+            allOf:
+            - $ref: '#/components/schemas/SalesPerson'
+          customerServiceContact:
+            description: This aggregate field includes customer service contact data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalContact'
+          primaryContact:
+            description: This aggregate field includes primary contact data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalContact'
+          chargebackContact:
+            description: This aggregate field includes charge back contact data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalContact'
+          pciContact:
+            description: This aggregate field includes PCI contact data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalContact'
+          physicalAddress:
+            description: This aggregate field includes physical address data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalAddress'
+          mailingAddress:
+            description: This aggregate field includes mailing address data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalAddress'
+          billingDebitAddress:
+            description: This aggregate field includes billing debit address data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalAddress'
+          owners:
+            type: array
+            description: Information on the Owners
+            items:
+              allOf:
+              - $ref: '#/components/schemas/ReadOwner'
+          guarantors:
+            type: array
+            description: Information on the Guarantors
+            items:
+              allOf:
+              - $ref: '#/components/schemas/ReadGuarantor'
+        description: This aggregate field includes business data
+      Merchant:
+        type: object
+        properties:
+          hierarchy:
+            description: This aggregate field includes hierarchy data
+            allOf:
+            - $ref: '#/components/schemas/Hierarchy'
+          business:
+            description: This aggregate field includes business data
+            allOf:
+            - $ref: '#/components/schemas/Business'
+          location:
+            description: This aggregate field includes location data
+            allOf:
+            - $ref: '#/components/schemas/Location'
+          additionalInfo:
+            description: This aggregate field includes additional information
+            allOf:
+            - $ref: '#/components/schemas/AdditionalInfo'
+        description: "This aggregate field includes hierarchy, business, location and additional information related data of merchant"
+      ReadOwner:
+        required:
+        - addressLine1
+        - city
+        - country
+        - firstName
+        - lastName
+        - postalCode
+        - type
+        type: object
+        properties:
+          type:
+            maxLength: 21
+            type: string
+            description: Required.
+            example: OWNER 1 CONTACT
+            enum:
+            - Owner 1 Contact
+            - Owner 2 Contact
+            - Owner 3 Contact
+            - Owner 4 Contact
+            - Control Owner Contact
+          title:
+            $ref: '#/components/schemas/Title'
+          firstName:
+            $ref: '#/components/schemas/FirstName'
+          middleInitial:
+            $ref: '#/components/schemas/MiddleInitial'
+          lastName:
+            $ref: '#/components/schemas/LastName'
+          ssn:
+            $ref: '#/components/schemas/SSN'
+          dob:
+            $ref: '#/components/schemas/DOB'
+          email:
+            $ref: '#/components/schemas/Email'
+          phoneNumber:
+            $ref: '#/components/schemas/PhoneNumber'
+          phoneNumberExt:
+            $ref: '#/components/schemas/PhoneNumberExt'
+          phoneType:
+            $ref: '#/components/schemas/PhoneType'
+          alternatePhone:
+            $ref: '#/components/schemas/AlternatePhone'
+          alternatePhoneType:
+            $ref: '#/components/schemas/AlternatePhoneType'
+          faxNumber:
+            $ref: '#/components/schemas/FaxNumber'
+          OwnershipPercentage:
+            $ref: '#/components/schemas/OwnershipPercentage'
+          addressLine1:
+            $ref: '#/components/schemas/AddressLine1'
+          addressLine2:
+            $ref: '#/components/schemas/AddressLine2'
+          city:
+            $ref: '#/components/schemas/City'
+          state:
+            $ref: '#/components/schemas/State'
+          country:
+            $ref: '#/components/schemas/Country'
+          postalCode:
+            $ref: '#/components/schemas/PostalCode'
+          postalCodeExtension:
+            $ref: '#/components/schemas/PostalCodeExtension'
+      Title:
+        maxLength: 255
+        minLength: 1
+        pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+        type: string
+        description: Required for AMEX acquired merchants otherwise optional.
+        example: President
+      PhoneType:
+        maxLength: 8
+        type: string
+        description: Phone type.
+        example: Mobile
+        enum:
+        - Mobile
+        - Landline
+      AlternatePhone:
+        maxLength: 10
+        pattern: "^[0-9]{10}$"
+        type: string
+        description: 10-digit alternate phone number of the format  1234567890.
+        example: "1234567890"
+      AlternatePhoneType:
+        maxLength: 10
+        type: string
+        description: Alternate phone type.
+        example: Mobile
+        enum:
+        - Mobile
+        - Landline
+      OwnershipPercentage:
+        maximum: 100
+        minimum: 0
+        type: integer
+        description: Ownership stake percentage.
+        example: 10
+      DOB:
+        maxLength: 10
+        pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+        type: string
+        description: Date of Birth (CCYY-MM-DD). Must be at least 18 years old.
+        format: date
+        example: 1954-01-01
+      SSN:
+        maxLength: 9
+        minLength: 9
+        pattern: "^[0-9]{9}$"
+        type: string
+        description: Social security number. Dashes not included.
+        example: '*****1234'
+      Location:
+        type: object
+        properties:
+          storeNumber:
+            maxLength: 9
+            type: string
+            description: "Store identifier, you can store alphanumber value when creating the store"
+            example: "000000001"
+          storeName:
+            maxLength: 40
+            type: string
+            description: Name of the store
+            example: My Store Name
+          merchantId:
+            maxLength: 10
+            type: string
+            description: Unique identifier assigned for a processing location
+            example: "1234567890"
+          hostMerchantNumber:
+            maxLength: 30
+            type: string
+            description: Merchant number associated with host
+            example: "123456789"
+          billingDescriptor:
+            maxLength: 30
+            type: string
+            description: Name of the Merchant
+            example: Merchant at Stonegate
+          mcc:
+            maxLength: 4
+            type: string
+            description: Merchant Category Code
+            example: "5812"
+          mccDescription:
+            maxLength: 15
+            type: string
+            description: Description of the merchant category code
+            example: Lodging
+          seasonalMerchant:
+            type: boolean
+            description: Identifier for the merchant business being seasonal or not
+            example: true
+          activeMonths:
+            maxLength: 3
+            type: array
+            description: List of Active Months for merchant business
+            example:
+            - AUG
+            - SEP
+            - NOV
+            items:
+              type: string
+              enum:
+              - JAN
+              - FEB
+              - MAR
+              - APR
+              - MAY
+              - JUN
+              - JUL
+              - AUG
+              - SEP
+              - OCT
+              - NOV
+              - DEC
+          lastBatchActivityDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of last batch activity at merchant level
+            format: date
+            example: 2021-08-30
+          status:
+            maxLength: 255
+            type: string
+            description: Status of the merchant
+            example: Open
+          alternateMerchantId:
+            maxLength: 30
+            type: string
+            description: Alternate identifier for the merchant
+            example: "123456789"
+          cardSwipedIndicator:
+            type: boolean
+            description: Indicator for card swiping
+            example: true
+          ecomIndicator:
+            type: boolean
+            description: Indicator for ecom business
+            example: true
+          emvIndicator:
+            type: boolean
+            description: Indicator for EMV acceptance
+            example: false
+          mastercardIca:
+            maxLength: 6
+            type: string
+            description: Master Card Inter Bank Association Number
+            example: "127684"
+          motoIndicator:
+            type: boolean
+            description: Indicator for card not present transations
+            example: true
+          p2peIndicator:
+            type: boolean
+            description: Indicator for Point to Point Encryption
+            example: false
+          p2peServiceLevel:
+            type: boolean
+            description: Indicator for Service level Point to Point Encryption
+            example: true
+          thirdPartyMerchantId:
+            maxLength: 30
+            type: string
+            description: Third Party Merchant ID
+            example: "123456789"
+          primaryContact:
+            description: This aggregate field includes primary contact data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalContact'
+          physicalAddress:
+            description: This aggregate field includes physical address data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalAddress'
+          deploymentContact:
+            description: This aggregate  field includes deployment contact data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalContact'
+          deploymentAddress:
+            description: This aggregate field includes deployment address data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalAddress'
+          paymentMethods:
+            description: This aggregate field includes payment methods data
+            allOf:
+            - $ref: '#/components/schemas/PaymentMethods'
+          products:
+            description: This aggregate field includes products data
+            allOf:
+            - $ref: '#/components/schemas/Products'
+          acceleratedFunding:
+            description: This aggregate field includes accelerated funding data
+            allOf:
+            - $ref: '#/components/schemas/AcceleratedProducts'
+        description: This aggregate field includes location details
+      ReadGuarantor:
+        required:
+        - addressLine1
+        - city
+        - country
+        - firstName
+        - lastName
+        - postalCode
+        - type
+        type: object
+        properties:
+          type:
+            type: string
+            description: Required.
+            example: Guarantor 1 Contact
+            enum:
+            - Guarantor 1 Contact
+            - Guarantor 2 Contact
+          title:
+            $ref: '#/components/schemas/Title'
+          firstName:
+            $ref: '#/components/schemas/FirstName'
+          middleInitial:
+            $ref: '#/components/schemas/MiddleInitial'
+          lastName:
+            $ref: '#/components/schemas/LastName'
+          ssn:
+            $ref: '#/components/schemas/SSN'
+          dob:
+            $ref: '#/components/schemas/DOB'
+          email:
+            $ref: '#/components/schemas/Email'
+          phoneNumber:
+            $ref: '#/components/schemas/PhoneNumber'
+          phoneNumberExt:
+            $ref: '#/components/schemas/PhoneNumberExt'
+          phoneType:
+            $ref: '#/components/schemas/PhoneType'
+          alternatePhone:
+            $ref: '#/components/schemas/AlternatePhone'
+          alternatePhoneType:
+            $ref: '#/components/schemas/AlternatePhoneType'
+          faxNumber:
+            $ref: '#/components/schemas/FaxNumber'
+          addressLine1:
+            $ref: '#/components/schemas/AddressLine1'
+          addressLine2:
+            $ref: '#/components/schemas/AddressLine2'
+          city:
+            $ref: '#/components/schemas/City'
+          state:
+            $ref: '#/components/schemas/State'
+          country:
+            $ref: '#/components/schemas/Country'
+          postalCode:
+            $ref: '#/components/schemas/PostalCode'
+          postalCodeExtension:
+            $ref: '#/components/schemas/PostalCodeExtension'
+      FirstName:
+        maxLength: 15
+        minLength: 1
+        pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+        type: string
+        description: First name. Region based validations will be applied to this field.
+        example: John
+      MiddleInitial:
+        maxLength: 1
+        minLength: 1
+        pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+        type: string
+        description: Middle initial.
+        example: M
+      LastName:
+        maxLength: 25
+        minLength: 1
+        pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+        type: string
+        description: Last name. Region based validations will be applied to this field.
+        example: Doe
+      PhoneNumber:
+        maxLength: 10
+        pattern: "^[0-9]{10}$"
+        type: string
+        description: 10-digit phone number of the format  5131234567.
+        example: "5139004357"
+      PhoneNumberExt:
+        maxLength: 8
+        pattern: "([0-9]{8})$"
+        type: string
+        description: Phone number extension. Up to 8 digits of the format 12345678.
+        example: "12345678"
+      Email:
+        maxLength: 64
+        pattern: "(\\\\b[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\\\.)+[A-Za-z0-9]{2,}\\\\b{0,64})"
+        type: string
+        description: Email address of the contact. Must have @ and a .
+        example: youremail@gmail.com
+      FaxNumber:
+        maxLength: 10
+        pattern: "^[0-9]{10}$"
+        type: string
+        description: 10-digit fax number of the format 5131234567
+        example: "5139003344"
+      AddressLine1:
+        maxLength: 40
+        minLength: 1
+        pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+        type: string
+        description: "Address Line 1. Field for house number, street and direction."
+        example: 4355 N Coalwhipe St.
+      AddressLine2:
+        maxLength: 40
+        minLength: 1
+        pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+        type: string
+        description: "Address Line 2. Field for apartment or suite numbers, etc."
+        example: suite 104
+      City:
+        maxLength: 28
+        minLength: 1
+        pattern: "^[a-zA-Z0-9 \\p{P}\\p{S}]+$"
+        type: string
+        description: Name of the City
+        example: Denver
+      State:
+        maxLength: 2
+        type: string
+        description: "Valid state, commonwealth, and territory codes are allowed."
+        example: CO
+      Country:
+        maxLength: 2
+        type: string
+        description: Name of Country.
+        example: US
+      County:
+        maxLength: 20
+        type: string
+        description: Name of County.
+        example: Douglas
+      Timezone:
+        maxLength: 3
+        type: string
+        description: Timezone
+        example: MST
+      PostalCode:
+        maxLength: 5
+        minLength: 5
+        pattern: "^[a-zA-Z0-9]"
+        type: string
+        description: Postal code / zip code. The postal code must be valid for the address' country code.
+        example: "80237"
+      InternationalPostalCode:
+        maxLength: 10
+        minLength: 5
+        pattern: "^[a-zA-Z0-9]"
+        type: string
+        description: International Postal code / zip code. The international postal code must be valid for the address'.
+        example: H4N 1K4
+      PostalCodeExtension:
+        maxLength: 4
+        minLength: 4
+        pattern: "^[0-9]{4}$"
+        type: string
+        description: Postal code / zip code extension.  The postal code extension must be valid for the address'.
+        example: "1384"
+      PaymentMethods:
+        type: object
+        properties:
+          acceptedCards:
+            maxLength: 10
+            type: array
+            description: Accepted card types
+            items:
+              type: string
+              example: "[\"VISA\",\"MASTERCARD\",\"AMEX\",\"DISCOVER\"]"
+              enum:
+              - VISA
+              - MASTERCARD
+              - AMEX
+              - DISCOVER
+          valutecEnabled:
+            type: boolean
+            description: Indicator for Valuetec enablement
+            example: true
+          valutec:
+            description: This aggregate field includes valutec related data
+            allOf:
+            - $ref: '#/components/schemas/Valutec'
+          premierIssueGiftCardEnabled:
+            type: boolean
+            description: This flag will let us know if a merchant has opted for premier issue gift card or not.
+            example: true
+          svsGiftCardEnabled:
+            type: boolean
+            description: This flag will let us know if a merchant has opted for SVS gift card or not.
+            example: true
+          additionalAcceptedCardInfo:
+            description: This aggregate field includes additional accepted card data
+            allOf:
+            - $ref: '#/components/schemas/AdditionalAcceptedCardInfo'
+      AcceleratedProducts:
+        type: object
+        properties:
+          everdayFunding:
+            description: This aggregate field includes everyday funding data
+            allOf:
+            - $ref: '#/components/schemas/EverdayFundingInfo'
+          paymentAccelerator:
+            description: This aggregate field includes payment accelerator data
+            allOf:
+            - $ref: '#/components/schemas/PaymentAcceleraterDetail'
+      EverdayFundingInfo:
+        type: object
+        properties:
+          statusCode:
+            maxLength: 1
+            type: string
+            description: Direct Funds Transfer Status code
+            example: R
+            enum:
+            - F
+            - K
+            - "N"
+            - R
+          statusDescription:
+            maxLength: 12
+            type: string
+            description: "Status description F-Pending, N-Not Enrolled, R-Active, K-Disabled by settlement"
+            example: ACTIVE
+            enum:
+            - ACTIVE
+            - DISABLED
+            - PENDING
+            - NOT ENROLLED
+          lastUpdatedDateTime:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Status change date and time
+            format: Using ISO 8601 yyyy-MM-dd'T'HH:mm:ssZ
+            example: 2021-05-20T01:56:35.000-04:00
+        description: EverdayFunding product enrollment status
+      PaymentAcceleraterDetail:
+        type: object
+        properties:
+          statusCode:
+            maxLength: 1
+            type: string
+            description: Payment Accelerator status code.
+            example: Q
+            enum:
+            - Q
+            - W
+            - X
+            - "N"
+          statusDescription:
+            maxLength: 12
+            type: string
+            description: Payment Accelerator status code description.
+            example: PENDING
+            enum:
+            - PENDING
+            - ACTIVE
+            - DISABLED
+            - NOT ENROLLED
+          lastUpdatedDateTime:
+            maxLength: 26
+            pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}:[0-9]{6}"
+            type: string
+            description: Status update date in UTC format
+            format: Using ISO 8601 yyyy-MM-dd'T'HH:mm:ssZ
+            example: 2021-04-19T01:56:35.000-04:00
+          splitPercentageToBankAccount:
+            maximum: 95
+            minimum: 0
+            type: number
+            description: "Settlement percentage to bank account, remaining goes to Prepay card"
+            example: 21
+      Partners:
+        type: array
+        description: Information about the partners
+        items:
+          allOf:
+          - $ref: '#/components/schemas/PartnersDetails'
+      PartnersDetails:
+        type: object
+        properties:
+          type:
+            maxLength: 255
+            type: string
+            description: Type of the partner
+            example: Dealer partner
+          id:
+            maxLength: 20
+            type: string
+            description: Identifier of the partner
+            example: "11"
+          name:
+            maxLength: 50
+            type: string
+            description: Name of the partner
+            example: Vant
+        description: Information about the partners
+      AdditionalContact:
+        required:
+        - email
+        - firstName
+        - lastName
+        type: object
+        properties:
+          firstName:
+            $ref: '#/components/schemas/FirstName'
+          middleInitial:
+            $ref: '#/components/schemas/MiddleInitial'
+          lastName:
+            $ref: '#/components/schemas/LastName'
+          phoneNumber:
+            $ref: '#/components/schemas/PhoneNumber'
+          phoneNumberExt:
+            $ref: '#/components/schemas/PhoneNumberExt'
+          email:
+            $ref: '#/components/schemas/Email'
+          faxNumber:
+            $ref: '#/components/schemas/FaxNumber'
+        description: This aggregate field includes details of contacts
+      AdditionalAddress:
+        required:
+        - addressLine1
+        - city
+        - postalCode
+        - state
+        - type
+        type: object
+        properties:
+          addressLine1:
+            $ref: '#/components/schemas/AddressLine1'
+          addressLine2:
+            $ref: '#/components/schemas/AddressLine2'
+          city:
+            $ref: '#/components/schemas/City'
+          county:
+            $ref: '#/components/schemas/County'
+          state:
+            $ref: '#/components/schemas/State'
+          country:
+            $ref: '#/components/schemas/Country'
+          postalCode:
+            $ref: '#/components/schemas/PostalCode'
+          internationalPostalCode:
+            $ref: '#/components/schemas/InternationalPostalCode'
+          postalCodeExtension:
+            $ref: '#/components/schemas/PostalCodeExtension'
+          timezone:
+            $ref: '#/components/schemas/Timezone'
+        description: This aggregate field includes details of address
+      FastAccessFundingAccount:
+        type: object
+        properties:
+          status:
+            maxLength: 1
+            type: string
+            description: Status of the Fast Access Funding
+            example: O
+          cardholderName:
+            maxLength: 50
+            type: string
+            description: Name of the card holder
+            example: John Doe
+          cardNumber:
+            maxLength: 19
+            type: string
+            description: Card Number
+            example: XXXXXXXXX8586
+          cardExpirationDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Using ISO 8601 'yyyy-mm-dd'
+            format: date
+            example: 2025-01-31
+      FundingAccounts:
+        type: object
+        properties:
+          fastAccessAccount:
+            description: This aggregate field includes details of fast access account
+            allOf:
+            - $ref: '#/components/schemas/FastAccessFundingAccount'
+          bankAccount:
+            description: This aggregate field includes details of bank account
+            allOf:
+            - $ref: '#/components/schemas/BankAccount'
+      BankAccount:
+        type: object
+        properties:
+          ddaType:
+            maxLength: 8
+            type: string
+            description: Direct deposit account type.
+            example: CHECKING
+            enum:
+            - CHECKING
+            - SAVINGS
+          achType:
+            maxLength: 19
+            type: string
+            description: Check deposit type
+            example: CCOMMERICAL CHECKING
+            enum:
+            - COMMERCIAL CHECKING
+            - PRIVATE CHECKING
+          accountNumber:
+            maxLength: 17
+            minLength: 1
+            type: string
+            description: Direct deposit account number.  Maximum 17 characters.
+            example: '*****1545'
+          routingNumber:
+            maxLength: 9
+            minLength: 9
+            type: string
+            description: Bank routing number. Must be 9 characters and pass ACH Mod-10 validation.
+            example: "102000076"
+          bankName:
+            maxLength: 36
+            type: string
+            description: Bank name used for credit card processing services.
+            example: Bank name
+      AdditionalAcceptedCardInfo:
+        type: object
+        properties:
+          amex:
+            $ref: '#/components/schemas/Amex'
+          discover:
+            $ref: '#/components/schemas/Discover'
+          pinOrDebit:
+            type: boolean
+            description: Indicator for Pin or Debit
+            example: true
+          WIC:
+            type: boolean
+            description: Indicator for WIC
+            example: true
+          valutec:
+            description: This aggregate field includes details of valutec gift cards
+            allOf:
+            - $ref: '#/components/schemas/Valutec'
+          ebt:
+            description: This aggregate field includes details of EBT
+            allOf:
+            - $ref: '#/components/schemas/NetworkDetails'
+          jcb:
+            description: This aggregate field includes details of JCB
+            allOf:
+            - $ref: '#/components/schemas/NetworkDetails'
+          masterCard:
+            description: This aggregate field includes details of master card
+            allOf:
+            - $ref: '#/components/schemas/NetworkDetails'
+          visa:
+            description: This aggregate field includes details of visa
+            allOf:
+            - $ref: '#/components/schemas/NetworkDetails'
+      Amex:
+        type: object
+        properties:
+          program:
+            maxLength: 7
+            type: string
+            description: Name of the program
+            example: OptBlue
+            enum:
+            - OptBlue
+            - ESA
+          accountNumber:
+            maxLength: 21
+            type: string
+            description: Amex account number
+            example: '*********9879'
+        description: This aggregate field includes details of Amex
+      Discover:
+        type: object
+        properties:
+          discoveredAcquired:
+            type: boolean
+            description: Indicator for discover card
+            example: true
+          accountNumber:
+            maxLength: 21
+            type: string
+            description: Discover account number
+            example: '*****1089'
+        description: This aggregate field includes details of discover
+      ReviewTrackers:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            description: Indicator for review trackers enablement
+            example: true
+          program:
+            maxLength: 33
+            type: string
+            description: Name of the program
+            example: REVIEW TRACKERS
+            enum:
+            - REVIEW TRACKERS
+            - REVIEW TRACKERS UPGRADE-STARTER
+            - REVIEW TRACKERS UPGRADE-ESSENTIAL
+            - REVIEW TRACKERS UPGRADE-PLATINUM
+          optInDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt In
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          optOutDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt Out
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          billingStartDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Billing Start Date
+            format: YYYY-mm-DD
+            example: 2020-11-01
+      DiscountProgram:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            description: Indicator for discount program enablement
+            example: true
+          program:
+            maxLength: 20
+            type: string
+            description: Name of the program
+            example: FIS DISCOUNT PROGRAM
+            enum:
+            - FIS DISCOUNT PROGRAM
+          optInDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt In
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          optOutDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt Out
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          billingStartDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Billing Start Date
+            format: YYYY-mm-DD
+            example: 2020-11-01
+      RecruitingManager:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            description: Indicator for recruiting manager enablement
+            example: true
+          program:
+            maxLength: 22
+            type: string
+            description: Name of the program
+            example: FIS RECRUITING MANAGER
+            enum:
+            - FIS RECRUITING MANAGER
+          optInDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt In
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          optOutDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt Out
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          billingStartDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Billing Start Date
+            format: YYYY-mm-DD
+            example: 2020-11-01
+      GetUpside:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            description: Indicator for Get Upside enablement
+            example: true
+          program:
+            maxLength: 9
+            type: string
+            description: Name of the program
+            example: GETUPSIDE
+            enum:
+            - GETUPSIDE
+          optInDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt Out
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          optOutDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Date of Opt Out
+            format: YYYY-mm-DD
+            example: 2020-10-08
+          billingStartDate:
+            maxLength: 10
+            pattern: "[0-9]{4}-[0-2]{2}-[0-2]{2}"
+            type: string
+            description: Billing Start Date
+            format: YYYY-mm-DD
+            example: 2020-11-01
+      BusinessPciVendorSetupSponsor:
+        type: object
+        properties:
+          code:
+            maxLength: 2
+            type: string
+            description: Identifier code for the sponsor
+            example: TW
+          description:
+            maxLength: 255
+            type: string
+            description: Description of the code
+            example: DEPT.STORES
+        description: This aggregate field includes PCI Setup related data for sponsor
+      BusinessPciVendorSetup:
+        type: object
+        properties:
+          emailSuppressionIndicator:
+            type: boolean
+            description: Indicator for Email Suppression
+            example: false
+          groupId:
+            maxLength: 30
+            type: string
+            description: Group identifier
+            example: "121216543"
+          level:
+            maxLength: 2
+            type: number
+            description: Level for PCI Vendor Setup
+            example: 4
+          sponsor:
+            $ref: '#/components/schemas/BusinessPciVendorSetupSponsor'
+        description: This aggregate field includes PCI Setup related data
+      BusinessSecurityProductsSaferPayments:
+        type: object
+        properties:
+          enabled:
+            type: boolean
+            description: Indicator for Safer Payments Enablement
+            example: true
+          program:
+            maxLength: 35
+            type: string
+            description: Name of the Program
+            example: SaferPayments Basic
+            enum:
+            - No PCI product
+            - SaferPayments Basic
+            - SaferPayments Managed
+            - Old PCI product using Sysnet vendor
+          programCode:
+            maxLength: 1
+            type: string
+            description: Identifier code of the program
+            example: "Y"
+            enum:
+            - "N"
+            - "Y"
+            - P
+            - O
+        description: This aggregate field includes details of Saferpayment Security product
+      BusinessSecurityProducts:
+        type: object
+        properties:
+          saferPayments:
+            $ref: '#/components/schemas/BusinessSecurityProductsSaferPayments'
+        description: This aggregate field includes details of Security products
+      ErrorResponse:
+        type: object
+        properties:
+          errors:
+            type: array
+            description: Error Info
+            example: Notification detail cannot be retrieved for the acknowledge
+            items:
+              $ref: '#/components/schemas/Errors'
+      Errors:
+        type: object
+        properties:
+          errorMessage:
+            maxLength: 256
+            type: string
+            description: Error Info
+            example: Error message here.
+          target:
+            maxLength: 256
+            type: string
+            description: Target
+            example: Target
+    examples:
+      "400BadRequest":
+        description: Bad Request
+        value:
+          errors:
+          - errorCode: ERROR_INVALID_REQUEST
+            errorMessage: Missing NotificationId in the request
+      "401Unauthorized":
+        value:
+          errors:
+          - errorCode: ERROR_AUTHORIZATION_SAML
+            errorMessage: Invalid API key. Please ensure the key is accurate and authorization
+      "403Forbidden":
+        value:
+          errors:
+          - errorCode: ERROR_AUTHORIZATION_SAML
+            errorMessage: The credential provided failed to authorize
+      "404NotFound":
+        value:
+          errors:
+          - errorCode: ERROR_NOTFOUND
+            errorMessage: Notificationid not found
+      "410Gone":
+        value:
+          errors:
+          - errorCode: ERROR_RESOURCE_NO_LONGER_AVAILABLE
+            errorMessage: Notification detail cannot be retrieved for the acknowledged/expired NotificationId
+      "415UnSupportedMediaType":
+        value:
+          errors:
+          - errorCode: ERROR_VALIDATION_REQUEST_STRUCTURE
+            errorMessage: text/xml is not supported in the request body.
+      "500ServerError":
+        value:
+          errors:
+          - errorCode: ERROR_SYSTEM_ERROR
+            errorMessage: A system error has occured.  Please contact support or try your request at a later time.
+    headers:
+      CorrelationId:
+        description: Unique correlation Id.
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+        example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+    securitySchemes:
+      api_key:
+        type: apiKey
+        description: License format is WORLDPAY license="xxxx"
+        name: Authorization
+        in: header
+  

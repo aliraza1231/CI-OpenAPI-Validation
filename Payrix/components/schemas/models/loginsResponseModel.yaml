@@ -1,0 +1,179 @@
+properties:
+  id: {$ref: ../id.yaml}
+  created: {$ref: ../created.yaml}
+  modified: {$ref: ../modified.yaml}
+  creator: {$ref: ../creator.yaml}
+  modifier: {$ref: ../modifier.yaml}
+  login: {type: string, description: The identifier of the Login.}
+  lastLogin: {type: string, description: The timestamp when this Login last
+      logged in to the API., format: date-time}
+  username: {type: string, description: "The username associated with this Login. \n\
+      This field is stored as a text string, all lowercase,\
+      \ and must be between 0 and 50 characters long."}
+  password: {type: string, description: "The password associated with this Login. \n\
+      This field is stored as a text string and must be between\
+      \ 0 and 100 characters long."}
+  ssoId: { type: string, description: "The SSO (Single Sign On) ID setup for the\
+      \ login. \nThis field is stored as a text string and must\
+      \ be between 1 and 100 characters long."}
+  first: {type: string, description: The first name associated with this Login.}
+  middle: {type: string, description: The middle name associated with this
+      Login.}
+  last: {type: string, description: The last name associated with this Login.}
+  email: {type: string, description: The email address associated with this
+      Login.}
+  fax: {type: string, description: "The fax number associated with this Login.\
+      \ \nThis field is stored as a text string and must be\
+      \ between 10 and 15 characters long."}
+  phone: {type: string, description: "The phone number associated with this Login.\
+      \ \nThis field is stored as a text string and must be\
+      \ between 10 and 15 characters long."}
+  country: {type: string, description: "The country associated with this Customer.\
+      \ \nValid values for this field is the 3-letter ISO code\
+      \ for the country.",
+    enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+      ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+      BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+      BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+      CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+      CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+      ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+      FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+      GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+      HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+      ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+      KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+      LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+      MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+      MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+      NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+      PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+      QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+      SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+      SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+      TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+      UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+      VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE],
+    x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla,
+      Aland Islands, Albania, Andorra, United Arab Emirates,
+      Argentina, Armenia, American Samoa, Antarctica, French
+        Southern Territories, Antigua and Barbuda, Australia,
+      Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+        Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+      Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+        Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+        State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+      Bouvet Island, Botswana, Central African Republic, Canada,
+      Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+        d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+        of the', Congo, Cook Islands, Colombia, Comoros, Cape
+        Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+      Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+      Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+      Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+      Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+        Islands, 'Micronesia, Federated States of', Gabon, United
+        Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+      Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+      Greece, Grenada, Greenland, Guatemala, French Guiana,
+      Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+      Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+        Man, India, British Indian Ocean Territory, Ireland,
+      'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+      Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+      Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+        of', Kuwait, Lao People's Democratic Republic, Lebanon,
+      Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+      Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+        (French part), Morocco, Monaco, 'Moldova, Republic of',
+      Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+        the former Yugoslav Republic of', Mali, Malta, Myanmar,
+      Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+      Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+      Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+        Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+      Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+      Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+        Rico, 'Korea, Democratic People''s Republic of', Portugal,
+      Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+      Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+      Sudan, Senegal, Singapore, South Georgia and the South
+        Sandwich Islands, 'Saint Helena, Ascension and Tristan
+        da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+      Sierra Leone, El Salvador, San Marino, Somalia, Saint
+        Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+        Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+      Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+      Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+      Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+        Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+        China', 'Tanzania, United Republic of', Uganda, Ukraine,
+      United States Minor Outlying Islands, Uruguay, United
+        States, Uzbekistan, Holy See (Vatican City State), Saint
+        Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+        of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+      Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+      South Africa, Zambia, Zimbabwe]}
+  zip: {type: string, description: "The ZIP code in the address associated with\
+      \ this Login. \nThis field is stored as a text string\
+      \ and must be between 1 and 20 characters long."}
+  state: {type: string, description: "The state associated with this Login. \nIf\
+      \ in the U.S. this is specified as the 2 character postal\
+      \ abbreviation for the state, if outside of the U.S. the\
+      \ full state name. \nThis field is stored as a text string\
+      \ and must be between 2 and 100 characters long.",
+    enum: [AB, BC, MB, NB, NL, NT, NS, NU, PE, QC, SK,
+      YT],
+    x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+      '', '', '', '']}
+  city:
+    {type: string, description: "The name of the city in the address associated\
+      \ with this Login. \nThis field is stored as a text string\
+      \ and must be between 1 and 500 characters long."}
+  address2:
+    {type: string, description: "The second line of the address associated\
+      \ with this Login. \nThis field is stored as a text string\
+      \ and must be between 1 and 500 characters long."}
+  address1:
+    {type: string,description: "The first line of the address associated with\
+      \ this Login. \nThis field is stored as a text string\
+      \ and must be between 1 and 500 characters long."}
+  confirmed: {type: integer, description: "Whether the email associated with this Login\
+      \ was confirmed. \nThis field is stored as an integer\
+      \ and will be set to '1' when the email is confirmed.",
+      enum: [0, 1],
+      x-enum-descriptions: ['', '']}
+  roles: {type: integer, description: 'The roles associated with this Login,
+      specified as an integer.'}
+  partition: {type: string, description: The partition that this Login is
+      associated with.}
+  division: {type: string,description: The division that this Login belongs
+      to.}
+  parentDivision: {type: string,description: The parent division that this
+      Login belongs to. Children of this Login will inherit
+      its parent division.}
+  allowedResources: {type: string}
+  restrictedResources: {type: string}
+  portalAccess:
+    {type: string, description: Whether or not this user should have access
+      to portal functionality.,
+    enum: ['0', '1'],
+    x-enum-descriptions: [No access to the portal, Has access
+        to the portal]}
+  mfaEnabled:
+    {type: string, description: Whether or not this user should have multi
+      factor authentication (MFA) feature.,
+    enum: ['0', '1'],
+    x-enum-descriptions: ['', '']}
+  mfaSecret: {type: string, description: "The MFA secret key used to link the MFA device\
+      \ with this Login. \nThis field is stored as a text string\
+      \ and must be between 1 and 128 characters long."}
+  mfaEnrolledDate: {type: string, description: The datestamp in YYYYMMDD format
+      when this Login was enabled for MFA., format: date-time}
+  mfaType:
+    {type: string, description: "The Type of the MFA enrolled. \nThis field\
+      \ is stored as a text string and must be between 1 and\
+      \ 50 characters long."}
+  inactive: {type: 'integer',$ref: ../../../components/schemas/inactive.yaml}
+  frozen: {type: 'integer',$ref: ../../../components/schemas/frozen.yaml}
+  effectiveRoles: {type: string}

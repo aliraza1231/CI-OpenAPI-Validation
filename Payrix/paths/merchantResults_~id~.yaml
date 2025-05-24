@@ -1,0 +1,378 @@
+  get:
+    description: Query a Merchant Result or Query Merchant Results.
+    parameters:
+    - description: The ID of this resource, also known as the Merchant ID (MID).
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Retrieve Merchant Results:
+                value:
+                  data: {id: p1_mrt_646cef1ff2a9d99fes6870d, created: '2023-05-23T12:51:43.998Z',
+                    modified: '2023-05-23T12:51:43.998Z', creator: p1_log_5f875c53ed397f57c0afc90,
+                    modifier: p1_log_5f875c53ed397f57c0afc90, merchant: p1_mer_5a1ef5e55656a739a85da21,
+                    type: data, message: Parameter maxTxnTotal does not match background
+                      check data, boardingProcessID: 693ez93f-3d0b-4780-a241-9ab212e933b1}
+                  details:
+                    requestId: 1
+                    totals: []
+                    page: {current: 1, last: 2, hasMore: true}
+                  error: []
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          merchant: {description: The merchant associated with this
+                              merchant result.}
+                          type:
+                            description: The type of this merchant result
+                            enum: [general, internal, data, legal, denial, platform,
+                              platformNote]
+                            x-enum-descriptions: ['', '', '', '', '', '', '']
+                          platform:
+                            description: The platform of this merchant result.
+                            enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                              WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '']
+                          message: {description: The message of this merchant result}
+                          boardingProcessID: {}
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      merchant: {description: The merchant associated with this merchant
+                          result.}
+                      type:
+                        description: |
+                          The type of this merchant result
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          `general` - General use for unspecified type.
+
+                          `internal` - An internal failure result message.
+
+                          `data` - Missing merchant boarding related data failure message.
+
+                          `legal` - Result message related to legal matters.
+
+                          `denial` - Merchant boarding denial result message.
+
+                          `platform` - Processor boarding failure result message.
+
+                          `platformNote` - Processor note from merchant boarding.
+
+                          </details>
+                        enum: [general, internal, data, legal, denial, platform, platformNote]
+                      platform:
+                        description: The platform used for the adjustment. This field
+                          is required if the adjustment is not between entities.
+                        enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH,
+                          WELLSFARGO, WFSINGLE]
+                        example: VCORE
+                      message: {description: The message of this merchant result}
+                      boardingProcessID: {description: TBD}
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          merchant: {description: The merchant associated with this
+                              merchant result.}
+                          type:
+                            description: The type of this merchant result
+                            enum: [general, internal, data, legal, denial, platform,
+                              platformNote]
+                            x-enum-descriptions: ['', '', '', '', '', '', '']
+                          platform:
+                            description: The platform of this merchant result.
+                            enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                              WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '']
+                          message: {description: The message of this merchant result}
+                          boardingProcessID: {}
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      merchant: {description: The merchant associated with this merchant
+                          result.}
+                      type:
+                        description: |
+                          The type of this merchant result
+                          <details>
+                          <summary>Valid Values</summary>
+
+                          `general` - General use for unspecified type.
+
+                          `internal` - An internal failure result message.
+
+                          `data` - Missing merchant boarding related data failure message.
+
+                          `legal` - Result message related to legal matters.
+
+                          `denial` - Merchant boarding denial result message.
+
+                          `platform` - Processor boarding failure result message.
+
+                          `platformNote` - Processor note from merchant boarding.
+
+                          </details>
+                        enum: [general, internal, data, legal, denial, platform, platformNote]
+                      platform:
+                        description: The platform used for the adjustment. This field
+                          is required if the adjustment is not between entities.
+                        enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH,
+                          WELLSFARGO, WFSINGLE]
+                        example: VCORE
+                      message: {description: The message of this merchant result}
+                      boardingProcessID: {description: TBD}
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Retrieve Merchant Results Response for query on merchantResults
+          resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve a Merchant's Results by its ID
+    tags: [Merchant Results]
+    operationId: getMerchantResultsId

@@ -1,0 +1,109 @@
+  get:
+    description: Query a Billing Modifier that can change the total amount of the billing
+      or determine who will pay it. For example, a Billing Modifier may apply a 10%
+      markup on the fee total for a specific organization.
+    parameters:
+       - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+       - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+       - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+       - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+       - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the Response for query on billingModifiers resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Billing Modifers.
+    tags: [Billing]
+    operationId: getBillingModifiers
+  post:
+    description: Create a Billing Modifier that can change the total amount of the billing
+      or adjust who will pay it, such as applying a 10% markup on the fee total for
+      a specific organization.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingModifiersRequestModel.yaml}              
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingModifiersRequestModel.yaml} 
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingModifiersRequestModel.yaml} 
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingModifiersRequestModel.yaml} 
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        text/json:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingModifiersRequestModel.yaml} 
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties: {$ref: ../components/schemas/models/billingModifiersRequestModel.yaml} 
+            required: [billing, fromentity, frozen, inactive]
+            x-redacted: []
+      description: Create Billing Modifer Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/billingModifiersResponseModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: The response for creating a billing modifier is the Create Billing
+          Modifier Response.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Billing Modifer
+    tags: [Billing]
+    operationId: postBillingModifiers

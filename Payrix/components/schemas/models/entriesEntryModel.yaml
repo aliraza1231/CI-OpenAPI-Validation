@@ -1,0 +1,97 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  entity: { type: string, description: The identifier of the Entity that owns
+    this Entry. }
+  onentity: { type: string, description: The identifier of the Entity that
+    this Entry refers to. This is the owner of the record
+    that triggered the charge. }
+  fromentity: { type: string, description: 'If the activity that this Entry
+                              refers to involves two parties in the system with one
+                              paying a charge of any kind, then this field stores the
+                              identifier of the Entity that the charge or other activity
+                              is for.' }
+  opposingEntry: { type: string, description: The identifier of the Entry that
+    this entry was created based on. }
+  fund: { type: string, description: The identifier of the Fund that this Entry
+    refers to. }
+  fee: { type: string, description: 'If the activity that this Entry refers
+                              to is the charging of a Fee, then this field stores the
+                              identifier of the corresponding Fee resource.' }
+  disbursement: { type: string, description: 'If the activity that this Entry
+                              refers to is the charging of a Disbursement, then this
+                              field stores the identifier of the corresponding Disbursement
+                              resource.' }
+  refund: { type: string, description: 'If the activity that this Entry refers
+                              to is the paying of a Refund, then this field stores the
+                              identifier of the corresponding Refund resource.' }
+  settlement: { type: string, description: 'If the activity that this Entry
+                              refers to is a Settlement, then this field stores the
+                              identifier of the corresponding Settlement resource.' }
+  txn: { type: string, description: 'If the activity that this Entry refers
+                              to is a Transaction, then this field stores the identifier
+                              of the corresponding Transaction resource.' }
+  chargeback: { type: string, description: 'If the activity that this Entry
+                              refers to is a Chargeback, then this field stores the
+                              identifier of the corresponding Chargeback resource.' }
+  adjustment: { type: string, description: 'The adjustment ID from which the funding activity was
+                triggered.' }
+  profitShare: { type: string, description: 'If the activity that this Entry
+                              refers to is a ProfitShare, then this field stores the
+                              identifier of the corresponding ProfitShare resource.' }
+  statement: { type: string, description: 'If the activity that this Entry
+                              refers to is a Statement, then this field stores the identifier
+                              of the corresponding Statement resource.' }
+  event: { $ref: ../properties/entriesEntryEventProperty.yaml }
+  eventId: { type: string, description: The identifier of the record that is
+    associated with this Entry. }
+  revShareStatement: { description: 'If the activity that this
+                              Entry refers to is a Revenue Share, then this field stores
+                              the identifier of the corresponding RevShareStatement
+                              resource' }
+  originalEventId: { type: string, description: 'ID of the original event.' }
+  originalEvent:
+    type: integer
+    enum: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20, 21, 22, 23, 24, 25, 26, 27, 28,
+            29, 30, 31, 32, 33, 34, 35, 43, 44,
+            45, 46, 47, 51, 52, 53, 54, 55, 56,
+            57, 58, 59, 60, 61, 62, 63, 64, 65,
+            66, 67, 68, 69, 70, 71, 72, 73, 74,
+            75, 76, 77, 78, 79, 80, 81, 82, 83,
+            84, 85, 86, 200, 201, 202, 203, 204, 205,
+            206, 207, 208, 209, 210, 211, 212, 213,
+            400, 401 ]
+    x-enum-descriptions: [ '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                           '', '', '', '', '', '', '', '', '', '', '', '', '' ]
+  description: { type: string, description: 'A description of this Entry.' }
+  originalCurrency: { $ref: ../properties/entriesOrignalCurrencyProperty.yaml }
+  currencyRate: { type: integer, description: 'currency conversion rate (up to three decimal points).' }
+  amount:
+    type: integer
+    description: "The amount involved in this Entry. It refers to the amount charged, transferred, or disbursed.
+                              This field is specified as an integer in cents."
+  unsourced: { }
+  pending: { type: integer, description: 'Integer boolean that determines whether or not this entry
+is pending.' }
+  isFee:
+    type: integer
+    description: 'An integer-boolean indicating whether or not the funding
+activity was triggered by a fee assessment.'
+    enum: [ 0, 1 ]
+    x-enum-descriptions: [ '', '' ]
+  archiveSummary: { type: integer, description: 'Summary record for archived
+                     entries.' }
+  pendingEntry: { type: string, description: 'The ID of the pendingEntry initially associated with this
+entry.' }
+  pendingEntryCreated: { type: string, description: 'The date and time (up to the second) when the initially
+associated pendingEntry was created.', format: date-time }

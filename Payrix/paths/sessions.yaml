@@ -1,0 +1,118 @@
+  get:
+    description: "Query a Session. \nA Session represents a temporary method of authentication\
+      \ to the API. Each Session expires automatically after 30 minutes of inactivity.\
+      \ \nThey are similar to API Keys (/apikeys) in their capabilities and field structure\
+      \ - but unlike API Keys, Sessions are not permanent."
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/sessionResponseModel.yaml }
+                    details:
+                      { $ref: ../components/schemas/details.yaml }
+                    errors:
+                      { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/sessionResponseModel.yaml }
+                    details:
+                      { $ref: ../components/schemas/details.yaml }
+                    errors:
+                      { $ref: ../components/schemas/error.yaml }
+        description: Response for query on sessions resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve all Sessions.
+    tags: [Sessions]
+    operationId: getSessions
+  post:
+    description: "Create a Session. \nA Session represents a temporary method of authentication\
+      \ to the API. Each Session expires automatically after 30 minutes of inactivity.\
+      \ \nThey are similar to API Keys (/apikeys) in their capabilities and field structure\
+      \ - but unlike API Keys, Sessions are not permanent."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            { $ref: ../components/schemas/models/sessionPutRequestModel.yaml }
+        application/x-www-form-urlencoded:
+          schema:
+            { $ref: ../components/schemas/models/sessionPutRequestModel.yaml }
+        application/xml:
+          schema:
+            { $ref: ../components/schemas/models/sessionPutRequestModel.yaml }
+        multipart/form-data:
+          schema:
+            { $ref: ../components/schemas/models/sessionPutRequestModel.yaml }
+        text/json:
+          schema:
+            { $ref: ../components/schemas/models/sessionPutRequestModel.yaml }
+        text/xml:
+          schema:
+            { $ref: ../components/schemas/models/sessionPutRequestModel.yaml }
+      description: Create Session Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/sessionResponseModel.yaml }
+                    details:
+                      { $ref: ../components/schemas/details.yaml }
+                    errors:
+                      { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/sessionResponseModel.yaml }
+                    details:
+                      { $ref: ../components/schemas/details.yaml }
+                    errors:
+                      { $ref: ../components/schemas/error.yaml }
+        description: Response for create on sessions resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    security:
+    - apiKey: []
+    - sessionKey: []
+    - txnSessionKey: []
+    - username: []
+      password: []
+    summary: Create a new Session.
+    tags: [Sessions]
+    operationId: postSessions

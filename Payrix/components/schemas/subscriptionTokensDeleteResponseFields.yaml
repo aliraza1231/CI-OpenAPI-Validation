@@ -1,0 +1,25 @@
+type: object
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  subscription:
+    type: string
+    description: The identifier of the Subscription resource that this Subscription Token is associated with. This is the Subscription that the Token identified in the 'token' field of this resource is responsible for paying for.
+  token:
+    type: string
+    description: The identifier of the Token resource that this Subscription Token is associated with. This resource identifies the means of payment for the Subscription identified in the 'subscription' field of this resource.
+  inactive:
+    type: integer
+    description: "Whether this resource is marked as inactive.\n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Active** \n\n- `1` - **Inactive**\n</details>\n"
+    enum:
+      - "0"
+      - "1"
+  frozen:
+    type: integer
+    description: "Whether this resource is marked as frozen.\n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Not Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+    enum:
+      - "0"
+      - "1"

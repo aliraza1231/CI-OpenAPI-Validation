@@ -1,0 +1,50 @@
+"response": {
+      "data": [
+          {
+              "id": "000000000000010",
+              "created": "2024-10-23 11:52:10.613687",
+              "modified": "2024-10-23 11:52:10.613687",
+              "creator": "000000000000011",
+              "modifier": "000000000000011",
+              "entity": "000000000000013",
+              "onentity": null,
+              "fromentity": null,
+              "opposingEntry": null,
+              "fund": "000000000000013",
+              "fee": null,
+              "disbursement": null,
+              "refund": null,
+              "settlement": null,
+              "txn": null,
+              "chargeback": null,
+              "adjustment": null,
+              "profitShare": null,
+              "statement": null,
+              "event": 7,
+              "eventId": null,
+              "revShareStatement": null,
+              "originalEventId": null,
+              "originalEvent": null,
+              "description": "Submerchant Entry",
+              "originalCurrency": null,
+              "currencyRate": null,
+              "amount": 10000000,
+              "unsourced": 10000000,
+              "pending": null,
+              "isFee": 0,
+              "archiveSummary": null,
+              "pendingEntry": null,
+              "pendingEntryCreated": null
+          }            
+      ],
+      "details": {
+          "requestId": 1,
+          "totals": [],
+          "page": {
+              "current": 1,
+              "last": 1,
+              "hasMore": false
+          }
+      },
+      "errors": []
+  }

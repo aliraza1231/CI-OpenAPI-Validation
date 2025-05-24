@@ -1,0 +1,114 @@
+  get:
+    description: Query a Payout. A Payout is a resource that represents all the details
+      that allow a Disbursement to be paid or debited. These details include the schedule
+      or trigger, the beneficiary account and the amount.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Retrieve the Payouts Response for query on payouts resource.
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve all Payouts.
+    tags: [Payouts]
+    operationId: getPayouts
+  post:
+    description: Create a Payout. A Payout is a resource that represents all the details
+      that allow a Disbursement to be paid or debited; these details include the schedule
+      or trigger, the beneficiary account and the amount.
+    requestBody:
+      content:
+        application/json:
+          examples:
+            Create a Daily Payout Schedule for all Funds:
+              value: {entity: p1_ent_5a1ef5e5565631155c95344, account: ae1abb3aaa18e4c374ca83fa75a7fff6,
+                schedule: 1, start: 20170101, um: percent, amount: 100}
+          schema: {$ref: ../components/schemas/models/payoutRequestModel.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/models/payoutRequestModel.yaml}
+        application/xml:
+          examples:
+            Create a Daily Payout Schedule for all Funds:
+              value: {entity: p1_ent_5a1ef5e5565631155c95344, account: ae1abb3aaa18e4c374ca83fa75a7fff6,
+                schedule: 1, start: 20170101, um: percent, amount: 100}
+          schema: {$ref: ../components/schemas/models/payoutRequestModel.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/models/payoutRequestModel.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/models/payoutRequestModel.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/models/payoutRequestModel.yaml}
+      description: Create Payout Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            examples:
+              Create Daily Payout Schedule Response:
+                value: {id: p1_pay_5a1ef5e556586a787cb364b, created: '2017-11-28T01:02:57Z',
+                  modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53,
+                  modifier: p1_log_5a1ef5e55653ed720159d53, account: ae1abb3aaa18e4c374ca83fa75a7fff6,
+                  entity: p1_ent_5a1ef5e5565631155c95344, payoutFlow: null, name: '',
+                  description: '', schedule: 1, scheduleFactor: 1, start: 20170101,
+                  um: percent, amount: 100, minimum: null, float: 0, inactive: 0, frozen: 0}
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/payoutsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on payouts resource
+      '400':
+        content: {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Create a new Payout.
+    tags: [Payouts]
+    x-examples:
+    - request: {entity: p1_ent_5a1ef5e5565631155c95344, account: ae1abb3aaa18e4c374ca83fa75a7fff6,
+        schedule: 1, start: 20170101, um: 1, amount: 100}
+      response: {id: p1_pay_5a1ef5e556586a787cb364b, created: '2017-11-28T01:02:57Z',
+        modified: '2017-11-28T01:02:57Z', creator: p1_log_5a1ef5e55653ed720159d53, modifier: p1_log_5a1ef5e55653ed720159d53,
+        account: ae1abb3aaa18e4c374ca83fa75a7fff6, entity: p1_ent_5a1ef5e5565631155c95344,
+        name: '', description: '', schedule: 1, scheduleFactor: 1, start: 20170101,
+        um: 1, amount: 100, float: 0, inactive: 0, frozen: 0}
+    operationId: postPayouts

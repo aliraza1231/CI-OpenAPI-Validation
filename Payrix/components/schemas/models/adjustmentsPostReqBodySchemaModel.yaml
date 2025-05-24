@@ -1,0 +1,32 @@
+properties:
+  login: { type: string, description: The Login that owns this Adjustment. }
+  entity: { type: string, description: The Entity that will receive the set amount. }
+  fromentity:
+    type: string
+    description: "The Entity that will pay for the adjustment. \nThis is\
+                  \ an optional field and should only be used when the amount is being\
+                  \ transfered from the fromentity to the entity."
+  onentity:
+    type: string
+    description: "The applicable Entity for this Adjustment. \nThis field\
+                  \ is an optional field."
+  disbursement: { type: string, description: Related disbursement ID. }
+  description:
+    type: string
+    description: "The description of this Decision Rule. \nThis field is\
+                  \ stored as a text string and must be between 0 and 100 characters\
+                  \ long."
+  amount: { type: integer, description: The amount of the Adjustment. }
+  currency: { $ref: ../properties/terminalTxnsCurrencyProperty.yaml }
+  funding:
+    type: string
+    description: The ID of the fund which the disbursement’s movement applies.
+    x-enum-descriptions: [ '' ]
+  platform:
+    type: string
+    description: "The platform used for the adjustment. \nThis field is\
+                  \ required if the adjustment is not between entities."
+    x-enum-descriptions: [ '' ]
+  fbo: { type: string, description: FBO account (For-Benefit-Of account) identifier. }
+required: [ amount, currency, entity, funding, login, platform ]
+x-redacted: [ ]

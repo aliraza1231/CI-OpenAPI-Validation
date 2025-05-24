@@ -1,0 +1,2649 @@
+  get:
+    description: Query a Decision's resource.
+    parameters:
+    - description: The ID of this resource and The Decision ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this decisions resource.}
+                          org: {description: 'If this decision resource relates to an
+                              Org, then this field stores the identifier of the Org.'}
+                          division: {}
+                          partition: {}
+                          entity: {description: 'If this decision resource relates to
+                              an Entity, then this field stores the identifier of the
+                              Entity.'}
+                          decision: {description: 'The identifier of a linked decision
+                              resource that acts in coordination with this decision.
+                              When you define a decision attribute here, the referenced
+                              decision becomes the ''parent'' resource. The action field
+                              set on the ''parent'' resource determines the action that
+                              occurs if all of the linked decisions fail.'}
+                          type:
+                            description: The type of check to perform.
+                            enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit,
+                              refundTotalLimit, averageSaleCountLimit, merchantRefundSaleRatio,
+                              merchantPaymentSuccessLimit, ipFailureLimit, ipFailureRatio,
+                              inactiveMerchant, merchantPaymentFailureLimit, merchantCaptureWithoutAuthLimit,
+                              refundWithoutSale, refundWithoutSaleLimit, captureAboveAuthLimit,
+                              fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                              currencyConversion, settledCurrencyMismatch, initialTxn,
+                              similarTotalLimit, similarTotalRatio, saleTotalMinimum,
+                              limit, ratio, txnWatchlist, balanceRefundLimit]
+                            x-enum-descriptions: [Exceeded the maximum number of allowed
+                                failed authorizations., Exceeded the maximum ratio of
+                                allowed failed authorizations., Exceeded the maximum
+                                allowed sale total value., Exceeded the maximum allowed
+                                refund total value., Exceeded the allowed maximum payment
+                                size (individual transaction amount)., Exceeded the
+                                maximum allowed ratio of refunds to sales., '', Exceeded
+                                the maximum allowed number of failed authorizations
+                                for a particular IP address., Exceeded the maximum allowed
+                                ratio of failed authorizations for a particular IP address.,
+                              The Merchant is not active., Exceeded the maximum allowed
+                                number of failed transactions., Exceeded the maximum
+                                allowed number of transactions without authorizations.,
+                              Refund transaction does not have an associated sale transaction.,
+                              Exceeded the maximum number of refund transactions that
+                                do not have associated sale Transactions., Exceeded
+                                the maximum authorized value for Transactions with failed
+                                authorizations., Transaction fraud score., CVV, AVS,
+                              AAVS, Duplicate transaction, Transaction matches merchant
+                                details., Transaction triggers currency conversion.,
+                              Transaction settled currency mismatch., Initial transaction
+                                of this type., Exceeded the limit of transactions with
+                                equal totals., Exceeded the ratio of transactions with
+                                equal totals., Minimum transaction amount., Exceeded
+                                the maximum allowed number of authorizations., '', Check
+                                the transaction data against a custom watchlist., '']
+                          application:
+                            description: Where the action defined by this DecisionAction
+                              should apply
+                            enum: [account, txn, entity]
+                            x-enum-descriptions: ['', Applies the action to the transaction,
+                              Applies the action on the entity]
+                          target:
+                            description: The target that this decision should apply
+                              at.
+                            enum: [activation, auth, postauth, capture, refund, createEntity,
+                              underwriting, preboard, postboard, txn, txnVolume, payout,
+                              payoutVolume]
+                            x-enum-descriptions: [Terminal activation., Apply this decision
+                                during transaction authorization., Immediately after
+                                authorization., Apply this decision during transaction
+                                capture., Apply this decision when processing a refund.,
+                              '', Underwriting. Check the members before they are boarded.,
+                              Preboard. Check the Merchant before they are boarded.,
+                              Check the Merchant after they are boarded., Check the
+                                Merchant when they process a Transaction., Check the
+                                Merchant when their transaction volume hits a certain
+                                amount., Check the Merchant when a Payout occurs., Check
+                                the Merchant when the volume of Payouts to the Merchant
+                                hits a certain amount.]
+                          options: {description: The options for the Verification are
+                              specified as a sum of the desired options.}
+                          additionalOptions: {description: The additionalOptions for
+                              the Verification are specified as a sum of the desired
+                              options.}
+                          level: {}
+                          errorMessage: {description: 'The error message for the decision:
+                              If the field is null the error message will be a generic
+                              failure message, if the field is empty the error message
+                              will be a specific error message, if the field is set
+                              to a string the error message will be that string.'}
+                          reason: {description: 'The reason for the decision. If the
+                              field is null the error message will be a generic message,
+                              if the field is set to a string the reason message will
+                              be that string.'}
+                          action:
+                            description: The action to take when this check fails.
+                            enum: ['0', '1', '3', '4', '5', '6', '8']
+                            x-enum-descriptions: [No action., 'For txn decision: Block.
+                                Block the Transaction from proceeding. This returns
+                                an error.For merchant decision: Manual. The Merchant
+                                is sent to the manual review queue.', 'For txn decision:
+                                Hold. Hold the Transaction. It will not be captured
+                                until it is manually released.', 'For txn decision:
+                                Reserve. Reserve the Transaction. The funds for the
+                                transaction will not be released until the Transaction
+                                is manually reviewed.', 'Block current activity, no
+                                change for merchant', '', '']
+                          sequence: {description: 'A sequence number to use when applying
+                              multiple linked decisions: When two or more decisions
+                              are linked using their ''decision'' fields, the checks
+                              with lower ''sequence'' numbers are applied first; this
+                              field is specified as an integer.'}
+                          amount: {description: 'The minimum value that the Transaction
+                              must be to target this decision, The unit of measure is
+                              determined by the type of check.'}
+                          value:
+                            description: 'The amount that the associated Transaction
+                              should be compared against. The units for this field depend
+                              on the type of check: for checks that are based on a ratio,
+                              specify the amount as a percentage in basis points; for
+                              checks that are based on a dollar amount, specify the
+                              amount in cents; for checks that are based on a count,
+                              specify the exact value as an integer.'
+                            enum: ['1', '2', '3']
+                            x-enum-descriptions: ['', '', '']
+                          period:
+                            description: A date indicator that determines how far back
+                              in time time-based checks should be checked. This field
+                              works in conjunction with the 'periodFactor' field, which
+                              multiplies this basic period.
+                            enum: [days, weeks, months, years, seconds, minutes, hours]
+                            x-enum-descriptions: [Days. The basic value for the date
+                                range is set in days., Weeks. The basic value for the
+                                date range is set in weeks., Months. The basic value
+                                for the date range is set in months., Years. The basic
+                                value for the date range is set in years., Seconds.
+                                The basic value for the date range is set in seconds.,
+                              Minutes. The basic value for the date range is set in
+                                minutes., Years. The basic value for the date range
+                                is set in hours.]
+                          periodFactor: {description: 'A multiplier that you can use
+                              to adjust the basic date range set in the ''period'' field,
+                              such as daily, weekly, monthly, or annually; this field
+                              is specified as an integer and its value determines how
+                              the interval is multiplied.'}
+                          schedule: {description: The schedule that determines when
+                              this Decision is triggered to check entities.}
+                          scheduleFactor: {description: 'A multiplier that you can use
+                              to adjust the schedule set in the ''schedule'' field,
+                              if it is set to a duration-based trigger, such as daily,
+                              weekly, monthly, or annually. This field is specified
+                              as an integer and its value determines how the interval
+                              is multiplied.'}
+                          start: {description: 'The date on which checking of the Decision
+                              should start is specified as an eight digit string in
+                              YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016; the value of this field must represent a date
+                              in the future, or the present date.'}
+                          finish: {description: 'The date on which checking of the Decision
+                              should end. The date is specified as an eight digit string
+                              in YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016. The value of this field must represent a date
+                              in the future.'}
+                          low: {description: A lower cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or below this value.}
+                          high: {description: An upper cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or above this value.}
+                          useCache:
+                            description: Whether to check for and use existing Verifications
+                              and Verification Results for this decision
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Disabled, Enabled]
+                          cacheTime:
+                            description: The time caching limit to check for existing
+                              verification
+                            x-enum-descriptions: ['']
+                          inactive:
+                            description: Whether this resource is marked as inactive
+                              or not.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen or
+                              not frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this decisions resource.}
+                          org: {description: 'If this decision resource relates to an
+                              Org, then this field stores the identifier of the Org.'}
+                          division: {}
+                          partition: {}
+                          entity: {description: 'If this decision resource relates to
+                              an Entity, then this field stores the identifier of the
+                              Entity.'}
+                          decision: {description: 'The identifier of a linked decision
+                              resource that acts in coordination with this decision.
+                              When you define a decision attribute here, the referenced
+                              decision becomes the ''parent'' resource. The action field
+                              set on the ''parent'' resource determines the action that
+                              occurs if all of the linked decisions fail.'}
+                          type:
+                            description: The type of check to perform.
+                            enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit,
+                              refundTotalLimit, averageSaleCountLimit, merchantRefundSaleRatio,
+                              merchantPaymentSuccessLimit, ipFailureLimit, ipFailureRatio,
+                              inactiveMerchant, merchantPaymentFailureLimit, merchantCaptureWithoutAuthLimit,
+                              refundWithoutSale, refundWithoutSaleLimit, captureAboveAuthLimit,
+                              fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                              currencyConversion, settledCurrencyMismatch, initialTxn,
+                              similarTotalLimit, similarTotalRatio, saleTotalMinimum,
+                              limit, ratio, txnWatchlist, balanceRefundLimit]
+                            x-enum-descriptions: [Exceeded the maximum number of allowed
+                                failed authorizations., Exceeded the maximum ratio of
+                                allowed failed authorizations., Exceeded the maximum
+                                allowed sale total value., Exceeded the maximum allowed
+                                refund total value., Exceeded the allowed maximum payment
+                                size (individual transaction amount)., Exceeded the
+                                maximum allowed ratio of refunds to sales., '', Exceeded
+                                the maximum allowed number of failed authorizations
+                                for a particular IP address., Exceeded the maximum allowed
+                                ratio of failed authorizations for a particular IP address.,
+                              The Merchant is not active., Exceeded the maximum allowed
+                                number of failed transactions., Exceeded the maximum
+                                allowed number of transactions without authorizations.,
+                              Refund transaction does not have an associated sale transaction.,
+                              Exceeded the maximum number of refund transactions that
+                                do not have associated sale Transactions., Exceeded
+                                the maximum authorized value for Transactions with failed
+                                authorizations., Transaction fraud score., CVV, AVS,
+                              AAVS, Duplicate transaction, Transaction matches merchant
+                                details., Transaction triggers currency conversion.,
+                              Transaction settled currency mismatch., Initial transaction
+                                of this type., Exceeded the limit of transactions with
+                                equal totals., Exceeded the ratio of transactions with
+                                equal totals., Minimum transaction amount., Exceeded
+                                the maximum allowed number of authorizations., '', Check
+                                the transaction data against a custom watchlist., '']
+                          application:
+                            description: Where the action defined by this DecisionAction
+                              should apply
+                            enum: [account, txn, entity]
+                            x-enum-descriptions: ['', Applies the action to the transaction,
+                              Applies the action on the entity]
+                          target:
+                            description: The target that this decision should apply
+                              at.
+                            enum: [activation, auth, postauth, capture, refund, createEntity,
+                              underwriting, preboard, postboard, txn, txnVolume, payout,
+                              payoutVolume]
+                            x-enum-descriptions: [Terminal activation., Apply this decision
+                                during transaction authorization., Immediately after
+                                authorization., Apply this decision during transaction
+                                capture., Apply this decision when processing a refund.,
+                              '', Underwriting. Check the members before they are boarded.,
+                              Preboard. Check the Merchant before they are boarded.,
+                              Check the Merchant after they are boarded., Check the
+                                Merchant when they process a Transaction., Check the
+                                Merchant when their transaction volume hits a certain
+                                amount., Check the Merchant when a Payout occurs., Check
+                                the Merchant when the volume of Payouts to the Merchant
+                                hits a certain amount.]
+                          options: {description: The options for the Verification are
+                              specified as a sum of the desired options.}
+                          additionalOptions: {description: The additionalOptions for
+                              the Verification are specified as a sum of the desired
+                              options.}
+                          level: {}
+                          errorMessage: {description: 'The error message for the decision:
+                              If the field is null the error message will be a generic
+                              failure message, if the field is empty the error message
+                              will be a specific error message, if the field is set
+                              to a string the error message will be that string.'}
+                          reason: {description: 'The reason for the decision. If the
+                              field is null the error message will be a generic message,
+                              if the field is set to a string the reason message will
+                              be that string.'}
+                          action:
+                            description: The action to take when this check fails.
+                            enum: ['0', '1', '3', '4', '5', '6', '8']
+                            x-enum-descriptions: [No action., 'For txn decision: Block.
+                                Block the Transaction from proceeding. This returns
+                                an error.For merchant decision: Manual. The Merchant
+                                is sent to the manual review queue.', 'For txn decision:
+                                Hold. Hold the Transaction. It will not be captured
+                                until it is manually released.', 'For txn decision:
+                                Reserve. Reserve the Transaction. The funds for the
+                                transaction will not be released until the Transaction
+                                is manually reviewed.', 'Block current activity, no
+                                change for merchant', '', '']
+                          sequence: {description: 'A sequence number to use when applying
+                              multiple linked decisions: When two or more decisions
+                              are linked using their ''decision'' fields, the checks
+                              with lower ''sequence'' numbers are applied first. This
+                              field is specified as an integer.'}
+                          amount: {description: 'The minimum value that the Transaction
+                              must be to target this decision, The unit of measure is
+                              determined by the type of check.'}
+                          value:
+                            description: 'The amount that the associated Transaction
+                              should be compared against. The units for this field depend
+                              on the type of check: for checks that are based on a ratio,
+                              specify the amount as a percentage in basis points; for
+                              checks that are based on a dollar amount, specify the
+                              amount in cents; for checks that are based on a count,
+                              specify the exact value as an integer.'
+                            enum: ['1', '2', '3']
+                            x-enum-descriptions: ['', '', '']
+                          period:
+                            description: A date indicator that determines how far back
+                              in time time-based checks should be checked. This field
+                              works in conjunction with the 'periodFactor' field, which
+                              multiplies this basic period.
+                            enum: [days, weeks, months, years, seconds, minutes, hours]
+                            x-enum-descriptions: [Days. The basic value for the date
+                                range is set in days., Weeks. The basic value for the
+                                date range is set in weeks., Months. The basic value
+                                for the date range is set in months., Years. The basic
+                                value for the date range is set in years., Seconds.
+                                The basic value for the date range is set in seconds.,
+                              Minutes. The basic value for the date range is set in
+                                minutes., Years. The basic value for the date range
+                                is set in hours.]
+                          periodFactor: {description: 'A multiplier that you can use
+                              to adjust the basic date range set in the ''period'' field,
+                              such as daily, weekly, monthly, or annually; this field
+                              is specified as an integer and its value determines how
+                              the interval is multiplied.'}
+                          schedule: {description: The schedule that determines when
+                              this Decision is triggered to check entities.}
+                          scheduleFactor: {description: 'A multiplier that you can use
+                              to adjust the schedule set in the ''schedule'' field,
+                              if it is set to a duration-based trigger, such as daily,
+                              weekly, monthly, or annually. This field is specified
+                              as an integer and its value determines how the interval
+                              is multiplied.'}
+                          start: {description: 'The date on which checking of the Decision
+                              should start is specified as an eight digit string in
+                              YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016; the value of this field must represent a date
+                              in the future, or the present date.'}
+                          finish: {description: 'The date on which checking of the Decision
+                              should end. The date is specified as an eight digit string
+                              in YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016. The value of this field must represent a date
+                              in the future.'}
+                          low: {description: A lower cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or below this value.}
+                          high: {description: An upper cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or above this value.}
+                          useCache:
+                            description: Whether to check for and use existing Verifications
+                              and Verification Results for this decision
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Disabled, Enabled]
+                          cacheTime:
+                            description: The time caching limit to check for existing
+                              verification
+                            x-enum-descriptions: ['']
+                          inactive:
+                            description: Whether this resource is marked as inactive
+                              or not, whether it's active or inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen or
+                              not frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Retrieve Decision Response for query on decisions resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve Decision by it's ID.
+    tags: [Decisions]
+    operationId: getDecisionsId
+  put:
+    description: Update a Decisions resource, which represents the schedule and rules
+      for a check done on Transactions.
+    parameters:
+    - description: The ID of this resource and The Decision ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this decisions
+                  resource.}
+              org: {description: 'If this decision resource relates to an Org, then
+                  this field stores the identifier of the Org.'}
+              entity: {description: 'If this decision resource relates to an Entity,
+                  then this field stores the identifier of the Entity.'}
+              decision: {description: 'The identifier of a linked decision resource
+                  that acts in coordination with this decision. When you define a decision
+                  attribute here, the referenced decision becomes the ''parent'' resource.
+                  The action field set on the ''parent'' resource determines the action
+                  that occurs if all of the linked decisions fail.'}
+              division: {}
+              partition: {}
+              application:
+                description: Where the action defined by this DecisionAction should
+                  apply
+                enum: [account, txn, entity]
+                x-enum-descriptions: ['', Applies the action to the transaction, Applies
+                    the action on the entity]
+              level: {}
+              type:
+                description: The type of check to perform.
+                enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit, refundTotalLimit,
+                  averageSaleCountLimit, merchantRefundSaleRatio, merchantPaymentSuccessLimit,
+                  ipFailureLimit, ipFailureRatio, inactiveMerchant, merchantPaymentFailureLimit,
+                  merchantCaptureWithoutAuthLimit, refundWithoutSale, refundWithoutSaleLimit,
+                  captureAboveAuthLimit, fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                  currencyConversion, settledCurrencyMismatch, initialTxn, similarTotalLimit,
+                  similarTotalRatio, saleTotalMinimum, limit, ratio, txnWatchlist, balanceRefundLimit]
+                x-enum-descriptions: [Exceeded the maximum number of allowed failed
+                    authorizations., Exceeded the maximum ratio of allowed failed authorizations.,
+                  Exceeded the maximum allowed sale total value., Exceeded the maximum
+                    allowed refund total value., Exceeded the allowed maximum payment
+                    size (individual transaction amount)., Exceeded the maximum allowed
+                    ratio of refunds to sales., '', Exceeded the maximum allowed number
+                    of failed authorizations for a particular IP address., Exceeded
+                    the maximum allowed ratio of failed authorizations for a particular
+                    IP address., The Merchant is not active., Exceeded the maximum allowed
+                    number of failed transactions., Exceeded the maximum allowed number
+                    of transactions without authorizations., Refund transaction does
+                    not have an associated sale transaction., Exceeded the maximum number
+                    of refund transactions that do not have associated sale Transactions.,
+                  Exceeded the maximum authorized value for Transactions with failed
+                    authorizations., Transaction fraud score., CVV, AVS, AAVS, Duplicate
+                    transaction, Transaction matches merchant details., Transaction
+                    triggers currency conversion., Transaction settled currency mismatch.,
+                  Initial transaction of this type., Exceeded the limit of transactions
+                    with equal totals., Exceeded the ratio of transactions with equal
+                    totals., Minimum transaction amount., Exceeded the maximum allowed
+                    number of authorizations., '', Check the transaction data against
+                    a custom watchlist., '']
+              target:
+                description: The target that this decision should apply at.
+                enum: [activation, auth, postauth, capture, refund, createEntity, underwriting,
+                  preboard, postboard, txn, txnVolume, payout, payoutVolume]
+                x-enum-descriptions: [Terminal activation., Apply this decision during
+                    transaction authorization., Immediately after authorization., Apply
+                    this decision during transaction capture., Apply this decision when
+                    processing a refund., '', Underwriting. Check the members before
+                    they are boarded., Preboard. Check the Merchant before they are
+                    boarded., Check the Merchant after they are boarded., Check the
+                    Merchant when they process a Transaction., Check the Merchant when
+                    their transaction volume hits a certain amount., Check the Merchant
+                    when a Payout occurs., Check the Merchant when the volume of Payouts
+                    to the Merchant hits a certain amount.]
+              action:
+                description: The action to take when this check fails.
+                enum: ['0', '1', '3', '4', '5', '6', '8']
+                x-enum-descriptions: [No action., 'For txn decision: Block. Block the
+                    Transaction from proceeding. This returns an error.For merchant
+                    decision: Manual. The Merchant is sent to the manual review queue.',
+                  'For txn decision: Hold. Hold the Transaction. It will not be captured
+                    until it is manually released.', 'For txn decision: Reserve. Reserve
+                    the Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed.', 'Block current activity,
+                    no change for merchant', '', '']
+              sequence: {description: 'A sequence number to use when applying multiple
+                  linked decisions: When two or more decisions are linked using their
+                  ''decision'' fields, the checks with lower ''sequence'' numbers are
+                  applied first. This field is specified as an integer.'}
+              amount: {description: 'The minimum value that the Transaction must be
+                  to target this decision, The unit of measure is determined by the
+                  type of check.'}
+              value:
+                description: 'The amount that the associated Transaction should be compared
+                  against. The units for this field depend on the type of check: for
+                  checks that are based on a ratio, specify the amount as a percentage
+                  in basis points; for checks that are based on a dollar amount, specify
+                  the amount in cents; for checks that are based on a count, specify
+                  the exact value as an integer.'
+                enum: ['1', '2', '3']
+                x-enum-descriptions: ['', '', '']
+              period:
+                description: A date indicator that determines how far back in time time-based
+                  checks should be checked. This field works in conjunction with the
+                  'periodFactor' field, which multiplies this basic period.
+                enum: [days, weeks, months, years, seconds, minutes, hours]
+                x-enum-descriptions: [Days. The basic value for the date range is set
+                    in days., Weeks. The basic value for the date range is set in weeks.,
+                  Months. The basic value for the date range is set in months., Years.
+                    The basic value for the date range is set in years., Seconds. The
+                    basic value for the date range is set in seconds., Minutes. The
+                    basic value for the date range is set in minutes., Years. The basic
+                    value for the date range is set in hours.]
+              periodFactor: {description: 'A multiplier that you can use to adjust the
+                  basic date range set in the ''period'' field, such as daily, weekly,
+                  monthly, or annually; this field is specified as an integer and its
+                  value determines how the interval is multiplied.'}
+              schedule: {description: The schedule that determines when this Decision
+                  is triggered to check entities.}
+              scheduleFactor: {description: 'A multiplier that you can use to adjust
+                  the schedule set in the ''schedule'' field, if it is set to a duration-based
+                  trigger, such as daily, weekly, monthly, or annually. This field is
+                  specified as an integer and its value determines how the interval
+                  is multiplied.'}
+              start: {description: 'The date on which checking of the Decision should
+                  start is specified as an eight digit string in YYYYMMDD format, for
+                  example, ''20160120'' for January 20, 2016; the value of this field
+                  must represent a date in the future, or the present date.'}
+              finish: {description: 'The date on which checking of the Decision should
+                  end. The date is specified as an eight digit string in YYYYMMDD format,
+                  for example, ''20160120'' for January 20, 2016. The value of this
+                  field must represent a date in the future.'}
+              low: {description: A lower cut-off value for the score in this decision;
+                  the check fails if the score is equal to or below this value.}
+              high: {description: An upper cut-off value for the score in this decision;
+                  the check fails if the score is equal to or above this value.}
+              useCache:
+                description: Whether to check for and use existing Verifications and
+                  Verification Results for this decision
+                enum: ['0', '1']
+                x-enum-descriptions: [Disabled, Enabled]
+              cacheTime:
+                description: The time caching limit to check for existing verification
+                x-enum-descriptions: ['']
+              options: {description: The options for the Verification are specified
+                  as a sum of the desired options.}
+              additionalOptions: {description: The additionalOptions for the Verification
+                  are specified as a sum of the desired options.}
+              errorMessage: {description: 'The error message for the decision: If the
+                  field is null the error message will be a generic failure message,
+                  if the field is empty the error message will be a specific error message,
+                  if the field is set to a string the error message will be that string.'}
+              reason: {description: 'The reason for the decision. If the field is null
+                  the error message will be a generic message, if the field is set to
+                  a string the reason message will be that string.'}
+              inactive:
+                description: Whether this resource is marked as inactive or not, whether
+                  it's active or inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen or not frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, application, frozen, inactive, level, login, low, period,
+              periodFactor, scheduleFactor, start, target, type, useCache, value]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this decisions
+                  resource.}
+              org: {description: 'If this decision resource relates to an Org, then
+                  this field stores the identifier of the Org.'}
+              entity: {description: 'If this decision resource relates to an Entity,
+                  then this field stores the identifier of the Entity.'}
+              decision: {description: 'The identifier of a linked decision resource
+                  that acts in coordination with this decision. When you define a decision
+                  attribute here, the referenced decision becomes the ''parent'' resource.
+                  The action field set on the ''parent'' resource determines the action
+                  that occurs if all of the linked decisions fail.'}
+              division: {}
+              partition: {}
+              application:
+                description: Where the action defined by this DecisionAction should
+                  apply
+                enum: [account, txn, entity]
+                x-enum-descriptions: ['', Applies the action to the transaction, Applies
+                    the action on the entity]
+              level: {}
+              type:
+                description: The type of check to perform.
+                enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit, refundTotalLimit,
+                  averageSaleCountLimit, merchantRefundSaleRatio, merchantPaymentSuccessLimit,
+                  ipFailureLimit, ipFailureRatio, inactiveMerchant, merchantPaymentFailureLimit,
+                  merchantCaptureWithoutAuthLimit, refundWithoutSale, refundWithoutSaleLimit,
+                  captureAboveAuthLimit, fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                  currencyConversion, settledCurrencyMismatch, initialTxn, similarTotalLimit,
+                  similarTotalRatio, saleTotalMinimum, limit, ratio, txnWatchlist, balanceRefundLimit]
+                x-enum-descriptions: [Exceeded the maximum number of allowed failed
+                    authorizations., Exceeded the maximum ratio of allowed failed authorizations.,
+                  Exceeded the maximum allowed sale total value., Exceeded the maximum
+                    allowed refund total value., Exceeded the allowed maximum payment
+                    size (individual transaction amount)., Exceeded the maximum allowed
+                    ratio of refunds to sales., '', Exceeded the maximum allowed number
+                    of failed authorizations for a particular IP address., Exceeded
+                    the maximum allowed ratio of failed authorizations for a particular
+                    IP address., The Merchant is not active., Exceeded the maximum allowed
+                    number of failed transactions., Exceeded the maximum allowed number
+                    of transactions without authorizations., Refund transaction does
+                    not have an associated sale transaction., Exceeded the maximum number
+                    of refund transactions that do not have associated sale Transactions.,
+                  Exceeded the maximum authorized value for Transactions with failed
+                    authorizations., Transaction fraud score., CVV, AVS, AAVS, Duplicate
+                    transaction, Transaction matches merchant details., Transaction
+                    triggers currency conversion., Transaction settled currency mismatch.,
+                  Initial transaction of this type., Exceeded the limit of transactions
+                    with equal totals., Exceeded the ratio of transactions with equal
+                    totals., Minimum transaction amount., Exceeded the maximum allowed
+                    number of authorizations., '', Check the transaction data against
+                    a custom watchlist., '']
+              target:
+                description: The target that this decision should apply at.
+                enum: [activation, auth, postauth, capture, refund, createEntity, underwriting,
+                  preboard, postboard, txn, txnVolume, payout, payoutVolume]
+                x-enum-descriptions: [Terminal activation., Apply this decision during
+                    transaction authorization., Immediately after authorization., Apply
+                    this decision during transaction capture., Apply this decision when
+                    processing a refund., '', Underwriting. Check the members before
+                    they are boarded., Preboard. Check the Merchant before they are
+                    boarded., Check the Merchant after they are boarded., Check the
+                    Merchant when they process a Transaction., Check the Merchant when
+                    their transaction volume hits a certain amount., Check the Merchant
+                    when a Payout occurs., Check the Merchant when the volume of Payouts
+                    to the Merchant hits a certain amount.]
+              action:
+                description: The action to take when this check fails.
+                enum: ['0', '1', '3', '4', '5', '6', '8']
+                x-enum-descriptions: [No action., 'For txn decision: Block. Block the
+                    Transaction from proceeding. This returns an error.For merchant
+                    decision: Manual. The Merchant is sent to the manual review queue.',
+                  'For txn decision: Hold. Hold the Transaction. It will not be captured
+                    until it is manually released.', 'For txn decision: Reserve. Reserve
+                    the Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed.', 'Block current activity,
+                    no change for merchant', '', '']
+              sequence:
+                description: "A sequence number to use when applying multiple linked\
+                  \ decisions. \nWhen two or more decisions are linked using their 'decision'\
+                  \ fields, the checks with lower 'sequence' numbers are applied first.\
+                  \ \nThis field is specified as an integer."
+              amount:
+                description: "The minimum value that the Transaction must be to target\
+                  \ this decision. \nThe unit of measure is determined by the type of\
+                  \ check."
+              value:
+                description: "The amount that the associated Transaction should be compared\
+                  \ against. The units for this field depend on the type of check. \n\
+                  For checks that are based on a ratio, specify the amount as a percentage\
+                  \ in basis points. \nFor checks that are based on a dollar amount,\
+                  \ specify the amount in cents. \nFor checks that are based on a count,\
+                  \ specify the exact value as an integer."
+                enum: ['1', '2', '3']
+                x-enum-descriptions: ['', '', '']
+              period:
+                description: A date indicator that determines how far back in time time-based
+                  checks should be checked. This field works in conjunction with the
+                  'periodFactor' field, which multiplies this basic period.
+                enum: [days, weeks, months, years, seconds, minutes, hours]
+                x-enum-descriptions: [Days. The basic value for the date range is set
+                    in days., Weeks. The basic value for the date range is set in weeks.,
+                  Months. The basic value for the date range is set in months., Years.
+                    The basic value for the date range is set in years., Seconds. The
+                    basic value for the date range is set in seconds., Minutes. The
+                    basic value for the date range is set in minutes., Years. The basic
+                    value for the date range is set in hours.]
+              periodFactor:
+                description: "A multiplier that you can use to adjust the basic date\
+                  \ range set in the 'period' field, such as daily, weekly, monthly,\
+                  \ or annually. \nThis field is specified as an integer and its value\
+                  \ determines how the interval is multiplied."
+              schedule: {description: The schedule that determines when this Decision
+                  is triggered to check entities.}
+              scheduleFactor:
+                description: "A multiplier that you can use to adjust the schedule set\
+                  \ in the 'schedule' field, if it is set to a duration-based trigger,\
+                  \ such as daily, weekly, monthly, or annually. \nThis field is specified\
+                  \ as an integer and its value determines how the interval is multiplied."
+              start:
+                description: "The date on which checking of the Decision should start.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future, or the present date."
+              finish:
+                description: "The date on which checking of the Decision should end.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future."
+              low:
+                description: "A lower cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or below this value."
+              high:
+                description: "An upper cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or above this value."
+              useCache:
+                description: Whether to check for and use existing Verifications and
+                  Verification Results for this decision
+                enum: ['0', '1']
+                x-enum-descriptions: [Disabled, Enabled]
+              cacheTime:
+                description: The time caching limit to check for existing verification
+                x-enum-descriptions: ['']
+              options:
+                description: "The options for the Verification. \nThis field is specified\
+                  \ as a sum of the desired options."
+              additionalOptions:
+                description: "The additionalOptions for the Verification. \nThis field\
+                  \ is specified as a sum of the desired options."
+              errorMessage:
+                description: "The error message for the decision. \nIf the field is\
+                  \ null the error message will be a generic failure message, if the\
+                  \ field is empty the error message will be a specific error message,\
+                  \ if the field is set to a string the error message will be that string."
+              reason:
+                description: "The reason for the decision. \nIf the field is null the\
+                  \ error message will be a generic message, \nif the field is set to\
+                  \ a string the reason message will be that string."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, application, frozen, inactive, level, login, low, period,
+              periodFactor, scheduleFactor, start, target, type, useCache, value]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this decisions
+                  resource.}
+              org: {description: 'If this decision resource relates to an Org, then
+                  this field stores the identifier of the Org.'}
+              entity: {description: 'If this decision resource relates to an Entity,
+                  then this field stores the identifier of the Entity.'}
+              decision: {description: 'The identifier of a linked decision resource
+                  that acts in coordination with this decision. When you define a decision
+                  attribute here, the referenced decision becomes the ''parent'' resource.
+                  The action field set on the ''parent'' resource determines the action
+                  that occurs if all of the linked decisions fail.'}
+              division: {}
+              partition: {}
+              application:
+                description: Where the action defined by this DecisionAction should
+                  apply
+                enum: [account, txn, entity]
+                x-enum-descriptions: ['', Applies the action to the transaction, Applies
+                    the action on the entity]
+              level: {}
+              type:
+                description: The type of check to perform.
+                enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit, refundTotalLimit,
+                  averageSaleCountLimit, merchantRefundSaleRatio, merchantPaymentSuccessLimit,
+                  ipFailureLimit, ipFailureRatio, inactiveMerchant, merchantPaymentFailureLimit,
+                  merchantCaptureWithoutAuthLimit, refundWithoutSale, refundWithoutSaleLimit,
+                  captureAboveAuthLimit, fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                  currencyConversion, settledCurrencyMismatch, initialTxn, similarTotalLimit,
+                  similarTotalRatio, saleTotalMinimum, limit, ratio, txnWatchlist, balanceRefundLimit]
+                x-enum-descriptions: [Exceeded the maximum number of allowed failed
+                    authorizations., Exceeded the maximum ratio of allowed failed authorizations.,
+                  Exceeded the maximum allowed sale total value., Exceeded the maximum
+                    allowed refund total value., Exceeded the allowed maximum payment
+                    size (individual transaction amount)., Exceeded the maximum allowed
+                    ratio of refunds to sales., '', Exceeded the maximum allowed number
+                    of failed authorizations for a particular IP address., Exceeded
+                    the maximum allowed ratio of failed authorizations for a particular
+                    IP address., The Merchant is not active., Exceeded the maximum allowed
+                    number of failed transactions., Exceeded the maximum allowed number
+                    of transactions without authorizations., Refund transaction does
+                    not have an associated sale transaction., Exceeded the maximum number
+                    of refund transactions that do not have associated sale Transactions.,
+                  Exceeded the maximum authorized value for Transactions with failed
+                    authorizations., Transaction fraud score., CVV, AVS, AAVS, Duplicate
+                    transaction, Transaction matches merchant details., Transaction
+                    triggers currency conversion., Transaction settled currency mismatch.,
+                  Initial transaction of this type., Exceeded the limit of transactions
+                    with equal totals., Exceeded the ratio of transactions with equal
+                    totals., Minimum transaction amount., Exceeded the maximum allowed
+                    number of authorizations., '', Check the transaction data against
+                    a custom watchlist., '']
+              target:
+                description: The target that this decision should apply at.
+                enum: [activation, auth, postauth, capture, refund, createEntity, underwriting,
+                  preboard, postboard, txn, txnVolume, payout, payoutVolume]
+                x-enum-descriptions: [Terminal activation., Apply this decision during
+                    transaction authorization., Immediately after authorization., Apply
+                    this decision during transaction capture., Apply this decision when
+                    processing a refund., '', Underwriting. Check the members before
+                    they are boarded., Preboard. Check the Merchant before they are
+                    boarded., Check the Merchant after they are boarded., Check the
+                    Merchant when they process a Transaction., Check the Merchant when
+                    their transaction volume hits a certain amount., Check the Merchant
+                    when a Payout occurs., Check the Merchant when the volume of Payouts
+                    to the Merchant hits a certain amount.]
+              action:
+                description: The action to take when this check fails.
+                enum: ['0', '1', '3', '4', '5', '6', '8']
+                x-enum-descriptions: [No action., 'For txn decision: Block. Block the
+                    Transaction from proceeding. This returns an error.For merchant
+                    decision: Manual. The Merchant is sent to the manual review queue.',
+                  'For txn decision: Hold. Hold the Transaction. It will not be captured
+                    until it is manually released.', 'For txn decision: Reserve. Reserve
+                    the Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed.', 'Block current activity,
+                    no change for merchant', '', '']
+              sequence: {description: 'A sequence number to use when applying multiple
+                  linked decisions: When two or more decisions are linked using their
+                  ''decision'' fields, the checks with lower ''sequence'' numbers are
+                  applied first. This field is specified as an integer.'}
+              amount: {description: 'The minimum value that the Transaction must be
+                  to target this decision, The unit of measure is determined by the
+                  type of check.'}
+              value:
+                description: 'The amount that the associated Transaction should be compared
+                  against. The units for this field depend on the type of check: for
+                  checks that are based on a ratio, specify the amount as a percentage
+                  in basis points; for checks that are based on a dollar amount, specify
+                  the amount in cents; for checks that are based on a count, specify
+                  the exact value as an integer.'
+                enum: ['1', '2', '3']
+                x-enum-descriptions: ['', '', '']
+              period:
+                description: A date indicator that determines how far back in time time-based
+                  checks should be checked. This field works in conjunction with the
+                  'periodFactor' field, which multiplies this basic period.
+                enum: [days, weeks, months, years, seconds, minutes, hours]
+                x-enum-descriptions: [Days. The basic value for the date range is set
+                    in days., Weeks. The basic value for the date range is set in weeks.,
+                  Months. The basic value for the date range is set in months., Years.
+                    The basic value for the date range is set in years., Seconds. The
+                    basic value for the date range is set in seconds., Minutes. The
+                    basic value for the date range is set in minutes., Years. The basic
+                    value for the date range is set in hours.]
+              periodFactor: {description: 'A multiplier that you can use to adjust the
+                  basic date range set in the ''period'' field, such as daily, weekly,
+                  monthly, or annually; this field is specified as an integer and its
+                  value determines how the interval is multiplied.'}
+              schedule: {description: The schedule that determines when this Decision
+                  is triggered to check entities.}
+              scheduleFactor: {description: 'A multiplier that you can use to adjust
+                  the schedule set in the ''schedule'' field, if it is set to a duration-based
+                  trigger, such as daily, weekly, monthly, or annually. This field is
+                  specified as an integer and its value determines how the interval
+                  is multiplied.'}
+              start: {description: 'The date on which checking of the Decision should
+                  start is specified as an eight digit string in YYYYMMDD format, for
+                  example, ''20160120'' for January 20, 2016; the value of this field
+                  must represent a date in the future, or the present date.'}
+              finish: {description: 'The date on which checking of the Decision should
+                  end. The date is specified as an eight digit string in YYYYMMDD format,
+                  for example, ''20160120'' for January 20, 2016. The value of this
+                  field must represent a date in the future.'}
+              low: {description: A lower cut-off value for the score in this decision;
+                  the check fails if the score is equal to or below this value.}
+              high: {description: An upper cut-off value for the score in this decision;
+                  the check fails if the score is equal to or above this value.}
+              useCache:
+                description: Whether to check for and use existing Verifications and
+                  Verification Results for this decision
+                enum: ['0', '1']
+                x-enum-descriptions: [Disabled, Enabled]
+              cacheTime:
+                description: The time caching limit to check for existing verification
+                x-enum-descriptions: ['']
+              options: {description: The options for the Verification are specified
+                  as a sum of the desired options.}
+              additionalOptions: {description: The additionalOptions for the Verification
+                  are specified as a sum of the desired options.}
+              errorMessage: {description: 'The error message for the decision: If the
+                  field is null the error message will be a generic failure message,
+                  if the field is empty the error message will be a specific error message,
+                  if the field is set to a string the error message will be that string.'}
+              reason: {description: 'The reason for the decision. If the field is null
+                  the error message will be a generic message, if the field is set to
+                  a string the reason message will be that string.'}
+              inactive:
+                description: Whether this resource is marked as inactive or not.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen or not frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, application, frozen, inactive, level, login, low, period,
+              periodFactor, scheduleFactor, start, target, type, useCache, value]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this decisions
+                  resource.}
+              org: {description: 'If this decision resource relates to an Org, then
+                  this field stores the identifier of the Org.'}
+              entity: {description: 'If this decision resource relates to an Entity,
+                  then this field stores the identifier of the Entity.'}
+              decision: {description: 'The identifier of a linked decision resource
+                  that acts in coordination with this decision. When you define a decision
+                  attribute here, the referenced decision becomes the ''parent'' resource.
+                  The action field set on the ''parent'' resource determines the action
+                  that occurs if all of the linked decisions fail.'}
+              division: {}
+              partition: {}
+              application:
+                description: Where the action defined by this DecisionAction should
+                  apply
+                enum: [account, txn, entity]
+                x-enum-descriptions: ['', Applies the action to the transaction, Applies
+                    the action on the entity]
+              level: {}
+              type:
+                description: The type of check to perform.
+                enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit, refundTotalLimit,
+                  averageSaleCountLimit, merchantRefundSaleRatio, merchantPaymentSuccessLimit,
+                  ipFailureLimit, ipFailureRatio, inactiveMerchant, merchantPaymentFailureLimit,
+                  merchantCaptureWithoutAuthLimit, refundWithoutSale, refundWithoutSaleLimit,
+                  captureAboveAuthLimit, fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                  currencyConversion, settledCurrencyMismatch, initialTxn, similarTotalLimit,
+                  similarTotalRatio, saleTotalMinimum, limit, ratio, txnWatchlist, balanceRefundLimit]
+                x-enum-descriptions: [Exceeded the maximum number of allowed failed
+                    authorizations., Exceeded the maximum ratio of allowed failed authorizations.,
+                  Exceeded the maximum allowed sale total value., Exceeded the maximum
+                    allowed refund total value., Exceeded the allowed maximum payment
+                    size (individual transaction amount)., Exceeded the maximum allowed
+                    ratio of refunds to sales., '', Exceeded the maximum allowed number
+                    of failed authorizations for a particular IP address., Exceeded
+                    the maximum allowed ratio of failed authorizations for a particular
+                    IP address., The Merchant is not active., Exceeded the maximum allowed
+                    number of failed transactions., Exceeded the maximum allowed number
+                    of transactions without authorizations., Refund transaction does
+                    not have an associated sale transaction., Exceeded the maximum number
+                    of refund transactions that do not have associated sale Transactions.,
+                  Exceeded the maximum authorized value for Transactions with failed
+                    authorizations., Transaction fraud score., CVV, AVS, AAVS, Duplicate
+                    transaction, Transaction matches merchant details., Transaction
+                    triggers currency conversion., Transaction settled currency mismatch.,
+                  Initial transaction of this type., Exceeded the limit of transactions
+                    with equal totals., Exceeded the ratio of transactions with equal
+                    totals., Minimum transaction amount., Exceeded the maximum allowed
+                    number of authorizations., '', Check the transaction data against
+                    a custom watchlist., '']
+              target:
+                description: The target that this decision should apply at.
+                enum: [activation, auth, postauth, capture, refund, createEntity, underwriting,
+                  preboard, postboard, txn, txnVolume, payout, payoutVolume]
+                x-enum-descriptions: [Terminal activation., Apply this decision during
+                    transaction authorization., Immediately after authorization., Apply
+                    this decision during transaction capture., Apply this decision when
+                    processing a refund., '', Underwriting. Check the members before
+                    they are boarded., Preboard. Check the Merchant before they are
+                    boarded., Check the Merchant after they are boarded., Check the
+                    Merchant when they process a Transaction., Check the Merchant when
+                    their transaction volume hits a certain amount., Check the Merchant
+                    when a Payout occurs., Check the Merchant when the volume of Payouts
+                    to the Merchant hits a certain amount.]
+              action:
+                description: The action to take when this check fails.
+                enum: ['0', '1', '3', '4', '5', '6', '8']
+                x-enum-descriptions: [No action., 'For txn decision: Block. Block the
+                    Transaction from proceeding. This returns an error.For merchant
+                    decision: Manual. The Merchant is sent to the manual review queue.',
+                  'For txn decision: Hold. Hold the Transaction. It will not be captured
+                    until it is manually released.', 'For txn decision: Reserve. Reserve
+                    the Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed.', 'Block current activity,
+                    no change for merchant', '', '']
+              sequence:
+                description: "A sequence number to use when applying multiple linked\
+                  \ decisions. \nWhen two or more decisions are linked using their 'decision'\
+                  \ fields, the checks with lower 'sequence' numbers are applied first.\
+                  \ \nThis field is specified as an integer."
+              amount:
+                description: "The minimum value that the Transaction must be to target\
+                  \ this decision. \nThe unit of measure is determined by the type of\
+                  \ check."
+              value:
+                description: "The amount that the associated Transaction should be compared\
+                  \ against. The units for this field depend on the type of check. \n\
+                  For checks that are based on a ratio, specify the amount as a percentage\
+                  \ in basis points. \nFor checks that are based on a dollar amount,\
+                  \ specify the amount in cents. \nFor checks that are based on a count,\
+                  \ specify the exact value as an integer."
+                enum: ['1', '2', '3']
+                x-enum-descriptions: ['', '', '']
+              period:
+                description: A date indicator that determines how far back in time time-based
+                  checks should be checked. This field works in conjunction with the
+                  'periodFactor' field, which multiplies this basic period.
+                enum: [days, weeks, months, years, seconds, minutes, hours]
+                x-enum-descriptions: [Days. The basic value for the date range is set
+                    in days., Weeks. The basic value for the date range is set in weeks.,
+                  Months. The basic value for the date range is set in months., Years.
+                    The basic value for the date range is set in years., Seconds. The
+                    basic value for the date range is set in seconds., Minutes. The
+                    basic value for the date range is set in minutes., Years. The basic
+                    value for the date range is set in hours.]
+              periodFactor:
+                description: "A multiplier that you can use to adjust the basic date\
+                  \ range set in the 'period' field, such as daily, weekly, monthly,\
+                  \ or annually. \nThis field is specified as an integer and its value\
+                  \ determines how the interval is multiplied."
+              schedule: {description: The schedule that determines when this Decision
+                  is triggered to check entities.}
+              scheduleFactor:
+                description: "A multiplier that you can use to adjust the schedule set\
+                  \ in the 'schedule' field, if it is set to a duration-based trigger,\
+                  \ such as daily, weekly, monthly, or annually. \nThis field is specified\
+                  \ as an integer and its value determines how the interval is multiplied."
+              start:
+                description: "The date on which checking of the Decision should start.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future, or the present date."
+              finish:
+                description: "The date on which checking of the Decision should end.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future."
+              low:
+                description: "A lower cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or below this value."
+              high:
+                description: "An upper cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or above this value."
+              useCache:
+                description: Whether to check for and use existing Verifications and
+                  Verification Results for this decision
+                enum: ['0', '1']
+                x-enum-descriptions: [Disabled, Enabled]
+              cacheTime:
+                description: The time caching limit to check for existing verification
+                x-enum-descriptions: ['']
+              options:
+                description: "The options for the Verification. \nThis field is specified\
+                  \ as a sum of the desired options."
+              additionalOptions:
+                description: "The additionalOptions for the Verification. \nThis field\
+                  \ is specified as a sum of the desired options."
+              errorMessage:
+                description: "The error message for the decision. \nIf the field is\
+                  \ null the error message will be a generic failure message, if the\
+                  \ field is empty the error message will be a specific error message,\
+                  \ if the field is set to a string the error message will be that string."
+              reason:
+                description: "The reason for the decision. \nIf the field is null the\
+                  \ error message will be a generic message, \nif the field is set to\
+                  \ a string the reason message will be that string."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, application, frozen, inactive, level, login, low, period,
+              periodFactor, scheduleFactor, start, target, type, useCache, value]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this decisions
+                  resource.}
+              org: {description: 'If this decision resource relates to an Org, then
+                  this field stores the identifier of the Org.'}
+              entity: {description: 'If this decision resource relates to an Entity,
+                  then this field stores the identifier of the Entity.'}
+              decision: {description: 'The identifier of a linked decision resource
+                  that acts in coordination with this decision. When you define a decision
+                  attribute here, the referenced decision becomes the ''parent'' resource.
+                  The action field set on the ''parent'' resource determines the action
+                  that occurs if all of the linked decisions fail.'}
+              division: {}
+              partition: {}
+              application:
+                description: Where the action defined by this DecisionAction should
+                  apply
+                enum: [account, txn, entity]
+                x-enum-descriptions: ['', Applies the action to the transaction, Applies
+                    the action on the entity]
+              level: {}
+              type:
+                description: The type of check to perform.
+                enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit, refundTotalLimit,
+                  averageSaleCountLimit, merchantRefundSaleRatio, merchantPaymentSuccessLimit,
+                  ipFailureLimit, ipFailureRatio, inactiveMerchant, merchantPaymentFailureLimit,
+                  merchantCaptureWithoutAuthLimit, refundWithoutSale, refundWithoutSaleLimit,
+                  captureAboveAuthLimit, fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                  currencyConversion, settledCurrencyMismatch, initialTxn, similarTotalLimit,
+                  similarTotalRatio, saleTotalMinimum, limit, ratio, txnWatchlist, balanceRefundLimit]
+                x-enum-descriptions: [Exceeded the maximum number of allowed failed
+                    authorizations., Exceeded the maximum ratio of allowed failed authorizations.,
+                  Exceeded the maximum allowed sale total value., Exceeded the maximum
+                    allowed refund total value., Exceeded the allowed maximum payment
+                    size (individual transaction amount)., Exceeded the maximum allowed
+                    ratio of refunds to sales., '', Exceeded the maximum allowed number
+                    of failed authorizations for a particular IP address., Exceeded
+                    the maximum allowed ratio of failed authorizations for a particular
+                    IP address., The Merchant is not active., Exceeded the maximum allowed
+                    number of failed transactions., Exceeded the maximum allowed number
+                    of transactions without authorizations., Refund transaction does
+                    not have an associated sale transaction., Exceeded the maximum number
+                    of refund transactions that do not have associated sale Transactions.,
+                  Exceeded the maximum authorized value for Transactions with failed
+                    authorizations., Transaction fraud score., CVV, AVS, AAVS, Duplicate
+                    transaction, Transaction matches merchant details., Transaction
+                    triggers currency conversion., Transaction settled currency mismatch.,
+                  Initial transaction of this type., Exceeded the limit of transactions
+                    with equal totals., Exceeded the ratio of transactions with equal
+                    totals., Minimum transaction amount., Exceeded the maximum allowed
+                    number of authorizations., '', Check the transaction data against
+                    a custom watchlist., '']
+              target:
+                description: The target that this decision should apply at.
+                enum: [activation, auth, postauth, capture, refund, createEntity, underwriting,
+                  preboard, postboard, txn, txnVolume, payout, payoutVolume]
+                x-enum-descriptions: [Terminal activation., Apply this decision during
+                    transaction authorization., Immediately after authorization., Apply
+                    this decision during transaction capture., Apply this decision when
+                    processing a refund., '', Underwriting. Check the members before
+                    they are boarded., Preboard. Check the Merchant before they are
+                    boarded., Check the Merchant after they are boarded., Check the
+                    Merchant when they process a Transaction., Check the Merchant when
+                    their transaction volume hits a certain amount., Check the Merchant
+                    when a Payout occurs., Check the Merchant when the volume of Payouts
+                    to the Merchant hits a certain amount.]
+              action:
+                description: The action to take when this check fails.
+                enum: ['0', '1', '3', '4', '5', '6', '8']
+                x-enum-descriptions: [No action., 'For txn decision: Block. Block the
+                    Transaction from proceeding. This returns an error.For merchant
+                    decision: Manual. The Merchant is sent to the manual review queue.',
+                  'For txn decision: Hold. Hold the Transaction. It will not be captured
+                    until it is manually released.', 'For txn decision: Reserve. Reserve
+                    the Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed.', 'Block current activity,
+                    no change for merchant', '', '']
+              sequence:
+                description: "A sequence number to use when applying multiple linked\
+                  \ decisions. \nWhen two or more decisions are linked using their 'decision'\
+                  \ fields, the checks with lower 'sequence' numbers are applied first.\
+                  \ \nThis field is specified as an integer."
+              amount:
+                description: "The minimum value that the Transaction must be to target\
+                  \ this decision. \nThe unit of measure is determined by the type of\
+                  \ check."
+              value:
+                description: "The amount that the associated Transaction should be compared\
+                  \ against. The units for this field depend on the type of check. \n\
+                  For checks that are based on a ratio, specify the amount as a percentage\
+                  \ in basis points. \nFor checks that are based on a dollar amount,\
+                  \ specify the amount in cents. \nFor checks that are based on a count,\
+                  \ specify the exact value as an integer."
+                enum: ['1', '2', '3']
+                x-enum-descriptions: ['', '', '']
+              period:
+                description: A date indicator that determines how far back in time time-based
+                  checks should be checked. This field works in conjunction with the
+                  'periodFactor' field, which multiplies this basic period.
+                enum: [days, weeks, months, years, seconds, minutes, hours]
+                x-enum-descriptions: [Days. The basic value for the date range is set
+                    in days., Weeks. The basic value for the date range is set in weeks.,
+                  Months. The basic value for the date range is set in months., Years.
+                    The basic value for the date range is set in years., Seconds. The
+                    basic value for the date range is set in seconds., Minutes. The
+                    basic value for the date range is set in minutes., Years. The basic
+                    value for the date range is set in hours.]
+              periodFactor:
+                description: "A multiplier that you can use to adjust the basic date\
+                  \ range set in the 'period' field, such as daily, weekly, monthly,\
+                  \ or annually. \nThis field is specified as an integer and its value\
+                  \ determines how the interval is multiplied."
+              schedule: {description: The schedule that determines when this Decision
+                  is triggered to check entities.}
+              scheduleFactor:
+                description: "A multiplier that you can use to adjust the schedule set\
+                  \ in the 'schedule' field, if it is set to a duration-based trigger,\
+                  \ such as daily, weekly, monthly, or annually. \nThis field is specified\
+                  \ as an integer and its value determines how the interval is multiplied."
+              start:
+                description: "The date on which checking of the Decision should start.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future, or the present date."
+              finish:
+                description: "The date on which checking of the Decision should end.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future."
+              low:
+                description: "A lower cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or below this value."
+              high:
+                description: "An upper cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or above this value."
+              useCache:
+                description: Whether to check for and use existing Verifications and
+                  Verification Results for this decision
+                enum: ['0', '1']
+                x-enum-descriptions: [Disabled, Enabled]
+              cacheTime:
+                description: The time caching limit to check for existing verification
+                x-enum-descriptions: ['']
+              options:
+                description: "The options for the Verification. \nThis field is specified\
+                  \ as a sum of the desired options."
+              additionalOptions:
+                description: "The additionalOptions for the Verification. \nThis field\
+                  \ is specified as a sum of the desired options."
+              errorMessage:
+                description: "The error message for the decision. \nIf the field is\
+                  \ null the error message will be a generic failure message, if the\
+                  \ field is empty the error message will be a specific error message,\
+                  \ if the field is set to a string the error message will be that string."
+              reason:
+                description: "The reason for the decision. \nIf the field is null the\
+                  \ error message will be a generic message, \nif the field is set to\
+                  \ a string the reason message will be that string."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, application, frozen, inactive, level, login, low, period,
+              periodFactor, scheduleFactor, start, target, type, useCache, value]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              login: {description: The identifier of the Login that owns this decisions
+                  resource.}
+              org: {description: 'If this decision resource relates to an Org, then
+                  this field stores the identifier of the Org.'}
+              entity: {description: 'If this decision resource relates to an Entity,
+                  then this field stores the identifier of the Entity.'}
+              decision: {description: 'The identifier of a linked decision resource
+                  that acts in coordination with this decision. When you define a decision
+                  attribute here, the referenced decision becomes the ''parent'' resource.
+                  The action field set on the ''parent'' resource determines the action
+                  that occurs if all of the linked decisions fail.'}
+              division: {}
+              partition: {}
+              application:
+                description: Where the action defined by this DecisionAction should
+                  apply
+                enum: [account, txn, entity]
+                x-enum-descriptions: ['', Applies the action to the transaction, Applies
+                    the action on the entity]
+              level: {}
+              type:
+                description: The type of check to perform.
+                enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit, refundTotalLimit,
+                  averageSaleCountLimit, merchantRefundSaleRatio, merchantPaymentSuccessLimit,
+                  ipFailureLimit, ipFailureRatio, inactiveMerchant, merchantPaymentFailureLimit,
+                  merchantCaptureWithoutAuthLimit, refundWithoutSale, refundWithoutSaleLimit,
+                  captureAboveAuthLimit, fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                  currencyConversion, settledCurrencyMismatch, initialTxn, similarTotalLimit,
+                  similarTotalRatio, saleTotalMinimum, limit, ratio, txnWatchlist, balanceRefundLimit]
+                x-enum-descriptions: [Exceeded the maximum number of allowed failed
+                    authorizations., Exceeded the maximum ratio of allowed failed authorizations.,
+                  Exceeded the maximum allowed sale total value., Exceeded the maximum
+                    allowed refund total value., Exceeded the allowed maximum payment
+                    size (individual transaction amount)., Exceeded the maximum allowed
+                    ratio of refunds to sales., '', Exceeded the maximum allowed number
+                    of failed authorizations for a particular IP address., Exceeded
+                    the maximum allowed ratio of failed authorizations for a particular
+                    IP address., The Merchant is not active., Exceeded the maximum allowed
+                    number of failed transactions., Exceeded the maximum allowed number
+                    of transactions without authorizations., Refund transaction does
+                    not have an associated sale transaction., Exceeded the maximum number
+                    of refund transactions that do not have associated sale Transactions.,
+                  Exceeded the maximum authorized value for Transactions with failed
+                    authorizations., Transaction fraud score., CVV, AVS, AAVS, Duplicate
+                    transaction, Transaction matches merchant details., Transaction
+                    triggers currency conversion., Transaction settled currency mismatch.,
+                  Initial transaction of this type., Exceeded the limit of transactions
+                    with equal totals., Exceeded the ratio of transactions with equal
+                    totals., Minimum transaction amount., Exceeded the maximum allowed
+                    number of authorizations., '', Check the transaction data against
+                    a custom watchlist., '']
+              target:
+                description: The target that this decision should apply at.
+                enum: [activation, auth, postauth, capture, refund, createEntity, underwriting,
+                  preboard, postboard, txn, txnVolume, payout, payoutVolume]
+                x-enum-descriptions: [Terminal activation., Apply this decision during
+                    transaction authorization., Immediately after authorization., Apply
+                    this decision during transaction capture., Apply this decision when
+                    processing a refund., '', Underwriting. Check the members before
+                    they are boarded., Preboard. Check the Merchant before they are
+                    boarded., Check the Merchant after they are boarded., Check the
+                    Merchant when they process a Transaction., Check the Merchant when
+                    their transaction volume hits a certain amount., Check the Merchant
+                    when a Payout occurs., Check the Merchant when the volume of Payouts
+                    to the Merchant hits a certain amount.]
+              action:
+                description: The action to take when this check fails.
+                enum: ['0', '1', '3', '4', '5', '6', '8']
+                x-enum-descriptions: [No action., 'For txn decision: Block. Block the
+                    Transaction from proceeding. This returns an error.For merchant
+                    decision: Manual. The Merchant is sent to the manual review queue.',
+                  'For txn decision: Hold. Hold the Transaction. It will not be captured
+                    until it is manually released.', 'For txn decision: Reserve. Reserve
+                    the Transaction. The funds for the transaction will not be released
+                    until the Transaction is manually reviewed.', 'Block current activity,
+                    no change for merchant', '', '']
+              sequence:
+                description: "A sequence number to use when applying multiple linked\
+                  \ decisions. \nWhen two or more decisions are linked using their 'decision'\
+                  \ fields, the checks with lower 'sequence' numbers are applied first.\
+                  \ \nThis field is specified as an integer."
+              amount:
+                description: "The minimum value that the Transaction must be to target\
+                  \ this decision. \nThe unit of measure is determined by the type of\
+                  \ check."
+              value:
+                description: "The amount that the associated Transaction should be compared\
+                  \ against. The units for this field depend on the type of check. \n\
+                  For checks that are based on a ratio, specify the amount as a percentage\
+                  \ in basis points. \nFor checks that are based on a dollar amount,\
+                  \ specify the amount in cents. \nFor checks that are based on a count,\
+                  \ specify the exact value as an integer."
+                enum: ['1', '2', '3']
+                x-enum-descriptions: ['', '', '']
+              period:
+                description: A date indicator that determines how far back in time time-based
+                  checks should be checked. This field works in conjunction with the
+                  'periodFactor' field, which multiplies this basic period.
+                enum: [days, weeks, months, years, seconds, minutes, hours]
+                x-enum-descriptions: [Days. The basic value for the date range is set
+                    in days., Weeks. The basic value for the date range is set in weeks.,
+                  Months. The basic value for the date range is set in months., Years.
+                    The basic value for the date range is set in years., Seconds. The
+                    basic value for the date range is set in seconds., Minutes. The
+                    basic value for the date range is set in minutes., Years. The basic
+                    value for the date range is set in hours.]
+              periodFactor:
+                description: "A multiplier that you can use to adjust the basic date\
+                  \ range set in the 'period' field, such as daily, weekly, monthly,\
+                  \ or annually. \nThis field is specified as an integer and its value\
+                  \ determines how the interval is multiplied."
+              schedule: {description: The schedule that determines when this Decision
+                  is triggered to check entities.}
+              scheduleFactor:
+                description: "A multiplier that you can use to adjust the schedule set\
+                  \ in the 'schedule' field, if it is set to a duration-based trigger,\
+                  \ such as daily, weekly, monthly, or annually. \nThis field is specified\
+                  \ as an integer and its value determines how the interval is multiplied."
+              start:
+                description: "The date on which checking of the Decision should start.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future, or the present date."
+              finish:
+                description: "The date on which checking of the Decision should end.\
+                  \ \nThe date is specified as an eight digit string in YYYYMMDD format,\
+                  \ for example, '20160120' for January 20, 2016. \nThe value of this\
+                  \ field must represent a date in the future."
+              low:
+                description: "A lower cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or below this value."
+              high:
+                description: "An upper cut-off value for the score in this decision.\
+                  \ \nThe check fails if the score is equal to or above this value."
+              useCache:
+                description: Whether to check for and use existing Verifications and
+                  Verification Results for this decision
+                enum: ['0', '1']
+                x-enum-descriptions: [Disabled, Enabled]
+              cacheTime:
+                description: The time caching limit to check for existing verification
+                x-enum-descriptions: ['']
+              options:
+                description: "The options for the Verification. \nThis field is specified\
+                  \ as a sum of the desired options."
+              additionalOptions:
+                description: "The additionalOptions for the Verification. \nThis field\
+                  \ is specified as a sum of the desired options."
+              errorMessage:
+                description: "The error message for the decision. \nIf the field is\
+                  \ null the error message will be a generic failure message, if the\
+                  \ field is empty the error message will be a specific error message,\
+                  \ if the field is set to a string the error message will be that string."
+              reason:
+                description: "The reason for the decision. \nIf the field is null the\
+                  \ error message will be a generic message, \nif the field is set to\
+                  \ a string the reason message will be that string."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [action, application, frozen, inactive, level, login, low, period,
+              periodFactor, scheduleFactor, start, target, type, useCache, value]
+            x-redacted: []
+      description: Update Decision Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this decisions resource.}
+                          org: {description: 'If this decision resource relates to an
+                              Org, then this field stores the identifier of the Org.'}
+                          division: {}
+                          partition: {}
+                          entity: {description: 'If this decision resource relates to
+                              an Entity, then this field stores the identifier of the
+                              Entity.'}
+                          decision: {description: 'The identifier of a linked decision
+                              resource that acts in coordination with this decision.
+                              When you define a decision attribute here, the referenced
+                              decision becomes the ''parent'' resource. The action field
+                              set on the ''parent'' resource determines the action that
+                              occurs if all of the linked decisions fail.'}
+                          type:
+                            description: The type of check to perform.
+                            enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit,
+                              refundTotalLimit, averageSaleCountLimit, merchantRefundSaleRatio,
+                              merchantPaymentSuccessLimit, ipFailureLimit, ipFailureRatio,
+                              inactiveMerchant, merchantPaymentFailureLimit, merchantCaptureWithoutAuthLimit,
+                              refundWithoutSale, refundWithoutSaleLimit, captureAboveAuthLimit,
+                              fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                              currencyConversion, settledCurrencyMismatch, initialTxn,
+                              similarTotalLimit, similarTotalRatio, saleTotalMinimum,
+                              limit, ratio, txnWatchlist, balanceRefundLimit]
+                            x-enum-descriptions: [Exceeded the maximum number of allowed
+                                failed authorizations., Exceeded the maximum ratio of
+                                allowed failed authorizations., Exceeded the maximum
+                                allowed sale total value., Exceeded the maximum allowed
+                                refund total value., Exceeded the allowed maximum payment
+                                size (individual transaction amount)., Exceeded the
+                                maximum allowed ratio of refunds to sales., '', Exceeded
+                                the maximum allowed number of failed authorizations
+                                for a particular IP address., Exceeded the maximum allowed
+                                ratio of failed authorizations for a particular IP address.,
+                              The Merchant is not active., Exceeded the maximum allowed
+                                number of failed transactions., Exceeded the maximum
+                                allowed number of transactions without authorizations.,
+                              Refund transaction does not have an associated sale transaction.,
+                              Exceeded the maximum number of refund transactions that
+                                do not have associated sale Transactions., Exceeded
+                                the maximum authorized value for Transactions with failed
+                                authorizations., Transaction fraud score., CVV, AVS,
+                              AAVS, Duplicate transaction, Transaction matches merchant
+                                details., Transaction triggers currency conversion.,
+                              Transaction settled currency mismatch., Initial transaction
+                                of this type., Exceeded the limit of transactions with
+                                equal totals., Exceeded the ratio of transactions with
+                                equal totals., Minimum transaction amount., Exceeded
+                                the maximum allowed number of authorizations., '', Check
+                                the transaction data against a custom watchlist., '']
+                          application:
+                            description: Where the action defined by this DecisionAction
+                              should apply
+                            enum: [account, txn, entity]
+                            x-enum-descriptions: ['', Applies the action to the transaction,
+                              Applies the action on the entity]
+                          target:
+                            description: The target that this decision should apply
+                              at.
+                            enum: [activation, auth, postauth, capture, refund, createEntity,
+                              underwriting, preboard, postboard, txn, txnVolume, payout,
+                              payoutVolume]
+                            x-enum-descriptions: [Terminal activation., Apply this decision
+                                during transaction authorization., Immediately after
+                                authorization., Apply this decision during transaction
+                                capture., Apply this decision when processing a refund.,
+                              '', Underwriting. Check the members before they are boarded.,
+                              Preboard. Check the Merchant before they are boarded.,
+                              Check the Merchant after they are boarded., Check the
+                                Merchant when they process a Transaction., Check the
+                                Merchant when their transaction volume hits a certain
+                                amount., Check the Merchant when a Payout occurs., Check
+                                the Merchant when the volume of Payouts to the Merchant
+                                hits a certain amount.]
+                          options: {description: The options for the Verification are
+                              specified as a sum of the desired options.}
+                          additionalOptions: {description: The additionalOptions for
+                              the Verification are specified as a sum of the desired
+                              options.}
+                          level: {}
+                          errorMessage: {description: 'The error message for the decision:
+                              If the field is null the error message will be a generic
+                              failure message, if the field is empty the error message
+                              will be a specific error message, if the field is set
+                              to a string the error message will be that string.'}
+                          reason: {description: 'The reason for the decision. If the
+                              field is null the error message will be a generic message,
+                              if the field is set to a string the reason message will
+                              be that string.'}
+                          action:
+                            description: The action to take when this check fails.
+                            enum: ['0', '1', '3', '4', '5', '6', '8']
+                            x-enum-descriptions: [No action., 'For txn decision: Block.
+                                Block the Transaction from proceeding. This returns
+                                an error.For merchant decision: Manual. The Merchant
+                                is sent to the manual review queue.', 'For txn decision:
+                                Hold. Hold the Transaction. It will not be captured
+                                until it is manually released.', 'For txn decision:
+                                Reserve. Reserve the Transaction. The funds for the
+                                transaction will not be released until the Transaction
+                                is manually reviewed.', 'Block current activity, no
+                                change for merchant', '', '']
+                          sequence: {description: 'A sequence number to use when applying
+                              multiple linked decisions: When two or more decisions
+                              are linked using their ''decision'' fields, the checks
+                              with lower ''sequence'' numbers are applied first. This
+                              field is specified as an integer.'}
+                          amount: {description: 'The minimum value that the Transaction
+                              must be to target this decision, The unit of measure is
+                              determined by the type of check.'}
+                          value:
+                            description: 'The amount that the associated Transaction
+                              should be compared against. The units for this field depend
+                              on the type of check: for checks that are based on a ratio,
+                              specify the amount as a percentage in basis points; for
+                              checks that are based on a dollar amount, specify the
+                              amount in cents; for checks that are based on a count,
+                              specify the exact value as an integer.'
+                            enum: ['1', '2', '3']
+                            x-enum-descriptions: ['', '', '']
+                          period:
+                            description: A date indicator that determines how far back
+                              in time time-based checks should be checked. This field
+                              works in conjunction with the 'periodFactor' field, which
+                              multiplies this basic period.
+                            enum: [days, weeks, months, years, seconds, minutes, hours]
+                            x-enum-descriptions: [Days. The basic value for the date
+                                range is set in days., Weeks. The basic value for the
+                                date range is set in weeks., Months. The basic value
+                                for the date range is set in months., Years. The basic
+                                value for the date range is set in years., Seconds.
+                                The basic value for the date range is set in seconds.,
+                              Minutes. The basic value for the date range is set in
+                                minutes., Years. The basic value for the date range
+                                is set in hours.]
+                          periodFactor: {description: 'A multiplier that you can use
+                              to adjust the basic date range set in the ''period'' field,
+                              such as daily, weekly, monthly, or annually; this field
+                              is specified as an integer and its value determines how
+                              the interval is multiplied.'}
+                          schedule: {description: The schedule that determines when
+                              this Decision is triggered to check entities.}
+                          scheduleFactor: {description: 'A multiplier that you can use
+                              to adjust the schedule set in the ''schedule'' field,
+                              if it is set to a duration-based trigger, such as daily,
+                              weekly, monthly, or annually. This field is specified
+                              as an integer and its value determines how the interval
+                              is multiplied.'}
+                          start: {description: 'The date on which checking of the Decision
+                              should start is specified as an eight digit string in
+                              YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016; the value of this field must represent a date
+                              in the future, or the present date.'}
+                          finish: {description: 'The date on which checking of the Decision
+                              should end. The date is specified as an eight digit string
+                              in YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016. The value of this field must represent a date
+                              in the future.'}
+                          low: {description: A lower cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or below this value.}
+                          high: {description: An upper cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or above this value.}
+                          useCache:
+                            description: Whether to check for and use existing Verifications
+                              and Verification Results for this decision
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Disabled, Enabled]
+                          cacheTime:
+                            description: The time caching limit to check for existing
+                              verification
+                            x-enum-descriptions: ['']
+                          inactive:
+                            description: Whether this resource is marked as inactive
+                              or not, whether it's active or inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen or
+                              not frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this decisions resource.}
+                          org: {description: 'If this decision resource relates to an
+                              Org, then this field stores the identifier of the Org.'}
+                          division: {}
+                          partition: {}
+                          entity: {description: 'If this decision resource relates to
+                              an Entity, then this field stores the identifier of the
+                              Entity.'}
+                          decision: {description: 'The identifier of a linked decision
+                              resource that acts in coordination with this decision.
+                              When you define a decision attribute here, the referenced
+                              decision becomes the ''parent'' resource. The action field
+                              set on the ''parent'' resource determines the action that
+                              occurs if all of the linked decisions fail.'}
+                          type:
+                            description: The type of check to perform.
+                            enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit,
+                              refundTotalLimit, averageSaleCountLimit, merchantRefundSaleRatio,
+                              merchantPaymentSuccessLimit, ipFailureLimit, ipFailureRatio,
+                              inactiveMerchant, merchantPaymentFailureLimit, merchantCaptureWithoutAuthLimit,
+                              refundWithoutSale, refundWithoutSaleLimit, captureAboveAuthLimit,
+                              fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                              currencyConversion, settledCurrencyMismatch, initialTxn,
+                              similarTotalLimit, similarTotalRatio, saleTotalMinimum,
+                              limit, ratio, txnWatchlist, balanceRefundLimit]
+                            x-enum-descriptions: [Exceeded the maximum number of allowed
+                                failed authorizations., Exceeded the maximum ratio of
+                                allowed failed authorizations., Exceeded the maximum
+                                allowed sale total value., Exceeded the maximum allowed
+                                refund total value., Exceeded the allowed maximum payment
+                                size (individual transaction amount)., Exceeded the
+                                maximum allowed ratio of refunds to sales., '', Exceeded
+                                the maximum allowed number of failed authorizations
+                                for a particular IP address., Exceeded the maximum allowed
+                                ratio of failed authorizations for a particular IP address.,
+                              The Merchant is not active., Exceeded the maximum allowed
+                                number of failed transactions., Exceeded the maximum
+                                allowed number of transactions without authorizations.,
+                              Refund transaction does not have an associated sale transaction.,
+                              Exceeded the maximum number of refund transactions that
+                                do not have associated sale Transactions., Exceeded
+                                the maximum authorized value for Transactions with failed
+                                authorizations., Transaction fraud score., CVV, AVS,
+                              AAVS, Duplicate transaction, Transaction matches merchant
+                                details., Transaction triggers currency conversion.,
+                              Transaction settled currency mismatch., Initial transaction
+                                of this type., Exceeded the limit of transactions with
+                                equal totals., Exceeded the ratio of transactions with
+                                equal totals., Minimum transaction amount., Exceeded
+                                the maximum allowed number of authorizations., '', Check
+                                the transaction data against a custom watchlist., '']
+                          application:
+                            description: Where the action defined by this DecisionAction
+                              should apply
+                            enum: [account, txn, entity]
+                            x-enum-descriptions: ['', Applies the action to the transaction,
+                              Applies the action on the entity]
+                          target:
+                            description: The target that this decision should apply
+                              at.
+                            enum: [activation, auth, postauth, capture, refund, createEntity,
+                              underwriting, preboard, postboard, txn, txnVolume, payout,
+                              payoutVolume]
+                            x-enum-descriptions: [Terminal activation., Apply this decision
+                                during transaction authorization., Immediately after
+                                authorization., Apply this decision during transaction
+                                capture., Apply this decision when processing a refund.,
+                              '', Underwriting. Check the members before they are boarded.,
+                              Preboard. Check the Merchant before they are boarded.,
+                              Check the Merchant after they are boarded., Check the
+                                Merchant when they process a Transaction., Check the
+                                Merchant when their transaction volume hits a certain
+                                amount., Check the Merchant when a Payout occurs., Check
+                                the Merchant when the volume of Payouts to the Merchant
+                                hits a certain amount.]
+                          options: {description: The options for the Verification are
+                              specified as a sum of the desired options.}
+                          additionalOptions: {description: The additionalOptions for
+                              the Verification are specified as a sum of the desired
+                              options.}
+                          level: {}
+                          errorMessage: {description: 'The error message for the decision:
+                              If the field is null the error message will be a generic
+                              failure message, if the field is empty the error message
+                              will be a specific error message, if the field is set
+                              to a string the error message will be that string.'}
+                          reason: {description: 'The reason for the decision. If the
+                              field is null the error message will be a generic message,
+                              if the field is set to a string the reason message will
+                              be that string.'}
+                          action:
+                            description: The action to take when this check fails.
+                            enum: ['0', '1', '3', '4', '5', '6', '8']
+                            x-enum-descriptions: [No action., 'For txn decision: Block.
+                                Block the Transaction from proceeding. This returns
+                                an error.For merchant decision: Manual. The Merchant
+                                is sent to the manual review queue.', 'For txn decision:
+                                Hold. Hold the Transaction. It will not be captured
+                                until it is manually released.', 'For txn decision:
+                                Reserve. Reserve the Transaction. The funds for the
+                                transaction will not be released until the Transaction
+                                is manually reviewed.', 'Block current activity, no
+                                change for merchant', '', '']
+                          sequence: {description: 'A sequence number to use when applying
+                              multiple linked decisions: When two or more decisions
+                              are linked using their ''decision'' fields, the checks
+                              with lower ''sequence'' numbers are applied first. This
+                              field is specified as an integer.'}
+                          amount: {description: 'The minimum value that the Transaction
+                              must be to target this decision, The unit of measure is
+                              determined by the type of check.'}
+                          value:
+                            description: 'The amount that the associated Transaction
+                              should be compared against. The units for this field depend
+                              on the type of check: for checks that are based on a ratio,
+                              specify the amount as a percentage in basis points; for
+                              checks that are based on a dollar amount, specify the
+                              amount in cents; for checks that are based on a count,
+                              specify the exact value as an integer.'
+                            enum: ['1', '2', '3']
+                            x-enum-descriptions: ['', '', '']
+                          period:
+                            description: A date indicator that determines how far back
+                              in time time-based checks should be checked. This field
+                              works in conjunction with the 'periodFactor' field, which
+                              multiplies this basic period.
+                            enum: [days, weeks, months, years, seconds, minutes, hours]
+                            x-enum-descriptions: [Days. The basic value for the date
+                                range is set in days., Weeks. The basic value for the
+                                date range is set in weeks., Months. The basic value
+                                for the date range is set in months., Years. The basic
+                                value for the date range is set in years., Seconds.
+                                The basic value for the date range is set in seconds.,
+                              Minutes. The basic value for the date range is set in
+                                minutes., Years. The basic value for the date range
+                                is set in hours.]
+                          periodFactor: {description: 'A multiplier that you can use
+                              to adjust the basic date range set in the ''period'' field,
+                              such as daily, weekly, monthly, or annually; this field
+                              is specified as an integer and its value determines how
+                              the interval is multiplied.'}
+                          schedule: {description: The schedule that determines when
+                              this Decision is triggered to check entities.}
+                          scheduleFactor: {description: 'A multiplier that you can use
+                              to adjust the schedule set in the ''schedule'' field,
+                              if it is set to a duration-based trigger, such as daily,
+                              weekly, monthly, or annually. This field is specified
+                              as an integer and its value determines how the interval
+                              is multiplied.'}
+                          start: {description: 'The date on which checking of the Decision
+                              should start is specified as an eight digit string in
+                              YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016; the value of this field must represent a date
+                              in the future, or the present date.'}
+                          finish: {description: 'The date on which checking of the Decision
+                              should end. The date is specified as an eight digit string
+                              in YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016. The value of this field must represent a date
+                              in the future.'}
+                          low: {description: A lower cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or below this value.}
+                          high: {description: An upper cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or above this value.}
+                          useCache:
+                            description: Whether to check for and use existing Verifications
+                              and Verification Results for this decision
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Disabled, Enabled]
+                          cacheTime:
+                            description: The time caching limit to check for existing
+                              verification
+                            x-enum-descriptions: ['']
+                          inactive:
+                            description: Whether this resource is marked as inactive
+                              or not.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen or
+                              not frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for update on decisions resource Update Decision Response
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Update Decision by it's ID.
+    tags: [Decisions]
+    operationId: putDecisionsId
+  delete:
+    description: Delete a Decision's resource, which represents the schedule and rules
+      for a check done on Transactions.
+    parameters:
+    - description: The ID of this resource, also known as The Decision ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this decisions resource.}
+                          org: {description: 'If this decision resource relates to an
+                              Org, then this field stores the identifier of the Org.'}
+                          division: {}
+                          partition: {}
+                          entity: {description: 'If this decision resource relates to
+                              an Entity, then this field stores the identifier of the
+                              Entity.'}
+                          decision: {description: 'The identifier of a linked decision
+                              resource that acts in coordination with this decision.
+                              When you define a decision attribute here, the referenced
+                              decision becomes the ''parent'' resource. The action field
+                              set on the ''parent'' resource determines the action that
+                              occurs if all of the linked decisions fail.'}
+                          type:
+                            description: The type of check to perform.
+                            enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit,
+                              refundTotalLimit, averageSaleCountLimit, merchantRefundSaleRatio,
+                              merchantPaymentSuccessLimit, ipFailureLimit, ipFailureRatio,
+                              inactiveMerchant, merchantPaymentFailureLimit, merchantCaptureWithoutAuthLimit,
+                              refundWithoutSale, refundWithoutSaleLimit, captureAboveAuthLimit,
+                              fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                              currencyConversion, settledCurrencyMismatch, initialTxn,
+                              similarTotalLimit, similarTotalRatio, saleTotalMinimum,
+                              limit, ratio, txnWatchlist, balanceRefundLimit]
+                            x-enum-descriptions: [Exceeded the maximum number of allowed
+                                failed authorizations., Exceeded the maximum ratio of
+                                allowed failed authorizations., Exceeded the maximum
+                                allowed sale total value., Exceeded the maximum allowed
+                                refund total value., Exceeded the allowed maximum payment
+                                size (individual transaction amount)., Exceeded the
+                                maximum allowed ratio of refunds to sales., '', Exceeded
+                                the maximum allowed number of failed authorizations
+                                for a particular IP address., Exceeded the maximum allowed
+                                ratio of failed authorizations for a particular IP address.,
+                              The Merchant is not active., Exceeded the maximum allowed
+                                number of failed transactions., Exceeded the maximum
+                                allowed number of transactions without authorizations.,
+                              Refund transaction does not have an associated sale transaction.,
+                              Exceeded the maximum number of refund transactions that
+                                do not have associated sale Transactions., Exceeded
+                                the maximum authorized value for Transactions with failed
+                                authorizations., Transaction fraud score., CVV, AVS,
+                              AAVS, Duplicate transaction, Transaction matches merchant
+                                details., Transaction triggers currency conversion.,
+                              Transaction settled currency mismatch., Initial transaction
+                                of this type., Exceeded the limit of transactions with
+                                equal totals., Exceeded the ratio of transactions with
+                                equal totals., Minimum transaction amount., Exceeded
+                                the maximum allowed number of authorizations., '', Check
+                                the transaction data against a custom watchlist., '']
+                          application:
+                            description: Where the action defined by this DecisionAction
+                              should apply
+                            enum: [account, txn, entity]
+                            x-enum-descriptions: ['', Applies the action to the transaction,
+                              Applies the action on the entity]
+                          target:
+                            description: The target that this decision should apply
+                              at.
+                            enum: [activation, auth, postauth, capture, refund, createEntity,
+                              underwriting, preboard, postboard, txn, txnVolume, payout,
+                              payoutVolume]
+                            x-enum-descriptions: [Terminal activation., Apply this decision
+                                during transaction authorization., Immediately after
+                                authorization., Apply this decision during transaction
+                                capture., Apply this decision when processing a refund.,
+                              '', Underwriting. Check the members before they are boarded.,
+                              Preboard. Check the Merchant before they are boarded.,
+                              Check the Merchant after they are boarded., Check the
+                                Merchant when they process a Transaction., Check the
+                                Merchant when their transaction volume hits a certain
+                                amount., Check the Merchant when a Payout occurs., Check
+                                the Merchant when the volume of Payouts to the Merchant
+                                hits a certain amount.]
+                          options: {description: The options for the Verification are
+                              specified as a sum of the desired options.}
+                          additionalOptions: {description: The additionalOptions for
+                              the Verification are specified as a sum of the desired
+                              options.}
+                          level: {}
+                          errorMessage: {description: 'The error message for the decision:
+                              If the field is null the error message will be a generic
+                              failure message, if the field is empty the error message
+                              will be a specific error message, if the field is set
+                              to a string the error message will be that string.'}
+                          reason: {description: 'The reason for the decision. If the
+                              field is null the error message will be a generic message,
+                              if the field is set to a string the reason message will
+                              be that string.'}
+                          action:
+                            description: The action to take when this check fails.
+                            enum: ['0', '1', '3', '4', '5', '6', '8']
+                            x-enum-descriptions: [No action., 'For txn decision: Block.
+                                Block the Transaction from proceeding. This returns
+                                an error.For merchant decision: Manual. The Merchant
+                                is sent to the manual review queue.', 'For txn decision:
+                                Hold. Hold the Transaction. It will not be captured
+                                until it is manually released.', 'For txn decision:
+                                Reserve. Reserve the Transaction. The funds for the
+                                transaction will not be released until the Transaction
+                                is manually reviewed.', 'Block current activity, no
+                                change for merchant', '', '']
+                          sequence: {description: 'A sequence number to use when applying
+                              multiple linked decisions: When two or more decisions
+                              are linked using their ''decision'' fields, the checks
+                              with lower ''sequence'' numbers are applied first. This
+                              field is specified as an integer.'}
+                          amount: {description: 'The minimum value that the Transaction
+                              must be to target this decision, The unit of measure is
+                              determined by the type of check.'}
+                          value:
+                            description: 'The amount that the associated Transaction
+                              should be compared against. The units for this field depend
+                              on the type of check: for checks that are based on a ratio,
+                              specify the amount as a percentage in basis points; for
+                              checks that are based on a dollar amount, specify the
+                              amount in cents; for checks that are based on a count,
+                              specify the exact value as an integer.'
+                            enum: ['1', '2', '3']
+                            x-enum-descriptions: ['', '', '']
+                          period:
+                            description: A date indicator that determines how far back
+                              in time time-based checks should be checked. This field
+                              works in conjunction with the 'periodFactor' field, which
+                              multiplies this basic period.
+                            enum: [days, weeks, months, years, seconds, minutes, hours]
+                            x-enum-descriptions: [Days. The basic value for the date
+                                range is set in days., Weeks. The basic value for the
+                                date range is set in weeks., Months. The basic value
+                                for the date range is set in months., Years. The basic
+                                value for the date range is set in years., Seconds.
+                                The basic value for the date range is set in seconds.,
+                              Minutes. The basic value for the date range is set in
+                                minutes., Years. The basic value for the date range
+                                is set in hours.]
+                          periodFactor: {description: 'A multiplier that you can use
+                              to adjust the basic date range set in the ''period'' field,
+                              such as daily, weekly, monthly, or annually; this field
+                              is specified as an integer and its value determines how
+                              the interval is multiplied.'}
+                          schedule: {description: The schedule that determines when
+                              this Decision is triggered to check entities.}
+                          scheduleFactor: {description: 'A multiplier that you can use
+                              to adjust the schedule set in the ''schedule'' field,
+                              if it is set to a duration-based trigger, such as daily,
+                              weekly, monthly, or annually. This field is specified
+                              as an integer and its value determines how the interval
+                              is multiplied.'}
+                          start: {description: 'The date on which checking of the Decision
+                              should start is specified as an eight digit string in
+                              YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016; the value of this field must represent a date
+                              in the future, or the present date.'}
+                          finish: {description: 'The date on which checking of the Decision
+                              should end. The date is specified as an eight digit string
+                              in YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016. The value of this field must represent a date
+                              in the future.'}
+                          low: {description: A lower cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or below this value.}
+                          high: {description: An upper cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or above this value.}
+                          useCache:
+                            description: Whether to check for and use existing Verifications
+                              and Verification Results for this decision
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Disabled, Enabled]
+                          cacheTime:
+                            description: The time caching limit to check for existing
+                              verification
+                            x-enum-descriptions: ['']
+                          inactive:
+                            description: Whether this resource is marked as inactive
+                              or not.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen or
+                              not frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The identifier of the Login that owns
+                              this decisions resource.}
+                          org: {description: 'If this decision resource relates to an
+                              Org, then this field stores the identifier of the Org.'}
+                          division: {}
+                          partition: {}
+                          entity: {description: 'If this decision resource relates to
+                              an Entity, then this field stores the identifier of the
+                              Entity.'}
+                          decision: {description: 'The identifier of a linked decision
+                              resource that acts in coordination with this decision.
+                              When you define a decision attribute here, the referenced
+                              decision becomes the ''parent'' resource. The action field
+                              set on the ''parent'' resource determines the action that
+                              occurs if all of the linked decisions fail.'}
+                          type:
+                            description: The type of check to perform.
+                            enum: [merchantFailureLimit, merchantFailureRatio, saleTotalLimit,
+                              refundTotalLimit, averageSaleCountLimit, merchantRefundSaleRatio,
+                              merchantPaymentSuccessLimit, ipFailureLimit, ipFailureRatio,
+                              inactiveMerchant, merchantPaymentFailureLimit, merchantCaptureWithoutAuthLimit,
+                              refundWithoutSale, refundWithoutSaleLimit, captureAboveAuthLimit,
+                              fraudScore, cvv, avs, aavs, duplicateTxn, merchantMatch,
+                              currencyConversion, settledCurrencyMismatch, initialTxn,
+                              similarTotalLimit, similarTotalRatio, saleTotalMinimum,
+                              limit, ratio, txnWatchlist, balanceRefundLimit]
+                            x-enum-descriptions: [Exceeded the maximum number of allowed
+                                failed authorizations., Exceeded the maximum ratio of
+                                allowed failed authorizations., Exceeded the maximum
+                                allowed sale total value., Exceeded the maximum allowed
+                                refund total value., Exceeded the allowed maximum payment
+                                size (individual transaction amount)., Exceeded the
+                                maximum allowed ratio of refunds to sales., '', Exceeded
+                                the maximum allowed number of failed authorizations
+                                for a particular IP address., Exceeded the maximum allowed
+                                ratio of failed authorizations for a particular IP address.,
+                              The Merchant is not active., Exceeded the maximum allowed
+                                number of failed transactions., Exceeded the maximum
+                                allowed number of transactions without authorizations.,
+                              Refund transaction does not have an associated sale transaction.,
+                              Exceeded the maximum number of refund transactions that
+                                do not have associated sale Transactions., Exceeded
+                                the maximum authorized value for Transactions with failed
+                                authorizations., Transaction fraud score., CVV, AVS,
+                              AAVS, Duplicate transaction, Transaction matches merchant
+                                details., Transaction triggers currency conversion.,
+                              Transaction settled currency mismatch., Initial transaction
+                                of this type., Exceeded the limit of transactions with
+                                equal totals., Exceeded the ratio of transactions with
+                                equal totals., Minimum transaction amount., Exceeded
+                                the maximum allowed number of authorizations., '', Check
+                                the transaction data against a custom watchlist., '']
+                          application:
+                            description: Where the action defined by this DecisionAction
+                              should apply
+                            enum: [account, txn, entity]
+                            x-enum-descriptions: ['', Applies the action to the transaction,
+                              Applies the action on the entity]
+                          target:
+                            description: The target that this decision should apply
+                              at.
+                            enum: [activation, auth, postauth, capture, refund, createEntity,
+                              underwriting, preboard, postboard, txn, txnVolume, payout,
+                              payoutVolume]
+                            x-enum-descriptions: [Terminal activation., Apply this decision
+                                during transaction authorization., Immediately after
+                                authorization., Apply this decision during transaction
+                                capture., Apply this decision when processing a refund.,
+                              '', Underwriting. Check the members before they are boarded.,
+                              Preboard. Check the Merchant before they are boarded.,
+                              Check the Merchant after they are boarded., Check the
+                                Merchant when they process a Transaction., Check the
+                                Merchant when their transaction volume hits a certain
+                                amount., Check the Merchant when a Payout occurs., Check
+                                the Merchant when the volume of Payouts to the Merchant
+                                hits a certain amount.]
+                          options: {description: The options for the Verification are
+                              specified as a sum of the desired options.}
+                          additionalOptions: {description: The additionalOptions for
+                              the Verification are specified as a sum of the desired
+                              options.}
+                          level: {}
+                          errorMessage: {description: 'The error message for the decision:
+                              If the field is null the error message will be a generic
+                              failure message, if the field is empty the error message
+                              will be a specific error message, if the field is set
+                              to a string the error message will be that string.'}
+                          reason: {description: 'The reason for the decision. If the
+                              field is null the error message will be a generic message,
+                              if the field is set to a string the reason message will
+                              be that string.'}
+                          action:
+                            description: The action to take when this check fails.
+                            enum: ['0', '1', '3', '4', '5', '6', '8']
+                            x-enum-descriptions: [No action., 'For txn decision: Block.
+                                Block the Transaction from proceeding. This returns
+                                an error.For merchant decision: Manual. The Merchant
+                                is sent to the manual review queue.', 'For txn decision:
+                                Hold. Hold the Transaction. It will not be captured
+                                until it is manually released.', 'For txn decision:
+                                Reserve. Reserve the Transaction. The funds for the
+                                transaction will not be released until the Transaction
+                                is manually reviewed.', 'Block current activity, no
+                                change for merchant', '', '']
+                          sequence: {description: 'A sequence number to use when applying
+                              multiple linked decisions: When two or more decisions
+                              are linked using their ''decision'' fields, the checks
+                              with lower ''sequence'' numbers are applied first; this
+                              field is specified as an integer.'}
+                          amount: {description: 'The minimum value that the Transaction
+                              must be to target this decision, The unit of measure is
+                              determined by the type of check.'}
+                          value:
+                            description: 'The amount that the associated Transaction
+                              should be compared against. The units for this field depend
+                              on the type of check: for checks that are based on a ratio,
+                              specify the amount as a percentage in basis points; for
+                              checks that are based on a dollar amount, specify the
+                              amount in cents; for checks that are based on a count,
+                              specify the exact value as an integer.'
+                            enum: ['1', '2', '3']
+                            x-enum-descriptions: ['', '', '']
+                          period:
+                            description: A date indicator that determines how far back
+                              in time time-based checks should be checked. This field
+                              works in conjunction with the 'periodFactor' field, which
+                              multiplies this basic period.
+                            enum: [days, weeks, months, years, seconds, minutes, hours]
+                            x-enum-descriptions: [Days. The basic value for the date
+                                range is set in days., Weeks. The basic value for the
+                                date range is set in weeks., Months. The basic value
+                                for the date range is set in months., Years. The basic
+                                value for the date range is set in years., Seconds.
+                                The basic value for the date range is set in seconds.,
+                              Minutes. The basic value for the date range is set in
+                                minutes., Years. The basic value for the date range
+                                is set in hours.]
+                          periodFactor: {description: 'A multiplier that you can use
+                              to adjust the basic date range set in the ''period'' field,
+                              such as daily, weekly, monthly, or annually; this field
+                              is specified as an integer and its value determines how
+                              the interval is multiplied.'}
+                          schedule: {description: The schedule that determines when
+                              this Decision is triggered to check entities.}
+                          scheduleFactor: {description: 'A multiplier that you can use
+                              to adjust the schedule set in the ''schedule'' field,
+                              if it is set to a duration-based trigger, such as daily,
+                              weekly, monthly, or annually. This field is specified
+                              as an integer and its value determines how the interval
+                              is multiplied.'}
+                          start: {description: 'The date on which checking of the Decision
+                              should start is specified as an eight digit string in
+                              YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016; the value of this field must represent a date
+                              in the future, or the present date.'}
+                          finish: {description: 'The date on which checking of the Decision
+                              should end. The date is specified as an eight digit string
+                              in YYYYMMDD format, for example, ''20160120'' for January
+                              20, 2016. The value of this field must represent a date
+                              in the future.'}
+                          low: {description: A lower cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or below this value.}
+                          high: {description: An upper cut-off value for the score in
+                              this decision; the check fails if the score is equal to
+                              or above this value.}
+                          useCache:
+                            description: Whether to check for and use existing Verifications
+                              and Verification Results for this decision
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Disabled, Enabled]
+                          cacheTime:
+                            description: The time caching limit to check for existing
+                              verification
+                            x-enum-descriptions: ['']
+                          inactive:
+                            description: Whether this resource is marked as inactive
+                              or not, whether it's active or inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen or
+                              not frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: The response for delete on decisions resource is Delete Decision
+          Action Response.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Delete Decision by it's ID.
+    tags: [Decisions]
+    operationId: deleteDecisionsId

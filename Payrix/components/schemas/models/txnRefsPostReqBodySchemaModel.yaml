@@ -1,0 +1,32 @@
+properties:
+  txn: {type: string, description: The parent transaction that owns this txnRef and to which
+    this reference applies.}
+  ref: {type: string, description: The reference value retrieved from the third party (platform).}
+  stage:
+    type: string
+    description: "An indicator showing what this txnRef refers to.\n\n<details>\n\
+                  <summary>Valid Values</summary>\n\n  - `auth` - **Related to transaction\
+                  \ authorization stage.**\n  \n  - `capture` - **Related to transaction\
+                  \ capture stage.**\n  \n  - `draft` - **Transaction is in draft stage.\
+                  \ Draft locator for transaction.**\n  \n  - `file` - **Import Transaction\
+                  \ Reference file.**\n                \n  - `network` - **A reference from the network.**\n \
+                  \ \n  - `refund` - **Related to transaction refund stage.**\n\n  -\
+                  \ `retrieval` - **A reference to the retrieval number (a reference exchanged with the processor for later cross-reference).**\n \  
+                  \ \n - `threatMetrix` - **Threat Matrix.**\n\n  \n\n\
+                  \  \n</details>\n"
+    enum: [auth, capture, draft, file, network, refund, retrieval, threatMetrix,
+           txnHash, ARN]
+    x-enum-descriptions: [The txnRef relates to transaction authorization.,
+      The txnRef relates to transaction capture., DRAFT. Draft Locator for
+        the txn, FILE. Import file ref, '', The txnRef relates to a transaction
+        refund., '', '', '', '']
+  platform:
+    type: string
+    description: The platform that issued this txnRef.
+    enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+           WFSINGLE, WORLDPAY, TDBANKCA]
+    example: VCORE
+    x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+      Core., '', Wells Fargo., '', '', '']
+required: [platform, ref, stage, txn]
+x-redacted: []

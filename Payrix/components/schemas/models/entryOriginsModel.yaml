@@ -1,0 +1,23 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  entry: { type: string, description: 'The entry on which the funding source was recorded.' }
+  txn: { type: string, description: 'The transaction ID from which the funding activity was triggered.' }
+  disbursement: { type: string, description: 'ID of the disbursement related to this entry origin.' }
+  adjustment: { type: string, description: 'The adjustment ID from which the funding activity was
+triggered.' }
+  cancellation: { description: 'The ID of the entry used to cancel out corresponding debt.' }
+  amount: { type: integer, description: 'The amount for this funding activity in cents (up to three
+decimal points for sub-cents).' }
+  funding: { type: string, description: 'The processor’s funding ID (related to a merchant, for
+some processors it is the merchant ID) from which the
+funds were sourced.' }
+  platform: { type: string, description: 'The processor through which the funds are available.',
+              enum: [ APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                      WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA ],
+              x-enum-descriptions: [ '', '', '', '', '', '', '', '', '',
+                                     '', '' ] }
+  fbo: { type: string, description: 'FBO in which each entry origin belongs to.' }

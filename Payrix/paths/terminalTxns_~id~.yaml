@@ -1,0 +1,162 @@
+ get:
+   description: Query a TerminalTxn holds all of the information to a related final
+     transaction, which they are used to be reconciled with that actual, final transaction.
+   parameters:
+   - description: The ID of this resource and The Terminal Transaction ID.
+     explode: false
+     in: path
+     name: id
+     required: true
+     schema: {type: string}
+     style: simple
+   - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+   - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   operationId: getTerminalTxnsById
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+       description: Retrieve the Response for query on terminalTxns resource.
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Retrieve Terminal Transaction by it's ID.
+   tags: [Transactions (Txns)]
+ put:
+   description: Update a TerminalTxn holds all of the information to a related final
+     transaction and is used to be reconciled with that actual, final transaction.
+   parameters:
+   - description: The ID of this resource and The Terminal Transaction ID.
+     explode: false
+     in: path
+     name: id
+     required: true
+     schema: {type: string}
+     style: simple
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   operationId: updateTerminalTxnsById
+   requestBody:
+     content:
+       application/json:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsUpdateReqBodySchemaModel.yaml}
+       application/x-www-form-urlencoded:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsUpdateReqBodySchemaModel.yaml}
+       application/xml:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsUpdateReqBodySchemaModel.yaml}
+       multipart/form-data:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsUpdateReqBodySchemaModel.yaml}
+       text/json:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsUpdateReqBodySchemaModel.yaml}
+       text/xml:
+         schema:
+           {$ref: ../components/schemas/models/terminalTxnsUpdateReqBodySchemaModel.yaml}
+     description: Update Terminal Transaction Request
+     required: true
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+       description: 'Response for update on Terminal Txns resource: Update Terminal
+         Transaction Response'
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Update Terminal Transaction by it's ID.
+   tags: [Transactions (Txns)]
+ delete:
+   description: Delete a TerminalTxn that holds all of the information to a related
+     final transaction and is used to be reconciled with that actual, final transaction.
+   parameters:
+   - description: The ID of this resource and The Terminal Transaction ID.
+     explode: false
+     in: path
+     name: id
+     required: true
+     schema: {type: string}
+     style: simple
+   - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+   - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   operationId: deleteTerminalTxnsById
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/terminalTxnsModel.yaml}
+                   details: {$ref: ../components/schemas/details.yaml}
+                   errors: {$ref: ../components/schemas/error.yaml}
+       description: Delete Terminal Transaction Response for terminalTxns resource.
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Delete Terminal Transaction by it's ID.
+   tags: [Transactions (Txns)]

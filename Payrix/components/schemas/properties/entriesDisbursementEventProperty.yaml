@@ -1,0 +1,118 @@
+type: integer
+description: "The type of event that triggers this DisbursementEntry resource.
+    <details><summary>Valid Values</summary>\n- `1` - **DAYS.** DisbursementEntry for an Entry that triggers every day. \n\
+    \n- `2` - **WEEKS.** DisbursementEntry for an Entry that triggers every week. \n\
+    \n- `3` - **MONTHS.** DisbursementEntry for an Entry that triggers every month. \n\
+    \n- `4` - **YEARS.** DisbursementEntry for an Entry that triggers every year. \n\
+    \n- `5` - **SINGLE.** DisbursementEntry for an Entry related to a one-off event. \n\
+    \n- `6` - **AUTH.** DisbursementEntry for an Entry related to the time of authorization of a transaction. \n\
+    \n- `7` - **CAPTURE.** DisbursementEntry for an Entry related to the capture time of a Transaction. \n\
+    \n- `8` - **REFUND.** DisbursementEntry for an Entry related to when a refund transaction is processed. \n\
+    \n- `9` - **BOARD.** DisbursementEntry for an Entry related to when the Merchant is boarded. \n\
+    \n- `10` - **PAYOUT.** DisbursementEntry for an Entry related to when a payout is processed. \n\
+    \n- `11` - **CHARGEBACK.** DisbursementEntry for an Entry related to when a card chargeback occurs. \n\
+    \n- `12` - **OVERDRAFT.** DisbursementEntry for an Entry related to when an overdraft usage charge from a bank is levied. \n\
+    \n- `13` - **INTERCHANGE.** DisbursementEntry for an Entry related to when interchange Fees are assessed for the Transactions of this Merchant. \n\
+    \n- `14` - **PROCESSOR.** DisbursementEntry for an Entry related to when the Transactions of this Merchant are processed by a payment processor. \n\
+    \n- `15` - **ACHFAIL.** DisbursementEntry for an Entry related to when an automated clearing house failure occurs. \n\
+    \n- `16` - **ACCOUNT.** DisbursementEntry for an Entry related when a bank account is verified. \n\
+    \n- `17` - **SIFT.** DisbursementEntry for an Entry related to Transaction fraud score. \n\
+    \n- `18` - **ADJUSTMENT.** DisbursementEntry for an Entry related to adjusted funds. \n\
+    \n- `19` - **RETRIEVAL.** DisbursementEntry for an Entry related to Retrieval Request Chargeback. \n\
+    \n- `20` - **ARBITRATION.** DisbursementEntry for an Entry related to Arbitration Chargeback. \n\
+    \n- `21` - **ECSALE.** DisbursementEntry for an Entry related to an eCheck Sale. \n\
+    \n- `22` - **ECREFUND.** DisbursementEntry for an Entry related to an eCheck Refund. \n\
+    \n- `23` - **ECRETURN.** DisbursementEntry for an Entry related to an eCheck Return. \n\
+    \n- `24` - **SETTLEMENT.** DisbursementEntry for an Entry related to transaction settlement. \n\
+    \n- `25` - **MISUSE.** DisbursementEntry for an Entry related to Misuse of authorization. \n\
+    \n- `26` - **PROFIT_SHARE.** DisbursementEntry for an Entry related to a profit sharing entry. \n\
+    \n- `27` - **UNAUTH.** DisbursementEntry for an Entry related to an unauthorized entry. \n\
+    \n- `28` - **ACHNOC.** DisbursementEntry for an Entry related to an ACH Notification of Change. \n\
+    \n- `29` - **ECNOC.** DisbursementEntry for an Entry related to an eCheck Notifications of Change. \n\
+    \n- `30` - **ECFAIL.** DisbursementEntry for an Entry related to an eCheck Fail. \n\
+    \n- `31` - **ECNSF.** DisbursementEntry for an Entry related to an eCheck Non-Sufficient Funds. \n\
+    \n- `32` - **CURRENCY_CONVERSION.** DisbursementEntry for an Entry related to a currency conversion. \n\
+    \n- `33` - **TERMINAL_TXN.** DisbursementEntry for an Entry related to a terminal transaction. \n\
+    \n- `34` - **REVERSE_PAYOUT.** DisbursementEntry for an Entry related to a payout that's been reversed. \n\
+    \n- `35` - **PARTIAL_REVERSE_PAYOUT.** DisbursementEntry for an Entry related to a payout that's been partially reversed. \n\
+    \n- `36` - **RESERVE_ENTRY.** DisbursementEntry for an Entry related to reserved funds. \n\
+    \n- `37` - **RESERVE_ENTRY_RELEASE.** DisbursementEntry for an Entry related to released reserves. \n\
+    \n- `38` - **PENDING_ENTRY.** DisbursementEntry for an Entry related to pending funds. \n\
+    \n- `39` - **PENDING_PAID.** DisbursementEntry for an Entry related to paid pending funds. \n\
+    \n- `40` - **REMAINDER.** DisbursementEntry for for an Entry on the remaining, non-disbursed funds. \n\
+    \n- `41` - **REMAINDER_USED.** DisbursementEntry for an Entry related to previously non-disbursed funds. \n\
+    \n- `42` - **PENDING_REFUND_CANCELLED.** DisbursementEntry for an Entry related pending refund that was cancelled. \n\n "
+enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+       16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+       30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
+       44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+       58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71,
+       72, 73, 74, 8, 86, 200, 201, 202, 203, 204,
+       205, 206, 207, 208, 209, 210, 211, 212,
+       213, 400, 401, 36, 37, 38, 39, 40, 41,
+       42]
+x-enum-descriptions: [DAYS. DisbursementEntry for an Entry
+  that triggers every day., WEEKS. DisbursementEntry for
+  an Entry that triggers every week., MONTHS. DisbursementEntry
+  for an Entry that triggers every month., YEARS. DisbursementEntry
+  for an Entry that triggers every year., SINGLE. DisbursementEntry
+  for an Entry related to a one-off event., AUTH. DisbursementEntry
+  for an Entry related to the time of authorization of
+  a transaction., CAPTURE. DisbursementEntry for an Entry
+  related to the capture time of a Transaction.., REFUND.
+  DisbursementEntry for an Entry related to when a refund
+  transaction is processed, BOARD. DisbursementEntry for
+  an Entry related to when the Merchant is boarded., PAYOUT.
+  DisbursementEntry for an Entry related to when a payout
+  is processed., CHARGEBACK. DisbursementEntry for an
+  Entry related to when a card chargeback occurs, OVERDRAFT.
+  DisbursementEntry for an Entry related to when an overdraft
+  usage charge from a bank is levied., INTERCHANGE. DisbursementEntry
+  for an Entry related to when interchange Fees are assessed
+  for the Transactions of this Merchant., PROCESSOR. DisbursementEntry
+  for an Entry related to when the Transactions of this
+  Merchant are processed by a payment processor., ACHFAIL.
+  DisbursementEntry for an Entry related to when an automated
+  clearing house failure occurs., ACCOUNT. DisbursementEntry
+  for an Entry related when a bank account is verified.,
+  SIFT. DisbursementEntry for an Entry related to Transaction
+    fraud score., ADJUSTMENT. DisbursementEntry for an Entry
+    related to adjusted funds., RETRIEVAL. DisbursementEntry
+    for an Entry related to Retrieval Request Chargeback.,
+  ARBITRATION. DisbursementEntry for an Entry related to
+    Arbitration Chargeback., ECSALE. DisbursementEntry for
+    an Entry related to an eCheck Sale., ECREFUND. DisbursementEntry
+    for an Entry related to an eCheck Refund., ECRETURN.
+    DisbursementEntry for an Entry related to an eCheck
+    Return., SETTLEMENT. DisbursementEntry for an Entry
+    related to transaction settlement., MISUSE. DisbursementEntry
+    for an Entry related to Misuse of authorization., PROFIT_SHARE.
+    DisbursementEntry for an Entry related to a profit sharing
+    entry., UNAUTH. DisbursementEntry for an Entry related
+    to an unauthorized entry., ACHNOC. DisbursementEntry
+    for an Entry related to an ACH Notification of Change.,
+  ECNOC. DisbursementEntry for an Entry related to an eCheck
+    Notifications of Change., ECFAIL. DisbursementEntry
+    for an Entry related to an eCheck Fail, ECNSF. DisbursementEntry
+    for an Entry related to an eCheck Non-Sufficent Funds.,
+  CURRENCY_CONVERSION. DisbursementEntry for an Entry related
+    to a currency conversion., TERMINAL_TXN. DisbursementEntry
+    for an Entry related to a terminal transaction, REVERSE_PAYOUT.
+    DisbursementEntry for an Entry related to a payout thats
+    been reversed., PARTIAL_REVERSE_PAYOUT. DisbursementEntry
+    for an Entry related to a payout thats been partially
+    reversed., '', '', '', '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+  '', '', '', '', RESERVE_ENTRY. DisbursementEntry for an
+    Entry related to reserved funds., RESERVE_ENTRY_RELEASE.
+    DisbursementEntry for an Entry related to released reserves.,
+  PENDING_ENTRY. DisbursementEntry for an Entry related
+    to pending funds., PENDING_PAID. DisbursementEntry for
+    an Entry related to paid pending funds., 'REMAINDER.
+                                DisbursementEntry for for an Entry on the remaining,
+                                non-disbursed funds.', REMAINDER_USED. DisbursementEntry
+    for an Entry related to previously non-disbursed funds.,
+  PENDING_REFUND_CANCELLED. DisbursementEntry for an Entry
+    related pending refund that was cancelled.]

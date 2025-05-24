@@ -1,0 +1,266 @@
+clientIp:
+  type: string
+  description: "The client ip address from which the Entity was created. Valid values are any Ipv4 or Ipv6 address."
+login:
+  type: string
+  description: The Login that owns this resource.
+firstDisbursement:
+  type: string
+  description: First Disbursement
+totalCreditDisbursements:
+  type: integer
+  description: The maximum credit to be provided.
+type:
+  type: integer
+  description: "The action taken on the referenced Txn. Block, Hold, or Reserve it. \
+       \n<details>\n<summary>Valid Values</summary> \n\n
+       - `0` - Sole Proprietorship \n\n
+       - `1` - Corporation \n\n
+       - `2` - Limited Liability Company \n\n
+       - `3` - Partnership \n\n
+       - `5` - Non-Profit Organization \n\n
+       - `6` - Government Organization \n\n
+       - `7` - C Corporation \n\n
+       - `8` - S Corporation. \n\n 
+      \n</details>\n"
+  enum: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  x-enum-descriptions: [Sole Proprietor, Corporation, Limited Liability
+      Company, Partnership, Non-Profit Organization, Government Organization,
+    C Corporation, S Corporation]
+name:
+  {
+    type: string,
+    description: "The name of this Entity. \nThis field is stored as a string\
+      \ string and must be between 1 and 100 characters long."
+  }    
+displayName: 
+  {type: string, description: "The display name of this Entity. \nThis field is stored\
+      \ as a string and must be between 1 and 1000 characters long."}    
+address1: 
+  { type: string, description: "The first line of the address associated with this Entity.\
+      \ \nThis field is stored as a string and must be between 1 and\
+      \ 500 characters long." }    
+address2:
+  {
+    type: string,
+    description: "The second line of the address associated with this Entity.\
+      \ \nThis field is stored as a string and must be between 1 and\
+      \ 500 characters long."
+  }    
+city: 
+  {
+    type: string,
+    description: "The name of the city in the address associated with this\
+      \ Entity. \nThis field is stored as a string and must be between\
+      \ 1 and 500 characters long."
+  }    
+state:
+  {
+    type: string,
+    description: "A client-supplied description for this bank account. \n\
+      This field is stored as a text string and must be between 0 and 100\
+      \ characters long.",
+    enum: [ AB, BC, MB, NB, NL, NT, NS, NU,  PE, QC, SK, YT, IA, ID,
+            IL, IN, KN, KS, LA, MA, MB, MD, ME, MI, MN, MO, MS, MT, NB, NC, ND,
+            NE, NH, NJ, NL, NM, NS, NT, NU, NV, NY, OH, OK, OR, PA, PE,
+            QC, RI, SC, SD, SK, TN, TX, UT, VA, VT, WA, WI, WV, WY, YT ],
+    example: CO,
+    x-enum-descriptions: []
+  }
+zip:
+    type: string
+    description: "The ZIP code in the address associated with this Entity.\
+      \ \nThis field is stored as a text string and must be between 1 and\
+      \ 20 characters long."
+
+country: {
+    type: string,
+    description: "The country in the address associated with the Entity,
+      currently accepting values including 'USA', CAN.",
+    enum: [USA, CAN],
+    x-enum-descriptions: [United States, Canada]
+  }               
+timezone:
+  {
+    type: string,
+    description: "The timezone for the address associated with the terminal''s location.
+    \n\n<details>\n<summary>Valid Values</summary> \n\n 
+    - `est` - **Eastern Standard Time**\n\n
+    - `pst` - **Pacific Standard Time**\n\n
+    - `cst` - **Central Standard Time**\n\n
+    - `mst` - **Mountain Daylight Time**\n\n
+    - `akst` - **Alaska Standard Time**\n\n
+    - `hst` - **Hawaii Standard Time**\n\n
+    - `sst` - **Samoa Standard Time**\n\n
+    - `chst` - **Chamorro Standard Time**\n\n 
+    - `ast`  - **Atlantic Standard Time**\n\n
+    - `pwt` - **Palau Time**\n\n
+    - `mht` - **Marshall Islands Time**\n\n
+    - `chut` - **Chuuk Time**\n\n
+    - `nst` - **Newfoundland Standard Time**\n\n
+     </details>\n",
+  enum: [est, cst, pst, mst, akst, hst, sst, chst, ast, pwt, mht, chut, nst],
+  x-enum-descriptions: [Eastern Standard Time, Central Standard Time,
+      Pacific Standard Time, Mountain Standard Time, Alaska Standard Time,
+      Hawaii Standard Time, Singapore Standard Time, Chamorro Standard Time,
+      Atlantic Standard Time, '', '', '', '']
+  }               
+phone:
+  {
+    type: string,
+      description: "The phone number associated with this Entity. \nThis field\
+      \ is stored as a text string and must be between 5 and 15 characters\
+      \ long."
+  }               
+customerPhone:
+  {
+      type: string,
+      description: "The customer service phone number associated with this\
+      \ Entity. For Merchants, this number will be displayed on the customer's\
+      \ credit card statement. \nThis field is stored as a text string and\
+      \ must be between 5 and 15 characters long."
+  }               
+fax:
+  {
+    type: string,
+    description: "The fax number associated with this Entity. \nThis field\
+      \ is stored as a text string and must be between 5 and 15 characters\
+      \ long."
+  }               
+email:
+    {
+      type: string,
+      description: "The email address associated with this Entity. \nThis\
+      \ field is stored as a text string and must be between 1 and 100 characters\
+      \ long."
+    }               
+website:
+    {
+      type: string,
+      description: "The web site URL associated with this Entity. \nThis field\
+      \ is stored as a text string and must be between 0 and 500 characters\
+      \ long."
+    }               
+appleDomain:
+    {
+        type: string,
+        description: "The web sites URL associated with this Entity. \nThis\
+        \ field is stored as a text string, must be between 0 and 1000 characters\
+        \ long and separated by comma"
+    }               
+einType:
+    {
+        type: string,
+        description: "Indicates if the TIN being used is an EIN, SSN, or ''other/unknown''
+        number. Valid Values: `ssn` - Social Security Number, `tin` - Employer
+        Identification Number, `other` - Other/Unknown TIN.",
+      enum: [ssn, tin, other],
+      x-enum-descriptions: ['', '', '']
+    }               
+irsFilingName: {type: string, description: The IRS Legal Filing Name. This must match
+      what has been provided to the IRS when filing taxes.}
+ein: { type: string, description: "The IRS Employer Number (EIN) for the Entity. \nThis field\
+      \ is stored as an interger and must be 9 characters long.",
+    x-enum-descriptions: [''] }               
+locations:
+    {
+        type: integer,
+        description: "The number of locations at which this Entity does business.\
+          \ \nThis field is stored as an integer and must be between 1 and 1000000\
+          \ characters long."
+    }               
+public:
+    {
+          type: integer,
+          description: "Indicates whether this is a publicly held entity, with
+            valid values being '0' for private entity and '1' for public entity.",
+          enum: [0, 1],
+          x-enum-descriptions: [Private entity, Public entity]
+      }               
+tcVersion: {
+      type: string,
+      description: "An indicator showing the version of the terms and conditions\
+      \ that this Entity has accepted. The API indicates the version as\
+      \ a string. \nThis field is stored as a text string and must be between\
+      \ 0 and 20 characters long."
+  }               
+tcAcceptDate: {
+    type: integer,
+    description: "Date and time on which this Entity accepted the Terms\
+      \ and Conditions, if different than tcDate. \nThe date is specified\
+      \ as a twelve digit string in YYYYMMDDHHII format, for example, '201601201528'\
+      \ for January 20, 2016 at 15:28 (3:28 pm)."
+  } 
+tcAcceptIp: {type: string, description: 'IP address from which this Entity accepted
+      the Terms and Conditions, if different than tcIp.'}
+custom: {type: integer, description: "Custom, free-form field for client-supplied text, must be between 0 and 1000 characters long."}
+reserved:
+    {
+      type: integer,
+      description: "\n\n<details>\n<summary>Valid Values</summary> \n\n 
+                - `0` - **No reserve.**\n\n 
+                - `1` - **Transaction processing withheld.**\n\n
+                - `3` - **Transaction capture withheld pending manual review.**\n\n
+                - `4` - **Move all funds from this Transaction into a reserve.**\n\n
+                - `5` - **Block current activity, no change for merchant.**\n\n  
+                - `6` - **Will not be set anywhere, will only be used for integration purposes.**\n\n 
+                - `7` - **We did not have policies to process.**\n\n
+                - `8` - **We onboard the merchant and wait for manual check later.**\n\n
+                </details>\n",
+      enum: [0, 1, 3, 4, 5, 6, 7, 8],
+      x-enum-descriptions: ['No reserve', 'Transaction processing withheld.',
+        'Transaction capture withheld pending manual review.', 'Move all funds
+          from this Transaction into a reserve.', 'Block current activity, no change for merchant',
+          'Will not be set anywhere, will only be used for integration purposes', 'We did not have policies to process',
+          'We onboard the merchant and wait for manual check later'] }               
+pendingRiskCheck: {
+    type: string,
+    description: Whether it is pending a risk check.,
+    enum: [pending, successful, failed, manual],
+    x-enum-descriptions: [pending, successful, '', '']
+  }
+checkStage: {
+    type: string,
+      description: "The last stage completed for risk underwriting review.\n\
+      \n<details>\n<summary>Valid Values</summary>\n\n   - createEntity\
+      \  -  **Merchant created.** No Signup Form submitted.\n   \n   - underwriting\
+      \  -  **Risk/Underwriting Review.** Merchant Signup Form submitted.\n\
+      \   \n   - preboard  -  **Preboard.** Check the Merchant before they\
+      \ are boarded.\n   \n   - postboard  -  **Check the Merchant after\
+      \ they are boarded.**\n   \n   - txn  -  **Check the Merchant when\
+      \ they process a Transaction.**\n   \n   - txnVolume  -  **Check the\
+      \ Merchant when their transaction volume hits a certain amount.**\n\
+      \   \n   - payout  -  **Check the Merchant when a Payout occurs.**\n\
+      \   \n   - payoutVolume  -  **Check the Merchant when the volume of\
+      \ Payouts to the Merchant hits a certain amount.**\n\n</details>",
+    enum: [createEntity, underwriting, preboard, postboard, txn, txnVolume,
+      payout, payoutVolume],
+    x-enum-descriptions: ['', '', Preboard. Check the Merchant before they
+        are boarded., Check the Merchant after they are boarded., Check
+        the Merchant when they process a Transaction., Check the Merchant
+        when their transaction volume hits a certain amount., Check the
+        Merchant when a Payout occurs., Check the Merchant when the volume
+        of Payouts to the Merchant hits a certain amount.]
+  }               
+payoutSecondaryDescriptor: { type: string, description: The secondary billing descriptor
+      to appear on the bank statements for funds transfer for the entity.}
+industry: {type: string, description: This field is stored as a text string and must
+      be between 0 and 1000 characters long.}
+globalBusinessType: { 
+    type: string,
+    description: The business registration type for the entity.,
+    enum: [ssn, tin, other],
+    x-enum-descriptions: ['', '', ''] }
+    
+globalBusinessId: {
+    type: string,
+    description: "The business registration number for the entity. \nThis\
+      \ field is stored as an alpha numeric and must be between 9 to 10\
+      \ characters long",
+    x-enum-descriptions: ['']
+  }
+    
+frozen:
+  {$ref: ../frozen.yaml}
+inactive:
+  {$ref: ../inactive.yaml}

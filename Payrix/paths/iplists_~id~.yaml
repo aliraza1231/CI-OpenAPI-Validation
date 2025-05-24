@@ -1,0 +1,1542 @@
+  get:
+    description: Query an iplist resource that represents a list of IP addresses stored
+      as a range between the lowest and highest IP addresses, which can be used to whitelist
+      or blacklist particular incoming IP addresses for a given Login.
+    parameters:
+    - description: The ID of this resource and The IP Address List ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          version:
+                            description: "Whether this IP List contains IPv4 addresses\
+                              \ (for example, 198.51.100.113) or IPv6 addresses (for\
+                              \ example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \n\
+                              You can only use one type in each IP List resource."
+                            enum: ['4', '6']
+                            x-enum-descriptions: ['IPv4 addresses (for example, 198.51.100.113)',
+                              'IPv6 addresses (for example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334)']
+                          type:
+                            description: The type of this IP List.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Blacklisted IP address range, Whitelisted
+                                IP address range]
+                          start:
+                            description: "The lowest IP address that should be included\
+                              \ in this IP List. \nThe valid data type for this field\
+                              \ depends on whether the IP list is set to be an IPv4\
+                              \ or IPv6 list in the 'type' field. \nFor an IPv4 list,\
+                              \ only IPv4 addresses such as 198.51.100.113 are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                              \ are permitted."
+                          finish:
+                            description: "The highest IP address that should be included\
+                              \ in this IP List. \nThe valid values for this field depend\
+                              \ on whether the IP list is set to be an IPv4 or IPv6\
+                              \ list in the 'type' field. \nFor an IPv4 list, only IPv4\
+                              \ addresses, such as '198.51.100.113', are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                              \ are permitted."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      login: {description: The Login that owns this resource.}
+                      version:
+                        description: "Whether this IP List contains IPv4 addresses (for\
+                          \ example, 198.51.100.113) or IPv6 addresses (for example,\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \nYou can only\
+                          \ use one type in each IP List resource.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `4` - **IPv4 addresses.** (Example:\
+                          \ 198.51.100.113)\n\n  - `6` - **IPv6 addresses.** (Example:\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334)\n\n</details>"
+                        enum: ['4', '6']
+                      type:
+                        description: |
+                          The type of this IP List.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **Blacklisted IP address range.**
+
+                            - `1` - **Whitelisted IP address range.**
+
+                          </details>
+                        enum: ['0', '1']
+                      start:
+                        description: "The lowest IP address that should be included\
+                          \ in this IP List. \nThe valid data type for this field depends\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses\
+                          \ such as 198.51.100.113 are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                          \ are permitted."
+                      finish:
+                        description: "The highest IP address that should be included\
+                          \ in this IP List. \nThe valid values for this field depend\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses,\
+                          \ such as '198.51.100.113', are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                          \ are permitted."
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          version:
+                            description: "Whether this IP List contains IPv4 addresses\
+                              \ (for example, 198.51.100.113) or IPv6 addresses (for\
+                              \ example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \n\
+                              You can only use one type in each IP List resource."
+                            enum: ['4', '6']
+                            x-enum-descriptions: ['IPv4 addresses (for example, 198.51.100.113)',
+                              'IPv6 addresses (for example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334)']
+                          type:
+                            description: The type of this IP List.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Blacklisted IP address range, Whitelisted
+                                IP address range]
+                          start:
+                            description: "The lowest IP address that should be included\
+                              \ in this IP List. \nThe valid data type for this field\
+                              \ depends on whether the IP list is set to be an IPv4\
+                              \ or IPv6 list in the 'type' field. \nFor an IPv4 list,\
+                              \ only IPv4 addresses such as 198.51.100.113 are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                              \ are permitted."
+                          finish:
+                            description: "The highest IP address that should be included\
+                              \ in this IP List. \nThe valid values for this field depend\
+                              \ on whether the IP list is set to be an IPv4 or IPv6\
+                              \ list in the 'type' field. \nFor an IPv4 list, only IPv4\
+                              \ addresses, such as '198.51.100.113', are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                              \ are permitted."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      login: {description: The Login that owns this resource.}
+                      version:
+                        description: "Whether this IP List contains IPv4 addresses (for\
+                          \ example, 198.51.100.113) or IPv6 addresses (for example,\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \nYou can only\
+                          \ use one type in each IP List resource.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `4` - **IPv4 addresses.** (Example:\
+                          \ 198.51.100.113)\n\n  - `6` - **IPv6 addresses.** (Example:\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334)\n\n</details>"
+                        enum: ['4', '6']
+                      type:
+                        description: |
+                          The type of this IP List.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **Blacklisted IP address range.**
+
+                            - `1` - **Whitelisted IP address range.**
+
+                          </details>
+                        enum: ['0', '1']
+                      start:
+                        description: "The lowest IP address that should be included\
+                          \ in this IP List. \nThe valid data type for this field depends\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses\
+                          \ such as 198.51.100.113 are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                          \ are permitted."
+                      finish:
+                        description: "The highest IP address that should be included\
+                          \ in this IP List. \nThe valid values for this field depend\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses,\
+                          \ such as '198.51.100.113', are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                          \ are permitted."
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: The response for query on iplists resource retrieves the IP Address
+          List.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve an IP Address List by it's ID.
+    tags: [IP Address Lists]
+    operationId: getIplistsId
+  put:
+    description: _CONFLICT Update an iplist resource that represents a list of IP addresses
+      stored as a range between the lowest and highest IP addresses, which can be used
+      to whitelist or blacklist particular incoming IP addresses for a given Login.
+    parameters:
+    - description: The ID of this resource and The IP Address List ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              type:
+                description: |-
+                  The type of this IP List is Blacklisted IP address range or Whitelisted IP address range.
+
+                  <details>
+                  <summary>Valid Values</summary>
+
+                     - `0`  -  **Blacklisted IP address range.**
+
+                     - `1`  -  **Whitelisted IP address range.**
+
+                  </details>
+                enum: ['0', '1']
+                x-enum-descriptions: [Blacklisted IP address range, Whitelisted IP address
+                    range]
+              start:
+                description: "The lowest IP address that should be included in this\
+                  \ IP List. \nThe valid data type for this field depends on whether\
+                  \ the IP list is set to be an IPv4 or IPv6 list in the 'type' field.\
+                  \ \nFor an IPv4 list, only IPv4 addresses such as 198.51.100.113 are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                  \ are permitted."
+              finish:
+                description: "The highest IP address that should be included in this\
+                  \ IP List. \nThe valid values for this field depend on whether the\
+                  \ IP list is set to be an IPv4 or IPv6 list in the 'type' field. \n\
+                  For an IPv4 list, only IPv4 addresses, such as '198.51.100.113', are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                  \ are permitted."
+              inactive:
+                description: Whether this resource is marked as inactive or not.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen or not frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, login, start, type]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              type:
+                description: The type of this IP List.
+                enum: ['0', '1']
+                x-enum-descriptions: [Blacklisted IP address range, Whitelisted IP address
+                    range]
+              start:
+                description: "The lowest IP address that should be included in this\
+                  \ IP List. \nThe valid data type for this field depends on whether\
+                  \ the IP list is set to be an IPv4 or IPv6 list in the 'type' field.\
+                  \ \nFor an IPv4 list, only IPv4 addresses such as 198.51.100.113 are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                  \ are permitted."
+              finish:
+                description: "The highest IP address that should be included in this\
+                  \ IP List. \nThe valid values for this field depend on whether the\
+                  \ IP list is set to be an IPv4 or IPv6 list in the 'type' field. \n\
+                  For an IPv4 list, only IPv4 addresses, such as '198.51.100.113', are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                  \ are permitted."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, login, start, type]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              type:
+                description: |-
+                  The type of this IP List is Blacklisted IP address range or Whitelisted IP address range.
+
+                  <details>
+                  <summary>Valid Values</summary>
+
+                     - `0`  -  **Blacklisted IP address range.**
+
+                     - `1`  -  **Whitelisted IP address range.**
+
+                  </details>
+                enum: ['0', '1']
+                x-enum-descriptions: [Blacklisted IP address range, Whitelisted IP address
+                    range]
+              start:
+                description: "The lowest IP address that should be included in this\
+                  \ IP List. \nThe valid data type for this field depends on whether\
+                  \ the IP list is set to be an IPv4 or IPv6 list in the 'type' field.\
+                  \ \nFor an IPv4 list, only IPv4 addresses such as 198.51.100.113 are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                  \ are permitted."
+              finish:
+                description: "The highest IP address that should be included in this\
+                  \ IP List. \nThe valid values for this field depend on whether the\
+                  \ IP list is set to be an IPv4 or IPv6 list in the 'type' field. \n\
+                  For an IPv4 list, only IPv4 addresses, such as '198.51.100.113', are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                  \ are permitted."
+              inactive:
+                description: Whether this resource is marked as inactive or not, whether
+                  it's active or inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen or not frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, login, start, type]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              type:
+                description: The type of this IP List.
+                enum: ['0', '1']
+                x-enum-descriptions: [Blacklisted IP address range, Whitelisted IP address
+                    range]
+              start:
+                description: "The lowest IP address that should be included in this\
+                  \ IP List. \nThe valid data type for this field depends on whether\
+                  \ the IP list is set to be an IPv4 or IPv6 list in the 'type' field.\
+                  \ \nFor an IPv4 list, only IPv4 addresses such as 198.51.100.113 are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                  \ are permitted."
+              finish:
+                description: "The highest IP address that should be included in this\
+                  \ IP List. \nThe valid values for this field depend on whether the\
+                  \ IP list is set to be an IPv4 or IPv6 list in the 'type' field. \n\
+                  For an IPv4 list, only IPv4 addresses, such as '198.51.100.113', are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                  \ are permitted."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, login, start, type]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              type:
+                description: The type of this IP List.
+                enum: ['0', '1']
+                x-enum-descriptions: [Blacklisted IP address range, Whitelisted IP address
+                    range]
+              start:
+                description: "The lowest IP address that should be included in this\
+                  \ IP List. \nThe valid data type for this field depends on whether\
+                  \ the IP list is set to be an IPv4 or IPv6 list in the 'type' field.\
+                  \ \nFor an IPv4 list, only IPv4 addresses such as 198.51.100.113 are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                  \ are permitted."
+              finish:
+                description: "The highest IP address that should be included in this\
+                  \ IP List. \nThe valid values for this field depend on whether the\
+                  \ IP list is set to be an IPv4 or IPv6 list in the 'type' field. \n\
+                  For an IPv4 list, only IPv4 addresses, such as '198.51.100.113', are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                  \ are permitted."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, login, start, type]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              login: {description: The Login that owns this resource.}
+              type:
+                description: The type of this IP List.
+                enum: ['0', '1']
+                x-enum-descriptions: [Blacklisted IP address range, Whitelisted IP address
+                    range]
+              start:
+                description: "The lowest IP address that should be included in this\
+                  \ IP List. \nThe valid data type for this field depends on whether\
+                  \ the IP list is set to be an IPv4 or IPv6 list in the 'type' field.\
+                  \ \nFor an IPv4 list, only IPv4 addresses such as 198.51.100.113 are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                  \ are permitted."
+              finish:
+                description: "The highest IP address that should be included in this\
+                  \ IP List. \nThe valid values for this field depend on whether the\
+                  \ IP list is set to be an IPv4 or IPv6 list in the 'type' field. \n\
+                  For an IPv4 list, only IPv4 addresses, such as '198.51.100.113', are\
+                  \ permitted. For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                  \ are permitted."
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, login, start, type]
+            x-redacted: []
+      description: Update IP Address List Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          version:
+                            description: "Whether this IP List contains IPv4 addresses\
+                              \ (for example, 198.51.100.113) or IPv6 addresses (for\
+                              \ example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \n\
+                              You can only use one type in each IP List resource."
+                            enum: ['4', '6']
+                            x-enum-descriptions: ['IPv4 addresses (for example, 198.51.100.113)',
+                              'IPv6 addresses (for example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334)']
+                          type:
+                            description: The type of this IP List.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Blacklisted IP address range, Whitelisted
+                                IP address range]
+                          start:
+                            description: "The lowest IP address that should be included\
+                              \ in this IP List. \nThe valid data type for this field\
+                              \ depends on whether the IP list is set to be an IPv4\
+                              \ or IPv6 list in the 'type' field. \nFor an IPv4 list,\
+                              \ only IPv4 addresses such as 198.51.100.113 are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                              \ are permitted."
+                          finish:
+                            description: "The highest IP address that should be included\
+                              \ in this IP List. \nThe valid values for this field depend\
+                              \ on whether the IP list is set to be an IPv4 or IPv6\
+                              \ list in the 'type' field. \nFor an IPv4 list, only IPv4\
+                              \ addresses, such as '198.51.100.113', are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                              \ are permitted."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      login: {description: The Login that owns this resource.}
+                      version:
+                        description: "Whether this IP List contains IPv4 addresses (for\
+                          \ example, 198.51.100.113) or IPv6 addresses (for example,\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \nYou can only\
+                          \ use one type in each IP List resource.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `4` - **IPv4 addresses.** (Example:\
+                          \ 198.51.100.113)\n\n  - `6` - **IPv6 addresses.** (Example:\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334)\n\n</details>"
+                        enum: ['4', '6']
+                      type:
+                        description: |
+                          The type of this IP List.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **Blacklisted IP address range.**
+
+                            - `1` - **Whitelisted IP address range.**
+
+                          </details>
+                        enum: ['0', '1']
+                      start:
+                        description: "The lowest IP address that should be included\
+                          \ in this IP List. \nThe valid data type for this field depends\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses\
+                          \ such as 198.51.100.113 are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                          \ are permitted."
+                      finish:
+                        description: "The highest IP address that should be included\
+                          \ in this IP List. \nThe valid values for this field depend\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses,\
+                          \ such as '198.51.100.113', are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                          \ are permitted."
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          version:
+                            description: "Whether this IP List contains IPv4 addresses\
+                              \ (for example, 198.51.100.113) or IPv6 addresses (for\
+                              \ example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \n\
+                              You can only use one type in each IP List resource."
+                            enum: ['4', '6']
+                            x-enum-descriptions: ['IPv4 addresses (for example, 198.51.100.113)',
+                              'IPv6 addresses (for example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334)']
+                          type:
+                            description: The type of this IP List.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Blacklisted IP address range, Whitelisted
+                                IP address range]
+                          start:
+                            description: "The lowest IP address that should be included\
+                              \ in this IP List. \nThe valid data type for this field\
+                              \ depends on whether the IP list is set to be an IPv4\
+                              \ or IPv6 list in the 'type' field. \nFor an IPv4 list,\
+                              \ only IPv4 addresses such as 198.51.100.113 are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                              \ are permitted."
+                          finish:
+                            description: "The highest IP address that should be included\
+                              \ in this IP List. \nThe valid values for this field depend\
+                              \ on whether the IP list is set to be an IPv4 or IPv6\
+                              \ list in the 'type' field. \nFor an IPv4 list, only IPv4\
+                              \ addresses, such as '198.51.100.113', are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                              \ are permitted."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      login: {description: The Login that owns this resource.}
+                      version:
+                        description: "Whether this IP List contains IPv4 addresses (for\
+                          \ example, 198.51.100.113) or IPv6 addresses (for example,\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \nYou can only\
+                          \ use one type in each IP List resource.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `4` - **IPv4 addresses.** (Example:\
+                          \ 198.51.100.113)\n\n  - `6` - **IPv6 addresses.** (Example:\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334)\n\n</details>"
+                        enum: ['4', '6']
+                      type:
+                        description: |
+                          The type of this IP List.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **Blacklisted IP address range.**
+
+                            - `1` - **Whitelisted IP address range.**
+
+                          </details>
+                        enum: ['0', '1']
+                      start:
+                        description: "The lowest IP address that should be included\
+                          \ in this IP List. \nThe valid data type for this field depends\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses\
+                          \ such as 198.51.100.113 are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                          \ are permitted."
+                      finish:
+                        description: "The highest IP address that should be included\
+                          \ in this IP List. \nThe valid values for this field depend\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses,\
+                          \ such as '198.51.100.113', are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                          \ are permitted."
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Response for update on IPLists resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Update an IP Address List by it's ID.
+    tags: [IP Address Lists]
+    operationId: putIplistsId
+  delete:
+    description: Delete an IP lists resource that represents a list of IP addresses,
+      stored as a range between the lowest and highest IP addresses that should be included.
+    parameters:
+    - description: The ID of this resource and The IP Address List ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          version:
+                            description: "Whether this IP List contains IPv4 addresses\
+                              \ (for example, 198.51.100.113) or IPv6 addresses (for\
+                              \ example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \n\
+                              You can only use one type in each IP List resource."
+                            enum: ['4', '6']
+                            x-enum-descriptions: ['IPv4 addresses (for example, 198.51.100.113)',
+                              'IPv6 addresses (for example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334)']
+                          type:
+                            description: The type of this IP List.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Blacklisted IP address range, Whitelisted
+                                IP address range]
+                          start:
+                            description: "The lowest IP address that should be included\
+                              \ in this IP List. \nThe valid data type for this field\
+                              \ depends on whether the IP list is set to be an IPv4\
+                              \ or IPv6 list in the 'type' field. \nFor an IPv4 list,\
+                              \ only IPv4 addresses such as 198.51.100.113 are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                              \ are permitted."
+                          finish:
+                            description: "The highest IP address that should be included\
+                              \ in this IP List. \nThe valid values for this field depend\
+                              \ on whether the IP list is set to be an IPv4 or IPv6\
+                              \ list in the 'type' field. \nFor an IPv4 list, only IPv4\
+                              \ addresses, such as '198.51.100.113', are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                              \ are permitted."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      login: {description: The Login that owns this resource.}
+                      version:
+                        description: "Whether this IP List contains IPv4 addresses (for\
+                          \ example, 198.51.100.113) or IPv6 addresses (for example,\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \nYou can only\
+                          \ use one type in each IP List resource.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `4` - **IPv4 addresses.** (Example:\
+                          \ 198.51.100.113)\n\n  - `6` - **IPv6 addresses.** (Example:\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334)\n\n</details>"
+                        enum: ['4', '6']
+                      type:
+                        description: |
+                          The type of this IP List.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **Blacklisted IP address range.**
+
+                            - `1` - **Whitelisted IP address range.**
+
+                          </details>
+                        enum: ['0', '1']
+                      start:
+                        description: "The lowest IP address that should be included\
+                          \ in this IP List. \nThe valid data type for this field depends\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses\
+                          \ such as 198.51.100.113 are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                          \ are permitted."
+                      finish:
+                        description: "The highest IP address that should be included\
+                          \ in this IP List. \nThe valid values for this field depend\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses,\
+                          \ such as '198.51.100.113', are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                          \ are permitted."
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          version:
+                            description: "Whether this IP List contains IPv4 addresses\
+                              \ (for example, 198.51.100.113) or IPv6 addresses (for\
+                              \ example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \n\
+                              You can only use one type in each IP List resource."
+                            enum: ['4', '6']
+                            x-enum-descriptions: ['IPv4 addresses (for example, 198.51.100.113)',
+                              'IPv6 addresses (for example, 2001:0db8:85a3:0000:0000:8a2e:0370:7334)']
+                          type:
+                            description: The type of this IP List.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Blacklisted IP address range, Whitelisted
+                                IP address range]
+                          start:
+                            description: "The lowest IP address that should be included\
+                              \ in this IP List. \nThe valid data type for this field\
+                              \ depends on whether the IP list is set to be an IPv4\
+                              \ or IPv6 list in the 'type' field. \nFor an IPv4 list,\
+                              \ only IPv4 addresses such as 198.51.100.113 are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                              \ are permitted."
+                          finish:
+                            description: "The highest IP address that should be included\
+                              \ in this IP List. \nThe valid values for this field depend\
+                              \ on whether the IP list is set to be an IPv4 or IPv6\
+                              \ list in the 'type' field. \nFor an IPv4 list, only IPv4\
+                              \ addresses, such as '198.51.100.113', are permitted.\
+                              \ For an IPv6 list, only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                              \ are permitted."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      login: {description: The Login that owns this resource.}
+                      version:
+                        description: "Whether this IP List contains IPv4 addresses (for\
+                          \ example, 198.51.100.113) or IPv6 addresses (for example,\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334). \nYou can only\
+                          \ use one type in each IP List resource.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n  - `4` - **IPv4 addresses.** (Example:\
+                          \ 198.51.100.113)\n\n  - `6` - **IPv6 addresses.** (Example:\
+                          \ 2001:0db8:85a3:0000:0000:8a2e:0370:7334)\n\n</details>"
+                        enum: ['4', '6']
+                      type:
+                        description: |
+                          The type of this IP List.
+
+                          <details>
+                          <summary>Valid Values</summary>
+
+                            - `0` - **Blacklisted IP address range.**
+
+                            - `1` - **Whitelisted IP address range.**
+
+                          </details>
+                        enum: ['0', '1']
+                      start:
+                        description: "The lowest IP address that should be included\
+                          \ in this IP List. \nThe valid data type for this field depends\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses\
+                          \ such as 198.51.100.113 are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses such as 2001:0db8:85a3:0000:0000:8a2e:0370:7334\
+                          \ are permitted."
+                      finish:
+                        description: "The highest IP address that should be included\
+                          \ in this IP List. \nThe valid values for this field depend\
+                          \ on whether the IP list is set to be an IPv4 or IPv6 list\
+                          \ in the 'type' field. \nFor an IPv4 list, only IPv4 addresses,\
+                          \ such as '198.51.100.113', are permitted. For an IPv6 list,\
+                          \ only IPv6 addresses, such as '2001:0db8:85a3:0000:0000:8a2e:0370:7334'\
+                          \ are permitted."
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Delete IP Address List Response for deleting an IPLIST resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Delete an IP Address List by it's ID.
+    tags: [IP Address Lists]
+    operationId: deleteIplistsId

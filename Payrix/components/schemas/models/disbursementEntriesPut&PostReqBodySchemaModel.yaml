@@ -1,0 +1,17 @@
+properties:
+  disbursement: { type: string, description: The identifier of the Disbursement
+    that this DisbursementEntry resource refers to. }
+  entry: { type: string, description: The identifier of the Entry that this
+    DisbursementEntry resource refers to. }
+  pendingEntry: { type: string, description: The identifier of the PendingEntry
+    that this DisbursementEntry recource refers to. }
+  reserveEntry: { type: string, description: The identifier of the ReserveEntry
+    that this DisbursementEntry recource refers to. }
+  event: { $ref: ../properties/entriesDisbursementEventProperty.yaml }
+  eventId: { type: string, description: The identifier of the record that is
+    associated with this DisbursementEntry resource. }
+  amount: { type: integer, description: The total amount of this DisbursementEntry. }
+  amountUsed: { type: integer, description: The total amount used of this DisbursementEntry. }
+  description: { type: string, description: A description of this DisbursementEntry. }
+required: [ amount, amountUsed, disbursement, event ]
+x-redacted: [ ]

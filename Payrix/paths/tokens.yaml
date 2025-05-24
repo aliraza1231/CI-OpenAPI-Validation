@@ -1,0 +1,126 @@
+
+ get:
+   description: Query a Token. A Token is a resource that acts as a storage place for
+     credit card and customer information. You can use a Token to run Transactions.
+   parameters:
+   - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+   - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+   - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+   - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+   - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+       description: Response for query on tokens resource
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Retrieve all Tokens.
+   tags: [Tokens]
+   operationId: getTokens
+ post:
+   description: Create a Token. A Token is a resource that acts as a storage place
+     for credit card and customer information. You can use a Token to run Transactions.
+   requestBody:
+     content:
+       application/json:
+         schema:
+           {$ref: ../components/schemas/models/tokenPostRequestModel.yaml}
+       application/x-www-form-urlencoded:
+         schema:
+           {$ref: ../components/schemas/models/tokenPostRequestModel.yaml}
+       application/xml:
+         schema:
+           {$ref: ../components/schemas/models/tokenPostRequestModel.yaml}
+       multipart/form-data:
+         schema:
+           {$ref: ../components/schemas/models/tokenPostRequestModel.yaml}
+       text/json:
+         schema:
+           {$ref: ../components/schemas/models/tokenPostRequestModel.yaml}
+       text/xml:
+         schema:
+           {$ref: ../components/schemas/models/tokenPostRequestModel.yaml}
+     description: Create Token Request
+     required: true
+   responses:
+     '200':
+       content:
+         application/json:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+         application/xml:
+           schema:
+             properties:
+               response:
+                 properties:
+                   data:
+                     description: The data object that the API returns for this request.
+                     items:
+                       {$ref: ../components/schemas/models/tokensModel.yaml}
+                   details:
+                     {$ref: ../components/schemas/details.yaml}
+                   errors:
+                     {$ref: ../components/schemas/error.yaml}
+       description: Response for create on tokens resource
+     '400':
+       content:
+         {$ref: ../components/schemas/error400ResponseContent.yaml}
+       description: Error
+   summary: Create a new Token
+   tags: [Tokens]
+   operationId: postTokens
+   x-examples:
+   - request:
+       customer: p1_cus_5a1ef5e55656e2484591e84
+       payment: {method: 1, number: '378734493671000', cvv: '111'}
+       expiration: '0114'
+     response:
+       payment: {method: 1, number: '1000', routing: '0'}
+       id: p1_tok_5a1ef5e55657c4c37326b69
+       created: 2017-11-28T01:02:57Z
+       modified: 2017-11-28T01:02:57Z
+       creator: p1_log_5a1ef5e55653ed720159d53
+       modifier: p1_log_5a1ef5e55653ed720159d53
+       customer: p1_cus_5a1ef5e55656e2484591e84
+       token: e41272ec5464d9ec81cc85c854837472
+       expiration: '0114'
+       inactive: 0
+       frozen: 0

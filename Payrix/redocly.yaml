@@ -1,0 +1,27 @@
+extends:
+  - minimal
+
+# https://redocly.com/docs/cli/rules/built-in-rules:
+rules:
+  no-unresolved-refs: error
+  operation-summary: off
+  parameter-description: error
+  security-defined: error
+  info-contact: error
+  spec: error
+  response-contains-property: error
+  operation-2xx-response: error
+  path-parameters-defined: error
+  no-enum-type-mismatch: error
+  no-invalid-media-type-examples: off
+  operation-singular-tag: error
+  operation-operationId: error
+  # These next two fields require us to specifiy the allowed types
+  # https://redocly.com/docs/cli/rules/request-mine-type
+  request-mime-type: off
+  response-mime-type: off
+
+
+
+
+

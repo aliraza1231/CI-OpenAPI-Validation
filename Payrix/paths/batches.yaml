@@ -1,0 +1,1052 @@
+  get:
+    description: Query a Batch, which represents a group of Transactions that are sent
+      together to the processor to be settled.
+    parameters:
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to request a specific page of records. \n\
+        For example, set '?page[number]=2' to retrieve the second page of records for\
+        \ this request."
+      explode: true
+      in: query
+      name: page[number]
+      required: false
+      schema: {}
+      style: form
+    - description: |-
+        Set this path parameter to request up to a specific amount of records. By default 30 records are retrieved per page. The maximum limit that can be set is 100.
+        For example, set '?page[limit]=50' to retrieve up to 50 records for this request.
+      explode: true
+      in: query
+      name: page[limit]
+      required: false
+      schema: {}
+      style: form
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          merchant: {description: The identifier of the Merchant that
+                              is associated with this Batch.}
+                          date: {format: date}
+                          processingDate: {format: date}
+                          processingId: {}
+                          platform:
+                            description: The platform used to process this Batch.
+                            enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                              WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA]
+                            x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv.,
+                              Vantiv Core., '', '', '', '', '']
+                          status:
+                            description: The current status of this Batch.
+                            enum: [open, closed]
+                            x-enum-descriptions: [Open - This Batch can accept more
+                                Transactions., Closed - this Batch is closed to new
+                                Transactions and is ready to be sent to the processor.]
+                          ref:
+                            description: "The reference code of the batch. \nThis field\
+                              \ is automatically generated and stored as a text string\
+                              \ and must be between 0 and 50 characters long."
+                          clientRef:
+                            description: "The merchant's reference code of the batch.\
+                              \ \nThis field is stored as a text string and must be\
+                              \ between 0 and 50 characters long."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      merchant: {description: The identifier of the Merchant that is
+                          associated with this Batch.}
+                      date: {format: date}
+                      processingDate: {format: date}
+                      processingId: {}
+                      platform:
+                        description: "The platform used to process this Transaction.\n\
+                          \n\n<details>\n<summary> Valid Values </summary>\n\n  - `APPLE`\
+                          \ - **Apple Payment Processor**\n\n  - `ELAVON` - **ELAVON\
+                          \ Payment Processor**\n\n  - `FIRSTDATA` - **FirstData Payment\
+                          \ Processor**\n\n  - `GOOGLE` - **Google Payment Processor**\n\
+                          \n  - `VANTIV` - **WorldPay / Vantiv eComm Payment Processor\
+                          \ (VAP)**\n\n  - `VCORE` - **WorldPay / Vantiv Core Payment\
+                          \ Processor** \n\n  - `WELLSACH` - **Wells Fargo Merchant\
+                          \ Services Payment Processor (ACH)**\n\n  - `WELLSFARGO` -\
+                          \ **Wells Fargo Merchant Services Payment Processor**\n\n\
+                          \  - `WFSINGLE` - **Wells Fargo Single Payment Processor**\n\
+                          \n</details>\n"
+                        enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH,
+                          WELLSFARGO, WFSINGLE]
+                        example: VCORE
+                      status:
+                        description: "The current status of this Batch.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `open`  - This Batch\
+                          \ can accept more Transactions. \n\n- `closed` - This Batch\
+                          \ is closed to new Transactions and is ready to be sent to\
+                          \ the processor.\n\n</details>\n"
+                        enum: [open, closed]
+                      ref: {description: The reference code of the batch. This field
+                          is automatically generated and stored as a text string and
+                          must be between 0 and 50 characters long.}
+                      clientRef: {description: The merchant's reference code of the
+                          batch. This field is stored as a text string and must be between
+                          0 and 50 characters long.}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          merchant: {description: The identifier of the Merchant that
+                              is associated with this Batch.}
+                          date: {format: date}
+                          processingDate: {format: date}
+                          processingId: {}
+                          platform:
+                            description: The platform used to process this Batch.
+                            enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                              WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA]
+                            x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv.,
+                              Vantiv Core., '', '', '', '', '']
+                          status:
+                            description: The current status of this Batch.
+                            enum: [open, closed]
+                            x-enum-descriptions: [Open - This Batch can accept more
+                                Transactions., Closed - this Batch is closed to new
+                                Transactions and is ready to be sent to the processor.]
+                          ref:
+                            description: "The reference code of the batch. \nThis field\
+                              \ is automatically generated and stored as a text string\
+                              \ and must be between 0 and 50 characters long."
+                          clientRef:
+                            description: "The merchant's reference code of the batch.\
+                              \ \nThis field is stored as a text string and must be\
+                              \ between 0 and 50 characters long."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      merchant: {description: The identifier of the Merchant that is
+                          associated with this Batch.}
+                      date: {format: date}
+                      processingDate: {format: date}
+                      processingId: {}
+                      platform:
+                        description: "The platform used to process this Transaction.\n\
+                          \n\n<details>\n<summary> Valid Values </summary>\n\n  - `APPLE`\
+                          \ - **Apple Payment Processor**\n\n  - `ELAVON` - **ELAVON\
+                          \ Payment Processor**\n\n  - `FIRSTDATA` - **FirstData Payment\
+                          \ Processor**\n\n  - `GOOGLE` - **Google Payment Processor**\n\
+                          \n  - `VANTIV` - **WorldPay / Vantiv eComm Payment Processor\
+                          \ (VAP)**\n\n  - `VCORE` - **WorldPay / Vantiv Core Payment\
+                          \ Processor** \n\n  - `WELLSACH` - **Wells Fargo Merchant\
+                          \ Services Payment Processor (ACH)**\n\n  - `WELLSFARGO` -\
+                          \ **Wells Fargo Merchant Services Payment Processor**\n\n\
+                          \  - `WFSINGLE` - **Wells Fargo Single Payment Processor**\n\
+                          \n</details>\n"
+                        enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH,
+                          WELLSFARGO, WFSINGLE]
+                        example: VCORE
+                      status:
+                        description: "The current status of this Batch.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `open`  - This Batch\
+                          \ can accept more Transactions. \n\n- `closed` - This Batch\
+                          \ is closed to new Transactions and is ready to be sent to\
+                          \ the processor.\n\n</details>\n"
+                        enum: [open, closed]
+                      ref: {description: The reference code of the batch. This field
+                          is automatically generated and stored as a text string and
+                          must be between 0 and 50 characters long.}
+                      clientRef: {description: The merchant's reference code of the
+                          batch. This field is stored as a text string and must be between
+                          0 and 50 characters long.}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: Retrieve Response for query on batches resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve all Batches.
+    tags: [Batches (Settlements)]
+    operationId: getBatches
+  post:
+    description: Create a Batch. A Batch resource represents a group of Transactions
+      that are sent together to the processor to be settled.
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              merchant: {description: The identifier of the Merchant that is associated
+                  with this Batch.}
+              platform:
+                description: The platform used to process this Batch and Transaction.
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', '', '', '', '']
+              status:
+                description: The current status of this Batch, which can be `open` -
+                  This Batch can accept more Transactions, or `closed` - This Batch
+                  is closed to new Transactions and is ready to be sent to the processor.
+                enum: [open, closed]
+                x-enum-descriptions: [Open - This Batch can accept more Transactions.,
+                  Closed - this Batch is closed to new Transactions and is ready to
+                    be sent to the processor.]
+              ref: {description: The reference code of the batch. This field is automatically
+                  generated and stored as a text string and must be between 0 and 50
+                  characters long.}
+              clientRef: {description: The merchant's reference code of the batch. This
+                  field is stored as a text string and must be between 0 and 50 characters
+                  long.}
+              processingId: {}
+              inactive:
+                description: 'Whether this resource is marked as inactive. Valid Values:
+                  `0` - Active, `1` - Inactive.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: 'Whether this resource is marked as frozen. Valid Values:
+                  `0` - Not Frozen, `1` - Frozen.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, merchant, platform, status]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              merchant: {description: The identifier of the Merchant that is associated
+                  with this Batch.}
+              platform:
+                description: The platform used to process this Batch.
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', '', '', '', '']
+              status:
+                description: The current status of this Batch.
+                enum: [open, closed]
+                x-enum-descriptions: [Open - This Batch can accept more Transactions.,
+                  Closed - this Batch is closed to new Transactions and is ready to
+                    be sent to the processor.]
+              ref:
+                description: "The reference code of the batch. \nThis field is automatically\
+                  \ generated and stored as a text string and must be between 0 and\
+                  \ 50 characters long."
+              clientRef:
+                description: "The merchant's reference code of the batch. \nThis field\
+                  \ is stored as a text string and must be between 0 and 50 characters\
+                  \ long."
+              processingId: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, merchant, platform, status]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              merchant: {description: The identifier of the Merchant that is associated
+                  with this Batch.}
+              platform:
+                description: 'The platform used to process this Transaction. Valid Values:
+                  `APPLE` - Apple Payment Processor, `ELAVON` - ELAVON Payment Processor,
+                  `FIRSTDATA` - FirstData Payment Processor, `GOOGLE` - Google Payment
+                  Processor, `VANTIV` - WorldPay / Vantiv eComm Payment Processor (VAP),
+                  `VCORE` - WorldPay / Vantiv Core Payment Processor, `WELLSACH` - Wells
+                  Fargo Merchant Services Payment Processor (ACH), `WELLSFARGO` - Wells
+                  Fargo Merchant Services Payment Processor, `WFSINGLE` - Wells Fargo
+                  Single Payment Processor.'
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                example: VCORE
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', '', '', '', '']
+              status:
+                description: The current status of this Batch, which can either be `open`
+                  - This Batch can accept more Transactions, or `closed` - This Batch
+                  is closed to new Transactions and is ready to be sent to the processor.
+                enum: [open, closed]
+                x-enum-descriptions: [Open - This Batch can accept more Transactions.,
+                  Closed - this Batch is closed to new Transactions and is ready to
+                    be sent to the processor.]
+              ref: {description: 'The reference code of the batch. This field is automatically
+                  generated, stored as a text string and must be between 0 and 50 characters
+                  long.'}
+              clientRef: {description: The merchant's reference code of the batch. This
+                  field is stored as a text string and must be between 0 and 50 characters
+                  long.}
+              processingId: {}
+              inactive:
+                description: 'Whether this resource is marked as inactive. Valid Values:
+                  `0` - Active, `1` - Inactive.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: 'Whether this resource is marked as frozen. Valid Values:
+                  `0` - Not Frozen, `1` - Frozen.'
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, merchant, platform, status]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              merchant: {description: The identifier of the Merchant that is associated
+                  with this Batch.}
+              platform:
+                description: The platform used to process this Batch.
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', '', '', '', '']
+              status:
+                description: The current status of this Batch.
+                enum: [open, closed]
+                x-enum-descriptions: [Open - This Batch can accept more Transactions.,
+                  Closed - this Batch is closed to new Transactions and is ready to
+                    be sent to the processor.]
+              ref:
+                description: "The reference code of the batch. \nThis field is automatically\
+                  \ generated and stored as a text string and must be between 0 and\
+                  \ 50 characters long."
+              clientRef:
+                description: "The merchant's reference code of the batch. \nThis field\
+                  \ is stored as a text string and must be between 0 and 50 characters\
+                  \ long."
+              processingId: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, merchant, platform, status]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              merchant: {description: The identifier of the Merchant that is associated
+                  with this Batch.}
+              platform:
+                description: The platform used to process this Batch.
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', '', '', '', '']
+              status:
+                description: The current status of this Batch.
+                enum: [open, closed]
+                x-enum-descriptions: [Open - This Batch can accept more Transactions.,
+                  Closed - this Batch is closed to new Transactions and is ready to
+                    be sent to the processor.]
+              ref:
+                description: "The reference code of the batch. \nThis field is automatically\
+                  \ generated and stored as a text string and must be between 0 and\
+                  \ 50 characters long."
+              clientRef:
+                description: "The merchant's reference code of the batch. \nThis field\
+                  \ is stored as a text string and must be between 0 and 50 characters\
+                  \ long."
+              processingId: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, merchant, platform, status]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              merchant: {description: The identifier of the Merchant that is associated
+                  with this Batch.}
+              platform:
+                description: The platform used to process this Batch.
+                enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH, WELLSFARGO,
+                  WFSINGLE, WORLDPAY, TDBANKCA]
+                x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv., Vantiv
+                    Core., '', '', '', '', '']
+              status:
+                description: The current status of this Batch.
+                enum: [open, closed]
+                x-enum-descriptions: [Open - This Batch can accept more Transactions.,
+                  Closed - this Batch is closed to new Transactions and is ready to
+                    be sent to the processor.]
+              ref:
+                description: "The reference code of the batch. \nThis field is automatically\
+                  \ generated and stored as a text string and must be between 0 and\
+                  \ 50 characters long."
+              clientRef:
+                description: "The merchant's reference code of the batch. \nThis field\
+                  \ is stored as a text string and must be between 0 and 50 characters\
+                  \ long."
+              processingId: {}
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [frozen, inactive, merchant, platform, status]
+            x-redacted: []
+      description: Create Batch Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          merchant: {description: The identifier of the Merchant that
+                              is associated with this Batch.}
+                          date: {format: date}
+                          processingDate: {format: date}
+                          processingId: {}
+                          platform:
+                            description: The platform used to process this Batch.
+                            enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                              WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA]
+                            x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv.,
+                              Vantiv Core., '', '', '', '', '']
+                          status:
+                            description: The current status of this Batch.
+                            enum: [open, closed]
+                            x-enum-descriptions: [Open - This Batch can accept more
+                                Transactions., Closed - this Batch is closed to new
+                                Transactions and is ready to be sent to the processor.]
+                          ref:
+                            description: "The reference code of the batch. \nThis field\
+                              \ is automatically generated and stored as a text string\
+                              \ and must be between 0 and 50 characters long."
+                          clientRef:
+                            description: "The merchant's reference code of the batch.\
+                              \ \nThis field is stored as a text string and must be\
+                              \ between 0 and 50 characters long."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      merchant: {description: The identifier of the Merchant that is
+                          associated with this Batch.}
+                      date: {format: date}
+                      processingDate: {format: date}
+                      processingId: {}
+                      platform:
+                        description: "The platform used to process this Transaction.\n\
+                          \n\n<details>\n<summary> Valid Values </summary>\n\n  - `APPLE`\
+                          \ - **Apple Payment Processor**\n\n  - `ELAVON` - **ELAVON\
+                          \ Payment Processor**\n\n  - `FIRSTDATA` - **FirstData Payment\
+                          \ Processor**\n\n  - `GOOGLE` - **Google Payment Processor**\n\
+                          \n  - `VANTIV` - **WorldPay / Vantiv eComm Payment Processor\
+                          \ (VAP)**\n\n  - `VCORE` - **WorldPay / Vantiv Core Payment\
+                          \ Processor** \n\n  - `WELLSACH` - **Wells Fargo Merchant\
+                          \ Services Payment Processor (ACH)**\n\n  - `WELLSFARGO` -\
+                          \ **Wells Fargo Merchant Services Payment Processor**\n\n\
+                          \  - `WFSINGLE` - **Wells Fargo Single Payment Processor**\n\
+                          \n</details>\n"
+                        enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH,
+                          WELLSFARGO, WFSINGLE]
+                        example: VCORE
+                      status:
+                        description: "The current status of this Batch.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `open`  - This Batch\
+                          \ can accept more Transactions. \n\n- `closed` - This Batch\
+                          \ is closed to new Transactions and is ready to be sent to\
+                          \ the processor.\n\n</details>\n"
+                        enum: [open, closed]
+                      ref: {description: The reference code of the batch. This field
+                          is automatically generated and stored as a text string and
+                          must be between 0 and 50 characters long.}
+                      clientRef: {description: The merchant's reference code of the
+                          batch. This field is stored as a text string and must be between
+                          0 and 50 characters long.}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          merchant: {description: The identifier of the Merchant that
+                              is associated with this Batch.}
+                          date: {format: date}
+                          processingDate: {format: date}
+                          processingId: {}
+                          platform:
+                            description: The platform used to process this Batch.
+                            enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE,
+                              WELLSACH, WELLSFARGO, WFSINGLE, WORLDPAY, TDBANKCA]
+                            x-enum-descriptions: ['', ELAVON Payments., '', '', Vantiv.,
+                              Vantiv Core., '', '', '', '', '']
+                          status:
+                            description: The current status of this Batch.
+                            enum: [open, closed]
+                            x-enum-descriptions: [Open - This Batch can accept more
+                                Transactions., Closed - this Batch is closed to new
+                                Transactions and is ready to be sent to the processor.]
+                          ref:
+                            description: "The reference code of the batch. \nThis field\
+                              \ is automatically generated and stored as a text string\
+                              \ and must be between 0 and 50 characters long."
+                          clientRef:
+                            description: "The merchant's reference code of the batch.\
+                              \ \nThis field is stored as a text string and must be\
+                              \ between 0 and 50 characters long."
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+                data:
+                  description: The data object that the API returns for this request.
+                  items:
+                    properties:
+                      id: {description: The ID of this resource.}
+                      created: {description: The date and time at which this resource
+                          was created., format: date-time}
+                      modified: {description: The date and time at which this resource
+                          was modified., format: date-time}
+                      creator: {description: The identifier of the Login that created
+                          this resource.}
+                      modifier: {description: The identifier of the Login that last
+                          modified this resource.}
+                      merchant: {description: The identifier of the Merchant that is
+                          associated with this Batch.}
+                      date: {format: date}
+                      processingDate: {format: date}
+                      processingId: {}
+                      platform:
+                        description: "The platform used to process this Transaction.\n\
+                          \n\n<details>\n<summary> Valid Values </summary>\n\n  - `APPLE`\
+                          \ - **Apple Payment Processor**\n\n  - `ELAVON` - **ELAVON\
+                          \ Payment Processor**\n\n  - `FIRSTDATA` - **FirstData Payment\
+                          \ Processor**\n\n  - `GOOGLE` - **Google Payment Processor**\n\
+                          \n  - `VANTIV` - **WorldPay / Vantiv eComm Payment Processor\
+                          \ (VAP)**\n\n  - `VCORE` - **WorldPay / Vantiv Core Payment\
+                          \ Processor** \n\n  - `WELLSACH` - **Wells Fargo Merchant\
+                          \ Services Payment Processor (ACH)**\n\n  - `WELLSFARGO` -\
+                          \ **Wells Fargo Merchant Services Payment Processor**\n\n\
+                          \  - `WFSINGLE` - **Wells Fargo Single Payment Processor**\n\
+                          \n</details>\n"
+                        enum: [APPLE, ELAVON, FIRSTDATA, GOOGLE, VANTIV, VCORE, WELLSACH,
+                          WELLSFARGO, WFSINGLE]
+                        example: VCORE
+                      status:
+                        description: "The current status of this Batch.\n\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `open`  - This Batch\
+                          \ can accept more Transactions. \n\n- `closed` - This Batch\
+                          \ is closed to new Transactions and is ready to be sent to\
+                          \ the processor.\n\n</details>\n"
+                        enum: [open, closed]
+                      ref: {description: The reference code of the batch. This field
+                          is automatically generated and stored as a text string and
+                          must be between 0 and 50 characters long.}
+                      clientRef: {description: The merchant's reference code of the
+                          batch. This field is stored as a text string and must be between
+                          0 and 50 characters long.}
+                      inactive:
+                        description: "Whether this resource is marked as inactive.\n\
+                          <details>\n<summary>Valid Values</summary>\n\n- `0` - **Active**\
+                          \ \n\n- `1` - **Inactive**\n</details>\n"
+                        enum: ['0', '1']
+                      frozen:
+                        description: "Whether this resource is marked as frozen.\n<details>\n\
+                          <summary>Valid Values</summary>\n\n- `0` - **Not Frozen**\
+                          \ \n\n- `1` - **Frozen**\n</details>\n"
+                        enum: ['0', '1']
+                details:
+                  description: An object describing the response, including the request
+                    ID and pagination indicators.
+                  properties:
+                    requestId:
+                      description: "A unique identifier set by the API client, that\
+                        \ is echoed by the response. \nThe request ID can be useful\
+                        \ in troubleshooting and monitoring."
+                    page:
+                      description: "Where the response lists multiple resources, the\
+                        \ API splits the response into several 'pages'. \nThis object\
+                        \ indicates the current and last available pages in the list."
+                      properties:
+                        current: {description: The current page in the paginated resource
+                            list.}
+                        last: {description: The last available page in the paginated
+                            resource list.}
+                errors:
+                  description: An array of zero or more errors that occurred when the
+                    API processed the request.
+                  items:
+                    properties:
+                      code: {description: The error code associated with a particular
+                          error.}
+                      severity:
+                        description: "The severity level of a particular error. \nPossible\
+                          \ values are '0' (informational), '1' (warning), '2' (error)\
+                          \ and '4' (failure)."
+                      message: {description: The message associated with a particular
+                          error.}
+                      errorCode: {description: An identifying string code for this error.}
+        description: The response for creating batches is the Create Batch Response.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Create a new Batch
+    tags: [Batches (Settlements)]
+    operationId: postBatches

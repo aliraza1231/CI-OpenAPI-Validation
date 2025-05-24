@@ -1,0 +1,102 @@
+  get:
+    description: "Query a StatementEntry resource. \nA StatementEntry resource represents\
+      \ a record of funds owed for a billing schedule. \nFor example, this could be\
+      \ a scheduled weekly or monthly fee, or an event-based activity such as a capture\
+      \ or payout fee."
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/statementEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/statementEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for query on statementEntries resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve all Statement Entries.
+    tags: [Entries]
+    operationId: getStatementEntries
+  post:
+    description: "Query a StatementEntry resource. \nA StatementEntry resource represents\
+      \ a record of funds owed for a billing schedule. \nFor example, this could be\
+      \ a scheduled weekly or monthly fee, or an event-based activity such as a capture\
+      \ or payout fee."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            { $ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml }
+        application/x-www-form-urlencoded:
+          schema:
+            { $ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml }
+        application/xml:
+          schema:
+            { $ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml }
+        multipart/form-data:
+          schema:
+            { $ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml }
+        text/json:
+          schema:
+            { $ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml }
+        text/xml:
+          schema:
+            { $ref: ../components/schemas/models/statementEntriesPut&PostReqBodySchemaModel.yaml }
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/statementEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/statementEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for create on statementEntries resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    tags: [Entries]
+    operationId: postStatementEntries

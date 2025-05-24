@@ -1,0 +1,1428 @@
+  get:
+    description: "Query a Partition. \nA Partition resource represents a distinct and\
+      \ separate space within the API with its own name and set of resources. \nYou\
+      \ can use a Partition to enable multi-tenant operation."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          name:
+                            description: "The name of this Partition. \nThis field is\
+                              \ stored as a text string and must be between 0 and 50\
+                              \ characters long."
+                          email:
+                            description: "The email address that the API should send\
+                              \ email notifications from when processing requests in\
+                              \ this Partition. \nThis field is stored as a text string\
+                              \ and must be between 1 and 100 characters long."
+                          minPasswordLength:
+                            description: "The minimum number of characters that all\
+                              \ passwords used in this Partition must have. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 8 and 16."
+                          minPasswordComplexity:
+                            description: "The minimum level of complexity that all passwords\
+                              \ used in this Partition must have. \nThere are four complexity\
+                              \ 'factors' that can be evaluated. These are the presence\
+                              \ of the following character types in the password: lowercase\
+                              \ characters, uppercase characters, integers and special\
+                              \ characters. For instance, the password '123a' would\
+                              \ get a complexity rating of '2', since it contains integers\
+                              \ and lowercase characters."
+                            enum: ['1', '2', '3', '4']
+                            x-enum-descriptions: [At least one complexity factor., At
+                                least two complexity factors., At least three complexity
+                                factors., At least four special complexity factors.]
+                          minPasswordHistory:
+                            description: "The minimum number of previous passwords that\
+                              \ the current password must be distinct from. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 3 and 12."
+                          noEmailConfirmation:
+                            description: Whether to disable the email address confirmation
+                              process for this Partition.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Require email address confirmation
+                                for this Partition., Do not require email address confirmation
+                                for this Partition.]
+                          noHoldEmail:
+                            description: Whether to disable email notification for automated
+                              hold messages.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Allow emails to be created on Holds.,
+                              Do not allow emails to be created for Holds for this Partition.]
+                          changeManagementEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          currency:
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: [United Arab Emirates dirham, Afghan
+                                afghani, Albanian lek, Armenian dram, Netherlands Antillean
+                                guilder, Angolan kwanza, Argentine peso, Australian
+                                dollar, Aruban florin, Azerbaijani manat, Bosnia and
+                                Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                                taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+                              Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+                              Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+                                pula, Belarusian ruble, Belize dollar, Canadian dollar,
+                              Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+                                de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+                                peso, Unidad de Valor Real, Costa Rican colon, Cuban
+                                convertible peso, Cuban peso, Cape Verde escudo, Czech
+                                koruna, Djiboutian franc, Danish krone, Dominican peso,
+                              Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+                                birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+                                sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+                              Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+                                dollar, Hong Kong dollar, Honduran lempira, Croatian
+                                kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+                              Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+                                rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+                              Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                                riel, Comoro franc, North Korean won, South Korean won,
+                              Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+                              Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+                              Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+                                leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+                              Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                              Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+                                peso, Mexican Unidad de Inversion, Malaysian ringgit,
+                              Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+                                córdoba, Norwegian krone, Nepalese rupee, New Zealand
+                                dollar, Omani rial, Panamanian balboa, Peruvian sol,
+                              Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                              Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+                                leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+                                riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+                                pound, Swedish krona/kronor, Singapore dollar, Saint
+                                Helena pound, Sierra Leonean leone, Somali shilling,
+                              Surinamese dollar, South Sudanese pound, São Tomé and
+                                Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+                                lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+                                manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+                              Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+                                shilling, Ukrainian hryvnia, Ugandan shilling, United
+                                States dollar, United States dollar, Uruguay Peso en
+                                Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+                              Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+                                tala, CFA franc BEAC, Silver, Gold, European Composite
+                                Unit, European Monetary Unit, European Unit of Account,
+                              European Unit of Account, East Caribbean dollar, Special
+                                drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+                              Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+                                African rand, Zambian kwacha, Zimbabwean dollar]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          name:
+                            description: "The name of this Partition. \nThis field is\
+                              \ stored as a text string and must be between 0 and 50\
+                              \ characters long."
+                          email:
+                            description: "The email address that the API should send\
+                              \ email notifications from when processing requests in\
+                              \ this Partition. \nThis field is stored as a text string\
+                              \ and must be between 1 and 100 characters long."
+                          minPasswordLength:
+                            description: "The minimum number of characters that all\
+                              \ passwords used in this Partition must have. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 8 and 16."
+                          minPasswordComplexity:
+                            description: "The minimum level of complexity that all passwords\
+                              \ used in this Partition must have. \nThere are four complexity\
+                              \ 'factors' that can be evaluated. These are the presence\
+                              \ of the following character types in the password: lowercase\
+                              \ characters, uppercase characters, integers and special\
+                              \ characters. For instance, the password '123a' would\
+                              \ get a complexity rating of '2', since it contains integers\
+                              \ and lowercase characters."
+                            enum: ['1', '2', '3', '4']
+                            x-enum-descriptions: [At least one complexity factor., At
+                                least two complexity factors., At least three complexity
+                                factors., At least four special complexity factors.]
+                          minPasswordHistory:
+                            description: "The minimum number of previous passwords that\
+                              \ the current password must be distinct from. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 3 and 12."
+                          noEmailConfirmation:
+                            description: Whether to disable the email address confirmation
+                              process for this Partition.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Require email address confirmation
+                                for this Partition., Do not require email address confirmation
+                                for this Partition.]
+                          noHoldEmail:
+                            description: Whether to disable email notification for automated
+                              hold messages.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Allow emails to be created on Holds.,
+                              Do not allow emails to be created for Holds for this Partition.]
+                          changeManagementEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          currency:
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: [United Arab Emirates dirham, Afghan
+                                afghani, Albanian lek, Armenian dram, Netherlands Antillean
+                                guilder, Angolan kwanza, Argentine peso, Australian
+                                dollar, Aruban florin, Azerbaijani manat, Bosnia and
+                                Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                                taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+                              Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+                              Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+                                pula, Belarusian ruble, Belize dollar, Canadian dollar,
+                              Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+                                de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+                                peso, Unidad de Valor Real, Costa Rican colon, Cuban
+                                convertible peso, Cuban peso, Cape Verde escudo, Czech
+                                koruna, Djiboutian franc, Danish krone, Dominican peso,
+                              Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+                                birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+                                sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+                              Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+                                dollar, Hong Kong dollar, Honduran lempira, Croatian
+                                kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+                              Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+                                rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+                              Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                                riel, Comoro franc, North Korean won, South Korean won,
+                              Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+                              Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+                              Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+                                leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+                              Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                              Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+                                peso, Mexican Unidad de Inversion, Malaysian ringgit,
+                              Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+                                córdoba, Norwegian krone, Nepalese rupee, New Zealand
+                                dollar, Omani rial, Panamanian balboa, Peruvian sol,
+                              Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                              Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+                                leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+                                riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+                                pound, Swedish krona/kronor, Singapore dollar, Saint
+                                Helena pound, Sierra Leonean leone, Somali shilling,
+                              Surinamese dollar, South Sudanese pound, São Tomé and
+                                Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+                                lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+                                manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+                              Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+                                shilling, Ukrainian hryvnia, Ugandan shilling, United
+                                States dollar, United States dollar, Uruguay Peso en
+                                Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+                              Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+                                tala, CFA franc BEAC, Silver, Gold, European Composite
+                                Unit, European Monetary Unit, European Unit of Account,
+                              European Unit of Account, East Caribbean dollar, Special
+                                drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+                              Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+                                African rand, Zambian kwacha, Zimbabwean dollar]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for query on partitions resource
+    tags: [Partitions]
+    operationId: getPartitionsId
+  put:
+    description: "Update a Partition. \nA Partition resource represents a distinct and\
+      \ separate space within the API with its own name and set of resources. \nYou\
+      \ can use a Partition to enable multi-tenant operation."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              name:
+                description: "The name of this Partition. \nThis field is stored as\
+                  \ a text string and must be between 0 and 50 characters long."
+              email:
+                description: "The email address that the API should send email notifications\
+                  \ from when processing requests in this Partition. \nThis field is\
+                  \ stored as a text string and must be between 1 and 100 characters\
+                  \ long."
+              minPasswordLength:
+                description: "The minimum number of characters that all passwords used\
+                  \ in this Partition must have. \nThis field is specified as an integer.\
+                  \ \nThe value must be between 8 and 16."
+              minPasswordComplexity:
+                description: "The minimum level of complexity that all passwords used\
+                  \ in this Partition must have. \nThere are four complexity 'factors'\
+                  \ that can be evaluated. These are the presence of the following character\
+                  \ types in the password: lowercase characters, uppercase characters,\
+                  \ integers and special characters. For instance, the password '123a'\
+                  \ would get a complexity rating of '2', since it contains integers\
+                  \ and lowercase characters."
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: [At least one complexity factor., At least two
+                    complexity factors., At least three complexity factors., At least
+                    four special complexity factors.]
+              minPasswordHistory:
+                description: "The minimum number of previous passwords that the current\
+                  \ password must be distinct from. \nThis field is specified as an\
+                  \ integer. \nThe value must be between 3 and 12."
+              noEmailConfirmation:
+                description: Whether to disable the email address confirmation process
+                  for this Partition.
+                enum: ['0', '1']
+                x-enum-descriptions: [Require email address confirmation for this Partition.,
+                  Do not require email address confirmation for this Partition.]
+              noHoldEmail:
+                description: Whether to disable email notification for automated hold
+                  messages.
+                enum: ['0', '1']
+                x-enum-descriptions: [Allow emails to be created on Holds., Do not allow
+                    emails to be created for Holds for this Partition.]
+              changeManagementEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              currency:
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: [United Arab Emirates dirham, Afghan afghani, Albanian
+                    lek, Armenian dram, Netherlands Antillean guilder, Angolan kwanza,
+                  Argentine peso, Australian dollar, Aruban florin, Azerbaijani manat,
+                  Bosnia and Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                    taka, Bulgarian lev, Bahraini dinar, Burundian franc, Bermudian
+                    dollar, Brunei dollar, Boliviano, Bolivian Mvdol, Brazilian real,
+                  Bahamian dollar, Bhutanese ngultrum, Botswana pula, Belarusian ruble,
+                  Belize dollar, Canadian dollar, Congolese franc, WIR Euro, Swiss franc,
+                  WIR Franc, Unidad de Fomento, Chilean peso, Renminbi (Chinese) yuan,
+                  Colombian peso, Unidad de Valor Real, Costa Rican colon, Cuban convertible
+                    peso, Cuban peso, Cape Verde escudo, Czech koruna, Djiboutian franc,
+                  Danish krone, Dominican peso, Algerian dinar, Egyptian pound, Eritrean
+                    nakfa, Ethiopian birr, Euro, Fiji dollar, Falkland Islands pound,
+                  Pound sterling, Georgian lari, Ghanaian cedi, Gibraltar pound, Gambian
+                    dalasi, Guinean franc, Guatemalan quetzal, Guyanese dollar, Hong
+                    Kong dollar, Honduran lempira, Croatian kuna, Haitian gourde, Hungarian
+                    forint, Indonesian rupiah, Israeli new shekel, Indian rupee, Iraqi
+                    dinar, Iranian rial, Icelandic króna, Jamaican dollar, Jordanian
+                    dinar, Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                    riel, Comoro franc, North Korean won, South Korean won, Kuwaiti
+                    dinar, Cayman Islands dollar, Kazakhstani tenge, Lao kip, Lebanese
+                    pound, Sri Lankan rupee, Liberian dollar, Lesotho loti, Libyan dinar,
+                  Moroccan dirham, Moldovan leu, Malagasy ariary, Macedonian denar,
+                  Myanmar kyat, Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                  Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican peso,
+                  Mexican Unidad de Inversion, Malaysian ringgit, Mozambican metical,
+                  Namibian dollar, Nigerian naira, Nicaraguan córdoba, Norwegian krone,
+                  Nepalese rupee, New Zealand dollar, Omani rial, Panamanian balboa,
+                  Peruvian sol, Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                  Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian leu, Serbian
+                    dinar, Russian ruble, Rwandan franc, Saudi riyal, Solomon Islands
+                    dollar, Seychelles rupee, Sudanese pound, Swedish krona/kronor,
+                  Singapore dollar, Saint Helena pound, Sierra Leonean leone, Somali
+                    shilling, Surinamese dollar, South Sudanese pound, São Tomé and
+                    Príncipe dobra, Salvadoran colón, Syrian pound, Swazi lilangeni,
+                  Thai baht, Tajikistani somoni, Turkmenistan manat, Tunisian dinar,
+                  Tongan pa'anga, Turkish lira, Trinidad and Tobago dollar, New Taiwan
+                    dollar, Tanzanian shilling, Ukrainian hryvnia, Ugandan shilling,
+                  United States dollar, United States dollar, Uruguay Peso en Unidades
+                    Indexadas, Uruguayan peso, Uzbekistan som, Venezuelan bolívar, Vietnamese
+                    đồng, Vanuatu vatu, Samoan tala, CFA franc BEAC, Silver, Gold, European
+                    Composite Unit, European Monetary Unit, European Unit of Account,
+                  European Unit of Account, East Caribbean dollar, Special drawing rights,
+                  CFA franc BCEAO, Palladium, CFP franc, Platinum, SUCRE, ADB Unit of
+                    Account, Yemeni rial, South African rand, Zambian kwacha, Zimbabwean
+                    dollar]
+            required: [changeManagementEnabled, email, name, noEmailConfirmation, noHoldEmail]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              name:
+                description: "The name of this Partition. \nThis field is stored as\
+                  \ a text string and must be between 0 and 50 characters long."
+              email:
+                description: "The email address that the API should send email notifications\
+                  \ from when processing requests in this Partition. \nThis field is\
+                  \ stored as a text string and must be between 1 and 100 characters\
+                  \ long."
+              minPasswordLength:
+                description: "The minimum number of characters that all passwords used\
+                  \ in this Partition must have. \nThis field is specified as an integer.\
+                  \ \nThe value must be between 8 and 16."
+              minPasswordComplexity:
+                description: "The minimum level of complexity that all passwords used\
+                  \ in this Partition must have. \nThere are four complexity 'factors'\
+                  \ that can be evaluated. These are the presence of the following character\
+                  \ types in the password: lowercase characters, uppercase characters,\
+                  \ integers and special characters. For instance, the password '123a'\
+                  \ would get a complexity rating of '2', since it contains integers\
+                  \ and lowercase characters."
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: [At least one complexity factor., At least two
+                    complexity factors., At least three complexity factors., At least
+                    four special complexity factors.]
+              minPasswordHistory:
+                description: "The minimum number of previous passwords that the current\
+                  \ password must be distinct from. \nThis field is specified as an\
+                  \ integer. \nThe value must be between 3 and 12."
+              noEmailConfirmation:
+                description: Whether to disable the email address confirmation process
+                  for this Partition.
+                enum: ['0', '1']
+                x-enum-descriptions: [Require email address confirmation for this Partition.,
+                  Do not require email address confirmation for this Partition.]
+              noHoldEmail:
+                description: Whether to disable email notification for automated hold
+                  messages.
+                enum: ['0', '1']
+                x-enum-descriptions: [Allow emails to be created on Holds., Do not allow
+                    emails to be created for Holds for this Partition.]
+              changeManagementEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              currency:
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: [United Arab Emirates dirham, Afghan afghani, Albanian
+                    lek, Armenian dram, Netherlands Antillean guilder, Angolan kwanza,
+                  Argentine peso, Australian dollar, Aruban florin, Azerbaijani manat,
+                  Bosnia and Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                    taka, Bulgarian lev, Bahraini dinar, Burundian franc, Bermudian
+                    dollar, Brunei dollar, Boliviano, Bolivian Mvdol, Brazilian real,
+                  Bahamian dollar, Bhutanese ngultrum, Botswana pula, Belarusian ruble,
+                  Belize dollar, Canadian dollar, Congolese franc, WIR Euro, Swiss franc,
+                  WIR Franc, Unidad de Fomento, Chilean peso, Renminbi (Chinese) yuan,
+                  Colombian peso, Unidad de Valor Real, Costa Rican colon, Cuban convertible
+                    peso, Cuban peso, Cape Verde escudo, Czech koruna, Djiboutian franc,
+                  Danish krone, Dominican peso, Algerian dinar, Egyptian pound, Eritrean
+                    nakfa, Ethiopian birr, Euro, Fiji dollar, Falkland Islands pound,
+                  Pound sterling, Georgian lari, Ghanaian cedi, Gibraltar pound, Gambian
+                    dalasi, Guinean franc, Guatemalan quetzal, Guyanese dollar, Hong
+                    Kong dollar, Honduran lempira, Croatian kuna, Haitian gourde, Hungarian
+                    forint, Indonesian rupiah, Israeli new shekel, Indian rupee, Iraqi
+                    dinar, Iranian rial, Icelandic króna, Jamaican dollar, Jordanian
+                    dinar, Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                    riel, Comoro franc, North Korean won, South Korean won, Kuwaiti
+                    dinar, Cayman Islands dollar, Kazakhstani tenge, Lao kip, Lebanese
+                    pound, Sri Lankan rupee, Liberian dollar, Lesotho loti, Libyan dinar,
+                  Moroccan dirham, Moldovan leu, Malagasy ariary, Macedonian denar,
+                  Myanmar kyat, Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                  Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican peso,
+                  Mexican Unidad de Inversion, Malaysian ringgit, Mozambican metical,
+                  Namibian dollar, Nigerian naira, Nicaraguan córdoba, Norwegian krone,
+                  Nepalese rupee, New Zealand dollar, Omani rial, Panamanian balboa,
+                  Peruvian sol, Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                  Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian leu, Serbian
+                    dinar, Russian ruble, Rwandan franc, Saudi riyal, Solomon Islands
+                    dollar, Seychelles rupee, Sudanese pound, Swedish krona/kronor,
+                  Singapore dollar, Saint Helena pound, Sierra Leonean leone, Somali
+                    shilling, Surinamese dollar, South Sudanese pound, São Tomé and
+                    Príncipe dobra, Salvadoran colón, Syrian pound, Swazi lilangeni,
+                  Thai baht, Tajikistani somoni, Turkmenistan manat, Tunisian dinar,
+                  Tongan pa'anga, Turkish lira, Trinidad and Tobago dollar, New Taiwan
+                    dollar, Tanzanian shilling, Ukrainian hryvnia, Ugandan shilling,
+                  United States dollar, United States dollar, Uruguay Peso en Unidades
+                    Indexadas, Uruguayan peso, Uzbekistan som, Venezuelan bolívar, Vietnamese
+                    đồng, Vanuatu vatu, Samoan tala, CFA franc BEAC, Silver, Gold, European
+                    Composite Unit, European Monetary Unit, European Unit of Account,
+                  European Unit of Account, East Caribbean dollar, Special drawing rights,
+                  CFA franc BCEAO, Palladium, CFP franc, Platinum, SUCRE, ADB Unit of
+                    Account, Yemeni rial, South African rand, Zambian kwacha, Zimbabwean
+                    dollar]
+            required: [changeManagementEnabled, email, name, noEmailConfirmation, noHoldEmail]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              name:
+                description: "The name of this Partition. \nThis field is stored as\
+                  \ a text string and must be between 0 and 50 characters long."
+              email:
+                description: "The email address that the API should send email notifications\
+                  \ from when processing requests in this Partition. \nThis field is\
+                  \ stored as a text string and must be between 1 and 100 characters\
+                  \ long."
+              minPasswordLength:
+                description: "The minimum number of characters that all passwords used\
+                  \ in this Partition must have. \nThis field is specified as an integer.\
+                  \ \nThe value must be between 8 and 16."
+              minPasswordComplexity:
+                description: "The minimum level of complexity that all passwords used\
+                  \ in this Partition must have. \nThere are four complexity 'factors'\
+                  \ that can be evaluated. These are the presence of the following character\
+                  \ types in the password: lowercase characters, uppercase characters,\
+                  \ integers and special characters. For instance, the password '123a'\
+                  \ would get a complexity rating of '2', since it contains integers\
+                  \ and lowercase characters."
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: [At least one complexity factor., At least two
+                    complexity factors., At least three complexity factors., At least
+                    four special complexity factors.]
+              minPasswordHistory:
+                description: "The minimum number of previous passwords that the current\
+                  \ password must be distinct from. \nThis field is specified as an\
+                  \ integer. \nThe value must be between 3 and 12."
+              noEmailConfirmation:
+                description: Whether to disable the email address confirmation process
+                  for this Partition.
+                enum: ['0', '1']
+                x-enum-descriptions: [Require email address confirmation for this Partition.,
+                  Do not require email address confirmation for this Partition.]
+              noHoldEmail:
+                description: Whether to disable email notification for automated hold
+                  messages.
+                enum: ['0', '1']
+                x-enum-descriptions: [Allow emails to be created on Holds., Do not allow
+                    emails to be created for Holds for this Partition.]
+              changeManagementEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              currency:
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: [United Arab Emirates dirham, Afghan afghani, Albanian
+                    lek, Armenian dram, Netherlands Antillean guilder, Angolan kwanza,
+                  Argentine peso, Australian dollar, Aruban florin, Azerbaijani manat,
+                  Bosnia and Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                    taka, Bulgarian lev, Bahraini dinar, Burundian franc, Bermudian
+                    dollar, Brunei dollar, Boliviano, Bolivian Mvdol, Brazilian real,
+                  Bahamian dollar, Bhutanese ngultrum, Botswana pula, Belarusian ruble,
+                  Belize dollar, Canadian dollar, Congolese franc, WIR Euro, Swiss franc,
+                  WIR Franc, Unidad de Fomento, Chilean peso, Renminbi (Chinese) yuan,
+                  Colombian peso, Unidad de Valor Real, Costa Rican colon, Cuban convertible
+                    peso, Cuban peso, Cape Verde escudo, Czech koruna, Djiboutian franc,
+                  Danish krone, Dominican peso, Algerian dinar, Egyptian pound, Eritrean
+                    nakfa, Ethiopian birr, Euro, Fiji dollar, Falkland Islands pound,
+                  Pound sterling, Georgian lari, Ghanaian cedi, Gibraltar pound, Gambian
+                    dalasi, Guinean franc, Guatemalan quetzal, Guyanese dollar, Hong
+                    Kong dollar, Honduran lempira, Croatian kuna, Haitian gourde, Hungarian
+                    forint, Indonesian rupiah, Israeli new shekel, Indian rupee, Iraqi
+                    dinar, Iranian rial, Icelandic króna, Jamaican dollar, Jordanian
+                    dinar, Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                    riel, Comoro franc, North Korean won, South Korean won, Kuwaiti
+                    dinar, Cayman Islands dollar, Kazakhstani tenge, Lao kip, Lebanese
+                    pound, Sri Lankan rupee, Liberian dollar, Lesotho loti, Libyan dinar,
+                  Moroccan dirham, Moldovan leu, Malagasy ariary, Macedonian denar,
+                  Myanmar kyat, Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                  Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican peso,
+                  Mexican Unidad de Inversion, Malaysian ringgit, Mozambican metical,
+                  Namibian dollar, Nigerian naira, Nicaraguan córdoba, Norwegian krone,
+                  Nepalese rupee, New Zealand dollar, Omani rial, Panamanian balboa,
+                  Peruvian sol, Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                  Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian leu, Serbian
+                    dinar, Russian ruble, Rwandan franc, Saudi riyal, Solomon Islands
+                    dollar, Seychelles rupee, Sudanese pound, Swedish krona/kronor,
+                  Singapore dollar, Saint Helena pound, Sierra Leonean leone, Somali
+                    shilling, Surinamese dollar, South Sudanese pound, São Tomé and
+                    Príncipe dobra, Salvadoran colón, Syrian pound, Swazi lilangeni,
+                  Thai baht, Tajikistani somoni, Turkmenistan manat, Tunisian dinar,
+                  Tongan pa'anga, Turkish lira, Trinidad and Tobago dollar, New Taiwan
+                    dollar, Tanzanian shilling, Ukrainian hryvnia, Ugandan shilling,
+                  United States dollar, United States dollar, Uruguay Peso en Unidades
+                    Indexadas, Uruguayan peso, Uzbekistan som, Venezuelan bolívar, Vietnamese
+                    đồng, Vanuatu vatu, Samoan tala, CFA franc BEAC, Silver, Gold, European
+                    Composite Unit, European Monetary Unit, European Unit of Account,
+                  European Unit of Account, East Caribbean dollar, Special drawing rights,
+                  CFA franc BCEAO, Palladium, CFP franc, Platinum, SUCRE, ADB Unit of
+                    Account, Yemeni rial, South African rand, Zambian kwacha, Zimbabwean
+                    dollar]
+            required: [changeManagementEnabled, email, name, noEmailConfirmation, noHoldEmail]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              name:
+                description: "The name of this Partition. \nThis field is stored as\
+                  \ a text string and must be between 0 and 50 characters long."
+              email:
+                description: "The email address that the API should send email notifications\
+                  \ from when processing requests in this Partition. \nThis field is\
+                  \ stored as a text string and must be between 1 and 100 characters\
+                  \ long."
+              minPasswordLength:
+                description: "The minimum number of characters that all passwords used\
+                  \ in this Partition must have. \nThis field is specified as an integer.\
+                  \ \nThe value must be between 8 and 16."
+              minPasswordComplexity:
+                description: "The minimum level of complexity that all passwords used\
+                  \ in this Partition must have. \nThere are four complexity 'factors'\
+                  \ that can be evaluated. These are the presence of the following character\
+                  \ types in the password: lowercase characters, uppercase characters,\
+                  \ integers and special characters. For instance, the password '123a'\
+                  \ would get a complexity rating of '2', since it contains integers\
+                  \ and lowercase characters."
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: [At least one complexity factor., At least two
+                    complexity factors., At least three complexity factors., At least
+                    four special complexity factors.]
+              minPasswordHistory:
+                description: "The minimum number of previous passwords that the current\
+                  \ password must be distinct from. \nThis field is specified as an\
+                  \ integer. \nThe value must be between 3 and 12."
+              noEmailConfirmation:
+                description: Whether to disable the email address confirmation process
+                  for this Partition.
+                enum: ['0', '1']
+                x-enum-descriptions: [Require email address confirmation for this Partition.,
+                  Do not require email address confirmation for this Partition.]
+              noHoldEmail:
+                description: Whether to disable email notification for automated hold
+                  messages.
+                enum: ['0', '1']
+                x-enum-descriptions: [Allow emails to be created on Holds., Do not allow
+                    emails to be created for Holds for this Partition.]
+              changeManagementEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              currency:
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: [United Arab Emirates dirham, Afghan afghani, Albanian
+                    lek, Armenian dram, Netherlands Antillean guilder, Angolan kwanza,
+                  Argentine peso, Australian dollar, Aruban florin, Azerbaijani manat,
+                  Bosnia and Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                    taka, Bulgarian lev, Bahraini dinar, Burundian franc, Bermudian
+                    dollar, Brunei dollar, Boliviano, Bolivian Mvdol, Brazilian real,
+                  Bahamian dollar, Bhutanese ngultrum, Botswana pula, Belarusian ruble,
+                  Belize dollar, Canadian dollar, Congolese franc, WIR Euro, Swiss franc,
+                  WIR Franc, Unidad de Fomento, Chilean peso, Renminbi (Chinese) yuan,
+                  Colombian peso, Unidad de Valor Real, Costa Rican colon, Cuban convertible
+                    peso, Cuban peso, Cape Verde escudo, Czech koruna, Djiboutian franc,
+                  Danish krone, Dominican peso, Algerian dinar, Egyptian pound, Eritrean
+                    nakfa, Ethiopian birr, Euro, Fiji dollar, Falkland Islands pound,
+                  Pound sterling, Georgian lari, Ghanaian cedi, Gibraltar pound, Gambian
+                    dalasi, Guinean franc, Guatemalan quetzal, Guyanese dollar, Hong
+                    Kong dollar, Honduran lempira, Croatian kuna, Haitian gourde, Hungarian
+                    forint, Indonesian rupiah, Israeli new shekel, Indian rupee, Iraqi
+                    dinar, Iranian rial, Icelandic króna, Jamaican dollar, Jordanian
+                    dinar, Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                    riel, Comoro franc, North Korean won, South Korean won, Kuwaiti
+                    dinar, Cayman Islands dollar, Kazakhstani tenge, Lao kip, Lebanese
+                    pound, Sri Lankan rupee, Liberian dollar, Lesotho loti, Libyan dinar,
+                  Moroccan dirham, Moldovan leu, Malagasy ariary, Macedonian denar,
+                  Myanmar kyat, Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                  Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican peso,
+                  Mexican Unidad de Inversion, Malaysian ringgit, Mozambican metical,
+                  Namibian dollar, Nigerian naira, Nicaraguan córdoba, Norwegian krone,
+                  Nepalese rupee, New Zealand dollar, Omani rial, Panamanian balboa,
+                  Peruvian sol, Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                  Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian leu, Serbian
+                    dinar, Russian ruble, Rwandan franc, Saudi riyal, Solomon Islands
+                    dollar, Seychelles rupee, Sudanese pound, Swedish krona/kronor,
+                  Singapore dollar, Saint Helena pound, Sierra Leonean leone, Somali
+                    shilling, Surinamese dollar, South Sudanese pound, São Tomé and
+                    Príncipe dobra, Salvadoran colón, Syrian pound, Swazi lilangeni,
+                  Thai baht, Tajikistani somoni, Turkmenistan manat, Tunisian dinar,
+                  Tongan pa'anga, Turkish lira, Trinidad and Tobago dollar, New Taiwan
+                    dollar, Tanzanian shilling, Ukrainian hryvnia, Ugandan shilling,
+                  United States dollar, United States dollar, Uruguay Peso en Unidades
+                    Indexadas, Uruguayan peso, Uzbekistan som, Venezuelan bolívar, Vietnamese
+                    đồng, Vanuatu vatu, Samoan tala, CFA franc BEAC, Silver, Gold, European
+                    Composite Unit, European Monetary Unit, European Unit of Account,
+                  European Unit of Account, East Caribbean dollar, Special drawing rights,
+                  CFA franc BCEAO, Palladium, CFP franc, Platinum, SUCRE, ADB Unit of
+                    Account, Yemeni rial, South African rand, Zambian kwacha, Zimbabwean
+                    dollar]
+            required: [changeManagementEnabled, email, name, noEmailConfirmation, noHoldEmail]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              name:
+                description: "The name of this Partition. \nThis field is stored as\
+                  \ a text string and must be between 0 and 50 characters long."
+              email:
+                description: "The email address that the API should send email notifications\
+                  \ from when processing requests in this Partition. \nThis field is\
+                  \ stored as a text string and must be between 1 and 100 characters\
+                  \ long."
+              minPasswordLength:
+                description: "The minimum number of characters that all passwords used\
+                  \ in this Partition must have. \nThis field is specified as an integer.\
+                  \ \nThe value must be between 8 and 16."
+              minPasswordComplexity:
+                description: "The minimum level of complexity that all passwords used\
+                  \ in this Partition must have. \nThere are four complexity 'factors'\
+                  \ that can be evaluated. These are the presence of the following character\
+                  \ types in the password: lowercase characters, uppercase characters,\
+                  \ integers and special characters. For instance, the password '123a'\
+                  \ would get a complexity rating of '2', since it contains integers\
+                  \ and lowercase characters."
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: [At least one complexity factor., At least two
+                    complexity factors., At least three complexity factors., At least
+                    four special complexity factors.]
+              minPasswordHistory:
+                description: "The minimum number of previous passwords that the current\
+                  \ password must be distinct from. \nThis field is specified as an\
+                  \ integer. \nThe value must be between 3 and 12."
+              noEmailConfirmation:
+                description: Whether to disable the email address confirmation process
+                  for this Partition.
+                enum: ['0', '1']
+                x-enum-descriptions: [Require email address confirmation for this Partition.,
+                  Do not require email address confirmation for this Partition.]
+              noHoldEmail:
+                description: Whether to disable email notification for automated hold
+                  messages.
+                enum: ['0', '1']
+                x-enum-descriptions: [Allow emails to be created on Holds., Do not allow
+                    emails to be created for Holds for this Partition.]
+              changeManagementEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              currency:
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: [United Arab Emirates dirham, Afghan afghani, Albanian
+                    lek, Armenian dram, Netherlands Antillean guilder, Angolan kwanza,
+                  Argentine peso, Australian dollar, Aruban florin, Azerbaijani manat,
+                  Bosnia and Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                    taka, Bulgarian lev, Bahraini dinar, Burundian franc, Bermudian
+                    dollar, Brunei dollar, Boliviano, Bolivian Mvdol, Brazilian real,
+                  Bahamian dollar, Bhutanese ngultrum, Botswana pula, Belarusian ruble,
+                  Belize dollar, Canadian dollar, Congolese franc, WIR Euro, Swiss franc,
+                  WIR Franc, Unidad de Fomento, Chilean peso, Renminbi (Chinese) yuan,
+                  Colombian peso, Unidad de Valor Real, Costa Rican colon, Cuban convertible
+                    peso, Cuban peso, Cape Verde escudo, Czech koruna, Djiboutian franc,
+                  Danish krone, Dominican peso, Algerian dinar, Egyptian pound, Eritrean
+                    nakfa, Ethiopian birr, Euro, Fiji dollar, Falkland Islands pound,
+                  Pound sterling, Georgian lari, Ghanaian cedi, Gibraltar pound, Gambian
+                    dalasi, Guinean franc, Guatemalan quetzal, Guyanese dollar, Hong
+                    Kong dollar, Honduran lempira, Croatian kuna, Haitian gourde, Hungarian
+                    forint, Indonesian rupiah, Israeli new shekel, Indian rupee, Iraqi
+                    dinar, Iranian rial, Icelandic króna, Jamaican dollar, Jordanian
+                    dinar, Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                    riel, Comoro franc, North Korean won, South Korean won, Kuwaiti
+                    dinar, Cayman Islands dollar, Kazakhstani tenge, Lao kip, Lebanese
+                    pound, Sri Lankan rupee, Liberian dollar, Lesotho loti, Libyan dinar,
+                  Moroccan dirham, Moldovan leu, Malagasy ariary, Macedonian denar,
+                  Myanmar kyat, Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                  Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican peso,
+                  Mexican Unidad de Inversion, Malaysian ringgit, Mozambican metical,
+                  Namibian dollar, Nigerian naira, Nicaraguan córdoba, Norwegian krone,
+                  Nepalese rupee, New Zealand dollar, Omani rial, Panamanian balboa,
+                  Peruvian sol, Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                  Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian leu, Serbian
+                    dinar, Russian ruble, Rwandan franc, Saudi riyal, Solomon Islands
+                    dollar, Seychelles rupee, Sudanese pound, Swedish krona/kronor,
+                  Singapore dollar, Saint Helena pound, Sierra Leonean leone, Somali
+                    shilling, Surinamese dollar, South Sudanese pound, São Tomé and
+                    Príncipe dobra, Salvadoran colón, Syrian pound, Swazi lilangeni,
+                  Thai baht, Tajikistani somoni, Turkmenistan manat, Tunisian dinar,
+                  Tongan pa'anga, Turkish lira, Trinidad and Tobago dollar, New Taiwan
+                    dollar, Tanzanian shilling, Ukrainian hryvnia, Ugandan shilling,
+                  United States dollar, United States dollar, Uruguay Peso en Unidades
+                    Indexadas, Uruguayan peso, Uzbekistan som, Venezuelan bolívar, Vietnamese
+                    đồng, Vanuatu vatu, Samoan tala, CFA franc BEAC, Silver, Gold, European
+                    Composite Unit, European Monetary Unit, European Unit of Account,
+                  European Unit of Account, East Caribbean dollar, Special drawing rights,
+                  CFA franc BCEAO, Palladium, CFP franc, Platinum, SUCRE, ADB Unit of
+                    Account, Yemeni rial, South African rand, Zambian kwacha, Zimbabwean
+                    dollar]
+            required: [changeManagementEnabled, email, name, noEmailConfirmation, noHoldEmail]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              name:
+                description: "The name of this Partition. \nThis field is stored as\
+                  \ a text string and must be between 0 and 50 characters long."
+              email:
+                description: "The email address that the API should send email notifications\
+                  \ from when processing requests in this Partition. \nThis field is\
+                  \ stored as a text string and must be between 1 and 100 characters\
+                  \ long."
+              minPasswordLength:
+                description: "The minimum number of characters that all passwords used\
+                  \ in this Partition must have. \nThis field is specified as an integer.\
+                  \ \nThe value must be between 8 and 16."
+              minPasswordComplexity:
+                description: "The minimum level of complexity that all passwords used\
+                  \ in this Partition must have. \nThere are four complexity 'factors'\
+                  \ that can be evaluated. These are the presence of the following character\
+                  \ types in the password: lowercase characters, uppercase characters,\
+                  \ integers and special characters. For instance, the password '123a'\
+                  \ would get a complexity rating of '2', since it contains integers\
+                  \ and lowercase characters."
+                enum: ['1', '2', '3', '4']
+                x-enum-descriptions: [At least one complexity factor., At least two
+                    complexity factors., At least three complexity factors., At least
+                    four special complexity factors.]
+              minPasswordHistory:
+                description: "The minimum number of previous passwords that the current\
+                  \ password must be distinct from. \nThis field is specified as an\
+                  \ integer. \nThe value must be between 3 and 12."
+              noEmailConfirmation:
+                description: Whether to disable the email address confirmation process
+                  for this Partition.
+                enum: ['0', '1']
+                x-enum-descriptions: [Require email address confirmation for this Partition.,
+                  Do not require email address confirmation for this Partition.]
+              noHoldEmail:
+                description: Whether to disable email notification for automated hold
+                  messages.
+                enum: ['0', '1']
+                x-enum-descriptions: [Allow emails to be created on Holds., Do not allow
+                    emails to be created for Holds for this Partition.]
+              changeManagementEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              currency:
+                enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT,
+                  BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL, BSD, BTN, BWP, BYN, BZD, CAD,
+                  CDF, CHE, CHF, CHW, CLF, CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK,
+                  DJF, DKK, DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS, GIP,
+                  GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR, ILS, INR, IQD, IRR,
+                  ISK, JMD, JOD, JPY, KES, KGS, KHR, KMF, KPW, KRW, KWD, KYD, KZT, LAK,
+                  LBP, LKR, LRD, LSL, LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR,
+                  MVR, MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD, OMR, PAB,
+                  PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD, RUB, RWF, SAR, SBD, SCR,
+                  SDG, SEK, SGD, SHP, SLL, SOS, SRD, SSP, STN, SVC, SYP, SZL, THB, TJS,
+                  TMT, TND, TOP, TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                  VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD, XCD, XDR, XOF,
+                  XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW, ZWL]
+                x-enum-descriptions: [United Arab Emirates dirham, Afghan afghani, Albanian
+                    lek, Armenian dram, Netherlands Antillean guilder, Angolan kwanza,
+                  Argentine peso, Australian dollar, Aruban florin, Azerbaijani manat,
+                  Bosnia and Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                    taka, Bulgarian lev, Bahraini dinar, Burundian franc, Bermudian
+                    dollar, Brunei dollar, Boliviano, Bolivian Mvdol, Brazilian real,
+                  Bahamian dollar, Bhutanese ngultrum, Botswana pula, Belarusian ruble,
+                  Belize dollar, Canadian dollar, Congolese franc, WIR Euro, Swiss franc,
+                  WIR Franc, Unidad de Fomento, Chilean peso, Renminbi (Chinese) yuan,
+                  Colombian peso, Unidad de Valor Real, Costa Rican colon, Cuban convertible
+                    peso, Cuban peso, Cape Verde escudo, Czech koruna, Djiboutian franc,
+                  Danish krone, Dominican peso, Algerian dinar, Egyptian pound, Eritrean
+                    nakfa, Ethiopian birr, Euro, Fiji dollar, Falkland Islands pound,
+                  Pound sterling, Georgian lari, Ghanaian cedi, Gibraltar pound, Gambian
+                    dalasi, Guinean franc, Guatemalan quetzal, Guyanese dollar, Hong
+                    Kong dollar, Honduran lempira, Croatian kuna, Haitian gourde, Hungarian
+                    forint, Indonesian rupiah, Israeli new shekel, Indian rupee, Iraqi
+                    dinar, Iranian rial, Icelandic króna, Jamaican dollar, Jordanian
+                    dinar, Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                    riel, Comoro franc, North Korean won, South Korean won, Kuwaiti
+                    dinar, Cayman Islands dollar, Kazakhstani tenge, Lao kip, Lebanese
+                    pound, Sri Lankan rupee, Liberian dollar, Lesotho loti, Libyan dinar,
+                  Moroccan dirham, Moldovan leu, Malagasy ariary, Macedonian denar,
+                  Myanmar kyat, Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                  Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican peso,
+                  Mexican Unidad de Inversion, Malaysian ringgit, Mozambican metical,
+                  Namibian dollar, Nigerian naira, Nicaraguan córdoba, Norwegian krone,
+                  Nepalese rupee, New Zealand dollar, Omani rial, Panamanian balboa,
+                  Peruvian sol, Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                  Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian leu, Serbian
+                    dinar, Russian ruble, Rwandan franc, Saudi riyal, Solomon Islands
+                    dollar, Seychelles rupee, Sudanese pound, Swedish krona/kronor,
+                  Singapore dollar, Saint Helena pound, Sierra Leonean leone, Somali
+                    shilling, Surinamese dollar, South Sudanese pound, São Tomé and
+                    Príncipe dobra, Salvadoran colón, Syrian pound, Swazi lilangeni,
+                  Thai baht, Tajikistani somoni, Turkmenistan manat, Tunisian dinar,
+                  Tongan pa'anga, Turkish lira, Trinidad and Tobago dollar, New Taiwan
+                    dollar, Tanzanian shilling, Ukrainian hryvnia, Ugandan shilling,
+                  United States dollar, United States dollar, Uruguay Peso en Unidades
+                    Indexadas, Uruguayan peso, Uzbekistan som, Venezuelan bolívar, Vietnamese
+                    đồng, Vanuatu vatu, Samoan tala, CFA franc BEAC, Silver, Gold, European
+                    Composite Unit, European Monetary Unit, European Unit of Account,
+                  European Unit of Account, East Caribbean dollar, Special drawing rights,
+                  CFA franc BCEAO, Palladium, CFP franc, Platinum, SUCRE, ADB Unit of
+                    Account, Yemeni rial, South African rand, Zambian kwacha, Zimbabwean
+                    dollar]
+            required: [changeManagementEnabled, email, name, noEmailConfirmation, noHoldEmail]
+            x-redacted: []
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          name:
+                            description: "The name of this Partition. \nThis field is\
+                              \ stored as a text string and must be between 0 and 50\
+                              \ characters long."
+                          email:
+                            description: "The email address that the API should send\
+                              \ email notifications from when processing requests in\
+                              \ this Partition. \nThis field is stored as a text string\
+                              \ and must be between 1 and 100 characters long."
+                          minPasswordLength:
+                            description: "The minimum number of characters that all\
+                              \ passwords used in this Partition must have. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 8 and 16."
+                          minPasswordComplexity:
+                            description: "The minimum level of complexity that all passwords\
+                              \ used in this Partition must have. \nThere are four complexity\
+                              \ 'factors' that can be evaluated. These are the presence\
+                              \ of the following character types in the password: lowercase\
+                              \ characters, uppercase characters, integers and special\
+                              \ characters. For instance, the password '123a' would\
+                              \ get a complexity rating of '2', since it contains integers\
+                              \ and lowercase characters."
+                            enum: ['1', '2', '3', '4']
+                            x-enum-descriptions: [At least one complexity factor., At
+                                least two complexity factors., At least three complexity
+                                factors., At least four special complexity factors.]
+                          minPasswordHistory:
+                            description: "The minimum number of previous passwords that\
+                              \ the current password must be distinct from. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 3 and 12."
+                          noEmailConfirmation:
+                            description: Whether to disable the email address confirmation
+                              process for this Partition.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Require email address confirmation
+                                for this Partition., Do not require email address confirmation
+                                for this Partition.]
+                          noHoldEmail:
+                            description: Whether to disable email notification for automated
+                              hold messages.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Allow emails to be created on Holds.,
+                              Do not allow emails to be created for Holds for this Partition.]
+                          changeManagementEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          currency:
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: [United Arab Emirates dirham, Afghan
+                                afghani, Albanian lek, Armenian dram, Netherlands Antillean
+                                guilder, Angolan kwanza, Argentine peso, Australian
+                                dollar, Aruban florin, Azerbaijani manat, Bosnia and
+                                Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                                taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+                              Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+                              Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+                                pula, Belarusian ruble, Belize dollar, Canadian dollar,
+                              Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+                                de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+                                peso, Unidad de Valor Real, Costa Rican colon, Cuban
+                                convertible peso, Cuban peso, Cape Verde escudo, Czech
+                                koruna, Djiboutian franc, Danish krone, Dominican peso,
+                              Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+                                birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+                                sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+                              Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+                                dollar, Hong Kong dollar, Honduran lempira, Croatian
+                                kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+                              Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+                                rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+                              Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                                riel, Comoro franc, North Korean won, South Korean won,
+                              Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+                              Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+                              Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+                                leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+                              Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                              Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+                                peso, Mexican Unidad de Inversion, Malaysian ringgit,
+                              Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+                                córdoba, Norwegian krone, Nepalese rupee, New Zealand
+                                dollar, Omani rial, Panamanian balboa, Peruvian sol,
+                              Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                              Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+                                leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+                                riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+                                pound, Swedish krona/kronor, Singapore dollar, Saint
+                                Helena pound, Sierra Leonean leone, Somali shilling,
+                              Surinamese dollar, South Sudanese pound, São Tomé and
+                                Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+                                lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+                                manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+                              Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+                                shilling, Ukrainian hryvnia, Ugandan shilling, United
+                                States dollar, United States dollar, Uruguay Peso en
+                                Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+                              Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+                                tala, CFA franc BEAC, Silver, Gold, European Composite
+                                Unit, European Monetary Unit, European Unit of Account,
+                              European Unit of Account, East Caribbean dollar, Special
+                                drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+                              Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+                                African rand, Zambian kwacha, Zimbabwean dollar]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          login: {description: The Login that owns this resource.}
+                          name:
+                            description: "The name of this Partition. \nThis field is\
+                              \ stored as a text string and must be between 0 and 50\
+                              \ characters long."
+                          email:
+                            description: "The email address that the API should send\
+                              \ email notifications from when processing requests in\
+                              \ this Partition. \nThis field is stored as a text string\
+                              \ and must be between 1 and 100 characters long."
+                          minPasswordLength:
+                            description: "The minimum number of characters that all\
+                              \ passwords used in this Partition must have. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 8 and 16."
+                          minPasswordComplexity:
+                            description: "The minimum level of complexity that all passwords\
+                              \ used in this Partition must have. \nThere are four complexity\
+                              \ 'factors' that can be evaluated. These are the presence\
+                              \ of the following character types in the password: lowercase\
+                              \ characters, uppercase characters, integers and special\
+                              \ characters. For instance, the password '123a' would\
+                              \ get a complexity rating of '2', since it contains integers\
+                              \ and lowercase characters."
+                            enum: ['1', '2', '3', '4']
+                            x-enum-descriptions: [At least one complexity factor., At
+                                least two complexity factors., At least three complexity
+                                factors., At least four special complexity factors.]
+                          minPasswordHistory:
+                            description: "The minimum number of previous passwords that\
+                              \ the current password must be distinct from. \nThis field\
+                              \ is specified as an integer. \nThe value must be between\
+                              \ 3 and 12."
+                          noEmailConfirmation:
+                            description: Whether to disable the email address confirmation
+                              process for this Partition.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Require email address confirmation
+                                for this Partition., Do not require email address confirmation
+                                for this Partition.]
+                          noHoldEmail:
+                            description: Whether to disable email notification for automated
+                              hold messages.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Allow emails to be created on Holds.,
+                              Do not allow emails to be created for Holds for this Partition.]
+                          changeManagementEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          currency:
+                            enum: [AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN,
+                              BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB, BOV, BRL,
+                              BSD, BTN, BWP, BYN, BZD, CAD, CDF, CHE, CHF, CHW, CLF,
+                              CLP, CNY, COP, COU, CRC, CUC, CUP, CVE, CZK, DJF, DKK,
+                              DOP, DZD, EGP, ERN, ETB, EUR, FJD, FKP, GBP, GEL, GHS,
+                              GIP, GMD, GNF, GTQ, GYD, HKD, HNL, HRK, HTG, HUF, IDR,
+                              ILS, INR, IQD, IRR, ISK, JMD, JOD, JPY, KES, KGS, KHR,
+                              KMF, KPW, KRW, KWD, KYD, KZT, LAK, LBP, LKR, LRD, LSL,
+                              LYD, MAD, MDL, MGA, MKD, MMK, MNT, MOP, MRU, MUR, MVR,
+                              MWK, MXN, MXV, MYR, MZN, NAD, NGN, NIO, NOK, NPR, NZD,
+                              OMR, PAB, PEN, PGK, PHP, PKR, PLN, PYG, QAR, RON, RSD,
+                              RUB, RWF, SAR, SBD, SCR, SDG, SEK, SGD, SHP, SLL, SOS,
+                              SRD, SSP, STN, SVC, SYP, SZL, THB, TJS, TMT, TND, TOP,
+                              TRY, TTD, TWD, TZS, UAH, UGX, USD, USN, UYI, UYU, UZS,
+                              VEF, VND, VUV, WST, XAF, XAG, XAU, XBA, XBB, XBC, XBD,
+                              XCD, XDR, XOF, XPD, XPF, XPT, XSU, XUA, YER, ZAR, ZMW,
+                              ZWL]
+                            x-enum-descriptions: [United Arab Emirates dirham, Afghan
+                                afghani, Albanian lek, Armenian dram, Netherlands Antillean
+                                guilder, Angolan kwanza, Argentine peso, Australian
+                                dollar, Aruban florin, Azerbaijani manat, Bosnia and
+                                Herzegovina convertible mark, Barbados dollar, Bangladeshi
+                                taka, Bulgarian lev, Bahraini dinar, Burundian franc,
+                              Bermudian dollar, Brunei dollar, Boliviano, Bolivian Mvdol,
+                              Brazilian real, Bahamian dollar, Bhutanese ngultrum, Botswana
+                                pula, Belarusian ruble, Belize dollar, Canadian dollar,
+                              Congolese franc, WIR Euro, Swiss franc, WIR Franc, Unidad
+                                de Fomento, Chilean peso, Renminbi (Chinese) yuan, Colombian
+                                peso, Unidad de Valor Real, Costa Rican colon, Cuban
+                                convertible peso, Cuban peso, Cape Verde escudo, Czech
+                                koruna, Djiboutian franc, Danish krone, Dominican peso,
+                              Algerian dinar, Egyptian pound, Eritrean nakfa, Ethiopian
+                                birr, Euro, Fiji dollar, Falkland Islands pound, Pound
+                                sterling, Georgian lari, Ghanaian cedi, Gibraltar pound,
+                              Gambian dalasi, Guinean franc, Guatemalan quetzal, Guyanese
+                                dollar, Hong Kong dollar, Honduran lempira, Croatian
+                                kuna, Haitian gourde, Hungarian forint, Indonesian rupiah,
+                              Israeli new shekel, Indian rupee, Iraqi dinar, Iranian
+                                rial, Icelandic króna, Jamaican dollar, Jordanian dinar,
+                              Japanese yen, Kenyan shilling, Kyrgyzstani som, Cambodian
+                                riel, Comoro franc, North Korean won, South Korean won,
+                              Kuwaiti dinar, Cayman Islands dollar, Kazakhstani tenge,
+                              Lao kip, Lebanese pound, Sri Lankan rupee, Liberian dollar,
+                              Lesotho loti, Libyan dinar, Moroccan dirham, Moldovan
+                                leu, Malagasy ariary, Macedonian denar, Myanmar kyat,
+                              Mongolian tögrög, Macanese pataca, Mauritanian ouguiya,
+                              Mauritian rupee, Maldivian rufiyaa, Malawian kwacha, Mexican
+                                peso, Mexican Unidad de Inversion, Malaysian ringgit,
+                              Mozambican metical, Namibian dollar, Nigerian naira, Nicaraguan
+                                córdoba, Norwegian krone, Nepalese rupee, New Zealand
+                                dollar, Omani rial, Panamanian balboa, Peruvian sol,
+                              Papua New Guinean kina, Philippine piso, Pakistani rupee,
+                              Polish złoty, Paraguayan guaraní, Qatari riyal, Romanian
+                                leu, Serbian dinar, Russian ruble, Rwandan franc, Saudi
+                                riyal, Solomon Islands dollar, Seychelles rupee, Sudanese
+                                pound, Swedish krona/kronor, Singapore dollar, Saint
+                                Helena pound, Sierra Leonean leone, Somali shilling,
+                              Surinamese dollar, South Sudanese pound, São Tomé and
+                                Príncipe dobra, Salvadoran colón, Syrian pound, Swazi
+                                lilangeni, Thai baht, Tajikistani somoni, Turkmenistan
+                                manat, Tunisian dinar, Tongan pa'anga, Turkish lira,
+                              Trinidad and Tobago dollar, New Taiwan dollar, Tanzanian
+                                shilling, Ukrainian hryvnia, Ugandan shilling, United
+                                States dollar, United States dollar, Uruguay Peso en
+                                Unidades Indexadas, Uruguayan peso, Uzbekistan som,
+                              Venezuelan bolívar, Vietnamese đồng, Vanuatu vatu, Samoan
+                                tala, CFA franc BEAC, Silver, Gold, European Composite
+                                Unit, European Monetary Unit, European Unit of Account,
+                              European Unit of Account, East Caribbean dollar, Special
+                                drawing rights, CFA franc BCEAO, Palladium, CFP franc,
+                              Platinum, SUCRE, ADB Unit of Account, Yemeni rial, South
+                                African rand, Zambian kwacha, Zimbabwean dollar]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for update on partitions resource
+    tags: [Partitions]
+    operationId: putPartitionsId

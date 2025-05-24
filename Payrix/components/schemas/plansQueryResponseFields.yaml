@@ -1,0 +1,74 @@
+type: object
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  merchant:
+    type: string
+    description: The identifier of the Merchant associated with this Plan.
+  billing:
+    type: string
+  type:
+    type: string
+    description: "The type of plan.\n\n<details>\n<summary>Valid Values</summary>\n\n- `recurring` - A recurring payment plan (subcription).\n\n- `installment`  - A deferred payment installment plan. \n\n</details>          \n"
+    enum:
+      - recurring
+      - installment
+  name:
+    type: string
+    description: The name of this Plan. This field is stored as a text string and must be between 0 and 100 characters long.
+  description:
+    type: string
+    description: A description of this Plan. This field is stored as a text string and must be between 0 and 100 characters long.
+  txnDescription:
+    type: string
+    description: The description of the Txn that will be created through this Plan.
+  order:
+    type: string
+    description: The order of the Txn that will be created through this Plan.
+  schedule:
+    type: integer
+    description: "The scheduled interval that determines when the subscription related to this Plan is triggered.\n\n<details>\n<summary>Valid Values</summary>\n\n- `1` - Daily\n\n- `2` - Weekly\n\n- `3` - Monthly\n\n- `4` - Annually \n\n</details>         \n"
+    enum:
+      - 1
+      - 2
+      - 3
+      - 4
+  scheduleFactor:
+    type: integer
+    description: A multiplier that you can use to adjust the schedule set in the 'schedule' field, such as daily, weekly, monthly, or annually. In This field is specified as an integer and its value determines how the interval is multiplied. "
+  um:
+    type: string
+    description: |
+      The unit of measure for the amount on the plan.
+
+      <details>
+      <summary>Valid Values</summary>
+
+      - actual - An actual amount to charge, in cents.
+
+      - percent - A percentage of another amount, in basis points.
+
+      </details>
+    enum:
+      - actual
+      - percent
+  amount:
+    type: integer
+    description: The amount to charge with each payment under this Plan. In This field is specified as an integer in cents.
+  maxFailures:
+    type: integer
+  inactive:
+    type: integer
+    description: "Whether this resource is marked as inactive.\n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Active** \n\n- `1` - **Inactive**\n</details>\n"
+    enum:
+      - "0"
+      - "1"
+  frozen:
+    type: integer
+    description: "Whether this resource is marked as frozen.\n<details>\n<summary>Valid Values</summary>\n\n- `0` - **Not Frozen** \n\n- `1` - **Frozen**\n</details>\n"
+    enum:
+      - "0"
+      - "1"

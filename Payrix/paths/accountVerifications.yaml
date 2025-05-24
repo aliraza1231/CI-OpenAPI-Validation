@@ -1,0 +1,90 @@
+  get:
+    description: Retrieve a list of all account verifications representing attempts
+      to verify the ownership of a particular bank account by verifying a known deposit
+      amount or credential.
+    parameters:
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageNumberParams.yaml}
+    - {$ref: ../components/schemas/requestQueryPageLimitParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountVerificationResourceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/queryAccountVerificationResourceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for querying the accountVerifications resource to retrieve
+          account verifications.
+      '400':
+        content:
+          application/json:
+            schema: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema: {$ref: ../components/schemas/error.yaml}
+        description: Error
+    summary: Retrieve all Account Verifications.
+    tags: [Accounts]
+    operationId: getAccountVerifications
+  post:
+    description: "Create an accountVerifications resource. \nAn accountVerifications\
+      \ resource represents an attempt to verify the ownership of a particular bank\
+      \ account by verifying a known deposit amount or credential."
+    requestBody:
+      content:
+        application/json:
+          schema: {$ref: ../components/schemas/createAccountVerificationRequestBodySchema.yaml}
+        application/x-www-form-urlencoded:
+          schema: {$ref: ../components/schemas/createAccountVerificationRequestBodySchema.yaml}
+        application/xml:
+          schema: {$ref: ../components/schemas/createAccountVerificationRequestBodySchema.yaml}
+        multipart/form-data:
+          schema: {$ref: ../components/schemas/createAccountVerificationRequestBodySchema.yaml}
+        text/json:
+          schema: {$ref: ../components/schemas/createAccountVerificationRequestBodySchema.yaml}
+        text/xml:
+          schema: {$ref: ../components/schemas/createAccountVerificationRequestBodySchema.yaml}
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountVerificationResourceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items: {$ref: ../components/schemas/models/accountVerificationResourceModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for create on accountVerifications resource
+    tags: [Accounts]
+    operationId: postAccountVerifications

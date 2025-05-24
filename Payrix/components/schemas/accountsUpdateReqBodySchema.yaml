@@ -1,0 +1,118 @@
+properties:
+  account:
+    type: integer
+    description: An object representing details of the Account, including
+      the type of Account (method), Account number and routing code.
+    properties:
+      method:
+        description: The type of the Account.
+        enum: [8, 9, 10, 11]
+        x-enum-descriptions: [Checking, Savings, Corporate Checking, Corporate
+          Savings]
+      number: {description: The number of the bank account.}
+      routing:
+        description: "The routing number of the bank account. \nThis field\
+                     \ is stored as a text string and must be between 5 and 20 characters\
+                     \ long."
+    required: [method, number]
+  name:
+    type: string
+    description: "A client-supplied name for this bank account. \nThis field\
+                 \ is stored as a text string and must be between 0 and 100 characters\
+                 \ long."
+  description:
+    type: string
+    description: "A client-supplied description for this bank account. \n\
+                 This field is stored as a text string and must be between 0 and 100\
+                 \ characters long."
+  primary:
+    type: integer
+    description: Indicates whether the Account is the 'primary' Account
+      for the associated Entity. Only one Account associated with each Entity
+      can be the 'primary' Account.
+    enum: [0, 1]
+    x-enum-descriptions: [Not primary, Primary]
+#    descriptionx-current: "Indicates whether the Account is the 'primary'\
+#                 \ Account for the associated Entity. \nOnly one Account associated\
+#                 \ with each Entity can be the 'primary' Account. "
+#    descriptionx-supplemental: "Indicates whether the Account is the 'primary'\
+#                 \ Account for the associated Entity. \n\n  Only one Account associated\
+#                 \ with each Entity can be the 'primary' Account. \n\n  <details>\n\
+#                 \  <summary>Valid Values</summary> \n\n    - `0` - **Not Primary**\n\
+#                 \n    - `1` - **Primary**\n\n  </details> "
+  type:
+    type: string
+    description: "The type of financial account, debit, credit or both.\
+                 \ \n\n  <details>\n  <summary>Valid Values</summary> \n\n    - `all`\
+                 \ - Debit/Checking + Credit\n\n    - `credit` - Credit-Only\n\n  \
+                 \  - `debit` - Debit/Checking-Only\n\n  </details>\n"
+    enum: [all, credit, debit]
+    x-enum-descriptions: ['', '', '']
+  status:
+    type: integer
+    description: "The status of the Account is ready to be verified. \n\n<details>\n<summary>Valid Values</summary>\n\n\
+                 - `0` - **Not Ready.**\n\n- `1` - **Ready.**\n\n- `2` - **Challenged.**\n\n- `3` - **Verified.**\n\n- `4` - **Manual.**\
+                 \ \n\n</details> \n"
+    enum: [0, 1, 2, 3, 4]
+    x-enum-descriptions: [Not Ready. The account holder is not yet ready
+      to verify the Account., Ready. The account is ready to be verified.,
+      Challenged. The account has processed the challenge., Verified. The
+        Account has been verified., Manual. There has been an issue during
+        verification and further attempts to verify the Account will require
+        manual intervention.]
+#    descriptionx-current: The status of the Account
+#    descriptionx-supplemental: "The status of the Account. \n\n<details>\n\
+#                 <summary>Valid Values</summary>\n\n  - `0` - Not Ready. Account holder\
+#                 \ is not ready to verify the account. \n\n  - `1` - Ready. Account\
+#                 \ is ready to be verified.\n\n  - `2` - Challeneged. The account has\
+#                 \ processed the challenge. \n\n  - `3` - Verified. The account has\
+#                 \ been verified. \n\n  - `4` - Manual. Issue during verification,\
+#                 \ required manual verification. \n\n</details>\n"
+  reserved:
+    type: integer
+    description: "Indicates whether the Account is reserved and the action
+      that will be taken as a result, which can have valid values of `0`,
+      `1`, or `3` for No reserve, Account withheld, or Account usage pending
+      manual review respectively, or `4` to Move all funds from this Account
+      into a reserve. \n\n<details>\n<summary>Valid Values</summary>\n\n\
+      - `0` - **No reserve.**\n\n- `1` - **Ready.**\n\n- `2` - **Account withheld.**\n\n- `3` - **Account usage pending manual review.**\n\n- `4` - **Move all funds from this Account into a reserve.**\
+      \ \n\n</details> \n"
+    enum: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    x-enum-descriptions: [No reserve, Account withheld., Account usage pending
+      manual review., Move all funds from this Account into a reserve.,
+      '', '', '', '']
+#    descriptionx-current: Indicates whether the Account is reserved and
+#      the action that will be taken as a result.
+#    descriptionx-supplemental: "Indicates whether the Account is reserved\
+#                 \ and the action that will be taken as a result.\n\n<details>\n<summary>Valid\
+#                 \ Values</summary>  \n\n- `0` - No reserve\n\n- `1` - Account withheld.\n\
+#                 \n- `3` - Account usage pending manual review.\n\n- `4` - Move all\
+#                 \ funds from this Account into a reserve.\n\n\n</details>\n"
+  checkStage:
+    type: string
+    description: The last stage completed for risk assessment.
+    enum: [createAccount]
+    x-enum-descriptions: ['']
+#    descriptionx-current: The last stage completed for risk.
+#    descriptionx-supplemental: "The last stage completed for risk assessment.\n\
+#                 \n  <details>\n  <summary>Valid Values</summary> \n\n    - `createAccount`\
+#                 \ - The final stage for review, add the account.\n\n  </details>\n"
+  expiration:
+    type: string
+    description: The expiration date of the related debit account in MMYY
+      format, for example, '0118' for January, 2018 or '0225' for February,
+      2025.
+    example: 225
+#    typex-current: string
+#    typex-supplemental: number
+#    descriptionx-current: "The expiration date of the related debit account.\
+#                 \ \nThe date is specified as a four digit string in MMYY format, for\
+#                 \ example, '0118' for January, 2018."
+#    descriptionx-supplemental: "The expiration date of the related debit\
+#                 \ account. \n\nFORMAT: `MMYY`\n\n- Example: February, 2025 = 0225"
+  mask: {type: string, description: 'The account number mask, showing the last 4 digits
+                 of the account number.'}
+  inactive: {$ref: ../schemas/inactive.yaml}
+  frozen: {$ref: ../schemas/frozen.yaml}
+required: [account, frozen, inactive, primary, reserved, status, type]
+x-redacted: [account]

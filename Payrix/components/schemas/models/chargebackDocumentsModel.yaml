@@ -1,0 +1,42 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  chargeback: { type: string, description: The identifier of the Chargeback
+                  resource that this chargebackDocument relates to. }
+  ref: { type: string, description: "The ref of this chargebackDocument. \nThis\
+                              \ field is stored as a text string and must be between\
+                              \ 1 and 100 characters long. \n The value is set when\
+                              \ the file is properly integrated, otherwise will be null." }
+  type: { type: string, description: "The type of the file that holds this chargebackDocument.\
+      \ \nThe value is set when the file is properly integrated,\
+      \ otherwise will be null.\n\n<details>\n<summary>Valid Values</summary>\n\
+      \n  - `jpg` - **JPG file**\n\n  - `jpeg` - **JPEG file**\n\
+      \n  - `gif` - **GIF file**\n\n  - `png` - **PNG file**\n\n\
+      \  - `pdf` - **PDF file**\n\n  - `tiff` - **TIFF file**\n\n\
+      \  - `tif` - **TIF file**\n\n</details>",
+          enum: [ jpg, jpeg, gif, png, pdf, tiff, tif ] }
+  name: { type: string, description: "The name of this chargebackDocument. \nThis\
+                              \ field is stored as a text string and must be between\
+                              \ 1 and 100 characters long. \n The value is set when\
+                              \ the file is created and properly integrated. Holds the\
+                              \ real file name used by the user." }
+  description: { type: string, description: "The description of this chargebackDocument.\
+                              \ \nThis field is stored as a text string and must be\
+                              \ between 1 and 100 characters long." }
+  status: { type: string, description: The current status of the chargebackDocument.
+              <details>
+              <summary>Valid Values</summary>
+
+              - `created` - **Created.** The ChargebackDocument has been created.
+
+              - `processed` - **Processed.** The ChargebackDocument integration has been successful.
+
+              - `failed` - **Failed.** The ChargebackDocument integration has failed.
+
+              </details>,
+            enum: [ created, processed, failed ] }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }

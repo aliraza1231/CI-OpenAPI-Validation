@@ -1,0 +1,23 @@
+type: integer
+description: "The type of Transaction. \n\n<details>\n<summary>Valid\
+                             \ Values</summary>\n\n- `1`  - **Credit Card Only: Sale\
+                             \ Transaction.** This is the most common type of Transaction,\
+                             \ it processes a sale and charges the customer\n\n- `2` - **Credit Card Only: \
+                             \ Auth Transaction.** Authorizes and holds the requested total on the credit card.\n\n- `4`\
+                             \  - **Credit Card Only: Reverse Authorization.** Reverses\
+                             \ a prior Auth or Sale Transaction and releases the credit\
+                             \ hold.\n\n- `5`  - **'Credit Card Only: Refund Transaction.**\
+                             \ Refunds a prior Capture or Sale Transaction (total may\
+                             \ be specified for a partial refund).\n\n- `13`  - **Batch\
+                             \ out terminal.**\n\n</details>"
+enum: [1, 2, 4, 5, 13]
+x-enum-descriptions: ['Credit Card Only: Sale Transaction.
+                               This is the most common type of Transaction, it processes
+                               a sale and charges the customer', 'Credit Card Only:
+                               Auth Transaction. Authorizes and holds the requested
+                               total on the credit card', 'Credit Card Only: Reverse
+                               Authorization. Reverses a prior Auth or Sale Transaction
+                               and releases the credit hold.', 'Credit Card Only: Refund
+                               Transaction. Refunds a prior Capture or Sale Transaction
+                               (total may be specified for a partial refund).', 'Batch
+      out terminal.']

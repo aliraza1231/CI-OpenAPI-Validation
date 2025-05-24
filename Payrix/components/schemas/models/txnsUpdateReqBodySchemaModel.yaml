@@ -1,0 +1,51 @@
+properties:
+  batch: {type: string, description: 'If the Transaction is linked to a Batch, this field
+                  specifies the identifier of the Batch.'}
+  debtRepayment:
+    type: integer
+    description: If this transaction is for debt repayment or not for debt
+      repayment.
+    enum: [0, 1]
+    x-enum-descriptions: ['', '']
+  processedSequence: {type: integer, description: "For entry creation and deletion job sequencing: the current processed sequence number for this transaction."}
+  funded:
+    type: integer
+    description: "A date indicating when this Transaction was funded. \n\
+                  This field is set automatically."
+  returned: {type: string, description: The transaction has been returned by the receiver.}
+  fundingEnabled:
+    type: integer
+    description: Whether or not funding is enabled for this Txn.
+    enum: [0, 1]
+    x-enum-descriptions: [Disabled, Enabled]
+  requestSequence: {type: integer, description: "For entry creation and deletion job sequencing: the current processed sequence number for this transaction."}
+  token: {type: string, description: The token of the Tokens resource this Transaction
+            is associated with.}
+  authTokenCustomer: {type: string, description: The customer identifier from the AuthToken
+                        used during authentication.}
+  channel: {type: string, description: This field is stored as a text string and must
+              be between 0 and 1000 characters long.}
+  clientIp:
+    type: string
+    description: "The client ip address from which the Transaction was created.\
+                  \ \nValid values are any Ipv4 or Ipv6 address."
+  currency: {$ref: ../properties/terminalTxnsCurrencyProperty.yaml}
+  feeConsumed:
+    type: integer
+    description: "When fee is set, this will track the amount of the fee\
+                  \ that has been consumed. \nThis field is specified as an integer\
+                  \ in cents."
+  signature:
+    type: integer
+    description: Whether a signature was captured during this Transaction.
+      You can set this field if you took a signature for the Transaction.
+      The API also sets this field automatically if you associate a signature
+      to the Transaction by creating a 'txnDatas' resource. <details> <summary>Valid
+      Values</summary> - `0`  - **Not captured**  - `1`  - **Captured**
+      </details>
+    enum: [0, 1]
+    x-enum-descriptions: [Not captured., Captured.]
+  tmxSessionId: {type: string, description: 'Threatmetrix session ID, used to trace the
+                  financial session and prevent possible frauds.'}
+required: [currency, debtRepayment, signature]
+x-redacted: []

@@ -1,0 +1,98 @@
+  get:
+    description: Query a DisbursementEntry to get a record of where the disbursement
+      amount is coming from.
+    parameters:
+    - { $ref: ../components/schemas/requestQueryExpandParams.yaml }
+    - { $ref: ../components/schemas/requestQueryUnmaskParams.yaml }
+    - { $ref: ../components/schemas/requestHeaderSearchParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageNumberParams.yaml }
+    - { $ref: ../components/schemas/requestQueryPageLimitParams.yaml }
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/disbursemetEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/disbursemetEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Retrieve Response for query on DisbursementEntries resource.
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    summary: Retrieve all Disbursement Entries.
+    tags: [Entries]
+    operationId: getDisbursementEntries
+  post:
+    description: "Create a DisbursementEntry. \nAn DisbursementEntry is a record of\
+      \ disbursement amount come from."
+    requestBody:
+      content:
+        application/json:
+          schema:
+            { $ref: ../components/schemas/models/disbursementEntriesPut&PostReqBodySchemaModel.yaml }
+        application/x-www-form-urlencoded:
+          schema:
+            { $ref: ../components/schemas/models/disbursementEntriesPut&PostReqBodySchemaModel.yaml }
+        application/xml:
+          schema:
+            { $ref: ../components/schemas/models/disbursementEntriesPut&PostReqBodySchemaModel.yaml }
+        multipart/form-data:
+          schema:
+            { $ref: ../components/schemas/models/disbursementEntriesPut&PostReqBodySchemaModel.yaml }
+        text/json:
+          schema:
+            { $ref: ../components/schemas/models/disbursementEntriesPut&PostReqBodySchemaModel.yaml }
+        text/xml:
+          schema:
+            { $ref: ../components/schemas/models/disbursementEntriesPut&PostReqBodySchemaModel.yaml }
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/disbursemetEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        { $ref: ../components/schemas/models/disbursemetEntriesModel.yaml }
+                    details: { $ref: ../components/schemas/details.yaml }
+                    errors: { $ref: ../components/schemas/error.yaml }
+        description: Response for create on disbursementEntries resource
+      '400':
+        content:
+          { $ref: ../components/schemas/error400ResponseContent.yaml }
+        description: Error
+    tags: [Entries]
+    operationId: postDisbursementEntries

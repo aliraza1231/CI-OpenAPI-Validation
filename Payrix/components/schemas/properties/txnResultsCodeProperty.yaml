@@ -1,0 +1,84 @@
+type: string
+description: "TxnResult is the result code that is associated
+                                with this terminal. \\ 
+                                \n\n <details>\n<summary>Valid Values</summary> \n\n
+                            \n- `0` - **Transaction approved.**\n\
+                            \n- `1` - **Partially approved. The processor has only approved a portion of the total transaction amount.**\n\
+                            \n- `2` - **Declined. The processor has declined the Transaction.**\n\
+                            \n- `3` - **The supplied CVV or AVS code matches.**\n\
+                            \n- `4` - **The supplied CVV or AVS code does not match.**\n\
+                            \n- `5` - **The ZIP code in the Transaction data does not match the customer details held by the card issuer.**\n\
+                            \n- `6` - **The address in the Transaction data does not match the customer details held by the card issuer.**\n\
+                            \n- `7` - **The name in the Transaction data does not match the customer details held by the card issuer.**\n\
+                            \n- `8` - **The name and phone number in the Transaction data do not match the details held by the card issuer.**\n\
+                            \n- `9` - **The name and email address in the Transaction data do not match the customer details held by the card issuer.**\n\
+                            \n- `10` - **The phone number in the Transaction data does not match the customer details held by the card issuer.**\n\
+                            \n- `11` - **The phone number and email address in the Transaction data do not match the customer details held by the card issuer.**\n\
+                            \n- `12` - **The email address in the Transaction data does not match the customer details held by the card issuer.**\n\
+                            \n- `13` - **The customer name could not be found in the Transaction data.**\n\
+                            \n- `14` - **The customer name and phone number were not found in the Transaction data.**\n\
+                            \n- `15` - **The customer name and email address were not found in the Transaction data.**\n\
+                            \n- `16` - **The customer phone number was not found in the Transaction data.**\n\
+                            \n- `17` - **The customer phone number and email address were not found in the Transaction data.**\n\
+                            \n- `18` - **The customer email address was not found in the Transaction data.**\n\
+                            \n- `19` - **Information about the customer was not found in the Transaction data.**\n\
+                            \n- `20` - **Non-sufficient funds. The customer did not have sufficient credit or balance to cover the Transaction.**\n\
+                            \n- `21` - **The account in the Transaction data is not valid.**\n\
+                            \n- `22` - **The account is unauthorized.**\n\
+                            \n- `23` - **General error.**\n\
+                            \n- `24` - **The ZIP code in the Transaction data was not verified.**\n\
+                            \n- `25` - **The ZIP code and the Address in the Transaction data were not verified.**\n\
+                            \n- `26` - **The Address in the Transaction data was not verified.**\n\
+                            \n- `27` - **Txn did not fail but was not captured.**\n\
+                            \n- `28` - **3DS authentication passed.**\n\
+                            \n- `29` - **3DS authentication is invalid.**\n\
+                            \n- `30` - **3DS authentication failed.**\n\
+                            \n- `31` - **3DS authentication was not validated.**\n\
+                            \n- `32` - **3DS authentication passed but liability was not shifted.**\n\
+                            \n- `33` - **Transaction processing timed out.**\n\
+                            \n- `34` - **Transaction cancelled.**\n\
+                            </details>"
+enum: [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        '10', '11', '12', '13', '14', '15', '16', '17', '18',
+        '19', '20', '21', '22', '23', '24', '25', '26', '27',
+        '28', '29', '30', '31', '32', '33', '34' ]
+x-enum-descriptions: [ Transaction approved., Partially approved.
+  The processor has only approved a portion of the total
+  transaction amount., Declined. The processor has declined
+  the Transaction., The supplied CVV code matches., The
+  supplied CVV code does not match., The ZIP code in the
+  Transaction data does not match the customer details
+  held by the card issuer., The address in the Transaction
+  data does not match the customer details held by the
+  card issuer., The name in the Transaction data does
+  not match the customer details held by the card issuer.,
+  The name and phone number in the Transaction data do not
+    match the details held by the card issuer., The name
+    and email address in the Transaction data do not match
+    the customer details held by the card issuer., The phone
+    number in the Transaction data does not match the customer
+    details held by the card issuer., The phone number and
+    email address in the Transaction data do not match the
+    customer details held by the card issuer., The email
+    address in the Transaction data does not match the customer
+    details held by the card issuer., The customer name
+    could not be found in the Transaction data., The customer
+    name and phone number were not found in the Transaction
+    data., The customer name and email address were not
+    found in the Transaction data., The customer phone number
+    was not found in the Transaction data., The customer
+    phone number and email address were not found in the
+    Transaction data., The customer email address was not
+    found in the Transaction data., Information about the
+    customer was not found in the Transaction data., Non-sufficient
+    funds. The customer did not have sufficient credit or
+    balance to cover the Transaction., The account in the
+    Transaction data is not valid., The account is unauthorized.,
+  General error., The ZIP code in the Transaction data was
+    not verified., The ZIP code and the Address in the Transaction
+    data were not verified., The Address in the Transaction
+    data was not verified., Txn did not fail but was not
+    captured., 3DS authentication passed., 3DS authentication
+    is invalid., 3DS authentication failed., 3DS authentication
+    was not validated., 3DS authentication passed but liability
+    was not shifted., transaction processing timed out., Transaction cancelled. ]

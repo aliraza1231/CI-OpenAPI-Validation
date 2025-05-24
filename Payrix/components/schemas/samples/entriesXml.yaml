@@ -1,0 +1,51 @@
+"<?xml version='1.0' encoding='UTF-8'?>\n
+<response>\n
+    \t<data>\n
+        \t<row>\n
+            \t\t<id>000000000000010</id>\n
+            \t\t<created>2024-10-23 11:52:10.613687</created>\n
+            \t\t<modified>2024-10-23 11:52:10.613687</modified>\n
+            \t\t<creator>000000000000011</creator>\n
+            \t\t<modifier>000000000000011</modifier>\n
+            \t\t<entity>000000000000013</entity>\n
+            \t\t<onentity />\n
+            \t\t<fromentity />\n
+            \t\t<opposingEntry />\n
+            \t\t<fund>000000000000013</fund>\n
+            \t\t<fee />\n
+            \t\t<disbursement />\n
+            \t\t<refund />\n
+            \t\t<settlement />\n
+            \t\t<txn />\n
+            \t\t<chargeback />\n
+            \t\t<adjustment />\n
+            \t\t<profitShare />\n
+            \t\t<statement />\n
+            \t\t<event>7</event>\n
+            \t\t<eventId />\n
+            \t\t<revShareStatement />\n
+            \t\t<originalEventId />\n
+            \t\t<originalEvent />\n
+            \t\t<description>Submerchant Entry</description>\n
+            \t\t<originalCurrency />\n
+            \t\t<currencyRate />\n
+            \t\t<amount>10000000</amount>\n
+            \t\t<unsourced>10000000</unsourced>\n
+            \t\t<pending />
+            \t\t<isFee>0</isFee>\n
+            \t\t<archiveSummary />\n
+            \t\t<pendingEntry />\n
+            \t\t<pendingEntryCreated />\n
+        \t</row>\n
+    \t</data>\n
+    \t<details>\n
+        \t\t<requestId>1</requestId>\n
+        \t\t<totals></totals>\n
+        \t\t<page>\n
+            \t\t\t<current>1</current>\n
+            \t\t\t<last>1</last>\n
+            \t\t\t<hasMore>false</hasMore>\n
+        \t\t</page>\n
+    \t</details>\n
+    \t<errors></errors>\n
+</response>"

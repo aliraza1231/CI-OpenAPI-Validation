@@ -1,0 +1,105 @@
+type: integer
+description: "The type of event that originally triggered
+  this StatementEntry resource. <details><summary>Valid Values</summary>\n\
+    \n- `1` - **DAYS.** DisbursementEntry for an Entry that triggers every day. \n\
+    \n- `2` - **WEEKS.** DisbursementEntry for an Entry that triggers every week. \n\
+    \n- `3` - **MONTHS.** DisbursementEntry for an Entry that triggers every month. \n\
+    \n- `4` - **YEARS.** DisbursementEntry for an Entry that triggers every year. \n\
+    \n- `5` - **SINGLE.** DisbursementEntry for an Entry related to a one-off event. \n\
+    \n- `6` - **AUTH.** DisbursementEntry for an Entry related to the time of authorization of a transaction. \n\
+    \n- `7` - **CAPTURE.** DisbursementEntry for an Entry related to the capture time of a Transaction. \n\
+    \n- `8` - **REFUND.** DisbursementEntry for an Entry related to when a refund transaction is processed. \n\
+    \n- `9` - **BOARD.** DisbursementEntry for an Entry related to when the Merchant is boarded. \n\
+    \n- `10` - **PAYOUT.** DisbursementEntry for an Entry related to when a payout is processed. \n\
+    \n- `11` - **CHARGEBACK.** DisbursementEntry for an Entry related to when a card chargeback occurs. \n\
+    \n- `12` - **OVERDRAFT.** DisbursementEntry for an Entry related to when an overdraft usage charge from a bank is levied. \n\
+    \n- `13` - **INTERCHANGE.** DisbursementEntry for an Entry related to when interchange Fees are assessed for the Transactions of this Merchant. \n\
+    \n- `14` - **PROCESSOR.** DisbursementEntry for an Entry related to when the Transactions of this Merchant are processed by a payment processor. \n\
+    \n- `15` - **ACHFAIL.** DisbursementEntry for an Entry related to when an automated clearing house failure occurs. \n\
+    \n- `16` - **ACCOUNT.** DisbursementEntry for an Entry related when a bank account is verified. \n\
+    \n- `17` - **SIFT.** DisbursementEntry for an Entry related to Transaction fraud score. \n\
+    \n- `18` - **ADJUSTMENT.** DisbursementEntry for an Entry related to adjusted funds. \n\
+    \n- `19` - **RETRIEVAL.** DisbursementEntry for an Entry related to Retrieval Request Chargeback. \n\
+    \n- `20` - **ARBITRATION.** DisbursementEntry for an Entry related to Arbitration Chargeback. \n\
+    \n- `21` - **ECSALE.** DisbursementEntry for an Entry related to an eCheck Sale. \n\
+    \n- `22` - **ECREFUND.** DisbursementEntry for an Entry related to an eCheck Refund. \n\
+    \n- `23` - **ECRETURN.** DisbursementEntry for an Entry related to an eCheck Return. \n\
+    \n- `24` - **SETTLEMENT.** DisbursementEntry for an Entry related to transaction settlement. \n\
+    \n- '25' - **MISUSE.** DisbursementEntry for an Entry related to Misuse of authorization. \n\
+    \n- '26' - **PROFIT_SHARE.** DisbursementEntry for an Entry related to a profit sharing entry. \n\
+    \n- `27` - **UNAUTH.** DisbursementEntry for an Entry related to an unauthorized entry. \n\
+    \n- `28` - **ACHNOC.** DisbursementEntry for an Entry related to an ACH Notification of Change. \n\
+    \n- `29` - **ECNOC.** DisbursementEntry for an Entry related to an eCheck Notifications of Change. \n\
+    \n- `30` - **ECFAIL.** DisbursementEntry for an Entry related to an eCheck Fail.** \n\
+    \n- `31` - **ECNSF.** DisbursementEntry for an Entry related to an eCheck Non-Sufficient Funds. \n\
+    \n- `32` - **CURRENCY_CONVERSION.** DisbursementEntry for an Entry related to a currency conversion. \n\
+    \n- `33` - **TERMINAL_TXN.** DisbursementEntry for an Entry related to a terminal transaction. \n\
+    \n- `34` - **REVERSE_PAYOUT.** DisbursementEntry for an Entry related to a payout that's been reversed. \n\
+    \n- `35` - **PARTIAL_REVERSE_PAYOUT.** DisbursementEntry for an Entry related to a payout that's been partially reversed. \n\n"
+enum: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+        16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+        30, 31, 32, 33, 34, 35, 37, 43, 44, 45, 46, 47, 48, 49,
+        50, 51, 52, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
+        68, 69, 70, 71, 72, 73, 74, 8, 86, 200, 201, 202, 203,
+        204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 400, 401 ]
+x-enum-descriptions: [ DAYS. The StatementEntry is triggered
+  by a daily event., WEEKS. The StatementEntry is triggered
+  by a weekly event., MONTHS. The StatementEntry is triggered
+  by a monthly event., YEARS. The StatementEntry is triggered
+  by an annual event., SINGLE. The StatementEntry is triggered
+  by a one-off event., AUTH. The StatementEntry is triggered
+  when a transaction has been authorized., CAPTURE. The
+  StatementEntry is triggered when a transaction has been
+  captured., REFUND. The StatementEntry is triggered when
+  a refund transaction is processed., BOARD. The StatementEntry
+  is triggered when a Merchant is boarded., PAYOUT. The
+  StatementEntry is triggered when a payout is processed.,
+  CHARGEBACK. The StatementEntry is triggered when a card
+    chargeback occurs., OVERDRAFT. The StatementEntry is
+    triggered when an overdraft usage charge from a bank
+    is levied., INTERCHANGE. The StatementEntry is triggered
+    when interchange Fees are assessed for the Transactions
+    of this Merchant., PROCESSOR. The StatementEntry is
+    triggered when the Transactions of this Merchant are
+    processed by a payment processor., ACHFAIL. The StatementEntry
+    is triggered when an automated clearing house failure
+    occurs., ACCOUNT. The StatementEntry is triggered when
+    a bank account is verified., SIFT. The StatementEntry
+    is triggered by a transaction's fraud Score., ADJUSTMENT.
+    The StatementEntry is triggered when there's an adjustment.,
+  RETRIEVAL. The StatementEntry is triggered by a retrieval
+    request chargeback., ARBITRATION. The StatementEntry
+    is triggered by an arbitration chargeback., ECSALE.
+    The StatementEntry is triggered by an eCheck sale transaction,
+  ECREFUND. The StatementEntry is triggered by an eCheck
+    refund., ECRETURN. The StatementEntry is triggered by
+    an eCheck return, SETTLEMENT. The StatementEntry triggers
+    when a transaction has been settled., MISUSE. The StatementEntry
+    is triggered when there's been a Misuse of authorization.,
+  PROFIT_SHARE. The StatementEntry is triggered by a profit
+    sharing entry event, UNAUTH. The StatementEntry is triggered
+    when a transaction is unauthorized., ACHNOC. The StatementEntry
+    is triggered by a disbursement NOC (Notification of
+    change)., ECNOC. The StatementEntry is triggered by
+    an echeck transaction NOC (Notification of change).,
+  ECFAIL. The StatementEntry is triggered by an echeck transaction
+    failed., ECNSF. The StatementEntry is triggered by an
+    eCheck transaction NSF (Non-sufficient funds) return.,
+  CURRENCY_CONVERSION. This StatementEntry is triggered
+    by a currency conversion., TERMINAL_TXN. This StatementEntry
+    is triggered by a terminal transaction., REVERSE_PAYOUT.
+    This StatementEntry is triggered by a payout that has
+    been reversed., PARTIAL_REVERSE_PAYOUT. This StatementEntry
+    is triggered by a payout that has been partially reversed.,
+  PAYMENT_CHECK. This StatementEntry is triggered by a payment
+    check for Account Updater., PAYMENT_UPDATE. This StatementEntry
+    is triggered by a payment update for Account Updater.,
+  PAYMENT_GROUP_CHECK. This StatementEntry is triggered
+    by a payment group check for Account Updater., PAYMENT_GROUP_UPDATE.
+    This StatementEntry is triggered by a payment group
+    update for Account Updater., ENTRY_REFUND. This StatementEntry
+    is triggered by an entry refund., '', '', '', '', '',
+  '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+  '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+  '', '', '', '', '' ]

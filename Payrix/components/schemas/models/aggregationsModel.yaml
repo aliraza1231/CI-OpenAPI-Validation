@@ -1,0 +1,285 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  login: { type: string, description: The identifier of the Login that owns this
+    Aggregation. }
+  entity: { type: string, description: The identifier of the Entity that this Aggregation
+    applies to. }
+  forlogin: { type: string, description: The identifier of the Login that this
+    Aggregation applies to. }
+  org: { type: string, description: The identifier of the Org that this Aggregation
+    applies to. }
+  team: { type: string, description: The identifier of the Team that this Aggregation
+    applies to. }
+  division: { type: string, description: The identifier of the Division that this
+    Aggregation applies to. }
+  partition: { type: string, description: The identifier of the Partition that
+    this Aggregation applies to. }
+  type: {
+    type: string,
+    description: "The type of aggregation. This will automatically\
+                          \ set the search and total values.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n- `entityEntryEventMerchant` - **A merchant\
+                          \ entry.** \n\n- `merchantTxnApprovedAll` - **All merchant transactions\
+                          \ approved.** \n\n- `merchantTxnCapturedAll` - **All merchant\
+                          \ transactions captured.** \n\n- `merchantTxnFailedAll` - **All\
+                          \ merchant transactions failed.** \n\n</details>           \
+                          \ \n",
+    enum: [ entityEntryEventMerchant, merchantTxnApprovedAll, merchantTxnCapturedAll,
+            merchantTxnFailedAll ] }
+  level: {
+    type: string,
+    description: "The level of user that this aggregation will run\
+                          \ for.\n\n<details>\n<summary>Valid Values</summary>\n\n-\
+                          \ `admin` - **Admin User.**\n\n- `division` - **Division-level\
+                          \ User.**\n\n- `merchant` - **Merchant-level User.**\n\n-\
+                          \ `partition` - **Partition-level User.**\n\n</details>  \
+                          \                  \n",
+    enum: [ admin, division, merchant, partition ] }
+  name: { type: string, description: The name of this Aggregation. This field is
+    stored as a text string and must be between 0 and 100 characters
+    long. }
+  description: { type: string, description: A description of this Aggregation.
+    This field is stored as a text string and must be between
+    0 and 100 characters long. }
+  resource: { type: integer, description: "The category number of the resource used in\
+                                  \ the aggregation. \nThis field is specified as an integer\
+                                  \ and is copied from the aggregation.
+                                  <details> <summary>Valid Values</summary>\n\
+                                  \n`22` - **Accounts.**\n\
+                                  \n`130` - **AccountRefs.**\n\
+                                  \n`64` - **AccountVerificationResults.**\n\
+                                  \n`46` - **AccountVerifications.**\n\
+                                  \n`59` - **Adjustments.**\n\
+                                  \n`91` - **AggregationResultGroups.**\n\
+                                  \n`92` - **AggregationResults.**\n\
+                                  \n`90` - **Aggregations.**\n\
+                                  \n`16` - **AlertActions.**\n\
+                                  \n`7` - **Alerts.**\n\
+                                  \n`4` - **AlertTriggers.**\n\
+                                  \n`1` - **ApiKeys.**\n\
+                                  \n`57` - **Assessments.**\n\
+                                  \n`93` - **AuditLogs.**\n\
+                                  \n`118` - **AuthTokens.**\n\
+                                  \n`43` - **Batches.**\n\
+                                  \n`134` - **BatchRefs.**\n\
+                                  \n`127` - **BillingEvents.**\n\
+                                  \n`124` - **BillingModifiers.**\n\
+                                  \n`123` - **Billings.**\n\
+                                  \n`81` - **Bins.**\n\
+                                  \n`141` - **ChangeRequests.**\n\
+                                  \n`84` - **ChargebackDocuments.**\n\
+                                  \n`56` - **ChargebackMessageResults.**\n\
+                                  \n`49` - **ChargebackMessages.**\n\
+                                  \n`34` - **Chargebacks.**\n\
+                                  \n`87` - **ChargebackStatuses.**\n\
+                                  \n`104` - **Configurations.**\n\
+                                  \n`110` - **ConfigurationStages.**\n\
+                                  \n`45` - **ConfirmCodes.**\n\
+                                  \n`2` - **Contacts.**\n\
+                                  \n`20` - **Credentials.**\n\
+                                  \n`105` - **CurrencyRates.**\n\
+                                  \n`3` - **Customers.**\n\
+                                  \n`139` - **DebtorEntities.**\n\
+                                  \n`112` - **DecisionActions.**\n\
+                                  \n`35` - **DecisionRules.**\n\
+                                  \n`13` - **Decisions.**\n\
+                                  \n`149` - **DisbursementEntitiesLog.**\n\
+                                  \n`111` - **DisbursementEntries.**\n\
+                                  \n`65` - **DisbursementRefs.**\n\
+                                  \n`26` - **Disbursements.**\n\
+                                  \n`47` - **DisbursementResults.**\n\
+                                  \n`85` - **Divisions.**\n\
+                                  \n`36` - **Entities.**\n\
+                                  \n`146` - **EntityCustomFields.**\n\
+                                  \n`132` - **EntityDatas.**\n\
+                                  \n`122` - **EntityDebts.**\n\
+                                  \n`33` - **EntityRefs.**\n\
+                                  \n`67` - **EntityReserves.**\n\
+                                  \n`86` - **EntityReturns.**\n\
+                                  \n`72` - **EntityRoutes.**\n\
+                                  \n`27` - **Entries.**\n\
+                                  \n`58` - **EntryOrigins.**\n\
+                                  \n`136` - **ExternalFees.**\n\
+                                  \n`82` - **FeeModifiers.**\n\
+                                  \n`32` - **FeeRules.**\n\
+                                  \n`28` - **Fees.**\n\
+                                  \n`78` - **Files.**\n\
+                                  \n`71` - **FundOrigins.**\n\
+                                  \n`128` - **FundingParameters.**\n\
+                                  \n`29` - **Funds.**\n\
+                                  \n`77` - **HoldNotes.**\n\
+                                  \n`76` - **Holds.**\n\
+                                  \n`50` - **Hosts.**\n\
+                                  \n`101` - **InvoiceItems.**\n\
+                                  \n`102` - **InvoiceLineItems.**\n\
+                                  \n`94` - **InvoiceParameters.**\n\
+                                  \n`100` - **InvoiceResults.**\n\
+                                  \n`95` - **Invoices.**\n\
+                                  \n`5` - **Iplists.**\n\
+                                  \n`6` - **Items.**\n\
+                                  \n`8` - **Logins.**\n\
+                                  \n`145` - **LoginsHelpers.**\n\
+                                  \n`40` - **Mccs.**\n\
+                                  \n`80` - **Messages.**\n\
+                                  \n`79` - **MessageThreads.**\n\
+                                  \n`21` - **Members.**\n\
+                                  \n`39` - **MerchantResults.**\n\
+                                  \n`9` - **Merchants.**\n\
+                                  \n`41` - **Mappings.**\n\
+                                  \n`138` - **MfaRecoveryCodes.**\n\
+                                  \n`113` - **Notes.**\n\
+                                  \n`114` - **NoteDocuments.**\n\
+                                  \n`30` - **OrgEntities.**\n\
+                                  \n`63` - **OrgFlowActions.**\n\
+                                  \n`62` - **OrgFlows.**\n\
+                                  \n`10` - **Orgs.**\n\
+                                  \n`14` - **Parameters.\n\
+                                  \n`38` - **Partitions.**\n\
+                                  \n`37` - **Facilitators.**\n\
+                                  \n`117` - **PaymentUpdateGroups.**\n\
+                                  \n`115` - **PaymentUpdates.**\n\
+                                  \n`69` - **PayoutFlows.**\n\
+                                  \n`31` - **Payouts.**\n\
+                                  \n`73` - **PendingEntries.**\n\
+                                  \n`23` - **Plans.**\n\
+                                  \n`89` - **ProfitShareResults.**\n\
+                                  \n`103` - **ProfitShareRules.**\n\
+                                  \n`88` - **ProfitShares.**\n\
+                                  \n`42` - **Refunds.**\n\
+                                  \n`121` - **ReportItems.**\n\
+                                  \n`119` - **ReportResults.**\n\
+                                  \n`120` - **Reports.**\n\
+                                  \n`129` - **RequestTokens.**\n\
+                                  \n`48` - **ReserveEntries.**\n\
+                                  \n`66` - **Reserves.**\n\
+                                  \n`143` - **RevShareSchedules.**\n\
+                                  \n`144` - **RevShareStatements.**\n\
+                                  \n`96` - **Secrets.**\n\
+                                  \n`15` - **Sessions.**\n\
+                                  \n`131` - **Settlements.**\n\
+                                  \n`126` - **StatementEntries.**\n\
+                                  \n`125` - **Statements.**\n\
+                                  \n`24` - **Subscriptions.**\n\
+                                  \n`25` - **SubscriptionTokens.**\n\
+                                  \n`19` - **TeamLogins.**\n\
+                                  \n`12` - **Permissions.**\n\
+                                  \n`75` - **TerminalRefs.**\n\
+                                  \n`74` - **Terminals.**\n\
+                                  \n`107` - **TerminalTxnDatas.**\n\
+                                  \n`133` - **TerminalTxnMetadatas.**\n\
+                                  \n`108` - **TerminalTxnRefs.**\n\
+                                  \n`109` - **TerminalTxnResults.**\n\
+                                  \n`106` - **TerminalTxns.**\n\
+                                  \n`17` - **Tokens.**\n\
+                                  \n`60` - **TxnDatas.**\n\
+                                  \n`99` - **TxnMetadatas.**\n\
+                                  \n`53` - **TxnRefs.**\n\
+                                  \n`68` - **TxnReports.**\n\
+                                  \n`44` - **TxnResults.**\n\
+                                  \n`18` - **Txns.**\n\
+                                  \n`142` - **TxnSession.**\n\
+                                  \n`140` - **ValueAddedServicesFlows.**\n\
+                                  \n`137` - **ValueAddedServices.**\n\
+                                  \n`70` - **Vendors.**\n\
+                                  \n`54` - **Verifications.**\n\
+                                  \n`135` - **VerificationRefs.**\n\
+                                  \n`55` - **VerificationResults.**\n\
+                                  \n`83` - **Versions.**\n\
+                                  \n`98` - **WatchlistItems.**\n\
+                                  \n`97` - **Watchlists.**\n\n
+                                  </details>",
+              enum: [ 22, 130, 64, 46, 59, 91, 92, 90, 16, 7, 4, 1, 57,
+                      93, 118, 43, 134, 127, 124, 123, 81, 141, 84, 56, 49,
+                      34, 87, 104, 110, 45, 2, 20, 105, 3, 139, 112, 35, 13,
+                      149, 111, 65, 26, 47, 85, 36, 146, 132, 122, 33, 67, 86,
+                      72, 27, 58, 136, 82, 32, 28, 78, 71, 128, 29, 77, 76,
+                      50, 101, 102, 94, 100, 95, 5, 6, 8, 145, 40, 80, 79, 21,
+                      39, 9, 41, 138, 113, 114, 30, 63, 62, 10, 14, 38, 37,
+                      117, 115, 69, 31, 73, 23, 89, 103, 88, 42, 121, 119, 120,
+                      129, 48, 66, 143, 144, 96, 15, 131, 126, 125, 24, 25,
+                      19, 12, 75, 74, 107, 133, 108, 109, 106, 17, 60, 99, 53,
+                      68, 44, 18, 142, 140, 137, 70, 54, 135, 55, 83, 98, 97 ],
+              x-enum-descriptions: [ accounts, accountRefs, accountVerificationResults,
+                                     accountVerifications, adjustments, aggregationResultGroups,
+                                     aggregationResults, aggregations, alertActions, alerts,
+                                     alertTriggers, apiKeys, assessments, auditLogs, authTokens,
+                                     batches, batchRefs, billingEvents, billingModifiers, billings,
+                                     bins, changeRequests, chargebackDocuments, chargebackMessageResults,
+                                     chargebackMessages, chargebacks, chargebackStatuses, configurations,
+                                     configurationStages, confirmCodes, contacts, credentials,
+                                     currencyRates, customers, debtorEntities, decisionActions,
+                                     decisionRules, decisions, DisbursementEntitiesLog, disbursementEntries,
+                                     disbursementRefs, disbursements, disbursementResults,
+                                     divisions, entities, entityCustomFields, entityDatas,
+                                     entityDebts, entityRefs, entityReserves, entityReturns,
+                                     entityRoutes, entries, entryOrigins, externalFees, feeModifiers,
+                                     feeRules, fees, files, fundOrigins, fundingParameters,
+                                     funds, holdNotes, holds, hosts, invoiceItems, invoiceLineItems,
+                                     invoiceParameters, invoiceResults, invoices, iplists,
+                                     items, logins, loginsHelpers, mccs, messages, messageThreads,
+                                     members, merchantResults, merchants, mappings, mfaRecoveryCodes,
+                                     notes, noteDocuments, orgEntities, orgFlowActions, orgFlows,
+                                     orgs, parameters, partitions, facilitators, paymentUpdateGroups,
+                                     paymentUpdates, payoutFlows, payouts, pendingEntries,
+                                     plans, profitShareResults, profitShareRules, profitShares,
+                                     refunds, reportItems, reportResults, reports, requestTokens,
+                                     reserveEntries, reserves, revShareSchedules, revShareStatements,
+                                     secrets, sessions, settlements, statementEntries, statements,
+                                     subscriptions, subscriptionTokens, teamLogins, permissions,
+                                     terminalRefs, terminals, terminalTxnDatas, terminalTxnMetadatas,
+                                     terminalTxnRefs, terminalTxnResults, terminalTxns, tokens,
+                                     txnDatas, txnMetadatas, txnRefs, txnReports, txnResults,
+                                     txns, txnSession, valueAddedServicesFlows, valueAddedServices,
+                                     vendors, verifications, verificationRefs, verificationResults,
+                                     versions, watchlistItems, watchlists ] }
+  search: { type: string, description: The search query used to find records and
+    apply the desired calculation. This field is stored as a text
+    string and must be between 0 and 1000 characters long. }
+  totals: { type: string, description: 'The especification of the desired aggregation
+                          functions including count, sum, min and max. This field is
+                          stored as a text string and must be between 1 and 100 characters
+                          long.' }
+  degrouping: { type: string }
+  status: {
+    type: string,
+    description: "The current status of the aggregation process.\n\
+                          \n<details>\n<summary>Valid Values</summary>\n\n- `notReady`\
+                          \ - **Aggregation is not ready.** \n\n- `ready` - **Aggregation\
+                          \ is ready.**\n\n- `processing` - **Aggregation is processing.**\n\
+                          \n- `processed` -  **Aggregation has been processed.**\n\n</details>\
+                          \          \n",
+    enum: [ notReady, ready, processing, processed ] }
+  schedule: {
+    type: string,
+    description: "The schedule that determines when the aggregation\
+                          \ function will be processed.\n\n<details>\n<summary>Valid\
+                          \ Values</summary>\n\n- `hours` - **Hourly schedule.** \n\n- `days`\
+                          \ - **Daily schedule.** \n\n- `weeks` - **Weekly schedule.** \n\n\
+                          - `months` - **Monthly schedule.** \n\n- `years` - **Annual schedule.**\
+                          \ \n\n</details>\n",
+    enum: [ hours, days, weeks, months, years ] }
+  scheduleFactor: { type: integer, description: 'A multiplier that you can use to
+                          adjust the schedule set in the ''schedule'' field, such as
+                          daily, weekly, monthly, or annually. In This field is specified
+                          as an integer and its value determines how the interval is
+                          multiplied.' }
+  start: { type: integer, description: 'The date on which the aggregation processing
+                          should start. The date is specified as a twelve digit string
+                          in YYYYMMDDHHII format, for example, ''201601201528'' for
+                          January 20, 2016 at 15:28 (3:28 pm). The value of this field
+                          must represent a date in the future, or the present date.
+                          When the schedule is set to HOURLY (1) the minute part of
+                          the time must be divisible by 10 (15:10, 15:20, 15:30, etc...).' }
+  default: {
+    type: integer,
+    description: "Indicates whether this aggregation was automatically\
+                          \ created.\n\n<details>\n<summary>Valid Values</summary>\n\
+                          \n- `0` - **Manually created.** \n\n- `1` - **Automatically\
+                          \ created.**\n</details>\n",
+    enum: [ 0, 1 ] }
+  inactive: { $ref: ../inactive.yaml }
+  frozen: { $ref: ../frozen.yaml }

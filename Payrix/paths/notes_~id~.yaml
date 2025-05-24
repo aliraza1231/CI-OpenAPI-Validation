@@ -1,0 +1,167 @@
+  get:
+    description: Query a Notes resource that represents risk management notes, reviews,
+      and releases for a Hold, Txn, and Entity specific data.
+    parameters:
+    - description: The ID of this note.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+        description: Response for retrieve note response.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve Note by it's ID.
+    tags: [Notes]
+    operationId: getNotesId
+  put:
+    description: Update a Note; Details for update on notes coming soon
+    parameters:
+    - description: The ID of this note.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/notesPutRequestModel.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/notesPutRequestModel.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/notesPutRequestModel.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/notesPutRequestModel.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/notesPutRequestModel.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/notesPutRequestModel.yaml}
+      description: Update Note Request
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+        description: Response for update on notes resource Update Note Response
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update Note by it's ID.
+    tags: [Notes]
+    operationId: putNotesId
+  delete:
+    description: Delete a Note. Details for deletion on notes coming soon.
+    parameters:
+    - description: The ID of this note.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/notesResponseModel.yaml}
+                    details:
+                      {$ref: ../components/schemas/details.yaml}
+                    errors:
+                      {$ref: ../components/schemas/error.yaml}
+        description: Response for deleting a note.
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete Note by it's ID.
+    tags: [Notes]
+    operationId: deleteNotesId

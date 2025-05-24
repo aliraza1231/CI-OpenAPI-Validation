@@ -1,0 +1,1539 @@
+---
+openapi: 3.0.0
+info:
+  title: "Reporting: Authorization Batches API"
+  description: "Search and retrieve batch transaction details for terminal merchants \n # Authentication \n<SecurityDefinitions />"
+  contact:
+    email: EnterpriseAPI@fisglobal.com
+  version: 1.0.7
+servers:
+- url: https://apis.stage.worldpay.com/merchant-reporting/authorizationbatches/v1
+paths:
+  /batches/search:
+    post:
+      tags:
+      - Authorization Batches
+      summary: Resource is helpful when users need to find specific batches of data based on certain paramerters or filters.
+      description: "Endpoint allows users to search for batches of data using specific criteria (date type, date range and merchant id). Refer to the schema object for the filters."
+      operationId: searchBatches
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation ID
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+        example: 24578e35-9bd2-238f-b4c2-0bc9ad9aed2b
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchDetailsSearchRequest'
+            examples:
+              All Mandatory fields:
+                value:
+                  dateType: ' OPEN_DATE'
+                  dateRange:
+                    fromDate: 2021-10-26
+                    toDate: 2021-10-27
+                  merchantId: "1234910955961234"
+              All fields:
+                value:
+                  dateType: RELEASED_DATE
+                  dateRange:
+                    fromDate: 2021-10-26
+                    toDate: 2021-10-27
+                  merchantId: "1234910955961234"
+                  batchNumber: "111002"
+                  batchStatus: Open
+                  terminalNumber: "304"
+                  paginationRequest:
+                    pageSize: 25
+                    pageNumber: 1
+                  sortResultsBy:
+                    fieldName: BATCH_STATUS
+                    orderBy: ' DESC'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchDetailsResponse'
+              examples:
+                Batch Details:
+                  value:
+                    pagination:
+                      pageNumber: 0
+                      pageSize: 19
+                      totalRowCount: 19
+                      totalReturnedCount: 19
+                    merchantId: "1234910955961234"
+                    merchantName: PRODDEV 122218
+                    bankNumber: 1444
+                    batchInfo:
+                    - terminalNumber: 1
+                      terminalSettlementType: MANUAL
+                      batchNumber: "111002"
+                      batchStatus: Closed
+                      batchType: Auth
+                      openDate: 2023-06-21
+                      releasedDate: 2023-06-21
+                      totalTransactionsAmount: 1.25
+                      totalTransactionsCount: 1
+                      processorErrorMessage: DENIED HEADER RECORD
+                    - terminalNumber: 1
+                      terminalSettlementType: MANUAL
+                      batchNumber: "222001"
+                      batchStatus: Closed
+                      batchType: Auth
+                      openDate: 2023-06-21
+                      releasedDate: 2023-06-21
+                      totalTransactionsAmount: 5.0
+                      totalTransactionsCount: 2
+                      processorErrorMessage: DENIED HEADER RECORD
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "405 Method Not Allowed":
+                  $ref: '#/components/examples/405MethodNotAllowed'
+                "415 UnSupported Media Type":
+                  $ref: '#/components/examples/415UnSupportedMediaType'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /batches/transactions:
+    get:
+      tags:
+      - Authorization Batches
+      summary: Resource allows users to retrieve information about transactions that are grouped together in a batch.
+      description: Resource provides to retrieve information about transactions that have been grouped and processed together in a batch. A batch is a collection of related transactions that are processed and managed together for reconciliation.
+      operationId: GetBatchDetails
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation ID
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+        example: 24578e35-9bd2-238f-b4c2-0bc9ad9aed2b
+      - name: merchantId
+        in: header
+        description: Merchant ID (card acceptor identification code)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 16
+          minLength: 8
+          type: string
+          example: "1234910955961234"
+      - name: batchNumber
+        in: header
+        description: Number of the batch
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 6
+          minLength: 6
+          type: string
+          example: "111002"
+      - name: bankNumber
+        in: header
+        description: the acquiring institution identification code (Bank ID)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 4
+          minLength: 1
+          type: integer
+          format: int32
+          example: 1440
+      - name: batchType
+        in: query
+        description: "Type of batch - AUTH, UPLOAD. <br>AUTH - Authorization batches captured by processing system (host). <br>UPLOAD - Batch uploaded by merchant from the terminal."
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: string
+          example: AUTH
+          enum:
+          - AUTH
+          - UPLOAD
+      - name: openDate
+        in: query
+        description: Batch Opened date
+        required: true
+        style: form
+        explode: false
+        schema:
+          maxLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          format: YYYY-DD-MM
+          example: 2022-12-06
+      - name: terminalNumber
+        in: query
+        description: The Unique identification number for every terminal of a merchant
+        required: true
+        style: form
+        explode: false
+        schema:
+          maxLength: 3
+          minLength: 1
+          type: integer
+          format: int32
+          example: 5
+      - name: pageSize
+        in: query
+        description: 'Number of record that you would want to retrieve per page <br> Default is 25 items per page. '
+        required: false
+        style: form
+        explode: true
+        schema:
+          maxLength: 9999
+          minLength: 1
+          type: integer
+          format: int32
+        example: 100
+      - name: pageNumber
+        in: query
+        description: 'This is the page number that you would like to retrieve <br> Default is page number 01 '
+        required: false
+        style: form
+        explode: true
+        schema:
+          maxLength: 9999
+          minLength: 1
+          type: integer
+          format: int32
+        example: 4
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBatchDetailsResponse'
+              examples:
+                Batch Details:
+                  value:
+                    pageNumber: 0
+                    pageSize: 25
+                    totalRowCount: 3
+                    totalReturnedRowCount: 3
+                    merchantId: "1234498886731830"
+                    merchantName: PRODDEV 122218
+                    bankNumber: 1444
+                    batchInfo:
+                      batchNumber: "111002"
+                      batchStatus: Closed
+                      batchType: Auth
+                      openDate: 2023-05-30
+                      releasedDate: 2023-05-30
+                      nextReleaseTime: 2023-05-31T11:31:00
+                      adjustmentIndicator: true
+                      fcsNumber: "2814911"
+                      e2EEIndicator: false
+                      terminalNumber: 31
+                      terminalApplication: FAPING2K
+                      terminalSettlementType: MANUAL
+                      terminalActiveIndicator: true
+                      totalSalesTransactionAmount: 435.04
+                      totalSalesTransactionCount: 210
+                      totalReturnsTransactionAmount: 211.05
+                      totalReturnsTransactionCount: 24
+                      totalTransactionsAmount: 545.13
+                      totalTransactionsCount: 3
+                      transactionList:
+                      - transactionAmount: 321.09
+                        transactionType:
+                          code: BI
+                          shortDescription: Batch Inquiry
+                          longDescription: Batch Inquiry
+                        transactionDateTime: 2023-05-30T11:31:19
+                        transactionStatus:
+                          code: "1"
+                          shortDescription: INQUIRY
+                          longDescription: INQUIRY
+                        bankNetReferenceNumber: "723788333"
+                        cardNumber: "6222225522395822"
+                        cardType:
+                          code: C
+                          shortDescription: Credit
+                          longDescription: Credit
+                        retrievalReferenceNumber: 272629864323
+                        sequenceNumber: "12"
+                      - transactionAmount: 101.01
+                        transactionType:
+                          code: BR
+                          shortDescription: Batch Release
+                          longDescription: Batch Release
+                        transactionDateTime: 2023-05-30T11:31:22
+                        transactionStatus:
+                          code: "5"
+                          shortDescription: SETTLEMENT REC
+                          longDescription: SETTLEMENT REC
+                        bankNetReferenceNumber: "123786453"
+                        cardNumber: "6333335522395822"
+                        cardType:
+                          code: C
+                          shortDescription: Credit
+                          longDescription: Credit
+                        retrievalReferenceNumber: 28271198
+                        sequenceNumber: "13"
+                      - transactionAmount: 123.03
+                        transactionType:
+                          code: AJ
+                          shortDescription: Credit Sale A
+                          longDescription: Credit Sale Adjustment
+                        transactionDateTime: 2023-05-30T16:29:40
+                        transactionStatus:
+                          code: "3"
+                          shortDescription: AUTH AND COMP
+                          longDescription: AUTHORIZED AND COMPLETED
+                        networkTransactionId: 152615261811608
+                        bankNetReferenceNumber: "223786433"
+                        cardNumber: "5111125511395822"
+                        cardType:
+                          code: C
+                          shortDescription: Credit
+                          longDescription: Credit
+                        retrievalReferenceNumber: 111630028037
+                        sequenceNumber: "11"
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "405 Method Not Allowed":
+                  $ref: '#/components/examples/405MethodNotAllowed'
+                "415 UnSupported Media Type":
+                  $ref: '#/components/examples/415UnSupportedMediaType'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+  /batches/transaction/{retrievalReferenceNumber}:
+    get:
+      tags:
+      - Authorization Batches
+      summary: Endpoint that allows users to retrieve detailed information about a specific batch of transactions associated with a given retrieval reference number.
+      description: The Resource allows users to retrieve detailed information about a specific transaction within a batch. Users can pass the retrieval reference number in the API request to specify the transaction want to get the details.Specific transaction details within a batch can be used for reconciliation and reporting purposes.
+      operationId: GetBatchTransactionDetails
+      parameters:
+      - name: v-correlation-id
+        in: header
+        description: Correlation ID
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          minLength: 36
+          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]-[0-9a-fA-F]{12}"
+          type: string
+          format: uuid
+        example: 24578e35-9bd2-238f-b4c2-0bc9ad9aed2b
+      - name: bankNumber
+        in: header
+        description: the acquiring institution identification code (Bank ID)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 4
+          minLength: 1
+          type: integer
+          format: int32
+          example: 3456
+      - name: merchantId
+        in: header
+        description: Merchant ID (card acceptor identification code)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 16
+          minLength: 8
+          type: string
+          example: "1000910955961234"
+      - name: batchNumber
+        in: header
+        description: Number of the batch
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 6
+          minLength: 6
+          type: string
+          example: "111002"
+      - name: retrievalReferenceNumber
+        in: path
+        description: A unique identifier used to reference and locate the batch of transactions.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 12
+          minLength: 12
+          type: string
+          example: "111119154359"
+      - name: batchType
+        in: query
+        description: "Type of batch - AUTH, UPLOAD. <br>AUTH - Authorization batches captured by processing system (host). <br>UPLOAD - Batch uploaded by merchant from the terminal."
+        required: true
+        style: form
+        explode: false
+        schema:
+          type: string
+          example: AUTH
+          enum:
+          - AUTH
+          - UPLOAD
+      - name: openDate
+        in: query
+        description: Batch Opened date
+        required: true
+        style: form
+        explode: false
+        schema:
+          maxLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          format: YYYY-MM-DD
+          example: 2022-12-06
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBatchTransactionDetailsResponse'
+        default:
+          description: Default errors
+          headers:
+            v-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "405 Method Not Allowed":
+                  $ref: '#/components/examples/405MethodNotAllowed'
+                "415 UnSupported Media Type":
+                  $ref: '#/components/examples/415UnSupportedMediaType'
+                "500 Server Error":
+                  $ref: '#/components/examples/500ServerError'
+      security:
+      - api_key: []
+components:
+  schemas:
+    BatchDetailsResponse:
+      type: object
+      properties:
+        pagination:
+          type: object
+          description: Used for pagination.
+          allOf:
+          - $ref: '#/components/schemas/PaginationResponse'
+        merchantId:
+          maxLength: 16
+          minLength: 8
+          type: string
+          description: A Merchant ID (card acceptor identification code) is a unique identifier assigned to a merchant by a payment processor or bank.
+          example: "1000910955961234"
+        merchantName:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: Refers to the name of a business or registered name of the company or entity operating the business.
+          example: PRODDEV 122218
+        bankNumber:
+          maxLength: 4
+          minLength: 1
+          type: integer
+          description: the acquiring institution identification code (Bank ID)
+          format: int32
+          example: 1444
+        batchInfo:
+          type: array
+          description: Authorization batch details
+          items:
+            allOf:
+            - $ref: '#/components/schemas/TerminalDetails'
+            - $ref: '#/components/schemas/TerminalBatchDetails'
+    BatchDetailsSearchRequest:
+      required:
+      - dateRange
+      - dateType
+      - merchantId
+      type: object
+      properties:
+        dateType:
+          type: string
+          description: Type of date
+          example: RELEASED_DATE
+          enum:
+          - ALL
+          - OPEN_DATE
+          - RELEASED_DATE
+        dateRange:
+          type: object
+          description: Specifying start and end dates for transactions.
+          allOf:
+          - $ref: '#/components/schemas/DateRangeSearch'
+        merchantId:
+          maxLength: 16
+          minLength: 8
+          type: string
+          description: "Merchant Number (also referred as MID) , sometimes this is combination of bank ID & alternate merchant number"
+          example: "1000910955961234"
+        batchNumber:
+          maxLength: 6
+          minLength: 6
+          type: integer
+          description: Batch number is a unique identifier assigned to a group of transaction that were handled together as a single unit.
+          example: 111002
+        batchStatus:
+          type: string
+          description: "The status of the batch - open, closed, error"
+          example: CLOSED
+          enum:
+          - OPEN
+          - CLOSED
+          - ERROR
+        terminalNumber:
+          maxLength: 3
+          minLength: 1
+          type: integer
+          description: The Unique identification number for every terminal of a merchant
+          format: int32
+          example: 5
+        pagination:
+          type: object
+          description: Used for pagination.
+          allOf:
+          - $ref: '#/components/schemas/PaginationType'
+        sortResultsBy:
+          type: object
+          description: Sort results by option for authorization batches.
+          allOf:
+          - $ref: '#/components/schemas/SortResultsBy'
+      description: Request body for searching the batch
+    DateRangeSearch:
+      required:
+      - fromDate
+      - toDate
+      type: object
+      properties:
+        fromDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Refer to the starting date of a particular period
+          format: YYYY-MM-DD
+          example: 2021-12-01
+        toDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Refer to the period of time up until the current date
+          format: YYYY-MM-DD
+          example: 2021-12-01
+      description: Specify the date range for search. Consumer can search upto 60 days of data in a single request.
+    TerminalBatchDetails:
+      type: object
+      properties:
+        batchNumber:
+          maxLength: 6
+          minLength: 6
+          type: integer
+          description: Batch number is a unique identifier assigned to a group of transaction that were handled together as a single unit.
+          example: 111002
+        batchStatus:
+          type: string
+          description: "The status of the batch - open, closed, error"
+          example: CLOSED
+          enum:
+          - OPEN
+          - CLOSED
+          - ERROR
+        batchType:
+          type: string
+          description: "Type of batch - AUTH, UPLOAD. <br>AUTH - Authorization batches captured by processing system (host). <br>UPLOAD - Batch uploaded by merchant from the terminal."
+          example: AUTH
+          enum:
+          - AUTH
+          - UPLOAD
+        openDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Date when a batch of transactions is initiated for processing and settlement.
+          format: YYYY-MM-DD
+          example: 2021-12-06
+        releasedDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Date when a group of transactions is processed and released for settlement.
+          format: YYYY-MM-DD
+          example: 2021-12-21
+        totalTransactionsAmount:
+          maximum: 1000000000000000
+          minimum: 0
+          type: number
+          description: Total transactions amount refers to the sum of transactions that have taken place within a time period
+          format: float
+          example: 895623.02
+        totalTransactionsCount:
+          maximum: 9999999999999999
+          minimum: 0
+          type: integer
+          description: Total transactions count refers to the complete number of transactions that have taken place within a time period
+          format: int32
+          example: 7845126
+        processorErrorMessage:
+          maxLength: 255
+          type: string
+          description: Error Message from processing Platform – RAFT
+          example: DENIED HEADER RECORD
+    SortResultsBy:
+      type: object
+      properties:
+        fieldName:
+          type: string
+          description: Fields to sort the search results. <br> Default:OPEN_DATE
+          example: BATCH_STATUS
+          enum:
+          - BATCH_STATUS
+          - BATCH_NUMBER
+          - TERMINAL_NUMBER
+          - OPEN_DATE
+          - RELEASED_DATE
+        orderBy:
+          type: string
+          description: Decide the sorting order by ASC or DESC. <br> Default:ASC
+          example: DESC
+          enum:
+          - ASC
+          - DESC
+    PaginationType:
+      type: object
+      properties:
+        pageNumber:
+          maxLength: 9999
+          minLength: 1
+          type: number
+          description: This is the page number that you would like to retrieve.<br> Default is page number 0
+          example: 2
+          default: 0
+        pageSize:
+          maxLength: 2000
+          minLength: 1
+          type: number
+          description: Number of record that you would want to retrieve per page. <br> Default is 25 times per page.
+          example: 10
+          default: 25
+    MerchantDetail:
+      type: object
+      properties:
+        merchantName:
+          maxLength: 16
+          minLength: 8
+          type: string
+          description: Merchant ID (card acceptor identification code)
+          example: PRODDEV 122218
+        merchantId:
+          maxLength: 16
+          minLength: 8
+          type: string
+          description: Merchant ID (card acceptor identification code)
+          example: "1000910955961234"
+        bankNumber:
+          maxLength: 4
+          minLength: 1
+          type: integer
+          description: the acquiring institution identification code (Bank ID)
+          format: int32
+          example: 1444
+        merchantCategoryCode:
+          maximum: 4
+          type: integer
+          description: Merchant category code is a four-digit number assigned to businesses by payment card networks. It helps identify the nature of merchant's business and the industry in which they operate.
+          example: 5411
+    TerminalBatchDetail:
+      type: object
+      properties:
+        batchNumber:
+          maxLength: 6
+          minLength: 6
+          type: integer
+          description: Batch number is a unique identifier assigned to a group of transaction that were handled together as a single unit.
+          example: 111002
+        batchStatus:
+          type: string
+          description: "The status of the batch -open, closed, error"
+          example: CLOSED
+          enum:
+          - OPEN
+          - CLOSED
+          - ERROR
+        batchType:
+          type: string
+          description: "Type of batch - AUTH, UPLOAD. <br>AUTH - Authorization batches captured by processing system (host). <br>UPLOAD - Batch uploaded by merchant from the terminal."
+          example: AUTH
+          enum:
+          - AUTH
+          - UPLOAD
+        openDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Batch opened date
+          format: YYYY-MM-DD
+          example: 2021-12-06
+        releasedDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: The date batch was released
+          format: YYYY-MM-DD
+          example: 2021-12-21
+        nextReleaseTime:
+          maxLength: 19
+          type: string
+          description: Next release time of batch
+          format: YYYY-MM-DDTHH:MM:SS
+          example: 2017-08-21T13:49:36
+        adjustmentIndicator:
+          type: boolean
+          description: identifies if batch contains adjustment
+          example: false
+        fcsNumber:
+          maxLength: 10
+          type: string
+          description: FCS number( also referred as FNS number) is the unique number assigned by Food and Nutrition Service to merchants.<br> It is required to process EBT transactions.
+          example: '***6682'
+        e2EEIndicator:
+          type: boolean
+          description: Refers to indicator of end to end encrypted. <br> Possible Value True and False.
+          example: false
+        terminalNumber:
+          maxLength: 3
+          minLength: 1
+          type: integer
+          description: The Unique identification number for every terminal of a merchant
+          format: int32
+          example: 5
+        terminalApplication:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: The payment software application installed on the Terminal
+          example: ABC Software Inc
+        terminalSettlementType:
+          type: string
+          description: "The type of settlement for a terminal. <br> Possible values are - \"UPLOAD\",\"AUTO_CLOSE\",\"MANUAL\""
+          example: UPLOAD
+          enum:
+          - UPLOAD
+          - AUTO_CLOSE
+          - MANUAL
+        terminalActiveIndicator:
+          type: boolean
+          description: identifies if terminal is active or not
+          example: true
+        totalSalesTransactionAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total value of sales during a specific financial transaction or period.
+          format: double
+          example: 2654
+        totalSalesTransactionCount:
+          maximum: 9999999999999999
+          minimum: 0
+          type: integer
+          description: Total Sales Count
+          format: int32
+          example: 18
+        totalReturnsTransactionAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total Returned Amount
+          format: double
+          example: 2654
+        totalReturnsTransactionCount:
+          maximum: 9999999999999999
+          minimum: 0
+          type: integer
+          description: Total return Count
+          format: int32
+          example: 12
+        totalTransactionsAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Refers to the amount left over after all deductions are made. <br> Total Transactions Amount = Sales Amount - Returns Amount
+          format: double
+          example: 39115.21
+        totalTransactionsCount:
+          maximum: 9999999999999999
+          minimum: 0
+          type: integer
+          description: Total Count of the transactions <br> Total Transactions Count = Sales Count + Returns Count
+          format: int32
+          example: 7845126
+        processorErrorMessage:
+          maxLength: 255
+          type: string
+          description: Error Message from processing Platform – RAFT
+          example: DENIED HEADER RECORD
+    BatchDetail:
+      type: object
+      properties:
+        batchNumber:
+          maxLength: 6
+          minLength: 6
+          type: integer
+          description: Batch number is a unique identifier assigned to a group of transaction that were handled together as a single unit.
+          example: 111002
+        batchStatus:
+          type: string
+          description: "The status of the batch -open, closed, error"
+          example: CLOSED
+          enum:
+          - OPEN
+          - CLOSED
+          - ERROR
+        openDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Batch opened date
+          format: YYYY-MM-DD
+          example: 2021-12-06
+        releasedDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: The date batch was released
+          format: YYYY-MM-DD
+          example: 2021-12-21
+        expectedSettlementDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Refers to the anticipated date when a financial transaction is expected to be completed and funds are transferred between parties.
+          format: YYYY-MM-DD
+          example: 2021-08-21
+    TransactionLists:
+      type: object
+      properties:
+        transactionAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Amount involved in a financial transaction.
+          format: double
+          example: 2654
+        transactionType:
+          type: object
+          description: Type of transaction
+          example:
+            code: BU
+            shortDescription: Batch Upload
+            longDescription: Batch Upload
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        transactionDateTime:
+          maxLength: 19
+          minLength: 19
+          pattern: "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2})*$"
+          type: string
+          description: Indicates date time of transaction
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2021-07-19T16:41:31
+        transactionStatus:
+          type: object
+          description: "This field refers to the transaction status code received at the time a purchase is being made, including the status code,short and long descriptions."
+          example:
+            code: 2
+            shortDescription: DENIED
+            longDescription: DENIED
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        networkTransactionId:
+          maxLength: 15
+          type: string
+          description: Network reference ID  (VISA/AMEX/DISCOVER etc. transaction  identifier)
+          example: "1236547823543"
+        banknetReferenceNumber:
+          maxLength: 9
+          minLength: 9
+          type: string
+          description: Banknet data for VISA and MC transactions
+          example: "5269746"
+        cardNumber:
+          maxLength: 16
+          minLength: 16
+          type: string
+          description: Card Number
+          example: '**********0005'
+        cardType:
+          type: object
+          description: Refers to the category or classification of a payment card based on the issuing network.
+          example:
+            code: C
+            shortDescription: Credit
+            longDescription: Credit
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        retrievalReferenceNumber:
+          maxLength: 12
+          minLength: 12
+          type: integer
+          description: A unique identifier used to reference and locate the batch of transactions.
+          example: 9154359
+        sequenceNumber:
+          maxLength: 12
+          minLength: 12
+          type: string
+          description: Sequence Number (system trace Audit number or STAN)
+          example: "154359"
+      description: Refers to transaction information
+    PaginationResponse:
+      type: object
+      properties:
+        pageNumber:
+          maximum: 9999
+          type: integer
+          description: This is the page number that you would like to retrieve.
+          format: int32
+          example: 1
+          default: 0
+        pageSize:
+          maximum: 2000
+          type: integer
+          description: Number of record that you would want to retrieve per page.
+          format: int32
+          example: 50
+          default: 25
+        totalRowCount:
+          maximum: 2000
+          type: integer
+          description: Total number of records meeting the search criteria
+          format: int32
+          example: 45
+        totalReturnedCount:
+          maximum: 2000
+          type: integer
+          description: Total number of records returned in the response
+          format: int32
+          example: 25
+      description: Pagination response details
+    TerminalDetails:
+      type: object
+      properties:
+        terminalNumber:
+          maxLength: 3
+          minLength: 1
+          type: integer
+          description: The Unique identification number for every terminal of a merchant
+          format: int32
+          example: 5
+        terminalSettlementType:
+          type: string
+          description: "The type of settlement for a terminal. <br> Possible values are - \"UPLOAD\",\"AUTO_CLOSE\",\"MANUAL\""
+          example: UPLOAD
+          enum:
+          - UPLOAD
+          - AUTO_CLOSE
+          - MANUAL
+    TerminaltransactionDetail:
+      type: object
+      properties:
+        terminalNumber:
+          maxLength: 3
+          minLength: 1
+          type: integer
+          description: The Unique identification number for every terminal of a merchant
+          format: int32
+          example: 5
+        iiasCertified:
+          type: boolean
+          description: Inventory Information Approval System
+          example: false
+        terminalType:
+          maxLength: 2
+          type: string
+          description: Refer to device used in payments to process card transactions and authorize payments.
+          example: "03"
+        terminalApplication:
+          maxLength: 255
+          minLength: 0
+          type: string
+          description: "Software for managing transactions, payments, or data in a specific location or device like a point-of-sale system."
+          example: ABC Software Inc
+        registerNumber:
+          maxLength: 4
+          type: string
+          description: Unique id of point-of-sale terminals to identify and track transactions securely and accurately
+          example: "1111"
+    TransactionDetail:
+      type: object
+      properties:
+        retrievalReferenceNumber:
+          maxLength: 12
+          minLength: 12
+          type: string
+          description: A unique identifier used to reference and locate the batch of transactions.
+          example: "111118119558"
+        transactionAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Total transaction amount
+          format: double
+          example: 2654
+        transactionType:
+          type: object
+          description: Type of transaction
+          example:
+            code: BU
+            shortDescription: Batch Upload
+            longDescription: Batch Upload
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        transactionTimeStamp:
+          maxLength: 19
+          minLength: 19
+          pattern: "^(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2})*$"
+          type: string
+          description: TimeStamp of transaction
+          format: YYYY-MM-DDThh:mm:ss
+          example: 2023-01-09T15:43:59
+        transactionStatus:
+          type: object
+          description: "This field refers to the transaction status code received at the time a purchase is being made, including the status code,short and long descriptions."
+          example:
+            code: "2"
+            shortDescription: DENIED
+            longDescription: DENIED
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        sequenceNumber:
+          maxLength: 12
+          minLength: 12
+          type: string
+          description: Sequence Number (system trace Audit number or STAN)
+          example: "124259"
+        retrievalReferenceNumberOriginal:
+          maxLength: 12
+          minLength: 12
+          type: string
+          description: Original Retrival Reference Number
+          example: "111119154359"
+        retrievalReferenceNumberExpected:
+          maxLength: 12
+          minLength: 12
+          type: string
+          description: Expected Retrival Reference Number
+          example: "123455432123"
+        authenticationNumber:
+          maxLength: 6
+          type: string
+          description: "The Authorization Code is a six digit number from the issuing bank to the vendor, authorizing a sale."
+          example: 73883M
+        paymentType:
+          maxLength: 6
+          type: string
+          description: "Payment type refers to the method or mechanism used to transfer funds from one party to another in exchange for goods, services, or debts."
+          example: DEBIT
+        isAuthenticationTransaction:
+          type: boolean
+          description: Authentication transaction refers to a process where an individual or entity's identity is verified and validated.
+          example: true
+        aci:
+          type: object
+          description: Authorization characteristics indicator is a data element used in financial transactions to indicate specific authorization characteristics associated with a payment request.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        ani:
+          maxLength: 10
+          type: string
+          description: Automatic number identification is a technology used in telecommunications to automatically identify and display the phone number of call.
+          example: "5551234567"
+        rPIN:
+          maxLength: 10
+          type: string
+          description: Refers to resident permanent indentification number.
+          example: ABCDE1234F
+        cashBackAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Amount refunds to the cardholder's account a small percentage of the sum spent on purchases.
+          format: double
+          example: 100
+        manualEntry:
+          type: boolean
+          description: Indicates if transaction entry  is manual - Y or N
+          example: true
+        mailOrder:
+          type: boolean
+          description: Indicates if the transaction is a mail or telephone order (MOTO) - Y or N
+          example: false
+        transactionId:
+          maxLength: 18
+          minLength: 12
+          type: string
+          description: Transaction id is a number generated from the electronic transafer of funds. It is a unique identifier that is generated with every card transaction. (a 12-18 digit code)
+          example: "2063541165"
+        bankNetReferenceNumber:
+          maxLength: 9
+          minLength: 9
+          type: string
+          description: Reference number assigned by network for the transaction
+          example: "123786453"
+        bankNetSettleDate:
+          maxLength: 10
+          minLength: 10
+          pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          type: string
+          description: Banknet settlement date
+          format: YYYY-MM-DD
+          example: 2022-02-28
+        mcPaymentIndicator:
+          type: boolean
+          description: Indicates the type of master card payment being used.
+          example: true
+        validation:
+          maxLength: 4
+          type: string
+          description: This field indicates the validation code for card networks- visa transactions.
+          example: "3435"
+        tipAmount:
+          maximum: 9999999999999.99
+          minimum: 0
+          type: number
+          description: Tip amount refers to an additional payment made by a customer to express gratitude or appreciation for the service received.
+          format: float
+          example: 10
+        networkId:
+          maxLength: 4
+          type: string
+          description: Network id refers to a unique identifier assigned to a computer network to distinguish it from other networks. It is a numerical or alphanumeric code that serves as the networks.
+          example: STAR
+        transactionResult:
+          type: boolean
+          description: Result of the transaction
+          example: true
+        isEcommTransaction:
+          type: boolean
+          description: Indicates if a transaction is ecomm
+          example: true
+        internalTPS:
+          type: object
+          description: Internal Third Party Sender acts as an intermediary for another party to originate ACH transactions.
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        authorizationComm:
+          maxLength: 4
+          type: string
+          description: "Authorization communication refers to the process of transmitting and verifying permission or approvals for certain actions, transactions, or access to specific resources."
+          example: "189"
+        lineIPAddress:
+          maxLength: 15
+          type: string
+          description: Refers to IP address
+          example: 10.102.17.21
+        merchantReferenceNumber:
+          maxLength: 15
+          type: string
+          description: Merchant reference number is a unique identifier assigned by a merchant or seller to a specific transaction or purchase made by a customer.
+          example: "651238254805765"
+        draftLocatorId:
+          maxLength: 11
+          type: string
+          description: Draft locator id refers to a unique identifier assigned to a specific transaction or check draft. Helps to track and identify the individual transaction within the system.
+          example: "11222100008"
+        authorizerResponse:
+          type: object
+          description: Detailed response from authorizer
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        avsResponse:
+          type: object
+          description: Address Verification System response code
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        avsPostalCode:
+          maxLength: 9
+          type: string
+          description: ZIP code/postal code
+          example: ABCD1234
+        avsAddress:
+          maxLength: 20
+          type: string
+          description: address Verification System - address
+          example: 111 EDGE AVE
+        feeCode:
+          maxLength: 3
+          type: string
+          description: Fee Code
+          example: WY
+        posEntryMode:
+          type: object
+          description: Point of sale entry mode
+          example:
+            code: "01"
+            shortDescription: MAN KEYED
+            longDescription: KEY ENTERED
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        e2EEIndicator:
+          type: boolean
+          description: Refers to indicator of end to end encrypted. <br> Possible Value True and False.
+          example: true
+        cvv2PresenceIndicator:
+          type: object
+          description: "This field indicates the presence of card verification value. Possible values CVV2 value not provided, CVV2 value provided / present, CVV2 value illegible, CVV2 value not on card."
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        cvv2ResponseCode:
+          type: object
+          description: "This field indicates card verification value, which used for payments."
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        terminalEMV:
+          type: boolean
+          description: possible values True or False
+          example: true
+        cardEMV:
+          type: boolean
+          description: "This field indicates the Card EMV Capability Flag , when it Set the value to Y if the card is EMV capable. Possible Values True or False"
+          example: true
+        isEMVOfflineTransaction:
+          type: boolean
+          description: An indication as to whether the EMV transaction was offline
+          example: false
+        isEMVTransaction:
+          type: boolean
+          description: Transaction in line with the EMV standards
+          example: false
+        actualAuthorizationCode:
+          maxLength: 6
+          type: string
+          description: Authorization actual code refers to a unique code provided by a payment processor or financial institution that verifies the successful authorization of a transaction.
+          example: 73994M
+        networkIssuerCode:
+          maxLength: 3
+          type: string
+          description: "Refers to a unique identifier assigned to financial institutions, such as banks or credit card issuers, that participate in electronic payment networks."
+          example: VVS
+        voucherNumber:
+          maxLength: 10
+          type: string
+          description: Refers the unique reference number associated with a voucher.
+          example: "888826"
+        cardNumber:
+          maxLength: 19
+          type: string
+          description: "This is the number found on the card used to make a purchase, also referred to as the bank card number."
+          example: '**********0001'
+        cardType:
+          type: object
+          description: Refers to the category or classification of a payment card based on the issuing network.
+          example:
+            code: C
+            shortDescription: Credit
+            longDescription: Credit
+          allOf:
+          - $ref: '#/components/schemas/CodeAndDescription'
+        token:
+          maxLength: 19
+          type: string
+          description: Tokenization is a substitution for primary account number (PAN) with proxy data. Tokenization limits the ability to conduct fraudulent payment transactions. A token value is numeric and is the same length as the card account number length. Max length of token is 19 characters.
+          example: "374245111181117"
+        tokenId:
+          maxLength: 6
+          type: string
+          description: Token ID is a host-generated numeric value created during the tokenization process using a token key assigned to a merchant. This value is returned to the POS when tokenization is requested along with the token for utilization.
+          example: A123GD
+        tokenStatus:
+          maxLength: 1
+          type: string
+          description: Token status
+          example: "N"
+        cardExpiryDate:
+          maxLength: 7
+          minLength: 7
+          pattern: "^[0-9]{4}-[0-9]{2}$"
+          type: string
+          description: Card Expiry date in YYYY-MM format
+          format: YYYY-MM
+          example: 2021-12
+    GetBatchDetailsResponse:
+      type: object
+      properties:
+        pageNumber:
+          maximum: 9999
+          minimum: 0
+          type: integer
+          description: Current page number returned.
+          example: 1
+        pageSize:
+          maximum: 2000
+          minimum: 0
+          type: integer
+          description: Total number of records returned per page.
+          example: 50
+        totalRowCount:
+          maximum: 2000
+          minimum: 0
+          type: integer
+          description: Total number of records meeting the search criteria.
+          example: 85
+        totalReturnedCount:
+          maximum: 2000
+          minimum: 0
+          type: integer
+          description: Total number of records returned in the response.
+          example: 25
+        merchantName:
+          maxLength: 16
+          minLength: 8
+          type: string
+          description: Merchant ID (card acceptor identification code)
+          example: PRODDEV 122218
+        merchantId:
+          maxLength: 16
+          minLength: 8
+          type: string
+          description: Merchant ID (card acceptor identification code)
+          example: "1000910955961234"
+        bankNumber:
+          maxLength: 4
+          minLength: 1
+          type: integer
+          description: the acquiring institution identification code (Bank ID)
+          format: int32
+          example: 1444
+        batchInfo:
+          description: Authorization Batch Details
+          allOf:
+          - $ref: '#/components/schemas/TerminalBatchDetail'
+        transactionList:
+          type: array
+          description: Refers to transaction information
+          items:
+            allOf:
+            - $ref: '#/components/schemas/TransactionLists'
+      description: Detailed response for a batch
+    GetBatchTransactionDetailsResponse:
+      allOf:
+      - $ref: '#/components/schemas/MerchantDetail'
+      - $ref: '#/components/schemas/GetBatchTransactionDetails'
+    GetBatchTransactionDetails:
+      type: object
+      properties:
+        batchInfo:
+          type: object
+          description: Authorization Batch Details
+          allOf:
+          - $ref: '#/components/schemas/BatchDetail'
+          - $ref: '#/components/schemas/TerminaltransactionDetail'
+        transactionInfo:
+          type: object
+          description: Refers to the transaction information
+          allOf:
+          - $ref: '#/components/schemas/TransactionDetail'
+      description: Full details on an individual transaction within the batch
+    ErrorResponse:
+      required:
+      - error
+      type: object
+      properties:
+        error:
+          type: object
+          description: Refers to error details
+          allOf:
+          - $ref: '#/components/schemas/ErrorResponseError'
+    ErrorResponseError:
+      required:
+      - errorMsg
+      type: object
+      properties:
+        correlationId:
+          maxLength: 36
+          type: string
+          description: Worldpay generated Correlation Id
+          example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+        errorCode:
+          maxLength: 256
+          type: string
+          description: Code of error
+          example: ERROR_CODE
+        errorMessage:
+          maxLength: 256
+          type: string
+          description: Error Message
+          example: Error message here.
+    CodeAndDescription:
+      type: object
+      properties:
+        code:
+          maxLength: 1
+          type: string
+          description: code.
+          example: "01"
+        shortDescription:
+          maxLength: 255
+          type: string
+          description: Short Description.
+          example: Short description of field
+        longDescription:
+          maxLength: 255
+          type: string
+          description: Long Description.
+          example: Long description of field
+  responses:
+    default:
+      description: Default errors
+      headers:
+        v-correlation-id:
+          $ref: '#/components/headers/CorrelationId'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            "400 Bad Request":
+              $ref: '#/components/examples/400BadRequest'
+            "401 Unauthorized":
+              $ref: '#/components/examples/401Unauthorized'
+            "403 Forbidden":
+              $ref: '#/components/examples/403Forbidden'
+            "404 Not Found":
+              $ref: '#/components/examples/404NotFound'
+            "405 Method Not Allowed":
+              $ref: '#/components/examples/405MethodNotAllowed'
+            "415 UnSupported Media Type":
+              $ref: '#/components/examples/415UnSupportedMediaType'
+            "500 Server Error":
+              $ref: '#/components/examples/500ServerError'
+  examples:
+    "400BadRequest":
+      value:
+        errors:
+        - errorMessage: must be numeric
+          target: merchantId
+    "401Unauthorized":
+      value:
+        errors:
+        - errorMessage: "You are not authorized to access the following entities: [1000011111]"
+    "403Forbidden":
+      value:
+        errors:
+        - errorMessage: Access is denied
+    "404NotFound":
+      value:
+        errors:
+        - errorMessage: merchant not found
+    "405MethodNotAllowed":
+      value:
+        errors:
+        - errorMessage: Request method 'GET' is not supported
+    "415UnSupportedMediaType":
+      value:
+        errors:
+        - errorMessage: Content-Type 'text/plain;charset=UTF-8' is not supported
+    "500ServerError":
+      value:
+        errors:
+        - errorMessage: "Internal server error, please contact support referencing correlationId: 871a2a88-064f-4124-a864-e03a47573144"
+  headers:
+    CorrelationId:
+      description: Unique correlation Id.
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        type: string
+        format: uuid
+      example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: "``` License format is WORLDPAY license='xxxx'``` \n"
+      name: Authorization
+      in: header

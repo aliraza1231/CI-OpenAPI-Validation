@@ -1,0 +1,161 @@
+  get:
+    description: "Query a txnRefs resource. \nA txnRefs resource represents a reference\
+      \ code issued by the Processor in relation to a particular Transaction."
+    parameters:
+    - description: The ID of this resource and The txnRefs ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for query on txnRefs resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Retrieve a transaction's references (txnRefs) by its ID.
+    tags: [Transactions (Txns)]
+    operationId: getTxnRefsId
+  put:
+    description: "Update a txnRefs resource. \nA txnRefs resource represents a reference\
+      \ code issued by the Processor in relation to a particular Transaction."
+    parameters:
+    - description: The ID of this resource and The txnRefs ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string}
+      style: simple
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    requestBody:
+      content:
+        application/json:
+          schema:
+            {$ref: ../components/schemas/models/txnRefsPutReqBodySchema.yaml}
+        application/x-www-form-urlencoded:
+          schema:
+            {$ref: ../components/schemas/models/txnRefsPutReqBodySchema.yaml}
+        application/xml:
+          schema:
+            {$ref: ../components/schemas/models/txnRefsPutReqBodySchema.yaml}
+        multipart/form-data:
+          schema:
+            {$ref: ../components/schemas/models/txnRefsPutReqBodySchema.yaml}
+        text/json:
+          schema:
+            {$ref: ../components/schemas/models/txnRefsPutReqBodySchema.yaml}
+        text/xml:
+          schema:
+            {$ref: ../components/schemas/models/txnRefsPutReqBodySchema.yaml}
+      description: ''
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for update on txnRefs resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Update a transaction's references (txnRefs) by its ID.
+    tags: [Transactions (Txns)]
+    operationId: putTxnRefsId
+  delete:
+    description: "Delete a txnRefs resource. \nA txnRefs resource represents a reference\
+      \ code issued by the Processor in relation to a particular Transaction."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {type: string, description: The txnRef ID.}
+      style: simple
+    - {$ref: ../components/schemas/requestQueryExpandParams.yaml}
+    - {$ref: ../components/schemas/requestQueryUnmaskParams.yaml}
+    - {$ref: ../components/schemas/requestHeaderSearchParams.yaml}
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        {$ref: ../components/schemas/models/txnRefsModel.yaml}
+                    details: {$ref: ../components/schemas/details.yaml}
+                    errors: {$ref: ../components/schemas/error.yaml}
+        description: Response for delete on txnRefs resource
+      '400':
+        content:
+          {$ref: ../components/schemas/error400ResponseContent.yaml}
+        description: Error
+    summary: Delete a transaction's references (txnRefs) by its ID.
+    tags: [Transactions (Txns)]
+    operationId: deleteTxnRefsId

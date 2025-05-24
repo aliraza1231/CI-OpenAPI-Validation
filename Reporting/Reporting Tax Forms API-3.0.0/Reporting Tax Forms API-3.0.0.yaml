@@ -1,0 +1,177 @@
+---
+openapi: 3.0.0
+info:
+  title: "Reporting: Tax Forms API"
+  description: "API used to retrieve 1099k form for a merchant. \n # Authentication \n<SecurityDefinitions />"
+  contact:
+    name: Developer Support
+    email: APICustomerIntegration@fisglobal.com
+  version: 3.0.0
+servers:
+- url: https://apis.stage.worldpay.com/merchant-reporting/taxforms/v2
+security:
+- api_key: []
+paths:
+  /1099k:
+    get:
+      tags:
+      - 1099k form
+      summary: Download the 1099k form for a merchant.
+      description: Resource to download 1099k form for a specific merchant id.
+      operationId: getForm
+      parameters:
+      - name: merchantId
+        in: header
+        description: Unique identifier of the merchant (card acceptor).
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 16
+          type: string
+        example: 9945091191791
+      - name: v-correlation-id
+        in: header
+        description: Correlation Id
+        required: false
+        style: simple
+        explode: false
+        schema:
+          maxLength: 36
+          pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          type: string
+          format: uuid
+        example: a0efdf0f-eb0b-4353-80bb-ec520e02885e
+      - name: taxyear
+        in: query
+        description: Tax year for which 1099k to be generated.
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 4
+          minimum: 4
+          type: integer
+        example: 2021
+      responses:
+        "200":
+          description: A PDF file in the format of byte array.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Default errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                "400 Bad Request":
+                  $ref: '#/components/examples/400BadRequest'
+                "401 Unauthorized":
+                  $ref: '#/components/examples/401Unauthorized'
+                "403 Forbidden":
+                  $ref: '#/components/examples/403Forbidden'
+                "404 Not Found":
+                  $ref: '#/components/examples/404NotFound'
+                "405 Method Not Allowed":
+                  $ref: '#/components/examples/405MethodNotAllowed'
+                "500 Internal Server Error":
+                  $ref: '#/components/examples/500ServerError'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      description: Returned if any error.
+    Error:
+      type: object
+      properties:
+        errorMessage:
+          maxLength: 256
+          type: string
+          description: A short description of the error.
+          example: Required request header 'merchantId' for method parameter type String is not present
+        target:
+          maxLength: 256
+          type: string
+          description: Parameter or source for the error.
+          example: merchantId
+      description: Error details.
+  responses:
+    default:
+      description: Default errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            "400 Bad Request":
+              $ref: '#/components/examples/400BadRequest'
+            "401 Unauthorized":
+              $ref: '#/components/examples/401Unauthorized'
+            "403 Forbidden":
+              $ref: '#/components/examples/403Forbidden'
+            "404 Not Found":
+              $ref: '#/components/examples/404NotFound'
+            "405 Method Not Allowed":
+              $ref: '#/components/examples/405MethodNotAllowed'
+            "500 Internal Server Error":
+              $ref: '#/components/examples/500ServerError'
+  examples:
+    "400BadRequest":
+      description: Bad Request
+      value:
+        errors:
+        - errorMessage: Required request header 'merchantId' for method parameter type String is not present.
+          target: merchantId
+    "401Unauthorized":
+      description: Unauthorized
+      value:
+        errors:
+        - errorMessage: Invalid API key. Please ensure key is accurate and the Authorization is included.
+          target: Authorization
+    "403Forbidden":
+      description: Forbidden
+      value:
+        errors:
+        - errorMessage: You are not authorized to access this resource.
+    "404NotFound":
+      description: Not found
+      value:
+        errors:
+        - errorMessage: No forms Found.
+    "405MethodNotAllowed":
+      description: Method not allowed
+      value:
+        errors:
+        - errorMessage: Invalid URI path.
+          target: No resource for POST /merchant/taxforms/v1/1099k.
+    "500ServerError":
+      value:
+        errors:
+        - errorMessage: Internal Client Error
+          target: exampleTarget
+  headers:
+    VCorrelationId:
+      description: Unique correlation id. Will be generated if not provided and returned in response headers.
+      style: simple
+      explode: false
+      schema:
+        maxLength: 36
+        pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        type: string
+        format: uuid
+      example: 3fcb1437-4e52-4946-9ae1-e618351b6d16
+  securitySchemes:
+    api_key:
+      type: apiKey
+      description: '``` License format is WORLDPAY license=''xxxx''```'
+      name: Authorization
+      in: header

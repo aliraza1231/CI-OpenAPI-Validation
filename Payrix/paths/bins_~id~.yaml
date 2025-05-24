@@ -1,0 +1,2358 @@
+  get:
+    description: Query a BIN, which holds information about the issuer of a card.
+    parameters:
+    - description: The ID of this resource and The BIN ID.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          bin: {description: The first 6 digits of the card used in
+                              a Transaction.}
+                          method:
+                            description: "The type of payment method used for this transaction.\
+                              \ \n\n<details>\n<summary>Valid Values</summary>\n\n \
+                              \  - `0`  -  **Unknown Payment Method**\n  \n   - `1`\
+                              \  -  **American Express**\n  \n   - `2`  -  **Visa**\n\
+                              \  \n   - `3`  -  **MasterCard**\n  \n   - `4`  -  **Diners\
+                              \ Club**\n  \n   - `5`  -  **Discover**\n  \n   - `6`\
+                              \  - PayPal\n  \n   - `7`  -  **Debit card**\n  \n   -\
+                              \ `8`  -  **Checking account**\n  \n   - `9`  -  **Savings\
+                              \ account**\n  \n   - `10`  -  **Corporate checking account**\n\
+                              \  \n   - `11`  -  **Corporate savings account**\n  \n\
+                              \   - `12`  -  **Gift card**\n  \n   - `13`  -  **EBT\
+                              \ (Electronic Benefits Transfer) Card**\n  \n   - `14`\
+                              \  -  **WIC (Women, Infants and Children) Card**\n</details>"
+                            enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                              '16', '17', '18', '19', '20', '21', '22', '23', '24',
+                              '25', '26', '0']
+                            x-enum-descriptions: [American Express, Visa, MasterCard,
+                              Diners Club, Discover, PayPal, Debit card, '', '', '',
+                              '', Gift card, EBT, WIC, '', '', '', '', '', '', '', '',
+                              '', '', '', '', Unknown]
+                          type:
+                            description: "The type of the card used in the Transaction\
+                              \ is the type of the card used in the Transaction. \n\n\
+                              <details>\n<summary>Valid Values</summary>\n\n- `credit`\
+                              \  - Credit Card  \n\n- `debit`  - Debit Card \n\n- `debitCredit`\
+                              \  - Debit or Credit Card \n\n- `charge`  - Charge Card\n\
+                              \n- `prepaid`  - Prepaid Debit Card\n\n- `bankAccount`\
+                              \  - Bank Account Card\n\n</details>"
+                            enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                            x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE,
+                              PREPAID, '']
+                          category:
+                            description: "The category of the account product. \n\n\
+                              <details>\n<summary>Valid Values</summary>\n\n- `classic`\
+                              \ - Classic credit or debit card.\n\n- `business` - Business\
+                              \ credit or debit card.\n\n- `corporate` - Corporate credit\
+                              \ or debit card.\n\n- `fleet` - Fleet card for transportation\
+                              \ related expenses.\n\n- `hsaFsa` - HSA (Health Savings\
+                              \ Account) or FSA (Flexible Spending Account) card.\n\n\
+                              - `platinum` - Platinum credit card.\n\n- `prepaid` -\
+                              \ Prepaid card.\n\n- `coreCard` - Core card.\n\n- `personal`\
+                              \ - Personal account.\n\n- `standard` - Standard account.\
+                              \ \n\n- `other`  - Other type of account.\n\n</details>\
+                              \            \n"
+                            enum: [classic, business, corporate, fleet, hsaFsa, platinum,
+                              prepaid, coreCard, personal, standard, other, international]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '']
+                          name: {description: The name of the bank that issued the card
+                              used in the Transaction.}
+                          address: {}
+                          city: {}
+                          state:
+                            description: "The state or province being used for a request.\n\
+                              \n<details>\n<summary>Valid Values</summary>\n  - `AB`\
+                              \ - **Alberta (CAN)**\n\n  - `AK` - **Alaska (US)**\n\n\
+                              \  - `AK` - **Arkansas (US)**\n\n  - `AL` - **Alabama\
+                              \ (US)**\n\n  - `AZ` - **Arizona (US)**\n\n  - `BC` -\
+                              \ **British Columbia (CAN)**\n\n  - `CA` - **California\
+                              \ (US)**\n\n  - `CO` - **Colorado (US)**\n\n  - `CT` -\
+                              \ **Connecticut (US)**\n\n  - `DE` - **Delaware (US)**\n\
+                              \n  - `FL` - **Florida (US)**\n\n  - `GA` - **Georgia\
+                              \ (US)**\n\n  - `HI` - **Hawaii (US)**\n\n  - `IA` - **Iowa\
+                              \ (US)**\n\n  - `ID` - **Idaho (US)**\n\n  - `IL` - **Illinois\
+                              \ (US)**\n\n  - `IN` - **Indiana (US)**\n\n  - `KN` -\
+                              \ **Kentucky (US)**\n\n  - `KS` - **Kansas (US)**\n\n\
+                              \  - `LA` - **Louisiana (US)**\n\n  - `MA` - **Massachusetts\
+                              \ (US)**\n\n  - `MB` - **Manitoba (CAN)**\n\n  - `MD`\
+                              \ - **Maryland (US)**\n\n  - `ME` - **Maine (US)**\n\n\
+                              \  - `MI` - **Michigan (US)**\n\n  - `MN` - **Minnesota\
+                              \ (US)**\n\n  - `MO` - **Missouri (US)**\n\n  - `MS` -\
+                              \ **Mississippi (US)**\n\n  - `MT` - **Montana (US)**\n\
+                              \n  - `NB` - **New Brunswick (CAN)**\n\n  - `NC` - **North\
+                              \ Carolina (US)**\n\n  - `ND` - **North Dakota (US)**\n\
+                              \n  - `NE` - **Nebraska (US)**\n\n  - `NH` - **New Hampshire\
+                              \ (US)**\n\n  - `NJ` - **New Jersey (US)**\n\n  - `NL`\
+                              \ - **Newfoundland and Labrador (CAN)**\n\n  - `NM` -\
+                              \ **New Mexico (US)**\n\n  - `NS` - **Nova Scotia (CAN)**\n\
+                              \n  - `NT` - **Northwest Territories (CAN)**\n\n  - `NU`\
+                              \ - **Nunavut (CAN)**\n\n  - `NV` - **Nevada (US)**\n\n\
+                              \  - `NY` - **New York (US)**\n\n  - `OH` - **Ohio (US)**\n\
+                              \n  - `OK`- **Oklahoma (US)**\n\n  - `ON` - **Ontario\
+                              \ (CAN)**\n\n  - `OR` - **Oregon (US)**\n\n  - `PA` -\
+                              \ **Pennsylvania (US)**\n\n  - `PE` - **Prince Edward\
+                              \ Island (CAN)**\n\n  - `QC` - **Quebec (CAN)**\n\n  -\
+                              \ `RI` **Rhode Island (US)**\n\n  - `SC` - **South Carolina\
+                              \ (US)**\n\n  - `SD` - **South Dakota (US)**\n\n  - `SK`\
+                              \ - **Saskatchewan (CAN)**\n\n  - `TN` - **Tennessee (US)**\n\
+                              \n  - `TX` - **Texas (US)**\n\n  - `UT` - **Utah (US)**\n\
+                              \n  - `VA` - **Virginia (US)**\n\n  - `VT` - **Vermont\
+                              \ (US)**\n\n  - `WA` - **Washington (US)**\n\n  - `WI`\
+                              \ - **Wisconsin (US)**\n\n  - `WV` - **West Virginia (US)**\n\
+                              \n  - `WY` - **Wyoming (US)**\n\n  - `YT` - **Yukon (CAN)**\
+                              \  \n  </details>  \n"
+                            enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK,
+                              YT, IA, ID, IL, IN, KN, KS, LA, MA, MB, MD, ME, MI, MN,
+                              MO, MS, MT, NB, NC, ND, NE, NH, NJ, NL, NM, NS, NT, NU,
+                              NV, NY, OH, OK, true, OR, PA, PE, QC, RI, SC, SD, SK,
+                              TN, TX, UT, VA, VT, WA, WI, WV, WY, YT]
+                            example: CO
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          country:
+                            description: The country of the bank that issued the card
+                              used in the Transaction.
+                            enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+                              ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+                              BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+                              BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+                              CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+                              CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+                              ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+                              FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+                              GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+                              HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+                              ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+                              KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+                              LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+                              MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                              MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+                              NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+                              PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+                              QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+                              SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+                              SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+                              TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+                              UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+                              VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                            example: USA
+                            x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla,
+                              Aland Islands, Albania, Andorra, United Arab Emirates,
+                              Argentina, Armenia, American Samoa, Antarctica, French
+                                Southern Territories, Antigua and Barbuda, Australia,
+                              Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                                Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+                              Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+                                Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+                                State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+                              Bouvet Island, Botswana, Central African Republic, Canada,
+                              Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+                                d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+                                of the', Congo, Cook Islands, Colombia, Comoros, Cape
+                                Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+                              Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                              Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+                              Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+                              Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+                                Islands, 'Micronesia, Federated States of', Gabon, United
+                                Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+                              Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+                              Greece, Grenada, Greenland, Guatemala, French Guiana,
+                              Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+                              Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+                                Man, India, British Indian Ocean Territory, Ireland,
+                              'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+                              Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+                              Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+                                of', Kuwait, Lao People's Democratic Republic, Lebanon,
+                              Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+                              Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                                (French part), Morocco, Monaco, 'Moldova, Republic of',
+                              Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+                                the former Yugoslav Republic of', Mali, Malta, Myanmar,
+                              Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+                              Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+                              Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+                                Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+                              Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+                              Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+                                Rico, 'Korea, Democratic People''s Republic of', Portugal,
+                              Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+                              Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+                              Sudan, Senegal, Singapore, South Georgia and the South
+                                Sandwich Islands, 'Saint Helena, Ascension and Tristan
+                                da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+                              Sierra Leone, El Salvador, San Marino, Somalia, Saint
+                                Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+                                Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                              Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+                              Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+                              Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+                                Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+                                China', 'Tanzania, United Republic of', Uganda, Ukraine,
+                              United States Minor Outlying Islands, Uruguay, United
+                                States, Uzbekistan, Holy See (Vatican City State), Saint
+                                Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+                                of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+                              Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+                              South Africa, Zambia, Zimbabwe]
+                          zip: {}
+                          locationType:
+                            description: |
+                              The type of location of this banking institution. Used in `bankAccount` type bins.
+
+                              <details>
+                              <summary>Valid Values</summary>
+
+                              - `branch` - Branch location.
+
+                              - `main` - Main headquarters.
+
+                              </details>
+                            enum: [branch, main]
+                            x-enum-descriptions: ['', '']
+                          newBin: {}
+                          website: {description: The website of the bank that issued
+                              the card used in the Transaction.}
+                          phone: {description: The phone of the bank that issued the
+                              card used in the Transaction.}
+                          transferEnabled:
+                            description: "Whether funds may be “pushed” to this debit\
+                              \ card (with push-to-card).\n\n<details>\n<summary>Valid\
+                              \ Values</summary>\n\n- `0` - Push-to-card transfer disabled.\
+                              \ \n\n- `1` - Push-to-card transfer enabled. \n\n</details>\n"
+                            enum: [0, 1]
+                            x-enum-descriptions: ['', '']
+                          numberLength: {}
+                          debitOverCreditEnabled:
+                            description: "Whether this debit card may be charged as\
+                              \ credit over the credit networks. \n\n<details>\n<summary>Valid\
+                              \ Values</summary>\n\n- `0` - Debit charge as 'credit'\
+                              \ disabled. \n\n- `1` - Debit charge as 'credit' enabled.\
+                              \ \n\n</details> \n"
+                            enum: [0, 1]
+                            x-enum-descriptions: ['', '']
+                          billPayEnabled:
+                            description: "Whether this card may be used for bill pay\
+                              \ features.\n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n- `0` - Bill pay capability disabled. \n\n- `1` - Bill\
+                              \ pay capability enabled. \n\n</details>          \n"
+                            enum: [0, 1]
+                            x-enum-descriptions: ['', '']
+                          pinlessSupport:
+                            description: "What type of pinless charging is allowed on\
+                              \ this debit card. \n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n- `none` - No pinless support, PIN (Personal Identification\
+                              \ Number) must always be provided.\n\n- `restricted` -\
+                              \ Some pinless support, PIN (Personal Identification Number)\
+                              \ may not always be necessary.\n\n- `full` - Full pinless\
+                              \ support, PIN (Personal Identification Number) may be\
+                              \ omitted for pinless payments.\n\n</details>        \
+                              \      \n"
+                            enum: [none, restricted, full]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          bin: {description: The first 6 digits of the card used in
+                              a Transaction.}
+                          method:
+                            description: "The type of payment method used for this transaction.\
+                              \ \n\n<details>\n<summary>Valid Values</summary>\n\n \
+                              \  - `0`  -  **Unknown Payment Method**\n  \n   - `1`\
+                              \  -  **American Express**\n  \n   - `2`  -  **Visa**\n\
+                              \  \n   - `3`  -  **MasterCard**\n  \n   - `4`  -  **Diners\
+                              \ Club**\n  \n   - `5`  -  **Discover**\n  \n   - `6`\
+                              \  - PayPal\n  \n   - `7`  -  **Debit card**\n  \n   -\
+                              \ `8`  -  **Checking account**\n  \n   - `9`  -  **Savings\
+                              \ account**\n  \n   - `10`  -  **Corporate checking account**\n\
+                              \  \n   - `11`  -  **Corporate savings account**\n  \n\
+                              \   - `12`  -  **Gift card**\n  \n   - `13`  -  **EBT\
+                              \ (Electronic Benefits Transfer) Card**\n  \n   - `14`\
+                              \  -  **WIC (Women, Infants and Children) Card**\n</details>"
+                            enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                              '16', '17', '18', '19', '20', '21', '22', '23', '24',
+                              '25', '26', '0']
+                            x-enum-descriptions: [American Express, Visa, MasterCard,
+                              Diners Club, Discover, PayPal, Debit card, '', '', '',
+                              '', Gift card, EBT, WIC, '', '', '', '', '', '', '', '',
+                              '', '', '', '', Unknown]
+                          type:
+                            description: "The type of the card used in the Transaction\
+                              \ is the type of the card used in the Transaction. \n\n\
+                              <details>\n<summary>Valid Values</summary>\n\n- `credit`\
+                              \  - Credit Card  \n\n- `debit`  - Debit Card \n\n- `debitCredit`\
+                              \  - Debit or Credit Card \n\n- `charge`  - Charge Card\n\
+                              \n- `prepaid`  - Prepaid Debit Card\n\n- `bankAccount`\
+                              \  - Bank Account Card\n\n</details>"
+                            enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                            x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE,
+                              PREPAID, '']
+                          category:
+                            description: "The category of the account product. \n\n\
+                              <details>\n<summary>Valid Values</summary>\n\n- `classic`\
+                              \ - Classic credit or debit card.\n\n- `business` - Business\
+                              \ credit or debit card.\n\n- `corporate` - Corporate credit\
+                              \ or debit card.\n\n- `fleet` - Fleet card for transportation\
+                              \ related expenses.\n\n- `hsaFsa` - HSA (Health Savings\
+                              \ Account) or FSA (Flexible Spending Account) card.\n\n\
+                              - `platinum` - Platinum credit card.\n\n- `prepaid` -\
+                              \ Prepaid card.\n\n- `coreCard` - Core card.\n\n- `personal`\
+                              \ - Personal account.\n\n- `standard` - Standard account.\
+                              \ \n\n- `other`  - Other type of account.\n\n</details>\
+                              \            \n"
+                            enum: [classic, business, corporate, fleet, hsaFsa, platinum,
+                              prepaid, coreCard, personal, standard, other, international]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '']
+                          name: {description: The name of the bank that issued the card
+                              used in the Transaction.}
+                          address: {}
+                          city: {}
+                          state:
+                            description: "The state or province being used for a request.\n\
+                              \n<details>\n<summary>Valid Values</summary>\n  - `AB`\
+                              \ - **Alberta (CAN)**\n\n  - `AK` - **Alaska (US)**\n\n\
+                              \  - `AK` - **Arkansas (US)**\n\n  - `AL` - **Alabama\
+                              \ (US)**\n\n  - `AZ` - **Arizona (US)**\n\n  - `BC` -\
+                              \ **British Columbia (CAN)**\n\n  - `CA` - **California\
+                              \ (US)**\n\n  - `CO` - **Colorado (US)**\n\n  - `CT` -\
+                              \ **Connecticut (US)**\n\n  - `DE` - **Delaware (US)**\n\
+                              \n  - `FL` - **Florida (US)**\n\n  - `GA` - **Georgia\
+                              \ (US)**\n\n  - `HI` - **Hawaii (US)**\n\n  - `IA` - **Iowa\
+                              \ (US)**\n\n  - `ID` - **Idaho (US)**\n\n  - `IL` - **Illinois\
+                              \ (US)**\n\n  - `IN` - **Indiana (US)**\n\n  - `KN` -\
+                              \ **Kentucky (US)**\n\n  - `KS` - **Kansas (US)**\n\n\
+                              \  - `LA` - **Louisiana (US)**\n\n  - `MA` - **Massachusetts\
+                              \ (US)**\n\n  - `MB` - **Manitoba (CAN)**\n\n  - `MD`\
+                              \ - **Maryland (US)**\n\n  - `ME` - **Maine (US)**\n\n\
+                              \  - `MI` - **Michigan (US)**\n\n  - `MN` - **Minnesota\
+                              \ (US)**\n\n  - `MO` - **Missouri (US)**\n\n  - `MS` -\
+                              \ **Mississippi (US)**\n\n  - `MT` - **Montana (US)**\n\
+                              \n  - `NB` - **New Brunswick (CAN)**\n\n  - `NC` - **North\
+                              \ Carolina (US)**\n\n  - `ND` - **North Dakota (US)**\n\
+                              \n  - `NE` - **Nebraska (US)**\n\n  - `NH` - **New Hampshire\
+                              \ (US)**\n\n  - `NJ` - **New Jersey (US)**\n\n  - `NL`\
+                              \ - **Newfoundland and Labrador (CAN)**\n\n  - `NM` -\
+                              \ **New Mexico (US)**\n\n  - `NS` - **Nova Scotia (CAN)**\n\
+                              \n  - `NT` - **Northwest Territories (CAN)**\n\n  - `NU`\
+                              \ - **Nunavut (CAN)**\n\n  - `NV` - **Nevada (US)**\n\n\
+                              \  - `NY` - **New York (US)**\n\n  - `OH` - **Ohio (US)**\n\
+                              \n  - `OK`- **Oklahoma (US)**\n\n  - `ON` - **Ontario\
+                              \ (CAN)**\n\n  - `OR` - **Oregon (US)**\n\n  - `PA` -\
+                              \ **Pennsylvania (US)**\n\n  - `PE` - **Prince Edward\
+                              \ Island (CAN)**\n\n  - `QC` - **Quebec (CAN)**\n\n  -\
+                              \ `RI` **Rhode Island (US)**\n\n  - `SC` - **South Carolina\
+                              \ (US)**\n\n  - `SD` - **South Dakota (US)**\n\n  - `SK`\
+                              \ - **Saskatchewan (CAN)**\n\n  - `TN` - **Tennessee (US)**\n\
+                              \n  - `TX` - **Texas (US)**\n\n  - `UT` - **Utah (US)**\n\
+                              \n  - `VA` - **Virginia (US)**\n\n  - `VT` - **Vermont\
+                              \ (US)**\n\n  - `WA` - **Washington (US)**\n\n  - `WI`\
+                              \ - **Wisconsin (US)**\n\n  - `WV` - **West Virginia (US)**\n\
+                              \n  - `WY` - **Wyoming (US)**\n\n  - `YT` - **Yukon (CAN)**\
+                              \  \n  </details>  \n"
+                            enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK,
+                              YT, IA, ID, IL, IN, KN, KS, LA, MA, MB, MD, ME, MI, MN,
+                              MO, MS, MT, NB, NC, ND, NE, NH, NJ, NL, NM, NS, NT, NU,
+                              NV, NY, OH, OK, true, OR, PA, PE, QC, RI, SC, SD, SK,
+                              TN, TX, UT, VA, VT, WA, WI, WV, WY, YT]
+                            example: CO
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          country:
+                            description: The country of the bank that issued the card
+                              used in the Transaction.
+                            enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+                              ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+                              BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+                              BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+                              CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+                              CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+                              ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+                              FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+                              GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+                              HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+                              ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+                              KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+                              LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+                              MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                              MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+                              NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+                              PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+                              QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+                              SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+                              SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+                              TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+                              UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+                              VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                            example: USA
+                            x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla,
+                              Aland Islands, Albania, Andorra, United Arab Emirates,
+                              Argentina, Armenia, American Samoa, Antarctica, French
+                                Southern Territories, Antigua and Barbuda, Australia,
+                              Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                                Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+                              Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+                                Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+                                State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+                              Bouvet Island, Botswana, Central African Republic, Canada,
+                              Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+                                d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+                                of the', Congo, Cook Islands, Colombia, Comoros, Cape
+                                Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+                              Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                              Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+                              Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+                              Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+                                Islands, 'Micronesia, Federated States of', Gabon, United
+                                Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+                              Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+                              Greece, Grenada, Greenland, Guatemala, French Guiana,
+                              Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+                              Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+                                Man, India, British Indian Ocean Territory, Ireland,
+                              'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+                              Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+                              Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+                                of', Kuwait, Lao People's Democratic Republic, Lebanon,
+                              Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+                              Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                                (French part), Morocco, Monaco, 'Moldova, Republic of',
+                              Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+                                the former Yugoslav Republic of', Mali, Malta, Myanmar,
+                              Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+                              Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+                              Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+                                Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+                              Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+                              Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+                                Rico, 'Korea, Democratic People''s Republic of', Portugal,
+                              Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+                              Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+                              Sudan, Senegal, Singapore, South Georgia and the South
+                                Sandwich Islands, 'Saint Helena, Ascension and Tristan
+                                da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+                              Sierra Leone, El Salvador, San Marino, Somalia, Saint
+                                Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+                                Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                              Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+                              Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+                              Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+                                Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+                                China', 'Tanzania, United Republic of', Uganda, Ukraine,
+                              United States Minor Outlying Islands, Uruguay, United
+                                States, Uzbekistan, Holy See (Vatican City State), Saint
+                                Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+                                of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+                              Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+                              South Africa, Zambia, Zimbabwe]
+                          zip: {}
+                          locationType:
+                            description: |
+                              The type of location of this banking institution. Used in `bankAccount` type bins.
+
+                              <details>
+                              <summary>Valid Values</summary>
+
+                              - `branch` - Branch location.
+
+                              - `main` - Main headquarters.
+
+                              </details>
+                            enum: [branch, main]
+                            x-enum-descriptions: ['', '']
+                          newBin: {}
+                          website: {description: The website of the bank that issued
+                              the card used in the Transaction.}
+                          phone: {description: The phone of the bank that issued the
+                              card used in the Transaction.}
+                          transferEnabled:
+                            description: "Whether funds may be “pushed” to this debit\
+                              \ card (with push-to-card).\n\n<details>\n<summary>Valid\
+                              \ Values</summary>\n\n- `0` - Push-to-card transfer disabled.\
+                              \ \n\n- `1` - Push-to-card transfer enabled. \n\n</details>\n"
+                            enum: [0, 1]
+                            x-enum-descriptions: ['', '']
+                          numberLength: {}
+                          debitOverCreditEnabled:
+                            description: "Whether this debit card may be charged as\
+                              \ credit over the credit networks. \n\n<details>\n<summary>Valid\
+                              \ Values</summary>\n\n- `0` - Debit charge as 'credit'\
+                              \ disabled. \n\n- `1` - Debit charge as 'credit' enabled.\
+                              \ \n\n</details> \n"
+                            enum: [0, 1]
+                            x-enum-descriptions: ['', '']
+                          billPayEnabled:
+                            description: "Whether this card may be used for bill pay\
+                              \ features.\n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n- `0` - Bill pay capability disabled. \n\n- `1` - Bill\
+                              \ pay capability enabled. \n\n</details>          \n"
+                            enum: [0, 1]
+                            x-enum-descriptions: ['', '']
+                          pinlessSupport:
+                            description: "What type of pinless charging is allowed on\
+                              \ this debit card. \n\n<details>\n<summary>Valid Values</summary>\n\
+                              \n- `none` - No pinless support, PIN (Personal Identification\
+                              \ Number) must always be provided.\n\n- `restricted` -\
+                              \ Some pinless support, PIN (Personal Identification Number)\
+                              \ may not always be necessary.\n\n- `full` - Full pinless\
+                              \ support, PIN (Personal Identification Number) may be\
+                              \ omitted for pinless payments.\n\n</details>        \
+                              \      \n"
+                            enum: [none, restricted, full]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Retrieve BIN Response for query on bins resource.
+      '400':
+        content:
+          application/json:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+          application/xml:
+            schema:
+              description: An array of zero or more errors that occurred when the API
+                processed the request.
+              items:
+                properties:
+                  code: {description: The error code associated with a particular error.}
+                  severity:
+                    description: "The severity level of a particular error. \nPossible\
+                      \ values are '0' (informational), '1' (warning), '2' (error) and\
+                      \ '4' (failure)."
+                  message: {description: The message associated with a particular error.}
+                  errorCode: {description: An identifying string code for this error.}
+        description: Error
+    summary: Retrieve BIN by it's ID.
+    tags: [Customers]
+    operationId: getBinsId
+  put:
+    description: "Update a Bin. \nA Bin resource holds information about the issuer\
+      \ of a card."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              bin: {description: The first 6 digits of the card used in a Transaction.}
+              method:
+                description: The method used to make this payment.
+                enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+                  '24', '25', '26', '0']
+                x-enum-descriptions: [American Express, Visa, MasterCard, Diners Club,
+                  Discover, PayPal, Debit card, '', '', '', '', Gift card, EBT, WIC,
+                  '', '', '', '', '', '', '', '', '', '', '', '', Unknown]
+              type:
+                description: The type of the card used in the Transaction.
+                enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE, PREPAID,
+                  '']
+              category:
+                enum: [classic, business, corporate, fleet, hsaFsa, platinum, prepaid,
+                  coreCard, personal, standard, other, international]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '']
+              name: {description: The name of the bank that issued the card used in
+                  the Transaction.}
+              address: {}
+              city: {}
+              state:
+                enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK, YT]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '']
+              country:
+                description: The country of the bank that issued the card used in the
+                  Transaction.
+                enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM, ATA, ATF,
+                  ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH,
+                  BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK,
+                  CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW,
+                  CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH,
+                  ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+                  GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG,
+                  HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR,
+                  ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO,
+                  LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO,
+                  MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                  MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+                  NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI,
+                  PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP,
+                  SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK,
+                  SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS,
+                  TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT,
+                  VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla, Aland Islands,
+                  Albania, Andorra, United Arab Emirates, Argentina, Armenia, American
+                    Samoa, Antarctica, French Southern Territories, Antigua and Barbuda,
+                  Australia, Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                    Sint Eustatius and Saba', Burkina Faso, Bangladesh, Bulgaria, Bahrain,
+                  Bahamas, Bosnia and Herzegovina, Saint Barthélemy, Belarus, Belize,
+                  Bermuda, 'Bolivia, Plurinational State of', Brazil, Barbados, Brunei
+                    Darussalam, Bhutan, Bouvet Island, Botswana, Central African Republic,
+                  Canada, Cocos (Keeling) Islands, Switzerland, Chile, China, Côte d’Ivoire,
+                  Cameroon, 'Congo, the Democratic Republic of the', Congo, Cook Islands,
+                  Colombia, Comoros, Cape Verde, Costa Rica, Cuba, Curaçao, Christmas
+                    Island, Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                  Dominica, Denmark, Dominican Republic, Algeria, Ecuador, Egypt, Eritrea,
+                  Western Sahara, Spain, Estonia, Ethiopia, Finland, Fiji, Falkland
+                    Islands (Malvinas), France, Faroe Islands, 'Micronesia, Federated
+                    States of', Gabon, United Kingdom, Georgia, Guernsey, Ghana, Gibraltar,
+                  Guinea, Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea, Greece,
+                  Grenada, Greenland, Guatemala, French Guiana, Guam, Guyana, Hong Kong,
+                  Heard Island and McDonald Islands, Honduras, Croatia, Haiti, Hungary,
+                  Indonesia, Isle of Man, India, British Indian Ocean Territory, Ireland,
+                  'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy, Jamaica,
+                  Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan, Cambodia, Kiribati,
+                  Saint Kitts and Nevis, 'Korea, Republic of', Kuwait, Lao People's
+                    Democratic Republic, Lebanon, Liberia, Libya, Saint Lucia, Liechtenstein,
+                  Sri Lanka, Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                    (French part), Morocco, Monaco, 'Moldova, Republic of', Madagascar,
+                  Maldives, Mexico, Marshall Islands, 'Macedonia, the former Yugoslav
+                    Republic of', Mali, Malta, Myanmar, Montenegro, Mongolia, Northern
+                    Mariana Islands, Mozambique, Mauritania, Montserrat, Martinique,
+                  Mauritius, Malawi, Malaysia, Mayotte, Namibia, New Caledonia, Niger,
+                  Norfolk Island, Nigeria, Nicaragua, Niue, Netherlands, Norway, Nepal,
+                  Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn, Peru, Philippines,
+                  Palau, Papua New Guinea, Poland, Puerto Rico, 'Korea, Democratic People''s
+                    Republic of', Portugal, Paraguay, 'Palestine, State of', French
+                    Polynesia, Qatar, Réunion, Romania, Russian Federation, Rwanda,
+                  Saudi Arabia, Sudan, Senegal, Singapore, South Georgia and the South
+                    Sandwich Islands, 'Saint Helena, Ascension and Tristan da Cunha',
+                  Svalbard and Jan Mayen, Solomon Islands, Sierra Leone, El Salvador,
+                  San Marino, Somalia, Saint Pierre and Miquelon, Serbia, South Sudan,
+                  Sao Tome and Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                  Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic, Turks
+                    and Caicos Islands, Chad, Togo, Thailand, Tajikistan, Tokelau, Turkmenistan,
+                  Timor-Leste, Tonga, Trinidad and Tobago, Tunisia, Turkey, Tuvalu,
+                  'Taiwan, Province of China', 'Tanzania, United Republic of', Uganda,
+                  Ukraine, United States Minor Outlying Islands, Uruguay, United States,
+                  Uzbekistan, Holy See (Vatican City State), Saint Vincent and the Grenadines,
+                  'Venezuela, Bolivarian Republic of', 'Virgin Islands, British', 'Virgin
+                    Islands, U.S.', Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '',
+                  Yemen, South Africa, Zambia, Zimbabwe]
+              zip: {}
+              locationType:
+                enum: [branch, main]
+                x-enum-descriptions: ['', '']
+              newBin: {}
+              website: {description: The website of the bank that issued the card used
+                  in the Transaction.}
+              phone: {description: The phone of the bank that issued the card used in
+                  the Transaction.}
+              transferEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              numberLength: {}
+              debitOverCreditEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              billPayEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              pinlessSupport:
+                enum: [none, restricted, full]
+                x-enum-descriptions: ['', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billPayEnabled, bin, debitOverCreditEnabled, frozen, inactive,
+              method, transferEnabled]
+            x-redacted: []
+        application/x-www-form-urlencoded:
+          schema:
+            properties:
+              bin: {description: The first 6 digits of the card used in a Transaction.}
+              method:
+                description: The method used to make this payment.
+                enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+                  '24', '25', '26', '0']
+                x-enum-descriptions: [American Express, Visa, MasterCard, Diners Club,
+                  Discover, PayPal, Debit card, '', '', '', '', Gift card, EBT, WIC,
+                  '', '', '', '', '', '', '', '', '', '', '', '', Unknown]
+              type:
+                description: The type of the card used in the Transaction.
+                enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE, PREPAID,
+                  '']
+              category:
+                enum: [classic, business, corporate, fleet, hsaFsa, platinum, prepaid,
+                  coreCard, personal, standard, other, international]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '']
+              name: {description: The name of the bank that issued the card used in
+                  the Transaction.}
+              address: {}
+              city: {}
+              state:
+                enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK, YT]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '']
+              country:
+                description: The country of the bank that issued the card used in the
+                  Transaction.
+                enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM, ATA, ATF,
+                  ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH,
+                  BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK,
+                  CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW,
+                  CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH,
+                  ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+                  GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG,
+                  HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR,
+                  ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO,
+                  LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO,
+                  MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                  MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+                  NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI,
+                  PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP,
+                  SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK,
+                  SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS,
+                  TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT,
+                  VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla, Aland Islands,
+                  Albania, Andorra, United Arab Emirates, Argentina, Armenia, American
+                    Samoa, Antarctica, French Southern Territories, Antigua and Barbuda,
+                  Australia, Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                    Sint Eustatius and Saba', Burkina Faso, Bangladesh, Bulgaria, Bahrain,
+                  Bahamas, Bosnia and Herzegovina, Saint Barthélemy, Belarus, Belize,
+                  Bermuda, 'Bolivia, Plurinational State of', Brazil, Barbados, Brunei
+                    Darussalam, Bhutan, Bouvet Island, Botswana, Central African Republic,
+                  Canada, Cocos (Keeling) Islands, Switzerland, Chile, China, Côte d’Ivoire,
+                  Cameroon, 'Congo, the Democratic Republic of the', Congo, Cook Islands,
+                  Colombia, Comoros, Cape Verde, Costa Rica, Cuba, Curaçao, Christmas
+                    Island, Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                  Dominica, Denmark, Dominican Republic, Algeria, Ecuador, Egypt, Eritrea,
+                  Western Sahara, Spain, Estonia, Ethiopia, Finland, Fiji, Falkland
+                    Islands (Malvinas), France, Faroe Islands, 'Micronesia, Federated
+                    States of', Gabon, United Kingdom, Georgia, Guernsey, Ghana, Gibraltar,
+                  Guinea, Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea, Greece,
+                  Grenada, Greenland, Guatemala, French Guiana, Guam, Guyana, Hong Kong,
+                  Heard Island and McDonald Islands, Honduras, Croatia, Haiti, Hungary,
+                  Indonesia, Isle of Man, India, British Indian Ocean Territory, Ireland,
+                  'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy, Jamaica,
+                  Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan, Cambodia, Kiribati,
+                  Saint Kitts and Nevis, 'Korea, Republic of', Kuwait, Lao People's
+                    Democratic Republic, Lebanon, Liberia, Libya, Saint Lucia, Liechtenstein,
+                  Sri Lanka, Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                    (French part), Morocco, Monaco, 'Moldova, Republic of', Madagascar,
+                  Maldives, Mexico, Marshall Islands, 'Macedonia, the former Yugoslav
+                    Republic of', Mali, Malta, Myanmar, Montenegro, Mongolia, Northern
+                    Mariana Islands, Mozambique, Mauritania, Montserrat, Martinique,
+                  Mauritius, Malawi, Malaysia, Mayotte, Namibia, New Caledonia, Niger,
+                  Norfolk Island, Nigeria, Nicaragua, Niue, Netherlands, Norway, Nepal,
+                  Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn, Peru, Philippines,
+                  Palau, Papua New Guinea, Poland, Puerto Rico, 'Korea, Democratic People''s
+                    Republic of', Portugal, Paraguay, 'Palestine, State of', French
+                    Polynesia, Qatar, Réunion, Romania, Russian Federation, Rwanda,
+                  Saudi Arabia, Sudan, Senegal, Singapore, South Georgia and the South
+                    Sandwich Islands, 'Saint Helena, Ascension and Tristan da Cunha',
+                  Svalbard and Jan Mayen, Solomon Islands, Sierra Leone, El Salvador,
+                  San Marino, Somalia, Saint Pierre and Miquelon, Serbia, South Sudan,
+                  Sao Tome and Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                  Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic, Turks
+                    and Caicos Islands, Chad, Togo, Thailand, Tajikistan, Tokelau, Turkmenistan,
+                  Timor-Leste, Tonga, Trinidad and Tobago, Tunisia, Turkey, Tuvalu,
+                  'Taiwan, Province of China', 'Tanzania, United Republic of', Uganda,
+                  Ukraine, United States Minor Outlying Islands, Uruguay, United States,
+                  Uzbekistan, Holy See (Vatican City State), Saint Vincent and the Grenadines,
+                  'Venezuela, Bolivarian Republic of', 'Virgin Islands, British', 'Virgin
+                    Islands, U.S.', Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '',
+                  Yemen, South Africa, Zambia, Zimbabwe]
+              zip: {}
+              locationType:
+                enum: [branch, main]
+                x-enum-descriptions: ['', '']
+              newBin: {}
+              website: {description: The website of the bank that issued the card used
+                  in the Transaction.}
+              phone: {description: The phone of the bank that issued the card used in
+                  the Transaction.}
+              transferEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              numberLength: {}
+              debitOverCreditEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              billPayEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              pinlessSupport:
+                enum: [none, restricted, full]
+                x-enum-descriptions: ['', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billPayEnabled, bin, debitOverCreditEnabled, frozen, inactive,
+              method, transferEnabled]
+            x-redacted: []
+        application/xml:
+          schema:
+            properties:
+              bin: {description: The first 6 digits of the card used in a Transaction.}
+              method:
+                description: The method used to make this payment.
+                enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+                  '24', '25', '26', '0']
+                x-enum-descriptions: [American Express, Visa, MasterCard, Diners Club,
+                  Discover, PayPal, Debit card, '', '', '', '', Gift card, EBT, WIC,
+                  '', '', '', '', '', '', '', '', '', '', '', '', Unknown]
+              type:
+                description: The type of the card used in the Transaction.
+                enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE, PREPAID,
+                  '']
+              category:
+                enum: [classic, business, corporate, fleet, hsaFsa, platinum, prepaid,
+                  coreCard, personal, standard, other, international]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '']
+              name: {description: The name of the bank that issued the card used in
+                  the Transaction.}
+              address: {}
+              city: {}
+              state:
+                enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK, YT]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '']
+              country:
+                description: The country of the bank that issued the card used in the
+                  Transaction.
+                enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM, ATA, ATF,
+                  ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH,
+                  BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK,
+                  CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW,
+                  CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH,
+                  ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+                  GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG,
+                  HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR,
+                  ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO,
+                  LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO,
+                  MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                  MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+                  NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI,
+                  PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP,
+                  SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK,
+                  SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS,
+                  TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT,
+                  VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla, Aland Islands,
+                  Albania, Andorra, United Arab Emirates, Argentina, Armenia, American
+                    Samoa, Antarctica, French Southern Territories, Antigua and Barbuda,
+                  Australia, Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                    Sint Eustatius and Saba', Burkina Faso, Bangladesh, Bulgaria, Bahrain,
+                  Bahamas, Bosnia and Herzegovina, Saint Barthélemy, Belarus, Belize,
+                  Bermuda, 'Bolivia, Plurinational State of', Brazil, Barbados, Brunei
+                    Darussalam, Bhutan, Bouvet Island, Botswana, Central African Republic,
+                  Canada, Cocos (Keeling) Islands, Switzerland, Chile, China, Côte d’Ivoire,
+                  Cameroon, 'Congo, the Democratic Republic of the', Congo, Cook Islands,
+                  Colombia, Comoros, Cape Verde, Costa Rica, Cuba, Curaçao, Christmas
+                    Island, Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                  Dominica, Denmark, Dominican Republic, Algeria, Ecuador, Egypt, Eritrea,
+                  Western Sahara, Spain, Estonia, Ethiopia, Finland, Fiji, Falkland
+                    Islands (Malvinas), France, Faroe Islands, 'Micronesia, Federated
+                    States of', Gabon, United Kingdom, Georgia, Guernsey, Ghana, Gibraltar,
+                  Guinea, Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea, Greece,
+                  Grenada, Greenland, Guatemala, French Guiana, Guam, Guyana, Hong Kong,
+                  Heard Island and McDonald Islands, Honduras, Croatia, Haiti, Hungary,
+                  Indonesia, Isle of Man, India, British Indian Ocean Territory, Ireland,
+                  'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy, Jamaica,
+                  Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan, Cambodia, Kiribati,
+                  Saint Kitts and Nevis, 'Korea, Republic of', Kuwait, Lao People's
+                    Democratic Republic, Lebanon, Liberia, Libya, Saint Lucia, Liechtenstein,
+                  Sri Lanka, Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                    (French part), Morocco, Monaco, 'Moldova, Republic of', Madagascar,
+                  Maldives, Mexico, Marshall Islands, 'Macedonia, the former Yugoslav
+                    Republic of', Mali, Malta, Myanmar, Montenegro, Mongolia, Northern
+                    Mariana Islands, Mozambique, Mauritania, Montserrat, Martinique,
+                  Mauritius, Malawi, Malaysia, Mayotte, Namibia, New Caledonia, Niger,
+                  Norfolk Island, Nigeria, Nicaragua, Niue, Netherlands, Norway, Nepal,
+                  Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn, Peru, Philippines,
+                  Palau, Papua New Guinea, Poland, Puerto Rico, 'Korea, Democratic People''s
+                    Republic of', Portugal, Paraguay, 'Palestine, State of', French
+                    Polynesia, Qatar, Réunion, Romania, Russian Federation, Rwanda,
+                  Saudi Arabia, Sudan, Senegal, Singapore, South Georgia and the South
+                    Sandwich Islands, 'Saint Helena, Ascension and Tristan da Cunha',
+                  Svalbard and Jan Mayen, Solomon Islands, Sierra Leone, El Salvador,
+                  San Marino, Somalia, Saint Pierre and Miquelon, Serbia, South Sudan,
+                  Sao Tome and Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                  Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic, Turks
+                    and Caicos Islands, Chad, Togo, Thailand, Tajikistan, Tokelau, Turkmenistan,
+                  Timor-Leste, Tonga, Trinidad and Tobago, Tunisia, Turkey, Tuvalu,
+                  'Taiwan, Province of China', 'Tanzania, United Republic of', Uganda,
+                  Ukraine, United States Minor Outlying Islands, Uruguay, United States,
+                  Uzbekistan, Holy See (Vatican City State), Saint Vincent and the Grenadines,
+                  'Venezuela, Bolivarian Republic of', 'Virgin Islands, British', 'Virgin
+                    Islands, U.S.', Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '',
+                  Yemen, South Africa, Zambia, Zimbabwe]
+              zip: {}
+              locationType:
+                enum: [branch, main]
+                x-enum-descriptions: ['', '']
+              newBin: {}
+              website: {description: The website of the bank that issued the card used
+                  in the Transaction.}
+              phone: {description: The phone of the bank that issued the card used in
+                  the Transaction.}
+              transferEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              numberLength: {}
+              debitOverCreditEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              billPayEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              pinlessSupport:
+                enum: [none, restricted, full]
+                x-enum-descriptions: ['', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billPayEnabled, bin, debitOverCreditEnabled, frozen, inactive,
+              method, transferEnabled]
+            x-redacted: []
+        multipart/form-data:
+          schema:
+            properties:
+              bin: {description: The first 6 digits of the card used in a Transaction.}
+              method:
+                description: The method used to make this payment.
+                enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+                  '24', '25', '26', '0']
+                x-enum-descriptions: [American Express, Visa, MasterCard, Diners Club,
+                  Discover, PayPal, Debit card, '', '', '', '', Gift card, EBT, WIC,
+                  '', '', '', '', '', '', '', '', '', '', '', '', Unknown]
+              type:
+                description: The type of the card used in the Transaction.
+                enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE, PREPAID,
+                  '']
+              category:
+                enum: [classic, business, corporate, fleet, hsaFsa, platinum, prepaid,
+                  coreCard, personal, standard, other, international]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '']
+              name: {description: The name of the bank that issued the card used in
+                  the Transaction.}
+              address: {}
+              city: {}
+              state:
+                enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK, YT]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '']
+              country:
+                description: The country of the bank that issued the card used in the
+                  Transaction.
+                enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM, ATA, ATF,
+                  ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH,
+                  BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK,
+                  CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW,
+                  CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH,
+                  ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+                  GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG,
+                  HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR,
+                  ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO,
+                  LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO,
+                  MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                  MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+                  NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI,
+                  PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP,
+                  SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK,
+                  SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS,
+                  TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT,
+                  VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla, Aland Islands,
+                  Albania, Andorra, United Arab Emirates, Argentina, Armenia, American
+                    Samoa, Antarctica, French Southern Territories, Antigua and Barbuda,
+                  Australia, Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                    Sint Eustatius and Saba', Burkina Faso, Bangladesh, Bulgaria, Bahrain,
+                  Bahamas, Bosnia and Herzegovina, Saint Barthélemy, Belarus, Belize,
+                  Bermuda, 'Bolivia, Plurinational State of', Brazil, Barbados, Brunei
+                    Darussalam, Bhutan, Bouvet Island, Botswana, Central African Republic,
+                  Canada, Cocos (Keeling) Islands, Switzerland, Chile, China, Côte d’Ivoire,
+                  Cameroon, 'Congo, the Democratic Republic of the', Congo, Cook Islands,
+                  Colombia, Comoros, Cape Verde, Costa Rica, Cuba, Curaçao, Christmas
+                    Island, Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                  Dominica, Denmark, Dominican Republic, Algeria, Ecuador, Egypt, Eritrea,
+                  Western Sahara, Spain, Estonia, Ethiopia, Finland, Fiji, Falkland
+                    Islands (Malvinas), France, Faroe Islands, 'Micronesia, Federated
+                    States of', Gabon, United Kingdom, Georgia, Guernsey, Ghana, Gibraltar,
+                  Guinea, Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea, Greece,
+                  Grenada, Greenland, Guatemala, French Guiana, Guam, Guyana, Hong Kong,
+                  Heard Island and McDonald Islands, Honduras, Croatia, Haiti, Hungary,
+                  Indonesia, Isle of Man, India, British Indian Ocean Territory, Ireland,
+                  'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy, Jamaica,
+                  Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan, Cambodia, Kiribati,
+                  Saint Kitts and Nevis, 'Korea, Republic of', Kuwait, Lao People's
+                    Democratic Republic, Lebanon, Liberia, Libya, Saint Lucia, Liechtenstein,
+                  Sri Lanka, Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                    (French part), Morocco, Monaco, 'Moldova, Republic of', Madagascar,
+                  Maldives, Mexico, Marshall Islands, 'Macedonia, the former Yugoslav
+                    Republic of', Mali, Malta, Myanmar, Montenegro, Mongolia, Northern
+                    Mariana Islands, Mozambique, Mauritania, Montserrat, Martinique,
+                  Mauritius, Malawi, Malaysia, Mayotte, Namibia, New Caledonia, Niger,
+                  Norfolk Island, Nigeria, Nicaragua, Niue, Netherlands, Norway, Nepal,
+                  Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn, Peru, Philippines,
+                  Palau, Papua New Guinea, Poland, Puerto Rico, 'Korea, Democratic People''s
+                    Republic of', Portugal, Paraguay, 'Palestine, State of', French
+                    Polynesia, Qatar, Réunion, Romania, Russian Federation, Rwanda,
+                  Saudi Arabia, Sudan, Senegal, Singapore, South Georgia and the South
+                    Sandwich Islands, 'Saint Helena, Ascension and Tristan da Cunha',
+                  Svalbard and Jan Mayen, Solomon Islands, Sierra Leone, El Salvador,
+                  San Marino, Somalia, Saint Pierre and Miquelon, Serbia, South Sudan,
+                  Sao Tome and Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                  Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic, Turks
+                    and Caicos Islands, Chad, Togo, Thailand, Tajikistan, Tokelau, Turkmenistan,
+                  Timor-Leste, Tonga, Trinidad and Tobago, Tunisia, Turkey, Tuvalu,
+                  'Taiwan, Province of China', 'Tanzania, United Republic of', Uganda,
+                  Ukraine, United States Minor Outlying Islands, Uruguay, United States,
+                  Uzbekistan, Holy See (Vatican City State), Saint Vincent and the Grenadines,
+                  'Venezuela, Bolivarian Republic of', 'Virgin Islands, British', 'Virgin
+                    Islands, U.S.', Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '',
+                  Yemen, South Africa, Zambia, Zimbabwe]
+              zip: {}
+              locationType:
+                enum: [branch, main]
+                x-enum-descriptions: ['', '']
+              newBin: {}
+              website: {description: The website of the bank that issued the card used
+                  in the Transaction.}
+              phone: {description: The phone of the bank that issued the card used in
+                  the Transaction.}
+              transferEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              numberLength: {}
+              debitOverCreditEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              billPayEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              pinlessSupport:
+                enum: [none, restricted, full]
+                x-enum-descriptions: ['', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billPayEnabled, bin, debitOverCreditEnabled, frozen, inactive,
+              method, transferEnabled]
+            x-redacted: []
+        text/json:
+          schema:
+            properties:
+              bin: {description: The first 6 digits of the card used in a Transaction.}
+              method:
+                description: The method used to make this payment.
+                enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+                  '24', '25', '26', '0']
+                x-enum-descriptions: [American Express, Visa, MasterCard, Diners Club,
+                  Discover, PayPal, Debit card, '', '', '', '', Gift card, EBT, WIC,
+                  '', '', '', '', '', '', '', '', '', '', '', '', Unknown]
+              type:
+                description: The type of the card used in the Transaction.
+                enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE, PREPAID,
+                  '']
+              category:
+                enum: [classic, business, corporate, fleet, hsaFsa, platinum, prepaid,
+                  coreCard, personal, standard, other, international]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '']
+              name: {description: The name of the bank that issued the card used in
+                  the Transaction.}
+              address: {}
+              city: {}
+              state:
+                enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK, YT]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '']
+              country:
+                description: The country of the bank that issued the card used in the
+                  Transaction.
+                enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM, ATA, ATF,
+                  ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH,
+                  BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK,
+                  CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW,
+                  CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH,
+                  ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+                  GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG,
+                  HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR,
+                  ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO,
+                  LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO,
+                  MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                  MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+                  NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI,
+                  PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP,
+                  SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK,
+                  SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS,
+                  TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT,
+                  VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla, Aland Islands,
+                  Albania, Andorra, United Arab Emirates, Argentina, Armenia, American
+                    Samoa, Antarctica, French Southern Territories, Antigua and Barbuda,
+                  Australia, Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                    Sint Eustatius and Saba', Burkina Faso, Bangladesh, Bulgaria, Bahrain,
+                  Bahamas, Bosnia and Herzegovina, Saint Barthélemy, Belarus, Belize,
+                  Bermuda, 'Bolivia, Plurinational State of', Brazil, Barbados, Brunei
+                    Darussalam, Bhutan, Bouvet Island, Botswana, Central African Republic,
+                  Canada, Cocos (Keeling) Islands, Switzerland, Chile, China, Côte d’Ivoire,
+                  Cameroon, 'Congo, the Democratic Republic of the', Congo, Cook Islands,
+                  Colombia, Comoros, Cape Verde, Costa Rica, Cuba, Curaçao, Christmas
+                    Island, Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                  Dominica, Denmark, Dominican Republic, Algeria, Ecuador, Egypt, Eritrea,
+                  Western Sahara, Spain, Estonia, Ethiopia, Finland, Fiji, Falkland
+                    Islands (Malvinas), France, Faroe Islands, 'Micronesia, Federated
+                    States of', Gabon, United Kingdom, Georgia, Guernsey, Ghana, Gibraltar,
+                  Guinea, Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea, Greece,
+                  Grenada, Greenland, Guatemala, French Guiana, Guam, Guyana, Hong Kong,
+                  Heard Island and McDonald Islands, Honduras, Croatia, Haiti, Hungary,
+                  Indonesia, Isle of Man, India, British Indian Ocean Territory, Ireland,
+                  'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy, Jamaica,
+                  Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan, Cambodia, Kiribati,
+                  Saint Kitts and Nevis, 'Korea, Republic of', Kuwait, Lao People's
+                    Democratic Republic, Lebanon, Liberia, Libya, Saint Lucia, Liechtenstein,
+                  Sri Lanka, Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                    (French part), Morocco, Monaco, 'Moldova, Republic of', Madagascar,
+                  Maldives, Mexico, Marshall Islands, 'Macedonia, the former Yugoslav
+                    Republic of', Mali, Malta, Myanmar, Montenegro, Mongolia, Northern
+                    Mariana Islands, Mozambique, Mauritania, Montserrat, Martinique,
+                  Mauritius, Malawi, Malaysia, Mayotte, Namibia, New Caledonia, Niger,
+                  Norfolk Island, Nigeria, Nicaragua, Niue, Netherlands, Norway, Nepal,
+                  Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn, Peru, Philippines,
+                  Palau, Papua New Guinea, Poland, Puerto Rico, 'Korea, Democratic People''s
+                    Republic of', Portugal, Paraguay, 'Palestine, State of', French
+                    Polynesia, Qatar, Réunion, Romania, Russian Federation, Rwanda,
+                  Saudi Arabia, Sudan, Senegal, Singapore, South Georgia and the South
+                    Sandwich Islands, 'Saint Helena, Ascension and Tristan da Cunha',
+                  Svalbard and Jan Mayen, Solomon Islands, Sierra Leone, El Salvador,
+                  San Marino, Somalia, Saint Pierre and Miquelon, Serbia, South Sudan,
+                  Sao Tome and Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                  Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic, Turks
+                    and Caicos Islands, Chad, Togo, Thailand, Tajikistan, Tokelau, Turkmenistan,
+                  Timor-Leste, Tonga, Trinidad and Tobago, Tunisia, Turkey, Tuvalu,
+                  'Taiwan, Province of China', 'Tanzania, United Republic of', Uganda,
+                  Ukraine, United States Minor Outlying Islands, Uruguay, United States,
+                  Uzbekistan, Holy See (Vatican City State), Saint Vincent and the Grenadines,
+                  'Venezuela, Bolivarian Republic of', 'Virgin Islands, British', 'Virgin
+                    Islands, U.S.', Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '',
+                  Yemen, South Africa, Zambia, Zimbabwe]
+              zip: {}
+              locationType:
+                enum: [branch, main]
+                x-enum-descriptions: ['', '']
+              newBin: {}
+              website: {description: The website of the bank that issued the card used
+                  in the Transaction.}
+              phone: {description: The phone of the bank that issued the card used in
+                  the Transaction.}
+              transferEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              numberLength: {}
+              debitOverCreditEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              billPayEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              pinlessSupport:
+                enum: [none, restricted, full]
+                x-enum-descriptions: ['', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billPayEnabled, bin, debitOverCreditEnabled, frozen, inactive,
+              method, transferEnabled]
+            x-redacted: []
+        text/xml:
+          schema:
+            properties:
+              bin: {description: The first 6 digits of the card used in a Transaction.}
+              method:
+                description: The method used to make this payment.
+                enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',
+                  '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+                  '24', '25', '26', '0']
+                x-enum-descriptions: [American Express, Visa, MasterCard, Diners Club,
+                  Discover, PayPal, Debit card, '', '', '', '', Gift card, EBT, WIC,
+                  '', '', '', '', '', '', '', '', '', '', '', '', Unknown]
+              type:
+                description: The type of the card used in the Transaction.
+                enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE, PREPAID,
+                  '']
+              category:
+                enum: [classic, business, corporate, fleet, hsaFsa, platinum, prepaid,
+                  coreCard, personal, standard, other, international]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '']
+              name: {description: The name of the bank that issued the card used in
+                  the Transaction.}
+              address: {}
+              city: {}
+              state:
+                enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK, YT]
+                x-enum-descriptions: ['', '', '', '', '', '', '', '', '', '', '', '',
+                  '']
+              country:
+                description: The country of the bank that issued the card used in the
+                  Transaction.
+                enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM, ATA, ATF,
+                  ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH,
+                  BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK,
+                  CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW,
+                  CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH,
+                  ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+                  GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG,
+                  HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR,
+                  ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO,
+                  LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO,
+                  MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                  MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+                  NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI,
+                  PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP,
+                  SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK,
+                  SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS,
+                  TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT,
+                  VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla, Aland Islands,
+                  Albania, Andorra, United Arab Emirates, Argentina, Armenia, American
+                    Samoa, Antarctica, French Southern Territories, Antigua and Barbuda,
+                  Australia, Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                    Sint Eustatius and Saba', Burkina Faso, Bangladesh, Bulgaria, Bahrain,
+                  Bahamas, Bosnia and Herzegovina, Saint Barthélemy, Belarus, Belize,
+                  Bermuda, 'Bolivia, Plurinational State of', Brazil, Barbados, Brunei
+                    Darussalam, Bhutan, Bouvet Island, Botswana, Central African Republic,
+                  Canada, Cocos (Keeling) Islands, Switzerland, Chile, China, Côte d’Ivoire,
+                  Cameroon, 'Congo, the Democratic Republic of the', Congo, Cook Islands,
+                  Colombia, Comoros, Cape Verde, Costa Rica, Cuba, Curaçao, Christmas
+                    Island, Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                  Dominica, Denmark, Dominican Republic, Algeria, Ecuador, Egypt, Eritrea,
+                  Western Sahara, Spain, Estonia, Ethiopia, Finland, Fiji, Falkland
+                    Islands (Malvinas), France, Faroe Islands, 'Micronesia, Federated
+                    States of', Gabon, United Kingdom, Georgia, Guernsey, Ghana, Gibraltar,
+                  Guinea, Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea, Greece,
+                  Grenada, Greenland, Guatemala, French Guiana, Guam, Guyana, Hong Kong,
+                  Heard Island and McDonald Islands, Honduras, Croatia, Haiti, Hungary,
+                  Indonesia, Isle of Man, India, British Indian Ocean Territory, Ireland,
+                  'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy, Jamaica,
+                  Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan, Cambodia, Kiribati,
+                  Saint Kitts and Nevis, 'Korea, Republic of', Kuwait, Lao People's
+                    Democratic Republic, Lebanon, Liberia, Libya, Saint Lucia, Liechtenstein,
+                  Sri Lanka, Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                    (French part), Morocco, Monaco, 'Moldova, Republic of', Madagascar,
+                  Maldives, Mexico, Marshall Islands, 'Macedonia, the former Yugoslav
+                    Republic of', Mali, Malta, Myanmar, Montenegro, Mongolia, Northern
+                    Mariana Islands, Mozambique, Mauritania, Montserrat, Martinique,
+                  Mauritius, Malawi, Malaysia, Mayotte, Namibia, New Caledonia, Niger,
+                  Norfolk Island, Nigeria, Nicaragua, Niue, Netherlands, Norway, Nepal,
+                  Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn, Peru, Philippines,
+                  Palau, Papua New Guinea, Poland, Puerto Rico, 'Korea, Democratic People''s
+                    Republic of', Portugal, Paraguay, 'Palestine, State of', French
+                    Polynesia, Qatar, Réunion, Romania, Russian Federation, Rwanda,
+                  Saudi Arabia, Sudan, Senegal, Singapore, South Georgia and the South
+                    Sandwich Islands, 'Saint Helena, Ascension and Tristan da Cunha',
+                  Svalbard and Jan Mayen, Solomon Islands, Sierra Leone, El Salvador,
+                  San Marino, Somalia, Saint Pierre and Miquelon, Serbia, South Sudan,
+                  Sao Tome and Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                  Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic, Turks
+                    and Caicos Islands, Chad, Togo, Thailand, Tajikistan, Tokelau, Turkmenistan,
+                  Timor-Leste, Tonga, Trinidad and Tobago, Tunisia, Turkey, Tuvalu,
+                  'Taiwan, Province of China', 'Tanzania, United Republic of', Uganda,
+                  Ukraine, United States Minor Outlying Islands, Uruguay, United States,
+                  Uzbekistan, Holy See (Vatican City State), Saint Vincent and the Grenadines,
+                  'Venezuela, Bolivarian Republic of', 'Virgin Islands, British', 'Virgin
+                    Islands, U.S.', Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '',
+                  Yemen, South Africa, Zambia, Zimbabwe]
+              zip: {}
+              locationType:
+                enum: [branch, main]
+                x-enum-descriptions: ['', '']
+              newBin: {}
+              website: {description: The website of the bank that issued the card used
+                  in the Transaction.}
+              phone: {description: The phone of the bank that issued the card used in
+                  the Transaction.}
+              transferEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              numberLength: {}
+              debitOverCreditEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              billPayEnabled:
+                enum: ['0', '1']
+                x-enum-descriptions: ['', '']
+              pinlessSupport:
+                enum: [none, restricted, full]
+                x-enum-descriptions: ['', '', '']
+              inactive:
+                description: Whether this resource is marked as inactive.
+                enum: ['0', '1']
+                x-enum-descriptions: [Active, Inactive]
+              frozen:
+                description: Whether this resource is marked as frozen.
+                enum: ['0', '1']
+                x-enum-descriptions: [Not frozen, Frozen]
+            required: [billPayEnabled, bin, debitOverCreditEnabled, frozen, inactive,
+              method, transferEnabled]
+            x-redacted: []
+      required: true
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          bin: {description: The first 6 digits of the card used in
+                              a Transaction.}
+                          method:
+                            description: The method used to make this payment.
+                            enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                              '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                              '20', '21', '22', '23', '24', '25', '26', '0']
+                            x-enum-descriptions: [American Express, Visa, MasterCard,
+                              Diners Club, Discover, PayPal, Debit card, '', '', '',
+                              '', Gift card, EBT, WIC, '', '', '', '', '', '', '', '',
+                              '', '', '', '', Unknown]
+                          type:
+                            description: The type of the card used in the Transaction.
+                            enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                            x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE,
+                              PREPAID, '']
+                          category:
+                            enum: [classic, business, corporate, fleet, hsaFsa, platinum,
+                              prepaid, coreCard, personal, standard, other, international]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '']
+                          name: {description: The name of the bank that issued the card
+                              used in the Transaction.}
+                          address: {}
+                          city: {}
+                          state:
+                            enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK,
+                              YT]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          country:
+                            description: The country of the bank that issued the card
+                              used in the Transaction.
+                            enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+                              ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+                              BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+                              BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+                              CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+                              CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+                              ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+                              FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+                              GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+                              HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+                              ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+                              KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+                              LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+                              MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                              MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+                              NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+                              PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+                              QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+                              SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+                              SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+                              TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+                              UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+                              VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                            x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla,
+                              Aland Islands, Albania, Andorra, United Arab Emirates,
+                              Argentina, Armenia, American Samoa, Antarctica, French
+                                Southern Territories, Antigua and Barbuda, Australia,
+                              Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                                Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+                              Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+                                Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+                                State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+                              Bouvet Island, Botswana, Central African Republic, Canada,
+                              Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+                                d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+                                of the', Congo, Cook Islands, Colombia, Comoros, Cape
+                                Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+                              Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                              Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+                              Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+                              Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+                                Islands, 'Micronesia, Federated States of', Gabon, United
+                                Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+                              Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+                              Greece, Grenada, Greenland, Guatemala, French Guiana,
+                              Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+                              Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+                                Man, India, British Indian Ocean Territory, Ireland,
+                              'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+                              Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+                              Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+                                of', Kuwait, Lao People's Democratic Republic, Lebanon,
+                              Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+                              Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                                (French part), Morocco, Monaco, 'Moldova, Republic of',
+                              Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+                                the former Yugoslav Republic of', Mali, Malta, Myanmar,
+                              Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+                              Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+                              Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+                                Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+                              Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+                              Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+                                Rico, 'Korea, Democratic People''s Republic of', Portugal,
+                              Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+                              Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+                              Sudan, Senegal, Singapore, South Georgia and the South
+                                Sandwich Islands, 'Saint Helena, Ascension and Tristan
+                                da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+                              Sierra Leone, El Salvador, San Marino, Somalia, Saint
+                                Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+                                Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                              Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+                              Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+                              Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+                                Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+                                China', 'Tanzania, United Republic of', Uganda, Ukraine,
+                              United States Minor Outlying Islands, Uruguay, United
+                                States, Uzbekistan, Holy See (Vatican City State), Saint
+                                Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+                                of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+                              Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+                              South Africa, Zambia, Zimbabwe]
+                          zip: {}
+                          locationType:
+                            enum: [branch, main]
+                            x-enum-descriptions: ['', '']
+                          newBin: {}
+                          website: {description: The website of the bank that issued
+                              the card used in the Transaction.}
+                          phone: {description: The phone of the bank that issued the
+                              card used in the Transaction.}
+                          transferEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          numberLength: {}
+                          debitOverCreditEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          billPayEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          pinlessSupport:
+                            enum: [none, restricted, full]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          bin: {description: The first 6 digits of the card used in
+                              a Transaction.}
+                          method:
+                            description: The method used to make this payment.
+                            enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                              '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                              '20', '21', '22', '23', '24', '25', '26', '0']
+                            x-enum-descriptions: [American Express, Visa, MasterCard,
+                              Diners Club, Discover, PayPal, Debit card, '', '', '',
+                              '', Gift card, EBT, WIC, '', '', '', '', '', '', '', '',
+                              '', '', '', '', Unknown]
+                          type:
+                            description: The type of the card used in the Transaction.
+                            enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                            x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE,
+                              PREPAID, '']
+                          category:
+                            enum: [classic, business, corporate, fleet, hsaFsa, platinum,
+                              prepaid, coreCard, personal, standard, other, international]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '']
+                          name: {description: The name of the bank that issued the card
+                              used in the Transaction.}
+                          address: {}
+                          city: {}
+                          state:
+                            enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK,
+                              YT]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          country:
+                            description: The country of the bank that issued the card
+                              used in the Transaction.
+                            enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+                              ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+                              BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+                              BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+                              CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+                              CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+                              ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+                              FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+                              GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+                              HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+                              ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+                              KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+                              LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+                              MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                              MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+                              NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+                              PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+                              QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+                              SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+                              SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+                              TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+                              UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+                              VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                            x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla,
+                              Aland Islands, Albania, Andorra, United Arab Emirates,
+                              Argentina, Armenia, American Samoa, Antarctica, French
+                                Southern Territories, Antigua and Barbuda, Australia,
+                              Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                                Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+                              Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+                                Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+                                State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+                              Bouvet Island, Botswana, Central African Republic, Canada,
+                              Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+                                d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+                                of the', Congo, Cook Islands, Colombia, Comoros, Cape
+                                Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+                              Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                              Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+                              Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+                              Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+                                Islands, 'Micronesia, Federated States of', Gabon, United
+                                Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+                              Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+                              Greece, Grenada, Greenland, Guatemala, French Guiana,
+                              Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+                              Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+                                Man, India, British Indian Ocean Territory, Ireland,
+                              'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+                              Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+                              Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+                                of', Kuwait, Lao People's Democratic Republic, Lebanon,
+                              Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+                              Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                                (French part), Morocco, Monaco, 'Moldova, Republic of',
+                              Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+                                the former Yugoslav Republic of', Mali, Malta, Myanmar,
+                              Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+                              Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+                              Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+                                Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+                              Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+                              Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+                                Rico, 'Korea, Democratic People''s Republic of', Portugal,
+                              Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+                              Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+                              Sudan, Senegal, Singapore, South Georgia and the South
+                                Sandwich Islands, 'Saint Helena, Ascension and Tristan
+                                da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+                              Sierra Leone, El Salvador, San Marino, Somalia, Saint
+                                Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+                                Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                              Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+                              Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+                              Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+                                Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+                                China', 'Tanzania, United Republic of', Uganda, Ukraine,
+                              United States Minor Outlying Islands, Uruguay, United
+                                States, Uzbekistan, Holy See (Vatican City State), Saint
+                                Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+                                of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+                              Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+                              South Africa, Zambia, Zimbabwe]
+                          zip: {}
+                          locationType:
+                            enum: [branch, main]
+                            x-enum-descriptions: ['', '']
+                          newBin: {}
+                          website: {description: The website of the bank that issued
+                              the card used in the Transaction.}
+                          phone: {description: The phone of the bank that issued the
+                              card used in the Transaction.}
+                          transferEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          numberLength: {}
+                          debitOverCreditEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          billPayEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          pinlessSupport:
+                            enum: [none, restricted, full]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for update on bins resource
+    tags: [Customers]
+    operationId: putBinsId
+  delete:
+    description: "Delete a Bin. \nA Bin resource holds information about the issuer\
+      \ of a card."
+    parameters:
+    - description: The ID of this resource.
+      explode: false
+      in: path
+      name: id
+      required: true
+      schema: {}
+      style: simple
+    - description: "Set this path parameter to retrieve nested objects and return them\
+        \ as part of the response. \nThe parameter name that you specify determines\
+        \ the resources to return. \nFor example, set '?expand[login][]' to return a\
+        \ nested login resource."
+      explode: true
+      in: query
+      name: expand
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this path parameter to retrieve unmasked details in the response.\
+        \ \nThe fields specified will be returned in full. Only works for single-record\
+        \ requests."
+      explode: true
+      in: query
+      name: unmask
+      required: false
+      schema: {}
+      style: form
+    - description: "Set this header to filter or sort the list of resources that the\
+        \ method returns. \nFor example, to find all resources that have a property\
+        \ of 'public' set to '1', set this header to 'public[equals]=1'. You can use\
+        \ the operators 'equals', 'greater', 'less', 'like', 'in' and 'sort'. To sort\
+        \ the resources, use the keywords 'asc' (for an ascending sort) or 'desc' (for\
+        \ a descending sort).\nYou may also use explicit 'and/or' querying by passing\
+        \ arrays of or and arrays of and parameters. For example, to find all resources\
+        \ that have a property of 'public' set to '1' or a property of 'active' set\
+        \ to '0', set this header to 'or[][public][equals]=1&or[][active][equals]=0'."
+      explode: false
+      in: header
+      name: search
+      required: false
+      schema: {}
+      style: simple
+    responses:
+      '200':
+        content:
+          application/json:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          bin: {description: The first 6 digits of the card used in
+                              a Transaction.}
+                          method:
+                            description: The method used to make this payment.
+                            enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                              '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                              '20', '21', '22', '23', '24', '25', '26', '0']
+                            x-enum-descriptions: [American Express, Visa, MasterCard,
+                              Diners Club, Discover, PayPal, Debit card, '', '', '',
+                              '', Gift card, EBT, WIC, '', '', '', '', '', '', '', '',
+                              '', '', '', '', Unknown]
+                          type:
+                            description: The type of the card used in the Transaction.
+                            enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                            x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE,
+                              PREPAID, '']
+                          category:
+                            enum: [classic, business, corporate, fleet, hsaFsa, platinum,
+                              prepaid, coreCard, personal, standard, other, international]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '']
+                          name: {description: The name of the bank that issued the card
+                              used in the Transaction.}
+                          address: {}
+                          city: {}
+                          state:
+                            enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK,
+                              YT]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          country:
+                            description: The country of the bank that issued the card
+                              used in the Transaction.
+                            enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+                              ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+                              BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+                              BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+                              CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+                              CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+                              ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+                              FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+                              GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+                              HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+                              ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+                              KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+                              LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+                              MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                              MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+                              NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+                              PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+                              QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+                              SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+                              SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+                              TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+                              UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+                              VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                            x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla,
+                              Aland Islands, Albania, Andorra, United Arab Emirates,
+                              Argentina, Armenia, American Samoa, Antarctica, French
+                                Southern Territories, Antigua and Barbuda, Australia,
+                              Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                                Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+                              Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+                                Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+                                State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+                              Bouvet Island, Botswana, Central African Republic, Canada,
+                              Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+                                d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+                                of the', Congo, Cook Islands, Colombia, Comoros, Cape
+                                Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+                              Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                              Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+                              Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+                              Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+                                Islands, 'Micronesia, Federated States of', Gabon, United
+                                Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+                              Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+                              Greece, Grenada, Greenland, Guatemala, French Guiana,
+                              Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+                              Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+                                Man, India, British Indian Ocean Territory, Ireland,
+                              'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+                              Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+                              Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+                                of', Kuwait, Lao People's Democratic Republic, Lebanon,
+                              Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+                              Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                                (French part), Morocco, Monaco, 'Moldova, Republic of',
+                              Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+                                the former Yugoslav Republic of', Mali, Malta, Myanmar,
+                              Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+                              Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+                              Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+                                Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+                              Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+                              Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+                                Rico, 'Korea, Democratic People''s Republic of', Portugal,
+                              Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+                              Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+                              Sudan, Senegal, Singapore, South Georgia and the South
+                                Sandwich Islands, 'Saint Helena, Ascension and Tristan
+                                da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+                              Sierra Leone, El Salvador, San Marino, Somalia, Saint
+                                Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+                                Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                              Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+                              Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+                              Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+                                Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+                                China', 'Tanzania, United Republic of', Uganda, Ukraine,
+                              United States Minor Outlying Islands, Uruguay, United
+                                States, Uzbekistan, Holy See (Vatican City State), Saint
+                                Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+                                of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+                              Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+                              South Africa, Zambia, Zimbabwe]
+                          zip: {}
+                          locationType:
+                            enum: [branch, main]
+                            x-enum-descriptions: ['', '']
+                          newBin: {}
+                          website: {description: The website of the bank that issued
+                              the card used in the Transaction.}
+                          phone: {description: The phone of the bank that issued the
+                              card used in the Transaction.}
+                          transferEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          numberLength: {}
+                          debitOverCreditEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          billPayEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          pinlessSupport:
+                            enum: [none, restricted, full]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+          application/xml:
+            schema:
+              properties:
+                response:
+                  properties:
+                    data:
+                      description: The data object that the API returns for this request.
+                      items:
+                        properties:
+                          id: {description: The ID of this resource.}
+                          created: {description: The date and time at which this resource
+                              was created., format: date-time}
+                          modified: {description: The date and time at which this resource
+                              was modified., format: date-time}
+                          creator: {description: The identifier of the Login that created
+                              this resource.}
+                          modifier: {description: The identifier of the Login that last
+                              modified this resource.}
+                          bin: {description: The first 6 digits of the card used in
+                              a Transaction.}
+                          method:
+                            description: The method used to make this payment.
+                            enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                              '11', '12', '13', '14', '15', '16', '17', '18', '19',
+                              '20', '21', '22', '23', '24', '25', '26', '0']
+                            x-enum-descriptions: [American Express, Visa, MasterCard,
+                              Diners Club, Discover, PayPal, Debit card, '', '', '',
+                              '', Gift card, EBT, WIC, '', '', '', '', '', '', '', '',
+                              '', '', '', '', Unknown]
+                          type:
+                            description: The type of the card used in the Transaction.
+                            enum: [credit, debit, debitCredit, charge, prepaid, bankAccount]
+                            x-enum-descriptions: [CREDIT, DEBIT, DEBIT or CREDIT, CHARGE,
+                              PREPAID, '']
+                          category:
+                            enum: [classic, business, corporate, fleet, hsaFsa, platinum,
+                              prepaid, coreCard, personal, standard, other, international]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '']
+                          name: {description: The name of the bank that issued the card
+                              used in the Transaction.}
+                          address: {}
+                          city: {}
+                          state:
+                            enum: [AB, BC, MB, NB, NL, NT, NS, NU, true, PE, QC, SK,
+                              YT]
+                            x-enum-descriptions: ['', '', '', '', '', '', '', '', '',
+                              '', '', '', '']
+                          country:
+                            description: The country of the bank that issued the card
+                              used in the Transaction.
+                            enum: [ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM,
+                              ASM, ATA, ATF, ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES,
+                              BFA, BGD, BGR, BHR, BHS, BIH, BLM, BLR, BLZ, BMU, BOL,
+                              BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK, CHE, CHL,
+                              CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB,
+                              CUW, CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA,
+                              ECU, EGY, ERI, ESH, ESP, EST, ETH, FIN, FJI, FLK, FRA,
+                              FRO, FSM, GAB, GBR, GEO, GGY, GHA, GIB, GIN, GLP, GMB,
+                              GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG, HMD,
+                              HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ,
+                              ISL, ISR, ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM,
+                              KIR, KNA, KOR, KWT, LAO, LBN, LBR, LBY, LCA, LIE, LKA,
+                              LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO, MDA, MDG, MDV,
+                              MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                              MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA,
+                              NIC, NIU, NLD, NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN,
+                              PER, PHL, PLW, PNG, POL, PRI, PRK, PRT, PRY, PSE, PYF,
+                              QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP, SGS, SHN,
+                              SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR,
+                              SVK, SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA,
+                              TJK, TKL, TKM, TLS, TON, TTO, TUN, TUR, TUV, TWN, TZA,
+                              UGA, UKR, UMI, URY, USA, UZB, VAT, VCT, VEN, VGB, VIR,
+                              VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE]
+                            x-enum-descriptions: [Aruba, Afghanistan, Angola, Anguilla,
+                              Aland Islands, Albania, Andorra, United Arab Emirates,
+                              Argentina, Armenia, American Samoa, Antarctica, French
+                                Southern Territories, Antigua and Barbuda, Australia,
+                              Austria, Azerbaijan, Burundi, Belgium, Benin, 'Bonaire,
+                                Sint Eustatius and Saba', Burkina Faso, Bangladesh,
+                              Bulgaria, Bahrain, Bahamas, Bosnia and Herzegovina, Saint
+                                Barthélemy, Belarus, Belize, Bermuda, 'Bolivia, Plurinational
+                                State of', Brazil, Barbados, Brunei Darussalam, Bhutan,
+                              Bouvet Island, Botswana, Central African Republic, Canada,
+                              Cocos (Keeling) Islands, Switzerland, Chile, China, Côte
+                                d’Ivoire, Cameroon, 'Congo, the Democratic Republic
+                                of the', Congo, Cook Islands, Colombia, Comoros, Cape
+                                Verde, Costa Rica, Cuba, Curaçao, Christmas Island,
+                              Cayman Islands, Cyprus, Czech Republic, Germany, Djibouti,
+                              Dominica, Denmark, Dominican Republic, Algeria, Ecuador,
+                              Egypt, Eritrea, Western Sahara, Spain, Estonia, Ethiopia,
+                              Finland, Fiji, Falkland Islands (Malvinas), France, Faroe
+                                Islands, 'Micronesia, Federated States of', Gabon, United
+                                Kingdom, Georgia, Guernsey, Ghana, Gibraltar, Guinea,
+                              Guadeloupe, Gambia, Guinea-Bissau, Equatorial Guinea,
+                              Greece, Grenada, Greenland, Guatemala, French Guiana,
+                              Guam, Guyana, Hong Kong, Heard Island and McDonald Islands,
+                              Honduras, Croatia, Haiti, Hungary, Indonesia, Isle of
+                                Man, India, British Indian Ocean Territory, Ireland,
+                              'Iran, Islamic Republic of', Iraq, Iceland, Israel, Italy,
+                              Jamaica, Jersey, Jordan, Japan, Kazakhstan, Kenya, Kyrgyzstan,
+                              Cambodia, Kiribati, Saint Kitts and Nevis, 'Korea, Republic
+                                of', Kuwait, Lao People's Democratic Republic, Lebanon,
+                              Liberia, Libya, Saint Lucia, Liechtenstein, Sri Lanka,
+                              Lesotho, Lithuania, Luxembourg, Latvia, Macao, Saint Martin
+                                (French part), Morocco, Monaco, 'Moldova, Republic of',
+                              Madagascar, Maldives, Mexico, Marshall Islands, 'Macedonia,
+                                the former Yugoslav Republic of', Mali, Malta, Myanmar,
+                              Montenegro, Mongolia, Northern Mariana Islands, Mozambique,
+                              Mauritania, Montserrat, Martinique, Mauritius, Malawi,
+                              Malaysia, Mayotte, Namibia, New Caledonia, Niger, Norfolk
+                                Island, Nigeria, Nicaragua, Niue, Netherlands, Norway,
+                              Nepal, Nauru, New Zealand, Oman, Pakistan, Panama, Pitcairn,
+                              Peru, Philippines, Palau, Papua New Guinea, Poland, Puerto
+                                Rico, 'Korea, Democratic People''s Republic of', Portugal,
+                              Paraguay, 'Palestine, State of', French Polynesia, Qatar,
+                              Réunion, Romania, Russian Federation, Rwanda, Saudi Arabia,
+                              Sudan, Senegal, Singapore, South Georgia and the South
+                                Sandwich Islands, 'Saint Helena, Ascension and Tristan
+                                da Cunha', Svalbard and Jan Mayen, Solomon Islands,
+                              Sierra Leone, El Salvador, San Marino, Somalia, Saint
+                                Pierre and Miquelon, Serbia, South Sudan, Sao Tome and
+                                Principe, Suriname, Slovakia, Slovenia, Sweden, Swaziland,
+                              Sint Maarten (Dutch part), Seychelles, Syrian Arab Republic,
+                              Turks and Caicos Islands, Chad, Togo, Thailand, Tajikistan,
+                              Tokelau, Turkmenistan, Timor-Leste, Tonga, Trinidad and
+                                Tobago, Tunisia, Turkey, Tuvalu, 'Taiwan, Province of
+                                China', 'Tanzania, United Republic of', Uganda, Ukraine,
+                              United States Minor Outlying Islands, Uruguay, United
+                                States, Uzbekistan, Holy See (Vatican City State), Saint
+                                Vincent and the Grenadines, 'Venezuela, Bolivarian Republic
+                                of', 'Virgin Islands, British', 'Virgin Islands, U.S.',
+                              Viet Nam, Vanuatu, Wallis and Futuna, Samoa, '', Yemen,
+                              South Africa, Zambia, Zimbabwe]
+                          zip: {}
+                          locationType:
+                            enum: [branch, main]
+                            x-enum-descriptions: ['', '']
+                          newBin: {}
+                          website: {description: The website of the bank that issued
+                              the card used in the Transaction.}
+                          phone: {description: The phone of the bank that issued the
+                              card used in the Transaction.}
+                          transferEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          numberLength: {}
+                          debitOverCreditEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          billPayEnabled:
+                            enum: ['0', '1']
+                            x-enum-descriptions: ['', '']
+                          pinlessSupport:
+                            enum: [none, restricted, full]
+                            x-enum-descriptions: ['', '', '']
+                          inactive:
+                            description: Whether this resource is marked as inactive.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Active, Inactive]
+                          frozen:
+                            description: Whether this resource is marked as frozen.
+                            enum: ['0', '1']
+                            x-enum-descriptions: [Not frozen, Frozen]
+                    details:
+                      description: An object describing the response, including the
+                        request ID and pagination indicators.
+                      properties:
+                        requestId:
+                          description: "A unique identifier set by the API client, that\
+                            \ is echoed by the response. \nThe request ID can be useful\
+                            \ in troubleshooting and monitoring."
+                        page:
+                          description: "Where the response lists multiple resources,\
+                            \ the API splits the response into several 'pages'. \nThis\
+                            \ object indicates the current and last available pages\
+                            \ in the list."
+                          properties:
+                            current: {description: The current page in the paginated
+                                resource list.}
+                            last: {description: The last available page in the paginated
+                                resource list.}
+                    errors:
+                      description: An array of zero or more errors that occurred when
+                        the API processed the request.
+                      items:
+                        properties:
+                          code: {description: The error code associated with a particular
+                              error.}
+                          severity:
+                            description: "The severity level of a particular error.\
+                              \ \nPossible values are '0' (informational), '1' (warning),\
+                              \ '2' (error) and '4' (failure)."
+                          message: {description: The message associated with a particular
+                              error.}
+                          errorCode: {description: An identifying string code for this
+                              error.}
+        description: Response for delete on bins resource
+    tags: [Customers]
+    operationId: deleteBinsId

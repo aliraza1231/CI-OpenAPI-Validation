@@ -1,0 +1,82 @@
+properties:
+  login: { type: string, description: The identifier of the Login that owns this invoiceParameter
+    resource. }
+  entity: { type: string, description: The identifier of the Entity associated with this
+    invoiceParameter. }
+  division: { type: string, description: The identifier of the Division associated with
+    this invoiceParameter. }
+  org: { type: string, description: The identifier of the Org associated with this invoiceParameter. }
+  partition: { type: string, description: The identifier of the Partition associated with
+    this invoiceParameter. }
+  locked: { type: string, description: "Whether this invoiceParameter is locked. If
+      locked, it defaults to the value of the invoiceParameter.
+      \n\n<details>\n<summary>Valid Values</summary> \n\n 
+    - `0` - **Not locked**\n\n 
+    - `1` - **Locked**\n\n
+     </details>\n",
+            enum: [ '0', '1' ],
+            x-enum-descriptions: [ Not locked., Locked. ] }
+  type: { description: "The type of Transaction.
+      \n\n<details>\n<summary>Valid Values</summary>\n\
+      \n`1` - **Credit Card Only:** Sale Transaction, processes a sale and charges the customer;\n\
+      \n`2` - **Credit Card Only:** Auth Transaction, authorizes and holds the requested total on the credit card;\n\
+      \n`3` - **Credit Card Only:** Capture Transaction, finalizes a prior Auth Transaction and charges the customer;\n\
+      \n`4` - **Credit Card Only:** Reverse Authorization, reverses a prior Auth or Sale Transaction and releases the credit hold;\n\
+      \n`5` - **Credit Card Only:** Refund Transaction, refunds a prior Capture or Sale Transaction (total may be specified for a partial refund);\n\ 
+      \n`7` - **Echeck Only:** Echeck Sale Transaction, sale transaction for ECheck payment;\n\
+      \n`8` - **Echeck Only:** ECheck Refund Transaction, refund transaction for prior ECheck Sale Transaction;\n\
+      \n`11` - **Echeck Only:** Echeck Redeposit Transaction, attempt to redeposit a prior failed eCheck Sale Transaction;\n\
+      \n`12` - **Echeck Only:** Echeck Account Verification Transaction, attempt to verify eCheck payment details.</details>\n",
+          enum: [ apikey, fromEmail, replyToEmail, dba, address1, address2,
+                  city, state, zip, country, phone, website, receiptTitle,
+                  receiptMessage, billingRequired, shippingRequired, eCheckAuthorization ],
+          x-enum-descriptions: [ The apikey that will be used for the
+            invoice., The email the invoice will be sent from.,
+            '', Name of the company that will shown on invoice., Address1
+              shown on invoice., Address2 shown on invoice., City
+              shown on invoice., State shown on invoice., Zip code
+              shown on invoice., Country shown on invoice., Phone
+              shown on invoice., Website address shown on invoice.,
+            The title when invoice is sent., The message when invoice
+              is sent., Whether the billling address will be required
+              from the customer., Whether the shipping address will
+              be required from the customer., '' ],
+          type: string }
+  value: { type: string, description: The value of this type of invoiceParameter.,
+           enum: [ ABW, AFG, AGO, AIA, ALA, ALB, AND, ARE, ARG, ARM, ASM, ATA, ATF,
+                   ATG, AUS, AUT, AZE, BDI, BEL, BEN, BES, BFA, BGD, BGR, BHR, BHS, BIH,
+                   BLM, BLR, BLZ, BMU, BOL, BRA, BRB, BRN, BTN, BVT, BWA, CAF, CAN, CCK,
+                   CHE, CHL, CHN, CIV, CMR, COD, COG, COK, COL, COM, CPV, CRI, CUB, CUW,
+                   CXR, CYM, CYP, CZE, DEU, DJI, DMA, DNK, DOM, DZA, ECU, EGY, ERI, ESH,
+                   ESP, EST, ETH, FIN, FJI, FLK, FRA, FRO, FSM, GAB, GBR, GEO, GGY, GHA,
+                   GIB, GIN, GLP, GMB, GNB, GNQ, GRC, GRD, GRL, GTM, GUF, GUM, GUY, HKG,
+                   HMD, HND, HRV, HTI, HUN, IDN, IMN, IND, IOT, IRL, IRN, IRQ, ISL, ISR,
+                   ITA, JAM, JEY, JOR, JPN, KAZ, KEN, KGZ, KHM, KIR, KNA, KOR, KWT, LAO,
+                   LBN, LBR, LBY, LCA, LIE, LKA, LSO, LTU, LUX, LVA, MAC, MAF, MAR, MCO,
+                   MDA, MDG, MDV, MEX, MHL, MKD, MLI, MLT, MMR, MNE, MNG, MNP, MOZ, MRT,
+                   MSR, MTQ, MUS, MWI, MYS, MYT, NAM, NCL, NER, NFK, NGA, NIC, NIU, NLD,
+                   NOR, NPL, NRU, NZL, OMN, PAK, PAN, PCN, PER, PHL, PLW, PNG, POL, PRI,
+                   PRK, PRT, PRY, PSE, PYF, QAT, REU, ROU, RUS, RWA, SAU, SDN, SEN, SGP,
+                   SGS, SHN, SJM, SLB, SLE, SLV, SMR, SOM, SPM, SRB, SSD, STP, SUR, SVK,
+                   SVN, SWE, SWZ, SXM, SYC, SYR, TCA, TCD, TGO, THA, TJK, TKL, TKM, TLS,
+                   TON, TTO, TUN, TUR, TUV, TWN, TZA, UGA, UKR, UMI, URY, USA, UZB, VAT,
+                   VCT, VEN, VGB, VIR, VNM, VUT, WLF, WSM, XXK, YEM, ZAF, ZMB, ZWE ],
+           x-enum-descriptions: [ '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+                                  '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '' ] }
+  inactive: { $ref: ../../../components/schemas/inactive.yaml }
+  frozen: { $ref: ../../../components/schemas/frozen.yaml }
+required: [ frozen, inactive, locked, login, type, value ]
+x-redacted: [ ]

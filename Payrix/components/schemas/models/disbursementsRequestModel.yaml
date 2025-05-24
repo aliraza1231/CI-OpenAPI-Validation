@@ -1,0 +1,96 @@
+properties:
+  payment:
+    description: "A reference to the actual account/card data used for this\
+                 \ dibursement. \n(If someone changes the details in their bank account\
+                 \ within Payrix, the account token will point to a new account but\
+                 \ the payment wil always point to the data used for this disbursement."
+    type: string
+  statement: { type: string, description: The identifier of the Statement being paid by
+    this Disbursement. }
+  settlement: { type: string, description: The settlement record for this disbursement. }
+  originalDisbursement: { type: string, description: The original disbursement that generated this disbursement. }
+  description: { type: string, description: A description of this Disbursement. }
+  secondaryDescriptor: { type: string, description: A secondary descriptor for the ACH transaction sent to the receiving bank. }
+  amount: { type: integer, description: The total amount of this Disbursement. }
+  returnedAmount: { type: integer, description: The amount that has been returned within
+    the disbursement. }
+  deletedDisbursementEntries:
+    type: integer
+    description: "Whether one or more disbursementEntries have been deleted due to adjustment. \n\n<details>\n\
+                            <summary>Valid Values</summary>\n\n- `0`  - Disbursement Entries not Deleted.\n\n\
+                            - `1` - Disbursement Entries Deleted.\n\n</details>\n"
+    enum: [ 0, 1 ]
+    x-enum-descriptions: [ '', '' ]
+  disbursementEntriesStatus:
+    type: string
+    description: "The current status of disbursementEntries creation. \n\n<details>\n\
+                            <summary>Valid Values</summary>\n\n- `pending`  - Pending entry creation and processing.\n\n\
+                            - `processing`  - Entry is still processing.\n\n- `processed` - Entry created and processed.\n\n</details>\n"
+    enum: [ pending, processing, processed ]
+    x-enum-descriptions: [ '', '', '' ]
+  lastNegativeEntry: { type: string, description: The last negative Entry processed included
+    in the disbursement. }
+  lastNegativePendingEntry: { type: string, description: The last negative PendingEntry
+    processed included in the disbursement. }
+  lastPositiveReserveEntry: { type: string, description: The last positive ReserveEntry
+    processed included in the disbursement. }
+  lastPositiveEntry: { type: string, description: The last positive Entry processed included
+    in the disbursement. }
+  lastPositivePendingEntry: { type: string, description: The last positive PendingEntry
+    processed included in the disbursement. }
+  lastNegativeReserveEntry: { type: string, description: The last negative ReserveEntry
+    processed included in the disbursement. }
+  status:
+    type: integer
+    description: |
+      The current status of this Disbursement
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `1` - **Requested.** The request for this Disbursement has been received.
+      
+      - `2` - **Processing.** This Disbursement is being processed to be paid out.
+      
+      - `3` - **Processed.** This Disbursement has been paid by ACH to the bank account referenced in the Disbursement data.
+      
+      - `4` - **Failed.** A problem occurred and the payment processor has failed to process this Disbursement.
+      
+      - `5` - **Denied.** This Disbursement has been refused.
+      
+      - `6` - **Returned.** This Disbursement has been returned.
+      
+      </details>
+    enum: [ 0, 1, 2, 3, 4, 5, 6 ]
+    x-enum-descriptions: [ Requested. The request for this Disbursement has
+      been received., Processing. This Disbursement is being processed
+      to be paid out., Processed. This Disbursement has been paid by ACH
+      to the bank account referenced in the Disbursement data., Failed.
+      A problem occurred and the payment processor has failed to process
+      this Disbursement., Denied. This Disbursement has been refused.,
+      Returned. This Disbursement has been returned. ]
+  fundingStatus:
+    type: string
+    description: |
+      Indicates if entries were processed for this Disbursement
+      
+      <details>
+      <summary>Valid Values</summary>
+      
+      - `pending` - Pending entry creation and processing.
+      
+      - `processed` - Entry created and processed.
+      
+      </details>
+    x-enum-descriptions: [ '', '' ]
+  expiration: { type: string, description: The expiration date of the related debit account. }
+  sameDay:
+    type: integer
+    description: "Whether sameDay funding is enabled or disabled for this disbursement. \n\n<details>\n\
+                            <summary>Valid Values</summary>\n\n- `0`  - **Disabled.**\n\n\
+                            - `1` - **Enabled.**\n\n</details>\n"
+    enum: [ 0, 1 ]
+    x-enum-descriptions: [ Disabled, Enabled ]
+required: [ amount, deletedDisbursementEntries, disbursementEntriesStatus,
+            sameDay, status ]
+x-redacted: [ ]

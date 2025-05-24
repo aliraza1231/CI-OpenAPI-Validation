@@ -1,0 +1,103 @@
+properties:
+  id: { $ref: ../id.yaml }
+  created: { $ref: ../created.yaml }
+  modified: { $ref: ../modified.yaml }
+  creator: { $ref: ../creator.yaml }
+  modifier: { $ref: ../modifier.yaml }
+  login: {type: string, description: The identifier of the Login that owns
+      this notes resource.}
+  hold: {type: string, description: The identifier of the Hold that relates
+      to this notes resource.}
+  txn: {type: string, description: The identifier of the Txn that relates
+      to this notes resource.}
+  terminalTxn: {type: string, description: The identifier of the TerminalTxn
+      that relates to this notes resource.}
+  entity: {type: string, description: The identifier of the Entity that relates
+      to this notes resource.}
+  type:
+    type: string
+    description: "The desired type to take on the referenced
+      Note.
+      <details>
+      <summary>Valid Values</summary>\n
+      - `note` - Just add a note to the hold.\n
+      - `release` - Release the hold for this Hold.\n
+      - `review` - Mark the hold as having been reviewed.
+      - `reReview` - If the hold was marked as reviewed, this will allow resetting the review.\n
+      - `amexSales` -  If the entity does sales with amex.\n
+      - `businessSales` - If the entity does business direct sales.\n
+      - `consumerSales` - If the entity does consumer direct sales.\n
+      - `deliverySchedule` - The delivery schedule of the entity.\n
+      - `immediateDeliveryPercent` - The amount of immediate deliveries with 0 day after the transaction.\n
+      - `sevenDayDeliveryPercent` -  The amount of deliveries between 1-7 days after the transaction.\n
+      - `fourteenDayDeliveryPercent` - The amount of deliveries between 8-14 days after the transaction.\n
+      - `thirtyDayDeliveryPercent` - The amount of deliveries between 15-30 days after the transaction.\n
+      - `cardPresentSales` - If the entity does sales with card present.\n
+      - `motoSales` - If the entity does sales over the phone or mail.\n
+      - `ecommerceSales` -  If the entity does ecommerce sales.\n
+      - `siteVisit` - If the entity had the site visit.\n
+      - `goodsSold` - The type of goods the entity sales.\n
+      - `authorizationFlatFee` - The flat fee agreement for each authorization.\n
+      - `capturePercentFee` - The percentage fee agreement for each capture.\n
+      - `captureFlatFee` -  The flat fee agreement for each capture.\n
+      - `riskApproved` - The entity was approved.\n
+      - `riskPending` - The entity is in pending status.\n
+      - `riskCancelled` - The entity has a cancelled status.\n
+      - `riskDenied` -  The entity has a denied status.\n
+      - `riskClosed` - The entity has a closed status.
+      - `riskInvestigation` - The entity is in investigation status.\n
+      - `riskPendingData` - Pending Docs/Info for The entity.\n
+      - `riskFundsReleased` - Funds released for The entity.\n
+      - `riskActivityApproved` -  Activity approved for the entity\n
+      </details>"
+    enum: [note, release, review, reReview, amexSales, businessSales,
+      consumerSales, deliverySchedule, immediateDeliveryPercent,
+      sevenDayDeliveryPercent, fourteenDayDeliveryPercent, thirtyDayDeliveryPercent,
+      cardPresentSales, motoSales, ecommerceSales, siteVisit,
+      goodsSold, authorizationFlatFee, capturePercentFee, captureFlatFee,
+      riskApproved, riskPending, riskCancelled, riskDenied,
+      riskClosed, riskInvestigation, riskPendingData, riskFundsReleased,
+      riskActivityApproved]
+    x-enum-descriptions: [Note. Just add a note to the hold.,
+      Release. Release the hold for this Hold., Review. Mark
+        the hold as having been reviewed., 'Re-Review. If the
+        hold was marked as reviewed, this will allow resetting
+        the review.', Amex Sales. If the entity does sales with
+        amex., Business Sales. If the entity does business direct
+        sales., Consumer Sales. If the entity does consumer
+        direct sales., Delivery Schedule. The delivery schedule
+        of the entity., Immediate Delivery Percent. The amount
+        of immediate deliveries with 0 day after the transaction.,
+      Seven Day Delivery Percent. The amount of deliveries between
+        1-7 days after the transaction., Fourteen Day Delivery
+        Percent. The amount of deliveries between 8-14 days
+        after the transaction., Thirty Day Delivery Percent.
+        The amount of deliveries between 15-30 days after the
+        transaction., Card Present Sales. If the entity does
+        sales with card present., Moto Sales. If the entity
+        does sales over the phone or mail., Ecommerce Sales.
+        If the entity does ecommerce sales., Site Visit. If
+        the entity had the site visit., Goods Sold. The type
+        of goods the entity sales., Authorization Flat Fee.
+        The flat fee agreement for each authorization., Capture
+        Percent Fee. The percentage fee agreement for each capture.,
+      Capture Flat Fee. The flat fee agreement for each capture.,
+      Risk Approved. The entity was approved., Risk Pending.
+        The entity is in pending status., Risk Cancelled. The
+        entity has a cancelled status., Risk Denied. The entity
+        has a denied status., Risk Closed. The entity has a
+        closed status., Risk Investigagion. The entity is in
+        investigation status., Risk Pending Data. Pending Docs/Info
+        for The entity., Risk Funds Released. Funds released
+        for The entity., Risk Activity Approved. Activity approved
+        for the entity]
+  note:
+    type: string
+    description: "A Message/Note regarding this notes resource.\
+      \ \nThis field is stored as a text string."
+  data: {type: string, description: Free-form text for adding a message along
+      with the type.}
+  frozen:
+    { $ref: ../frozen.yaml }
+  inactive:
+    { $ref: ../inactive.yaml }
