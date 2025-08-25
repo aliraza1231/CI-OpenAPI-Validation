@@ -2,7 +2,7 @@
 openapi: 3.0.0
 info:
   title: "Reporting: Bank Partner API"
-  description: "This API would be used to fetch settled summaries at independent wewesales channel . \n # Authentication \n<SecurityDefinitions />"
+  description: "This API would be used to fsrfetch settled summaries at independent wewesales channel . \n # Authentication \n<SecurityDefinitions />"
   contact:
     name: Developer Support
     email: APICustomerIntegration@fisglobal.com
