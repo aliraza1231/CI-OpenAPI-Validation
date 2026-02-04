@@ -1,0 +1,259 @@
+openapi: 3.1.0
+info:
+  title: Minimal Alerts API
+  version: 1.0.0
+  description: Minimal OpenAPI example for alerts endpoint with schema validation warning
+  contact:
+    email: support@example.com
+    name: Support Team
+servers:
+  - url: https://api.payrix.com/v1
+    description: Production server
+security:
+  - apiKey: []
+paths:
+  /alerts:
+    $ref: paths/alerts.yaml
+  /alerts/{id}:
+    $ref: paths/alerts_~id~.yaml
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+  parameters:
+    # Request parameters
+    requestHeaderAuthTokensParams:
+      name: Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        example: "Bearer token123"
+      description: Authentication token
+    requestHeaderRequestTokensParams:
+      name: X-Request-Token
+      in: header
+      schema:
+        type: string
+        example: "request123"
+      description: Request token
+    requestHeaderSearchParams:
+      name: search
+      in: query
+      schema:
+        type: string
+        example: "alert_name"
+      description: Search parameter
+    requestHeaderTotalsParams:
+      name: totals
+      in: query
+      schema:
+        type: boolean
+        example: true
+      description: Include totals
+    requestQueryPageNumberParams:
+      name: page
+      in: query
+      schema:
+        type: integer
+        example: 1
+      description: Page number
+    requestQueryPageLimitParams:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        example: 10
+      description: Page limit
+    requestQueryEmbedParams:
+      name: embed
+      in: query
+      schema:
+        type: string
+        example: "alertActions"
+      description: Embed related resources
+  schemas:
+    # Basic component schemas
+    id:
+      type: string
+      description: Resource ID
+      example: "t1_alt_67d1a66d3af03677cdc7db0"
+    created:
+      type: string
+      format: date-time
+      description: Creation timestamp
+    modified:
+      type: string  
+      format: date-time
+      description: Last modification timestamp
+    creator:
+      type: string
+      description: Creator ID
+      example: "t1_log_61f2efc258eb7bf6d380000"
+    modifier:
+      type: string
+      description: Modifier ID
+      example: "t1_log_61f2efc258eb7bf6d380000"
+    inactive:
+      type: integer
+      description: Whether the resource is inactive
+      enum: [0, 1]
+      default: 0
+    frozen:
+      type: integer
+      description: Whether the resource is frozen
+      enum: [0, 1]
+      default: 0
+    # Model definitions
+    alertsModel:
+      title: alertsResponse
+      properties:
+        id:
+          $ref: '#/components/schemas/id'
+        created:
+          $ref: '#/components/schemas/created'
+        modified:
+          $ref: '#/components/schemas/modified'
+        creator:
+          $ref: '#/components/schemas/creator'
+        modifier:
+          $ref: '#/components/schemas/modifier'
+        login:
+          type: string
+          description: The Login that owns this resource
+          example: "t1_log_61f2efc258eb7bf6d380000"
+        forlogin:
+          type: string
+          description: The identifier of the Login that this Alert relates to
+          example: "t1_log_61f2efc258eb7bf6d380000"
+        team:
+          type: string
+          description: The team identifier
+          example: "t1_tem_67c202b908935b505104500"
+        division:
+          type: string
+          description: The division identifier
+          example: "t1_div_67c56806728fbbf0bae0z00"
+        partition:
+          type: string
+          description: The partition identifier
+          example: "t1_ptn_666834d4d504f21414978f0"
+        name:
+          type: string
+          description: The name of this Alert. This field is stored as a text string and must be between 1 and 100 characters long.
+        description:
+          type: string
+          description: Description of Alerts.
+        inactive:
+          $ref: '#/components/schemas/inactive'
+        frozen:
+          $ref: '#/components/schemas/frozen'
+    alertsPostRequestModel:
+      title: alertsPostRequest
+      properties:
+        login:
+          type: string
+          description: The Login that owns this resource.
+        forlogin:
+          type: string
+          description: The identifier of the Login that this Alert relates to.
+        team:
+          type: string
+          description: The team identifier
+        division:
+          type: string
+          description: The division for which this Alerts applies.
+        partition:
+          type: string
+          description: The partition for which this Alerts applies.
+        name:
+          type: string
+          description: The name of this Alert. This field is stored as a text string and must be between 1 and 100 characters long.
+          default: ""
+        description:
+          type: string
+          description: Description of Alerts.
+          default: ""
+        inactive:
+          $ref: '#/components/schemas/inactive'
+        frozen:
+          $ref: '#/components/schemas/frozen'
+    alertsPutRequestModel:
+      title: alertsPutRequest
+      properties:
+        login:
+          type: string
+          description: The Login that owns this resource.
+        forlogin:
+          type: string
+          description: The identifier of the Login that this Alert relates to.
+        team:
+          type: string
+          description: The team identifier
+        division:
+          type: string
+          description: The division for which this Alerts applies.
+        partition:
+          type: string
+          description: The partition for which this Alerts applies.
+        name:
+          type: string
+          description: The name of this Alert. This field is stored as a text string and must be between 1 and 100 characters long.
+        description:
+          type: string
+          description: Description of Alerts.
+        inactive:
+          $ref: '#/components/schemas/inactive'
+        frozen:
+          $ref: '#/components/schemas/frozen'
+    alertsModel200Response:
+      type: object
+      properties:
+        response:
+          type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/alertsModel'
+            details:
+              type: object
+              properties:
+                requestId:
+                  type: string
+                  example: "1"
+                totals:
+                  type: array
+                  items: {}
+                page:
+                  type: object
+                  properties:
+                    current:
+                      type: integer
+                      example: 1
+                    last:
+                      type: integer
+                      example: 1
+                    hasMore:
+                      type: boolean
+                      example: false
+            errors:
+              type: array
+              items: {}
+    errorFourHundred:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: "Bad Request"
+            details:
+              type: string
+              example: "The request could not be understood by the server"
