@@ -1,0 +1,22 @@
+{
+  "name": "minimal-alerts-openapi-example",
+  "version": "1.0.0",
+  "description": "Minimal OpenAPI example that reproduces schema validation warnings",
+  "scripts": {
+    "lint": "redocly lint spec/openapi.yaml",
+    "bundle": "redocly bundle spec/openapi.yaml --output dist/openapi.yaml",
+    "preview": "redocly preview-docs spec/openapi.yaml"
+  },
+  "keywords": [
+    "openapi",
+    "api",
+    "alerts",
+    "schema-validation",
+    "redocly"
+  ],
+  "author": "Payrix",
+  "license": "MIT",
+  "devDependencies": {
+    "@redocly/cli": "^1.0.0"
+  }
+}
