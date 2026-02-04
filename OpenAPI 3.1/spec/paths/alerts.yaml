@@ -1,0 +1,68 @@
+get:
+  description: Query an Alert resource, which represents a particular event notification delivered to a user.
+  parameters:
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderAuthTokensParams
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderRequestTokensParams
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderSearchParams
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderTotalsParams
+    - $ref: ../openapi.yaml#/components/parameters/requestQueryPageNumberParams
+    - $ref: ../openapi.yaml#/components/parameters/requestQueryPageLimitParams
+    - $ref: ../openapi.yaml#/components/parameters/requestQueryEmbedParams
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Fetch all alerts:
+              $ref: ../components/schemas/samples/alertsJson.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/alertsModel200Response
+      description: Response for querying the alerts resource to retrieve all alerts.
+    '400':
+      content:
+        application/json:
+          examples:
+            Fetch all alerts:
+              $ref: ../components/schemas/samples/errors400Json.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/errorFourHundred
+      description: Error
+  summary: Retrieve all Alert configurations.
+  tags:
+    - Alerts
+  operationId: getAlerts
+post:
+  description: Create an Alert resource, which represents a particular event notification delivered to a user.
+  parameters:
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderAuthTokensParams
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderRequestTokensParams
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../openapi.yaml#/components/schemas/alertsPostRequestModel
+    description: Create Alert Configuration Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Create alerts:
+              $ref: ../components/schemas/samples/alertsJson.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/alertsModel200Response
+      description: Create Alert Configuration Response for creating an alert on the alerts resource.
+    '400':
+      content:
+        application/json:
+          examples:
+            Fetch all alerts:
+              $ref: ../components/schemas/samples/errors400Json.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/errorFourHundred
+      description: Error
+  summary: Create a new Alert configuration.
+  tags:
+    - Alerts
+  operationId: postAlerts

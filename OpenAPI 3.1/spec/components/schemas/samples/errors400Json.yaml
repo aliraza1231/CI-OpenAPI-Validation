@@ -1,0 +1,5 @@
+value:
+  error:
+    code: 400
+    message: "Bad Request"
+    details: "Invalid parameters provided"
