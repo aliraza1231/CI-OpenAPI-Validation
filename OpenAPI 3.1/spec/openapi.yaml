@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: Minimal Alerts API
   version: 1.0.0
-  description: Minimal OpenAPI example for alerts endpoint with schema validation warning
+  description: Minimal OpenAPI 3.1 example for alerts endpoint with schema validation warning
   contact:
     email: support@example.com
     name: Support Team
