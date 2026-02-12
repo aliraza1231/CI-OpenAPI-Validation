@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Swagger Petstore - OpenAPI 3.0
 servers:
-  - url: https://petstore15.swagger.io/api/v32
+  - url: https://petstore15.swagger.io/api/v322
 paths:
   /pet:
     put:
