@@ -1,5 +1,6 @@
 {
   "OpenAPIDefinitionPaths": [
-    "ben/capital.offer.created"
+    "ben/capital.offer.created",
+    ""
   ]
 }
