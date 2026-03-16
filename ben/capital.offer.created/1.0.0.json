@@ -1,0 +1,280 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Globald Path Items Test API",
+		"summary": "This is a short summary",
+		"description": "This is a rich text description",
+		"termsOfService": "https://www.little.bz/ke/tnc.php",
+		"contact": {
+			"email": "heri@little.bz"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [{
+		"url": "https://sms.little.bz/api/v1"
+	}],
+	"paths": {
+		"/pathwithglobalparams": {
+			"$ref": "#/components/pathItems/pathwithglobalparams"
+		},
+		"/message": {
+			"$ref": "#/components/pathItems/message"
+		},
+		"/message/inline-model": {
+			"$ref": "#/components/pathItems/message-inline-model"
+		},
+		"/message/ranges": {
+			"$ref": "#/components/pathItems/message-ranges"
+		}
+	},
+	"components": {
+		"schemas": {
+			"Pet": {
+				"type": "object",
+				"discriminator": {
+					"propertyName": "petType"
+				},
+				"properties": {
+					"name1": {
+						"type": "string"
+					},
+					"petType": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name1",
+					"petType"
+				]
+			}
+		},
+		"pathItems": {
+			"message-ranges": {
+				"post": {
+					"tags": [
+						"Send Messages"
+					],
+					"summary": "Send single messages",
+					"description": "You are able to send both single messages with this endpoint. `to` parameter should be a simple string with the user's mobile number in international format",
+					"requestBody": {
+						"content": {
+							"multipart/form-data": {
+								"schema": {
+									"required": [
+										"kind"
+									],
+									"type": "object",
+									"properties": {
+										"kind": {
+											"type": "string",
+											"contentEncoding": "base64"
+										},
+										"channelId": {
+											"type": "string",
+											"contentMediaType": "application/octet-stream"
+										}
+									},
+									"description": ""
+								}
+							}
+						},
+						"required": true
+					},
+					"responses": {
+						"2XX": {
+							"description": "Successful Response",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"channelId": {
+												"type": "string"
+											},
+											"videoId": {
+												"type": "string"
+											}
+										},
+										"description": ""
+									},
+									"example": {
+										"videoId": "bN8_-fU3Rvg"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"message-inline-model": {
+				"post": {
+					"tags": [
+						"Send Messages"
+					],
+					"summary": "Send single messages",
+					"description": "You are able to send both single messages with this endpoint. `to` parameter should be a simple string with the user's mobile number in international format",
+					"requestBody": {
+						"content": {
+							"text/plain": {
+								"schema": {
+									"type": ["null", "object", "integer", "string"],
+									"properties": {
+										"channelId": {
+											"type": "string",
+											"examples": [
+												"myChannelId1",
+												"myChannelId2",
+												"myChannelId3"
+											]
+										},
+										"videoId": {
+											"type": "string",
+											"examples": [
+												"myVideoId1",
+												"myVideoId2",
+												"myVideoId3"
+											]
+										}
+									},
+									"enum": [2, 3, 4, 5],
+									"const": null,
+									"exclusiveMinimum": 1.22,
+									"exclusiveMaximum": 50,
+									"maxLength": 30,
+									"minLength": 2,
+									"format": "int32",
+									"description": "description for multiple types"
+								}
+							}
+						},
+						"required": true
+					},
+					"responses": {
+						"200": {
+							"description": "Successful Response",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": ["object", "string", "number"],
+										"properties": {
+											"channelId": {
+												"type": "string"
+											},
+											"videoId": {
+												"type": "string"
+											}
+										},
+										"exclusiveMinimum": 5,
+										"exclusiveMaximum": 50,
+										"maxLength": 10,
+										"minLength": 2,
+										"description": "description for multiple types"
+									},
+									"example": {
+										"videoId": "bN8_-fU3Rvg"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"pathwithglobalparams": {
+				"get": {
+					"description": "Returns pets based on ID",
+					"summary": "Find pets by ID",
+					"operationId": "getPetsById",
+					"responses": {
+						"200": {
+							"description": "pet response",
+							"content": {
+								"*/*": {
+									"schema": {
+										"type": "array",
+										"items": {
+											"$ref": "#/components/schemas/Pet"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"parameters": [{
+					"name": "id",
+					"in": "path",
+					"description": "ID of pet to use",
+					"required": true,
+					"schema": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"style": "simple"
+				}]
+			},
+			"message": {
+				"post": {
+					"tags": [
+						"Send Messages"
+					],
+					"summary": "Send both multiple and single messages",
+					"description": "You are able to send both the single and multiple messages with this endpoint. Notice for the multiple endpoint use an array in the `to` parameter",
+					"parameters": [{
+							"name": "id",
+							"in": "query",
+							"required": true,
+							"schema": {
+								"type": "number"
+							},
+							"example": 3
+						},
+						{
+							"name": "list",
+							"required": false,
+							"in": "query",
+							"schema": {
+								"type": "array",
+								"items": {
+									"type": "integer"
+								}
+							},
+							"example": [
+								3,
+								4,
+								5
+							]
+						}
+					],
+					"requestBody": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "integer"
+								},
+								"example": 3
+							}
+						},
+						"required": true
+					},
+					"responses": {
+						"200": {
+							"description": "OK",
+							"content": {
+								"text/plain": {
+									"schema": {
+										"type": "string",
+										"maxLength": 100,
+										"minLength": 3
+									},
+									"example": "this is an example"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
