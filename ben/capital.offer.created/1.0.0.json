@@ -1,7 +1,7 @@
 {
 	"openapi": "3.0.0",
 	"info": {
-		"title": "Global Path Items Test API",
+		"title": "Globald Path Items Test API",
 		"summary": "This is a short summary",
 		"description": "This is a rich text description",
 		"termsOfService": "https://www.little.bz/ke/tnc.php",
