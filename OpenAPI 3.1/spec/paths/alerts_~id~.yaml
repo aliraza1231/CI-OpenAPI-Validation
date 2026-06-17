@@ -1,0 +1,116 @@
+get:
+  description: Query an Alert resource by ID.
+  parameters:
+    - description: The ID of this alert.
+      explode: false
+      in: path
+      name: id
+      example: t1_alt_67d1a66d3af03677cdc7db0
+      required: true
+      schema:
+        type: string
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderAuthTokensParams
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderRequestTokensParams
+    - $ref: ../openapi.yaml#/components/parameters/requestQueryEmbedParams
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Fetch all alerts:
+              $ref: ../components/schemas/samples/alertsJson.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/alertsModel200Response
+      description: Response for retrieve alert response.
+    '400':
+      content:
+        application/json:
+          examples:
+            Fetch all alerts:
+              $ref: ../components/schemas/samples/errors400Json.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/errorFourHundred
+      description: Error
+  summary: Retrieve an Alert configuration by it's ID.
+  tags:
+    - Alerts
+  operationId: getAlertsId
+put:
+  description: Update an Alert resource by ID.
+  parameters:
+    - description: The ID of this alert.
+      explode: false
+      in: path
+      name: id
+      example: t1_alt_67d1a66d3af03677cdc7db0
+      required: true
+      schema:
+        type: string
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderAuthTokensParams
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderRequestTokensParams
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: ../openapi.yaml#/components/schemas/alertsPutRequestModel
+    description: Update Alert Configuration Request
+    required: true
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Update alerts:
+              $ref: ../components/schemas/samples/alertsJson.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/alertsModel200Response
+      description: Response for update on alerts resource Update Alert Configuration Response
+    '400':
+      content:
+        application/json:
+          examples:
+            Fetch all alerts:
+              $ref: ../components/schemas/samples/errors400Json.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/errorFourHundred
+      description: Error
+  summary: Update an Alert configuration by it's ID.
+  tags:
+    - Alerts
+  operationId: putAlertsId
+delete:
+  description: Delete an Alert resource by ID.
+  parameters:
+    - description: The ID of this alert.
+      explode: false
+      in: path
+      name: id
+      example: t1_alt_67d1a66d3af03677cdc7db0
+      required: true
+      schema:
+        type: string
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderAuthTokensParams
+    - $ref: ../openapi.yaml#/components/parameters/requestHeaderRequestTokensParams
+  responses:
+    '200':
+      content:
+        application/json:
+          examples:
+            Delete alerts:
+              $ref: ../components/schemas/samples/alertsJson.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/alertsModel200Response
+      description: Response for update and delete on alerts resource.
+    '400':
+      content:
+        application/json:
+          examples:
+            Fetch all alerts:
+              $ref: ../components/schemas/samples/errors400Json.yaml
+          schema:
+            $ref: ../openapi.yaml#/components/schemas/errorFourHundred
+      description: Error
+  summary: Delete an Alert configuration by it's ID.
+  tags:
+    - Alerts
+  operationId: deleteAlertsId
