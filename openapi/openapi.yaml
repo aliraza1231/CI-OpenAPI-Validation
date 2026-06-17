@@ -8,6 +8,6 @@ paths:
     put:
       tags:
         - pet
-      summary: Update an existing pet
+      summary: gUpdate an existing pet
       description: Update an existing pet by Id
       operationId: updatePet`
